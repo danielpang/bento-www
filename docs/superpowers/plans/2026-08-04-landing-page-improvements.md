@@ -322,8 +322,11 @@ without changing the compact grid or creating horizontal overflow.
   region describing the active “Checkout recovery” stage.
 - The active stage advances every `2500ms` and wraps from stage index `5` to
   index `0`.
-- The board centers the active lane programmatically while hiding horizontal
-  overflow and visible scrollbars.
+- The board centers intermediate active lanes programmatically while hiding
+  horizontal overflow and visible scrollbars. Its scroll target is clamped so
+  stage one is left-aligned and stage six is right-aligned without empty
+  endpoint gutters.
+- A visible pause/play button controls the indefinite animation.
 
 - [ ] **Step 1: Write failing progression tests**
 
@@ -346,17 +349,21 @@ setActiveStage((stage) => (stage + 1) % stages.length);
 ```
 
 Keep references to the board and stage lanes. Whenever the active stage
-changes, scroll the board so the active lane center aligns with the board
-center. Use instant positioning for reduced motion and smooth positioning
-otherwise. Keep reduced-motion users stationary at stage one.
+changes, scroll the board toward the active lane center, clamped between `0`
+and `scrollWidth - clientWidth`. Recalculate after board or lane resizes. Use
+instant positioning for reduced motion and smooth positioning otherwise.
+Reset to stage one whenever reduced motion becomes active.
 
 - [ ] **Step 4: Convert the board into a hidden-overflow carousel**
 
-Use a fixed responsive lane width plus symmetric inline padding so the first
-and last lanes can both center. Hide horizontal overflow and scrollbars. Reduce
-the lane header from `84px` to `70px`, its padding from `12px` to `10px`, the
-title from `11px` to `10px`, and the agent top margin from `10px` to `8px`.
-Reduce the lane minimum height by the same 14px.
+Use a fixed responsive lane width without synthetic inline padding. Hide
+horizontal overflow and scrollbars. Reduce the lane header from `84px` to
+`70px`, its padding from `12px` to `10px`, the title from `11px` to `10px`,
+and the agent top margin from `10px` to `8px`. Reduce the lane minimum height
+by the same 14px.
+
+Add a compact pause/play button to the window bar. Pausing stops stage updates;
+resuming restarts the 2500ms interval. Mark the live status `aria-atomic`.
 
 - [ ] **Step 5: Shift the hero visual right**
 
@@ -370,9 +377,12 @@ the offset.
 Run the focused test, lint, typecheck, full test suite, and production build.
 Manually verify:
 
-- the feature remains visually centered while all six lanes pass beneath it;
+- intermediate stages center while stage one stays left-aligned and stage six
+  stays right-aligned, without empty endpoint gutters;
 - the sequence loops cleanly from stage six to stage one;
+- pause/play controls the ongoing animation;
 - no horizontal scrollbar or document overflow appears;
 - smaller stage headers remain readable;
 - the full pipeline frame stays visible on desktop and mobile;
-- reduced-motion behavior remains stationary.
+- reduced-motion activation resets to stage one and remains stationary;
+- resize and breakpoint changes immediately preserve clamped alignment.

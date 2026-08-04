@@ -6,19 +6,24 @@ Make the landing page easier to scan, remove repeated product storytelling, and 
 
 ## Hero pipeline demo
 
-Keep “Checkout recovery” visually centered while the six pipeline lanes slide
-beneath it. Advance through every stage in order every 2.5 seconds, then loop
-back to Product investigation. Hide horizontal overflow and scrollbars so the
-demo reads as an automatic stage carousel rather than a manually scrollable
-board.
+Keep “Checkout recovery” centered when the board has enough content on both
+sides while the six pipeline lanes slide beneath it. Do not add artificial
+empty gutters: Product investigation remains left-aligned at the beginning,
+Quality engineering remains right-aligned at the end, and the intermediate
+stages center when possible. Advance through every stage in order every 2.5
+seconds, then loop back to Product investigation. Hide horizontal overflow and
+scrollbars so the demo reads as an automatic stage carousel rather than a
+manually scrollable board.
 
 Reduce the stage-title size and header spacing to more closely match the real
 application. Shift the complete pipeline window toward the right side of the
 hero while keeping its frame fully visible. At tablet and mobile widths, remove
 the right offset and preserve the centered carousel behavior.
 
-When reduced motion is requested, keep the feature stationary in the first
-stage and do not animate the lane strip.
+Provide a compact pause/play control for the continuously moving demo. When
+reduced motion is requested, reset the feature to the first stage and do not
+animate the lane strip. Recalculate the clamped alignment whenever the carousel
+resizes.
 
 ## Lifecycle section
 
