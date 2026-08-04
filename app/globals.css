@@ -1236,7 +1236,11 @@ main {
 }
 
 .footer-links .cta-link,
-.footer-links > a {
+.footer-links .cta-link:link,
+.footer-links .cta-link:visited,
+.footer-links > a,
+.footer-links > a:link,
+.footer-links > a:visited {
   display: inline-flex;
   align-items: center;
   justify-content: center;
