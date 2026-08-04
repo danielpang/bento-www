@@ -18,6 +18,9 @@ Replace the horizontally scrolling lifecycle track with a responsive card grid. 
 - Cards size to their content instead of reserving a fixed minimum height.
 - Tighter card padding, icon spacing, grid gaps, heading spacing, and section
   padding reduce vertical scrolling without changing typography or copy.
+- The section introduction explicitly identifies the displayed lifecycle as
+  one example and tells users they can define any pipeline that fits their
+  team.
 
 ## Pull request section
 

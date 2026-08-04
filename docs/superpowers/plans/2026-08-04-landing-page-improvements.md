@@ -275,3 +275,37 @@ At desktop and 390x844 mobile widths, confirm:
 - desktop remains three columns and mobile remains one column;
 - document-level horizontal overflow remains absent;
 - the lifecycle section requires materially less vertical scrolling.
+
+### Task 6: Clarify pipeline configurability
+
+**Files:**
+- Modify: `components/lifecycle-section.tsx`
+- Modify: `components/lifecycle-section.test.tsx`
+
+**Interfaces:**
+- `LifecycleSection()` keeps its existing heading, grid, and lifecycle stages.
+- The section introduction must render this exact copy:
+  “This is one example. Define any pipeline you want, with the stages, agents,
+  skills, and rules that fit your team.”
+
+- [ ] **Step 1: Add a failing copy assertion**
+
+Render `LifecycleSection` and assert the approved configurability sentence is
+visible.
+
+- [ ] **Step 2: Run the focused test**
+
+Run: `pnpm exec vitest run components/lifecycle-section.test.tsx`
+
+Expected: FAIL because the section still renders the previous introduction.
+
+- [ ] **Step 3: Replace the introduction**
+
+Replace only the paragraph beneath “Every feature has a route.” with the exact
+approved copy. Do not alter card content or layout.
+
+- [ ] **Step 4: Verify the update**
+
+Run the focused test, lint, typecheck, full test suite, and production build.
+In the browser, confirm the full sentence is readable on desktop and mobile
+without changing the compact grid or creating horizontal overflow.

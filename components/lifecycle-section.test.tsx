@@ -6,6 +6,12 @@ describe("LifecycleSection", () => {
   it("preserves the semantic lifecycle order with sequence markers", () => {
     render(<LifecycleSection />);
 
+    expect(
+      screen.getByText(
+        "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
+      ),
+    ).toBeInTheDocument();
+
     const lifecycle = screen.getByRole("list", {
       name: "Default product lifecycle",
     });
