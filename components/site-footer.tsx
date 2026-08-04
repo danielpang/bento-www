@@ -9,10 +9,6 @@ interface SiteFooterProps {
 }
 
 export function SiteFooter({ githubUrl, signupUrl }: SiteFooterProps) {
-  const repository = githubUrl?.replace(/\/$/, "") ?? null;
-  const docsUrl = repository ? `${repository}/tree/main/docs` : null;
-  const licenseUrl = repository ? `${repository}/blob/main/LICENSE` : null;
-
   return (
     <>
       <section className="final-cta">
@@ -45,20 +41,22 @@ export function SiteFooter({ githubUrl, signupUrl }: SiteFooterProps) {
         <div className="site-shell footer-inner">
           <BrandLockup />
           <nav aria-label="Footer" className="footer-links">
-            <CtaLink href={githubUrl} variant="quiet">
+            <CtaLink
+              href={githubUrl}
+              rel="noreferrer"
+              target={githubUrl ? "_blank" : undefined}
+              variant="quiet"
+            >
               GitHub
             </CtaLink>
-            <CtaLink href={docsUrl} variant="quiet">
+            <CtaLink href="/docs" variant="quiet">
               Documentation
             </CtaLink>
-            <CtaLink href={licenseUrl} variant="quiet">
+            <CtaLink href="/license" variant="quiet">
               License
             </CtaLink>
-            <CtaLink href="/#security" variant="quiet">
-              Security
-            </CtaLink>
-            <CtaLink href="/accessibility" variant="quiet">
-              Accessibility
+            <CtaLink href="/terms" variant="quiet">
+              Terms
             </CtaLink>
           </nav>
           <p>Built for teams that want agents moving and humans steering.</p>
