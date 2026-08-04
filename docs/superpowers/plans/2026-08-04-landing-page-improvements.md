@@ -204,3 +204,69 @@ User-facing walkthrough artifacts:
 - `/opt/cursor/artifacts/coding_agent_logos_framed.mp4`
 
 The artifact binaries remain outside the repository.
+
+### Task 5: Compact lifecycle cards
+
+**Files:**
+- Modify: `app/globals.css`
+
+**Interfaces:**
+- The lifecycle keeps its existing component markup, content, ordered-list
+  semantics, and 3/2/1-column responsive behavior.
+
+- [ ] **Step 1: Remove reserved card height**
+
+Remove `min-height: 230px` from `.lifecycle-track li` so each card sizes to
+its content.
+
+- [ ] **Step 2: Tighten section and card spacing**
+
+Apply these exact values:
+
+```css
+.section.lifecycle-section {
+  padding-block: clamp(64px, 7vw, 96px);
+}
+
+.lifecycle-section .section-heading {
+  margin-bottom: clamp(30px, 4vw, 44px);
+}
+
+.lifecycle-track {
+  gap: 12px;
+}
+
+.lifecycle-track li {
+  padding: 22px;
+}
+
+.lifecycle-step {
+  top: 22px;
+  right: 22px;
+}
+
+.lifecycle-icon {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 18px;
+}
+```
+
+Adjust connector placement to bridge the new 12px gap while preserving its
+existing desktop, tablet, and mobile behavior.
+
+- [ ] **Step 3: Run automated checks**
+
+Run: `pnpm lint && pnpm typecheck && pnpm test && pnpm build`
+
+Expected: all commands exit successfully.
+
+- [ ] **Step 4: Verify compactness in the browser**
+
+At desktop and 390x844 mobile widths, confirm:
+
+- cards have no large blank area below their descriptions;
+- all copy, icons, markers, borders, and connectors remain visible;
+- desktop remains three columns and mobile remains one column;
+- document-level horizontal overflow remains absent;
+- the lifecycle section requires materially less vertical scrolling.
