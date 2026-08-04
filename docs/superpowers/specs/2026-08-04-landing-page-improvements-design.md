@@ -4,6 +4,22 @@
 
 Make the landing page easier to scan, remove repeated product storytelling, and identify supported coding agents visually.
 
+## Hero pipeline demo
+
+Keep “Checkout recovery” visually centered while the six pipeline lanes slide
+beneath it. Advance through every stage in order every 2.5 seconds, then loop
+back to Product investigation. Hide horizontal overflow and scrollbars so the
+demo reads as an automatic stage carousel rather than a manually scrollable
+board.
+
+Reduce the stage-title size and header spacing to more closely match the real
+application. Shift the complete pipeline window toward the right side of the
+hero while keeping its frame fully visible. At tablet and mobile widths, remove
+the right offset and preserve the centered carousel behavior.
+
+When reduced motion is requested, keep the feature stationary in the first
+stage and do not animate the lane strip.
+
 ## Lifecycle section
 
 Replace the horizontally scrolling lifecycle track with a responsive card grid. The six lifecycle stages remain in their current order and keep their existing names, descriptions, and icons.

@@ -309,3 +309,70 @@ approved copy. Do not alter card content or layout.
 Run the focused test, lint, typecheck, full test suite, and production build.
 In the browser, confirm the full sentence is readable on desktop and mobile
 without changing the compact grid or creating horizontal overflow.
+
+### Task 7: Centered looping hero pipeline
+
+**Files:**
+- Modify: `components/pipeline-demo.tsx`
+- Modify: `components/pipeline-demo.test.tsx`
+- Modify: `app/globals.css`
+
+**Interfaces:**
+- `PipelineDemo()` continues to expose the six stage headings and the live
+  region describing the active “Checkout recovery” stage.
+- The active stage advances every `2500ms` and wraps from stage index `5` to
+  index `0`.
+- The board centers the active lane programmatically while hiding horizontal
+  overflow and visible scrollbars.
+
+- [ ] **Step 1: Write failing progression tests**
+
+Use fake timers to assert that “Checkout recovery” visits all six stages in
+order at 2500ms intervals and returns to Product investigation after the sixth
+interval.
+
+- [ ] **Step 2: Run the focused test**
+
+Run: `pnpm exec vitest run components/pipeline-demo.test.tsx`
+
+Expected: FAIL because the current demo advances once after 3000ms and stops.
+
+- [ ] **Step 3: Implement looping progression and centering**
+
+Replace the one-shot timeout with an interval using a functional state update:
+
+```tsx
+setActiveStage((stage) => (stage + 1) % stages.length);
+```
+
+Keep references to the board and stage lanes. Whenever the active stage
+changes, scroll the board so the active lane center aligns with the board
+center. Use instant positioning for reduced motion and smooth positioning
+otherwise. Keep reduced-motion users stationary at stage one.
+
+- [ ] **Step 4: Convert the board into a hidden-overflow carousel**
+
+Use a fixed responsive lane width plus symmetric inline padding so the first
+and last lanes can both center. Hide horizontal overflow and scrollbars. Reduce
+the lane header from `84px` to `70px`, its padding from `12px` to `10px`, the
+title from `11px` to `10px`, and the agent top margin from `10px` to `8px`.
+Reduce the lane minimum height by the same 14px.
+
+- [ ] **Step 5: Shift the hero visual right**
+
+On desktop, align `.hero-visual` to the right and reduce its width by
+`clamp(12px, 2vw, 28px)` so its left edge moves right while the full frame
+remains inside the shell. At `980px` and below, restore full width and remove
+the offset.
+
+- [ ] **Step 6: Verify behavior**
+
+Run the focused test, lint, typecheck, full test suite, and production build.
+Manually verify:
+
+- the feature remains visually centered while all six lanes pass beneath it;
+- the sequence loops cleanly from stage six to stage one;
+- no horizontal scrollbar or document overflow appears;
+- smaller stage headers remain readable;
+- the full pipeline frame stays visible on desktop and mobile;
+- reduced-motion behavior remains stationary.
