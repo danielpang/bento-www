@@ -289,23 +289,35 @@ button {
 }
 
 .pipeline-board {
+  --pipeline-lane-width: clamp(210px, 26vw, 240px);
+
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(6, minmax(168px, 1fr));
+  grid-template-columns: repeat(6, var(--pipeline-lane-width));
   gap: 2px;
   width: 100%;
-  overflow-x: auto;
+  padding-inline: max(
+    0px,
+    calc((100% - var(--pipeline-lane-width)) / 2)
+  );
+  overflow-x: hidden;
   background: var(--page);
   overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.pipeline-board::-webkit-scrollbar {
+  display: none;
 }
 
 .pipeline-lane {
-  min-height: 356px;
+  min-height: 342px;
   background: var(--surface);
 }
 
 .pipeline-lane-header {
-  min-height: 84px;
-  padding: 12px;
+  min-height: 70px;
+  padding: 10px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -319,7 +331,7 @@ button {
   margin: 0;
   overflow: hidden;
   color: var(--text);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 650;
   line-height: 1.25;
   text-overflow: ellipsis;
@@ -338,7 +350,7 @@ button {
   gap: 5px;
   width: fit-content;
   max-width: 100%;
-  margin-top: 10px;
+  margin-top: 8px;
   color: var(--text-muted);
   font-size: 10px;
   white-space: nowrap;
@@ -673,7 +685,9 @@ main {
 
 .hero-visual {
   min-width: 0;
+  width: calc(100% - clamp(12px, 2vw, 28px));
   grid-column: span 7;
+  justify-self: end;
 }
 
 .hero-visual .pipeline-window {
@@ -1521,6 +1535,11 @@ main {
     grid-column: 1;
   }
 
+  .hero-visual {
+    width: 100%;
+    justify-self: stretch;
+  }
+
   .hero-copy {
     max-width: 680px;
   }
@@ -1557,15 +1576,6 @@ main {
 }
 
 @media (max-width: 700px) {
-  .pipeline-board {
-    grid-template-columns: repeat(6, minmax(210px, 78vw));
-    scroll-snap-type: x proximity;
-  }
-
-  .pipeline-lane {
-    scroll-snap-align: start;
-  }
-
   .gate-checks {
     grid-template-columns: 1fr;
   }

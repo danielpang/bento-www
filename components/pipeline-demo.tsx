@@ -9,7 +9,7 @@ import {
   Ruler,
 } from "@phosphor-icons/react";
 import { LayoutGroup, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const stages = [
   {
@@ -74,14 +74,28 @@ const settledCards: Record<
 export function PipelineDemo() {
   const reduceMotion = useReducedMotion();
   const [activeStage, setActiveStage] = useState(0);
+  const boardRef = useRef<HTMLDivElement>(null);
+  const laneRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     if (reduceMotion) return;
-    const timer = window.setTimeout(() => {
-      setActiveStage(1);
-    }, 3000);
-    return () => window.clearTimeout(timer);
+    const timer = window.setInterval(() => {
+      setActiveStage((stage) => (stage + 1) % stages.length);
+    }, 2500);
+    return () => window.clearInterval(timer);
   }, [reduceMotion]);
+
+  useEffect(() => {
+    const board = boardRef.current;
+    const lane = laneRefs.current[activeStage];
+
+    if (!board || !lane) return;
+
+    board.scrollTo?.({
+      behavior: reduceMotion ? "instant" : "smooth",
+      left: lane.offsetLeft + lane.offsetWidth / 2 - board.clientWidth / 2,
+    });
+  }, [activeStage, reduceMotion]);
 
   return (
     <section
@@ -97,11 +111,17 @@ export function PipelineDemo() {
         <span>Live</span>
       </div>
       <LayoutGroup>
-        <div className="pipeline-board">
+        <div className="pipeline-board" ref={boardRef}>
           {stages.map((stage, index) => {
             const Icon = stage.icon;
             return (
-              <section className="pipeline-lane" key={stage.name}>
+              <section
+                className="pipeline-lane"
+                key={stage.name}
+                ref={(lane) => {
+                  laneRefs.current[index] = lane;
+                }}
+              >
                 <header className="pipeline-lane-header">
                   <div className="pipeline-lane-title">
                     <span className="pipeline-ordinal">
