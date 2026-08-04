@@ -1,6 +1,6 @@
 {
   "name": "bento-www",
-  "install": "pnpm install --frozen-lockfile",
+  "install": "pnpm install --frozen-lockfile && (test -f .env.local || cp .env.example .env.local)",
   "terminals": [
     {
       "name": "dev",
