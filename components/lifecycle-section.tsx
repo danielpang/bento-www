@@ -48,8 +48,8 @@ export function LifecycleSection() {
         <Reveal className="section-heading">
           <h2>Every feature has a route.</h2>
           <p>
-            Give each stage an agent, a skill, and a clear rule for what
-            happens next.
+            This is one example. Define any pipeline you want, with the stages,
+            agents, skills, and rules that fit your team.
           </p>
         </Reveal>
         <ol aria-label="Default product lifecycle" className="lifecycle-track">
