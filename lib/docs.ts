@@ -19,40 +19,31 @@ const DOC_META: Record<
     description: "Cards, sandboxes, spend, and tenancy.",
     order: 1,
   },
-  architecture: {
-    title: "Architecture",
-    description: "How the API, queue, clients, and sandboxes fit together.",
-    order: 2,
-  },
   pipeline: {
     title: "Pipelines",
     description: "Stages, gates, agents, and repository commands.",
-    order: 3,
+    order: 2,
   },
   agents: {
     title: "Coding agents",
     description: "Supported tools, credentials, and live steering.",
-    order: 4,
+    order: 3,
   },
   "pull-requests": {
     title: "Pull requests",
     description: "Opening PRs, attribution, and GitHub connections.",
-    order: 5,
+    order: 4,
   },
   "web-app": {
     title: "Web console",
     description: "Local setup, containers, and day-to-day console use.",
-    order: 6,
+    order: 5,
   },
   clients: {
     title: "Other clients",
-    description: "Terminal and macOS clients alongside the web console.",
-    order: 7,
-  },
-  "database-schema": {
-    title: "Database schema",
-    description: "Identity, tenancy, and the tables Bento owns.",
-    order: 8,
+    description:
+      "TUI and web app progress, plus the macOS client alongside them.",
+    order: 6,
   },
 };
 

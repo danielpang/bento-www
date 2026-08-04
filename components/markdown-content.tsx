@@ -50,6 +50,11 @@ const components: Components = {
     const id = slugify(textFromChildren(children));
     return <h3 id={id}>{children}</h3>;
   },
+  table: ({ children }) => (
+    <div className="docs-table-wrap">
+      <table>{children}</table>
+    </div>
+  ),
 };
 
 interface MarkdownContentProps {

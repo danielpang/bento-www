@@ -1,6 +1,6 @@
 # Other clients
 
-The web console is the client Bento is built around. Two others exist and are usable, but they trail it: features land in the web app first, and these catch up.
+The TUI and web app are both still in progress and have not reached feature parity yet. The macOS app trails further: features land unevenly across clients, and none of them is complete.
 
 ## Terminal
 

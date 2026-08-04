@@ -2,13 +2,11 @@
 
 Every stage of a pipeline runs one of these tools, paired with a model, as an agent you name and give a skill. They differ in three ways that matter day to day: how they authenticate, whether you can talk to them while they work, and whether they report what a run cost.
 
-| Tool | Model format | Credential | Talk to a working agent | Reports cost |
-| --- | --- | --- | --- | --- |
-| Claude Code | `claude-sonnet-5` | `ANTHROPIC_API_KEY`, or a subscription token | Yes: messages queue behind the current step, same conversation | Yes |
-| pi | `anthropic/claude-sonnet-5` | Whichever provider key the model needs | Yes: messages steer the agent while it works | Yes |
-| Codex CLI | `gpt-5-codex` | `OPENAI_API_KEY` | Between runs: delivered when the run ends | No |
-| Cursor CLI | `claude-sonnet-5` | `CURSOR_API_KEY` | Between runs: delivered when the run ends | No |
-| opencode | `anthropic/claude-sonnet-5` | Whichever provider key the model needs | Between runs: delivered when the run ends | No |
+- **Claude Code** — Model `claude-sonnet-5`. Credential: `ANTHROPIC_API_KEY`, or a subscription token. Talk while working: yes; messages queue behind the current step in the same conversation. Reports cost: yes.
+- **pi** — Model `anthropic/claude-sonnet-5`. Credential: whichever provider key the model needs. Talk while working: yes; messages steer the agent while it works. Reports cost: yes.
+- **Codex CLI** — Model `gpt-5-codex`. Credential: `OPENAI_API_KEY`. Talk while working: between runs; delivered when the run ends. Reports cost: no.
+- **Cursor CLI** — Model `claude-sonnet-5`. Credential: `CURSOR_API_KEY`. Talk while working: between runs; delivered when the run ends. Reports cost: no.
+- **opencode** — Model `anthropic/claude-sonnet-5`. Credential: whichever provider key the model needs. Talk while working: between runs; delivered when the run ends. Reports cost: no.
 
 Keys are stored encrypted, per organization in multi mode and locally in local mode, through the web console, `bento setup`, or the Mac app. To route Claude Code or Codex through OpenRouter, save the OpenRouter key and set `ANTHROPIC_BASE_URL` or `OPENAI_BASE_URL` to `https://openrouter.ai/api/v1`.
 

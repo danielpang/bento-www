@@ -28,5 +28,3 @@ Agent spend is shown where it is known, per card and per project, and never enfo
 ## Tenancy
 
 A local install has one user and no organizations, and every `organization_id` is null. A shared server puts every project inside an organization, and every member of that organization sees all of its projects; there is no per-project sharing. Three layers keep a tenant's rows to itself, and each catches something the others do not: route checks that re-read membership per request, row-level security that confines every query to the caller's organization, and insert triggers that derive the tenant from the parent row.
-
-The full table-by-table picture, with the delete rules: [Database schema](/docs/database-schema).

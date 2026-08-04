@@ -7,14 +7,14 @@ describe("docs catalog", () => {
 
     expect(docs.map((doc) => doc.slug)).toEqual([
       "concepts",
-      "architecture",
       "pipeline",
       "agents",
       "pull-requests",
       "web-app",
       "clients",
-      "database-schema",
     ]);
     expect(getDoc("pipeline")?.content).toMatch(/# Pipelines/);
+    expect(getDoc("architecture")).toBeNull();
+    expect(getDoc("database-schema")).toBeNull();
   });
 });

@@ -1449,10 +1449,13 @@ main {
 .docs-content {
   min-width: 0;
   max-width: 760px;
+  overflow-x: clip;
 }
 
 .docs-body {
   margin-top: 42px;
+  min-width: 0;
+  overflow-x: clip;
 }
 
 .docs-body > :first-child {
@@ -1507,13 +1510,8 @@ main {
   font-weight: 650;
 }
 
-.docs-body pre,
-.docs-body table {
-  margin: 0 0 20px;
-  overflow-x: auto;
-}
-
 .docs-body pre {
+  margin: 0 0 20px;
   padding: 16px 18px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -1522,6 +1520,8 @@ main {
   font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
   font-size: 12.5px;
   line-height: 1.55;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .docs-body code {
@@ -1534,10 +1534,17 @@ main {
   border-radius: 4px;
   background: var(--surface);
   color: var(--text);
+  overflow-wrap: anywhere;
 }
 
-.docs-body table {
+.docs-table-wrap {
+  margin: 0 0 20px;
+  max-width: 100%;
+}
+
+.docs-table-wrap table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 13px;
 }
@@ -1549,6 +1556,8 @@ main {
   color: var(--text-muted);
   text-align: left;
   vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .docs-body th {
