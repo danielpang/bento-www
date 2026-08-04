@@ -72,7 +72,7 @@ const browserWebSocketUrl = await new Promise((resolve, reject) => {
 });
 
 const targets = await fetch(
-  `http://${new URL(browserWebSocketUrl).host}/json/list`,
+  `http://${new globalThis.URL(browserWebSocketUrl).host}/json/list`,
 ).then((response) => response.json());
 const target = targets.find((candidate) => candidate.type === "page");
 if (!target) throw new Error("Chrome did not expose a page target");
