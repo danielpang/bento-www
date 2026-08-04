@@ -57,6 +57,9 @@ export function LifecycleSection() {
             const Icon = stage.icon;
             return (
               <li key={stage.name}>
+                <span aria-hidden="true" className="lifecycle-step">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 <span className="lifecycle-icon">
                   <Icon aria-hidden="true" size={20} weight="duotone" />
                 </span>
