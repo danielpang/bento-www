@@ -955,6 +955,18 @@ main {
   font-size: 11px;
 }
 
+.tool-list code {
+  gap: 10px;
+  color: var(--text);
+  font-weight: 560;
+}
+
+.agent-logo {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+
 .artifact-preview {
   display: flex;
   width: 100%;
