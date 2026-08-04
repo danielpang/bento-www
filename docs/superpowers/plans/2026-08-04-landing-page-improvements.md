@@ -4,7 +4,7 @@
 
 **Goal:** Replace the lifecycle scroller with an always-visible responsive grid, remove the redundant pull-request section, and add recognizable marks to the supported coding agents.
 
-**Architecture:** Keep the landing page as a server-rendered composition. Add a focused `AgentLogo` SVG component for repository-owned monochrome marks, retain semantic ordered-list markup for the lifecycle, and implement all layout changes in the existing global stylesheet.
+**Architecture:** Keep the landing page as a server-rendered composition. Add a focused `AgentLogo` SVG component for locally rendered, attributed monochrome marks, retain semantic ordered-list markup for the lifecycle, and implement all layout changes in the existing global stylesheet.
 
 **Tech Stack:** Next.js 16 App Router, React 19 server components, TypeScript, CSS, Vitest, Testing Library.
 
@@ -181,3 +181,26 @@ Create one concise desktop-to-mobile recording showing the lifecycle grid, agent
 - [ ] **Step 5: Commit any verification fixes and update the pull request**
 
 If verification required changes, commit them separately, push the branch, and update the draft pull-request summary and test results.
+
+## Final verification evidence
+
+Verification completed on 2026-08-04:
+
+- `pnpm lint` passed.
+- `pnpm typecheck` passed.
+- `pnpm test` passed: 18 test files and 31 tests.
+- `pnpm build` passed.
+- Browser testing at exactly 390x844 and 100% zoom measured
+  `window.innerWidth === document.documentElement.scrollWidth === 390`.
+  Only the hero pipeline intentionally scrolled within its own container.
+- Desktop rendered the lifecycle as a 3x2 grid; mobile rendered one column.
+- All five supported coding agents rendered distinct marks.
+- The “From idea to pull request” section was absent, and the security section
+  followed the handoff section directly.
+
+User-facing walkthrough artifacts:
+
+- `/opt/cursor/artifacts/lifecycle_grid_complete.mp4`
+- `/opt/cursor/artifacts/coding_agent_logos_framed.mp4`
+
+The artifact binaries remain outside the repository.

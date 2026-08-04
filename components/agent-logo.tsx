@@ -1,5 +1,7 @@
 import type { JSX } from "react";
 
+// SVG path data is adapted and modified from nexu-io/open-design.
+// See THIRD_PARTY_NOTICES.md and licenses/Apache-2.0.txt.
 export type AgentName =
   | "Claude Code"
   | "Codex CLI"

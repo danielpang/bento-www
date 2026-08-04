@@ -28,5 +28,25 @@ describe("HandoffSection", () => {
       expect(logo).toHaveAttribute("focusable", "false");
       expect(logo).toHaveAttribute("viewBox");
     }
+
+    const distinctLogoStructures = new Set(
+      Array.from(logos, (logo) => logo.innerHTML),
+    );
+
+    expect(distinctLogoStructures.size).toBe(5);
+
+    const pathSignatures = Array.from(logos, (logo) => {
+      const logoPaths = Array.from(logo.querySelectorAll("path"));
+
+      expect(logoPaths.length).toBeGreaterThan(0);
+      for (const path of logoPaths) {
+        expect(path).toHaveAttribute("d");
+        expect(path.getAttribute("d")).not.toBe("");
+      }
+
+      return logoPaths.map((path) => path.getAttribute("d")).join("|");
+    });
+
+    expect(new Set(pathSignatures).size).toBe(logos.length);
   });
 });
