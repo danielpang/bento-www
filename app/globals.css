@@ -1363,11 +1363,22 @@ main {
   }
 
   .footer-inner {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
+    align-items: start;
+    padding-block: 28px;
+    gap: 18px;
+  }
+
+  .footer-links {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-left: -10px;
   }
 
   .footer-inner > p {
-    display: none;
+    justify-self: start;
+    max-width: none;
+    text-align: left;
   }
 }
 
@@ -1497,17 +1508,6 @@ main {
     padding: 20px;
   }
 
-  .footer-inner {
-    grid-template-columns: 1fr;
-    padding-block: 28px;
-  }
-
-  .footer-links {
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    margin-left: -10px;
-  }
-
   .github-label {
     position: absolute;
     width: 1px;
@@ -1517,7 +1517,8 @@ main {
     white-space: nowrap;
   }
 
-  .cta-link-quiet {
+  /* Icon-only GitHub control in the header — do not affect footer quiet links. */
+  .header-actions .cta-link-quiet {
     width: 40px;
     padding: 0;
   }
