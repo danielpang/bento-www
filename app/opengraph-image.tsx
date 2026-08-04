@@ -1,0 +1,82 @@
+import { ImageResponse } from "next/og";
+
+export const alt = "Bento. Orchestrate the whole build.";
+export const size = { height: 630, width: 1200 };
+export const contentType = "image/png";
+
+export default function OpenGraphImage() {
+  return new ImageResponse(
+    <div
+      style={{
+        alignItems: "stretch",
+        background: "#0a0e16",
+        color: "#e4e9f2",
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: "sans-serif",
+        height: "100%",
+        justifyContent: "space-between",
+        padding: "72px",
+        width: "100%",
+      }}
+    >
+      <div style={{ alignItems: "center", display: "flex", gap: "18px" }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "4px",
+            height: "34px",
+            width: "34px",
+          }}
+        >
+          {["#33415a", "#ff8a3d", "#33415a", "#33415a"].map(
+            (background, index) => (
+              <div
+                key={index}
+                style={{
+                  background,
+                  borderRadius: "4px",
+                  height: "15px",
+                  width: "15px",
+                }}
+              />
+            ),
+          )}
+        </div>
+        <span style={{ fontSize: "32px", fontWeight: 700 }}>Bento</span>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "18px",
+          maxWidth: "880px",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "76px",
+            fontWeight: 650,
+            letterSpacing: "-4px",
+            lineHeight: 1.03,
+          }}
+        >
+          Orchestrate the whole build.
+        </div>
+        <div style={{ color: "#8496b0", fontSize: "28px" }}>
+          One pipeline for every agent, handoff, and human decision.
+        </div>
+      </div>
+      <div
+        style={{
+          background: "#ff8a3d",
+          borderRadius: "3px",
+          height: "6px",
+          width: "160px",
+        }}
+      />
+    </div>,
+    size,
+  );
+}
