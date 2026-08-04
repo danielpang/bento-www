@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { listDocs } from "@/lib/docs";
 import robots from "./robots";
 import sitemap from "./sitemap";
 
@@ -10,18 +11,17 @@ describe("metadata routes", () => {
     });
   });
 
-  it("publishes the marketing home page", () => {
-    expect(sitemap()).toEqual([
-      {
-        changeFrequency: "weekly",
-        priority: 1,
-        url: "http://localhost:3000/",
-      },
-      {
-        changeFrequency: "monthly",
-        priority: 0.4,
-        url: "http://localhost:3000/accessibility",
-      },
-    ]);
+  it("publishes the marketing, docs, and legal pages", () => {
+    const urls = sitemap().map((entry) => entry.url);
+
+    expect(urls).toContain("http://localhost:3000/");
+    expect(urls).toContain("http://localhost:3000/docs");
+    expect(urls).toContain("http://localhost:3000/terms");
+    expect(urls).toContain("http://localhost:3000/license");
+    expect(urls).not.toContain("http://localhost:3000/accessibility");
+
+    for (const doc of listDocs()) {
+      expect(urls).toContain(`http://localhost:3000/docs/${doc.slug}`);
+    }
   });
 });
