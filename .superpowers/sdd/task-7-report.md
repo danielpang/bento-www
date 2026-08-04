@@ -1,85 +1,90 @@
 # Task 7 report: Centered looping hero pipeline
 
-## TDD evidence
+## Outcome
+
+Status: `DONE`
+
+The updated Task 7 design and plan are implemented. The board has no synthetic
+endpoint padding, all scroll targets are clamped, resize changes recenter the
+active lane, reduced motion resets and stops the loop, and the compact
+pause/play control and atomic live status are exposed accessibly.
+
+## Strict TDD evidence
 
 ### Red
 
-- Test contract commit:
-  `9b86fdcf963e507d9cd87b988bfae431ffc63cd6`
-- `components/pipeline-demo.test.tsx` advances fake timers by `2500ms`
-  for each stage, asserts all six stages in order, and asserts the sixth tick
-  wraps to Product investigation.
-- `pnpm exec vitest run components/pipeline-demo.test.tsx` exited `1` before
-  implementation: 1 of 3 tests failed because UI/UX design was absent after
-  the first `2500ms`. This was the intended failure against the existing
-  one-shot `3000ms` timeout.
+- Test-only commit: `32fedafe2a06f8d7059c2c3ed89a49fd464e26d8`
+- The commit was pushed to `origin/cursor/improve-landing-page-45a5` before
+  implementation.
+- At that exact commit,
+  `pnpm exec vitest run components/pipeline-demo.test.tsx` exited `1`.
+- Result: 1 test file ran; 3 tests passed and 5 failed for the intended missing
+  contracts: atomic live status, pause/play, reduced-motion reset, clamped
+  endpoint positioning, and resize observation.
 
 ### Green
 
-- Implementation commit:
-  `ec1c765e05b61f124b944abf9f9cb6f257414f15`
-- `pnpm exec vitest run components/pipeline-demo.test.tsx` exited `0`: 1 test
-  file passed and all 3 tests passed.
+- Implementation commit: `354257319d38d5b145eea54832804557b65a40cb`
+- The commit was pushed to `origin/cursor/improve-landing-page-45a5` before the
+  green run.
+- `pnpm exec vitest run components/pipeline-demo.test.tsx` exited `0`.
+- Result: 1 test file and all 8 tests passed.
 
-## Architecture and files
+The focused tests cover pause/resume, reduced-motion activation and reset,
+interval cleanup on unmount, clamping to `[0, scrollWidth - clientWidth]`,
+resize recentering, the six-stage `2500ms` progression and wraparound, and
+`aria-atomic="true"`.
 
-- `components/pipeline-demo.test.tsx`
-  - Defines the six-stage progression and wraparound contract with fake
-    timers.
+## Implementation
+
 - `components/pipeline-demo.tsx`
-  - Preserves the existing `LayoutGroup`, shared `layoutId`, six headings,
-    active-card label, and polite live region.
-  - Replaces the one-shot timeout with a `2500ms` interval and functional
-    modulo state update.
-  - Holds refs for the board and each lane. On every active-stage change, it
-    computes the lane center relative to the board and scrolls that center
-    into alignment.
-  - Uses smooth positioning normally and instant positioning for reduced
-    motion. Reduced-motion users do not start the interval, so the feature
-    remains at Product investigation.
+  - Retains the six-stage `2500ms` interval and modulo wraparound.
+  - Clears the interval while paused, under reduced motion, and on unmount.
+  - Resets the active stage to index `0` whenever reduced motion becomes active.
+  - Clamps the center target between `0` and the board's maximum scroll offset.
+  - Observes the board and lanes with `ResizeObserver` and recalculates the
+    active target after size changes.
+  - Adds a semantic pause/play button with changing accessible labels.
+  - Marks the polite live status as atomic.
 - `app/globals.css`
-  - Uses a responsive fixed lane width and symmetric inline board padding,
-    allowing both endpoint lanes to align with the board center.
-  - Makes the board the lane offset reference and hides horizontal overflow
-    and scrollbar rendering while retaining programmatic scrolling.
-  - Reduces lane minimum height from `356px` to `342px`, header minimum height
-    from `84px` to `70px`, header padding from `12px` to `10px`, title size
-    from `11px` to `10px`, and agent top margin from `10px` to `8px`.
-  - Right-aligns the desktop hero visual at a width reduced by
-    `clamp(12px, 2vw, 28px)`. At `980px` and below it restores full width and
-    stretch alignment.
+  - Removes synthetic inline board padding.
+  - Preserves hidden overflow and hidden scrollbars.
+  - Preserves the compact `70px` headers, `10px` titles, and right-aligned
+    desktop hero frame with the tablet/mobile reset.
+  - Styles the compact control at `26px` high.
 
-## Runtime review
+## Real browser runtime
 
-Headless Chrome loaded the real development page at `localhost:3000`.
+Chrome 148 loaded the real development page at `http://localhost:3000`.
 
-- At `1440px`, the live feature visited Product investigation, UI/UX design,
-  Engineering requirements, Implementation, Code review, Quality
-  engineering, and Product investigation in order.
-- Board `scrollLeft` values were `0`, `242`, `484`, `726`, `968`, `1210`,
-  then `0`; the measured active-lane center differed from the board center by
-  `0px` at every stage.
-- At `1440px`, document overflow was `0px`; the frame occupied horizontal
-  coordinates `660px` through `1422px`, fully inside the viewport.
-- At `390px`, document overflow was `0px`; the frame occupied `14px` through
-  `376px`, fully inside the viewport.
-- The compact title computed to `10px`. The header measured `70px` without
-  the desktop frame rotation and approximately `72px` in the rotated desktop
-  frame.
-- With `prefers-reduced-motion: reduce`, the feature remained at Product
-  investigation after `3500ms`, centered with `scrollLeft: 0`.
+- At `1440x900`, pausing held Product investigation for `2800ms`.
+- After resuming, the observed order was UI/UX design, Engineering
+  requirements, Implementation, Code review, Quality engineering, then Product
+  investigation.
+- The settled scroll offsets were clamped to their computed targets:
+  `0`, `230`, `538`, `780`, `833`, then `0`. Quality engineering matched the
+  `833px` maximum and Product investigation returned to `0px`.
+- Resizing at Engineering requirements from `1440px` to `1200px` changed the
+  target from `230px` to `296px`; the board immediately settled at `296px`.
+- Computed board inline padding was `0px`.
+- At `1440px`, the frame stayed inside the viewport from `654px` to `1407px`.
+- At `390x844`, the frame stayed inside the viewport from `14px` to `376px`;
+  document overflow remained `0px`, headers measured `70px`, and an
+  intermediate lane matched its clamped target.
+- The control measured `53x26px`, exposed the expected play/pause labels, and
+  the live status exposed `aria-atomic="true"`.
+- With `prefers-reduced-motion: reduce`, Product investigation remained at
+  stage index `0` and `scrollLeft: 0` after `2800ms`. Dynamic activation and
+  reset are additionally covered by the focused component test.
 
-Programmatic scrolling relies on standard `HTMLElement.scrollTo` support.
-The optional call keeps non-layout test environments such as JSDOM safe.
+## Verification
 
-## Exact verification outcomes
-
-- Focused test: passed, 1 file and 3 tests.
-- Lint: `pnpm lint` exited `0`; ESLint reported no errors.
-- Typecheck: `pnpm typecheck` exited `0`; `tsc --noEmit` reported no errors.
-- Full tests: `pnpm test` exited `0`; 18 files and 32 tests passed.
-- Production build: `pnpm build` exited `0`; Next.js 16.2.12 compiled,
-  completed TypeScript validation, and generated all 18 static pages.
+- Focused test: passed, 1 file and 8 tests.
+- `pnpm lint`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm test`: passed, 18 files and 37 tests.
+- `pnpm build`: passed; Next.js 16.2.12 generated all 18 static pages.
+- Desktop/mobile Chrome runtime: all 16 behavioral and layout checks passed.
 
 ## Concerns
 
