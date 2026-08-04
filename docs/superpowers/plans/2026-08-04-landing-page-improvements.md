@@ -209,10 +209,14 @@ The artifact binaries remain outside the repository.
 
 **Files:**
 - Modify: `app/globals.css`
+- Modify: `components/lifecycle-section.tsx`
+- Modify: `components/lifecycle-section.test.tsx`
 
 **Interfaces:**
-- The lifecycle keeps its existing component markup, content, ordered-list
-  semantics, and 3/2/1-column responsive behavior.
+- The lifecycle keeps its content, ordered-list semantics, and 3/2/1-column
+  responsive behavior.
+- Decorative connector markup is removed; ordered step markers communicate
+  row-major reading order at every breakpoint.
 
 - [ ] **Step 1: Remove reserved card height**
 
