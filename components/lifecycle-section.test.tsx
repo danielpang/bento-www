@@ -26,5 +26,6 @@ describe("LifecycleSection", () => {
       "Quality engineering",
     ]);
     expect(markers).toEqual(["01", "02", "03", "04", "05", "06"]);
+    expect(lifecycle.querySelector(".lifecycle-connector")).toBeNull();
   });
 });

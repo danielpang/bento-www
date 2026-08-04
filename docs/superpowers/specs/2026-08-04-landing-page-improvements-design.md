@@ -12,7 +12,8 @@ Replace the horizontally scrolling lifecycle track with a responsive card grid. 
 - Tablet: two columns and three rows.
 - Mobile: one column.
 - Each card includes its sequence number so the route remains explicit.
-- Subtle connectors reinforce reading order without requiring scrolling or interaction.
+- Sequence numbers and ordered-list semantics establish reading order without
+  decorative connectors that become discontinuous at responsive row wraps.
 - The ordered-list semantics and accessible label remain intact.
 - Cards size to their content instead of reserving a fixed minimum height.
 - Tighter card padding, icon spacing, grid gaps, heading spacing, and section

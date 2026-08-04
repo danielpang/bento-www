@@ -49,11 +49,11 @@ Inside each lifecycle list item, render:
 </span>
 ```
 
-Keep the icon, heading, description, and connector in their existing order.
+Keep the icon, heading, and description in their existing order.
 
 - [ ] **Step 4: Replace scroller styles with a responsive grid**
 
-Use `repeat(3, minmax(0, 1fr))` by default, `repeat(2, minmax(0, 1fr))` below 980px, and one column below 520px. Remove horizontal overflow, snap behavior, and fixed card widths. Style cards with borders and raised surfaces; position connectors between cards without changing document order.
+Use `repeat(3, minmax(0, 1fr))` by default, `repeat(2, minmax(0, 1fr))` below 980px, and one column below 520px. Remove horizontal overflow, snap behavior, fixed card widths, and decorative connectors. Style cards with borders and raised surfaces; rely on sequence numbers and ordered-list semantics for a consistent reading order at every breakpoint.
 
 - [ ] **Step 5: Run the focused test**
 
@@ -252,8 +252,8 @@ Apply these exact values:
 }
 ```
 
-Adjust connector placement to bridge the new 12px gap while preserving its
-existing desktop, tablet, and mobile behavior.
+Keep the grid free of decorative connectors so row wraps do not introduce
+missing transitions, U-turns, or a misleading snake order.
 
 - [ ] **Step 3: Run automated checks**
 
@@ -266,7 +266,8 @@ Expected: all commands exit successfully.
 At desktop and 390x844 mobile widths, confirm:
 
 - cards have no large blank area below their descriptions;
-- all copy, icons, markers, borders, and connectors remain visible;
+- all copy, icons, markers, and borders remain visible;
+- no decorative connectors render between cards;
 - desktop remains three columns and mobile remains one column;
 - document-level horizontal overflow remains absent;
 - the lifecycle section requires materially less vertical scrolling.

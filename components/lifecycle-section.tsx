@@ -65,9 +65,6 @@ export function LifecycleSection() {
                 </span>
                 <h3>{stage.name}</h3>
                 <p>{stage.copy}</p>
-                {index < lifecycle.length - 1 && (
-                  <span aria-hidden="true" className="lifecycle-connector" />
-                )}
               </li>
             );
           })}

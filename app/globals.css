@@ -797,20 +797,6 @@ main {
   line-height: 1.55;
 }
 
-.lifecycle-connector {
-  position: absolute;
-  top: 40px;
-  right: -13px;
-  z-index: 1;
-  width: 14px;
-  height: 1px;
-  background: var(--line-strong);
-}
-
-.lifecycle-track li:nth-child(3n) .lifecycle-connector {
-  display: none;
-}
-
 .gate-section {
   background: var(--page);
 }
@@ -1506,14 +1492,6 @@ main {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .lifecycle-track li:nth-child(3n) .lifecycle-connector {
-    display: block;
-  }
-
-  .lifecycle-track li:nth-child(2n) .lifecycle-connector {
-    display: none;
-  }
-
   .hero {
     min-height: auto;
   }
@@ -1656,16 +1634,6 @@ main {
 
   .lifecycle-track {
     grid-template-columns: 1fr;
-  }
-
-  .lifecycle-track li:nth-child(n) .lifecycle-connector {
-    display: block;
-    top: auto;
-    right: auto;
-    bottom: -13px;
-    left: 50%;
-    width: 1px;
-    height: 14px;
   }
 
   .gate-window-header {
