@@ -30,7 +30,7 @@ describe("PipelineDemo", () => {
     expect(html).not.toContain("translateY(8px)");
   });
 
-  it("moves the live feature forward to make progression visible", () => {
+  it("moves the live feature through every stage and loops to the start", () => {
     vi.useFakeTimers();
     render(<PipelineDemo />);
 
@@ -40,20 +40,21 @@ describe("PipelineDemo", () => {
       ),
     ).toBeInTheDocument();
 
-    act(() => {
-      vi.advanceTimersByTime(3000);
-    });
+    for (const stage of [
+      "UI/UX design",
+      "Engineering requirements",
+      "Implementation",
+      "Code review",
+      "Quality engineering",
+      "Product investigation",
+    ]) {
+      act(() => {
+        vi.advanceTimersByTime(2500);
+      });
 
-    expect(
-      screen.getByLabelText("Checkout recovery is in UI/UX design"),
-    ).toBeInTheDocument();
-
-    act(() => {
-      vi.advanceTimersByTime(9000);
-    });
-
-    expect(
-      screen.getByLabelText("Checkout recovery is in UI/UX design"),
-    ).toBeInTheDocument();
+      expect(
+        screen.getByLabelText(`Checkout recovery is in ${stage}`),
+      ).toBeInTheDocument();
+    }
   });
 });
