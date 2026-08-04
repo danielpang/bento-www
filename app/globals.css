@@ -276,16 +276,44 @@ button {
   font-size: 10px;
 }
 
-.pipeline-window-bar span:first-child {
+.pipeline-window-bar > span:first-child {
   color: var(--text);
   font-family: var(--font-geist-sans), sans-serif;
   font-size: 12px;
   font-weight: 650;
 }
 
-.pipeline-window-bar span:last-child {
+.pipeline-window-status {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 8px;
+}
+
+.pipeline-window-status > span {
   justify-self: end;
   color: var(--success);
+}
+
+.pipeline-animation-control {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-raised);
+  color: var(--text-muted);
+  font-size: 9px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pipeline-animation-control:hover {
+  border-color: var(--line-strong);
+  color: var(--text);
 }
 
 .pipeline-board {
@@ -296,10 +324,6 @@ button {
   grid-template-columns: repeat(6, var(--pipeline-lane-width));
   gap: 2px;
   width: 100%;
-  padding-inline: max(
-    0px,
-    calc((100% - var(--pipeline-lane-width)) / 2)
-  );
   overflow-x: hidden;
   background: var(--page);
   overscroll-behavior-x: contain;
