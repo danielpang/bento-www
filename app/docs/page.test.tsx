@@ -26,5 +26,10 @@ describe("Documentation index", () => {
       title: "Bento documentation",
       url: "/docs",
     });
+    expect(
+      screen.queryByRole("heading", {
+        name: "Give every feature a clear next step.",
+      }),
+    ).not.toBeInTheDocument();
   });
 });

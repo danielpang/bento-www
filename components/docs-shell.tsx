@@ -69,6 +69,7 @@ export function DocsShell({
       </main>
       <SiteFooter
         githubUrl={siteConfig.githubUrl}
+        showFinalCta={false}
         signupUrl={siteConfig.signupUrl}
       />
     </>

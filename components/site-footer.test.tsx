@@ -33,4 +33,21 @@ describe("SiteFooter", () => {
       within(footer).queryByRole("link", { name: "Security" }),
     ).not.toBeInTheDocument();
   });
+
+  it("can hide the final marketing CTA", () => {
+    render(
+      <SiteFooter
+        githubUrl="https://github.com/danielpang/bento"
+        showFinalCta={false}
+        signupUrl={null}
+      />,
+    );
+
+    expect(
+      screen.queryByRole("heading", {
+        name: "Give every feature a clear next step.",
+      }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole("contentinfo")).toBeInTheDocument();
+  });
 });

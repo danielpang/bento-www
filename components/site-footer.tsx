@@ -6,37 +6,44 @@ import { Reveal } from "./reveal";
 interface SiteFooterProps {
   githubUrl: string | null;
   signupUrl: string | null;
+  showFinalCta?: boolean;
 }
 
-export function SiteFooter({ githubUrl, signupUrl }: SiteFooterProps) {
+export function SiteFooter({
+  githubUrl,
+  signupUrl,
+  showFinalCta = true,
+}: SiteFooterProps) {
   return (
     <>
-      <section className="final-cta">
-        <Reveal className="site-shell final-cta-inner">
-          <div>
-            <h2>Give every feature a clear next step.</h2>
-            <p>
-              Start with manual gates. Automate each stage when the work
-              earns your trust.
-            </p>
-          </div>
-          <div className="final-cta-actions">
-            <CtaLink href={signupUrl}>
-              Sign up
-              <ArrowUpRight aria-hidden="true" size={16} weight="bold" />
-            </CtaLink>
-            <CtaLink
-              href={githubUrl}
-              rel="noreferrer"
-              target="_blank"
-              variant="secondary"
-            >
-              <GithubLogo aria-hidden="true" size={17} weight="fill" />
-              GitHub
-            </CtaLink>
-          </div>
-        </Reveal>
-      </section>
+      {showFinalCta ? (
+        <section className="final-cta">
+          <Reveal className="site-shell final-cta-inner">
+            <div>
+              <h2>Give every feature a clear next step.</h2>
+              <p>
+                Start with manual gates. Automate each stage when the work
+                earns your trust.
+              </p>
+            </div>
+            <div className="final-cta-actions">
+              <CtaLink href={signupUrl}>
+                Sign up
+                <ArrowUpRight aria-hidden="true" size={16} weight="bold" />
+              </CtaLink>
+              <CtaLink
+                href={githubUrl}
+                rel="noreferrer"
+                target="_blank"
+                variant="secondary"
+              >
+                <GithubLogo aria-hidden="true" size={17} weight="fill" />
+                GitHub
+              </CtaLink>
+            </div>
+          </Reveal>
+        </section>
+      ) : null}
       <footer className="site-footer">
         <div className="site-shell footer-inner">
           <BrandLockup />
