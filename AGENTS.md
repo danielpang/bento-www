@@ -9,4 +9,4 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Package manager: `pnpm` (lockfile committed). Install with `pnpm install --frozen-lockfile`.
 - Dev server: `pnpm dev` on port 3000 (started via the configured cloud terminal).
 - Checks before finishing work: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.
-- Public site URLs live in committed `.env` / `.env.example` (`NEXT_PUBLIC_SIGNUP_URL`, `NEXT_PUBLIC_GITHUB_URL`, `NEXT_PUBLIC_SITE_URL`). Override locally with `.env.local` if needed.
+- Copy `.env.example` to `.env.local` for local runs (`NEXT_PUBLIC_SIGNUP_URL`, `NEXT_PUBLIC_GITHUB_URL`, `NEXT_PUBLIC_SITE_URL`). The cloud install script does this automatically when `.env.local` is missing.
