@@ -19,8 +19,8 @@ describe("Bento landing page", () => {
       screen.getByRole("heading", { name: "Different agents. One handoff." }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "From idea to pull request." }),
-    ).toBeInTheDocument();
+      screen.queryByRole("heading", { name: "From idea to pull request." }),
+    ).not.toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "The sandbox is the boundary." }),
     ).toBeInTheDocument();
