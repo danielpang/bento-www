@@ -1,5 +1,4 @@
 import { ArrowUpRight, GithubLogo } from "@phosphor-icons/react/dist/ssr";
-import Link from "next/link";
 import { BrandLockup } from "./brand-lockup";
 import { CtaLink } from "./cta-link";
 import { Reveal } from "./reveal";
@@ -55,8 +54,12 @@ export function SiteFooter({ githubUrl, signupUrl }: SiteFooterProps) {
             <CtaLink href={licenseUrl} variant="quiet">
               License
             </CtaLink>
-            <Link href="/#security">Security</Link>
-            <Link href="/accessibility">Accessibility</Link>
+            <CtaLink href="/#security" variant="quiet">
+              Security
+            </CtaLink>
+            <CtaLink href="/accessibility" variant="quiet">
+              Accessibility
+            </CtaLink>
           </nav>
           <p>Built for teams that want agents moving and humans steering.</p>
         </div>
