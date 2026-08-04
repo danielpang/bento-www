@@ -3,14 +3,24 @@ import { describe, expect, it } from "vitest";
 import { LifecycleSection } from "./lifecycle-section";
 
 describe("LifecycleSection", () => {
-  it("preserves the semantic lifecycle order with sequence markers", () => {
+  it("explains that the displayed pipeline is configurable", () => {
     render(<LifecycleSection />);
 
+    const heading = screen.getByRole("heading", {
+      name: "Every feature has a route.",
+    });
+    const sectionHeading = heading.closest(".section-heading");
+
+    expect(sectionHeading).not.toBeNull();
     expect(
-      screen.getByText(
+      within(sectionHeading as HTMLElement).getByText(
         "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
       ),
     ).toBeInTheDocument();
+  });
+
+  it("preserves the semantic lifecycle order with sequence markers", () => {
+    render(<LifecycleSection />);
 
     const lifecycle = screen.getByRole("list", {
       name: "Default product lifecycle",
