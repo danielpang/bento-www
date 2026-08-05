@@ -26,8 +26,8 @@ export default function Home() {
                 <span>whole lifecycle</span>
               </h1>
               <p>
-                Coordinate coding agents through every product stage, then
-                step in only when your judgment is needed.
+                Build features by coordinating agents across your development
+                pipeline, step in when your judgment is needed.
               </p>
               <div className="hero-actions">
                 <CtaLink href={siteConfig.signupUrl}>

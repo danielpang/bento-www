@@ -13,6 +13,11 @@ describe("Bento landing page", () => {
       }),
     ).toBeInTheDocument();
     expect(
+      screen.getByText(
+        "Build features by coordinating agents across your development pipeline, step in when your judgment is needed.",
+      ),
+    ).toBeInTheDocument();
+    expect(
       screen.getByRole("heading", { name: "Every feature has a route." }),
     ).toBeInTheDocument();
     expect(
