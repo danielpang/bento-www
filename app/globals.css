@@ -787,7 +787,7 @@ main {
 }
 
 .lifecycle-shell {
-  width: 100%;
+  width: min(100% - 40px, 1400px);
 }
 
 .lifecycle-heading {
@@ -1240,7 +1240,6 @@ main {
 }
 
 .tool-list {
-  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
@@ -1880,6 +1879,7 @@ main {
     position: sticky;
     display: flex;
     height: calc(100vh - 68px);
+    align-items: flex-start;
     padding-block: 14px;
   }
 

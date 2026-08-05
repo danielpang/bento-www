@@ -22,6 +22,7 @@ describe("HandoffSection", () => {
     const logos = agentList.querySelectorAll("svg.agent-logo");
 
     expect(logos).toHaveLength(5);
+    expect(agentList.querySelector(".agent-relay-line")).toBeNull();
     for (const logo of logos) {
       expect(logo).toHaveAttribute("aria-hidden", "true");
       expect(logo).toHaveAttribute("fill", "currentColor");
