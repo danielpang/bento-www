@@ -23,7 +23,7 @@ export default function Home() {
             <div className="hero-copy">
               <h1>
                 <span>See the</span>{" "}
-                <span>whole build.</span>
+                <span>whole lifecycle</span>
               </h1>
               <p>
                 Coordinate coding agents through every product stage, then
