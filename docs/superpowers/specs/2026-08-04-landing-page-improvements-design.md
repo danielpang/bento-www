@@ -25,6 +25,10 @@ reduced motion is requested, reset the feature to the first stage and do not
 animate the lane strip. Recalculate the clamped alignment whenever the carousel
 resizes.
 
+On mobile, reduce pipeline lane width and height, card minimum height, padding,
+and gaps so the demo uses less vertical and horizontal space while preserving
+readable labels and clamped carousel behavior.
+
 ## Lifecycle section
 
 Replace the horizontally scrolling lifecycle track with a responsive card grid. The six lifecycle stages remain in their current order and keep their existing names, descriptions, and icons.
@@ -42,6 +46,8 @@ Replace the horizontally scrolling lifecycle track with a responsive card grid. 
 - The section introduction explicitly identifies the displayed lifecycle as
   one example and tells users they can define any pipeline that fits their
   team.
+- On mobile, each card places its icon, title, and sequence number on one row,
+  with the description aligned beneath the title.
 
 ## Pull request section
 

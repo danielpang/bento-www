@@ -386,3 +386,63 @@ Manually verify:
 - the full pipeline frame stays visible on desktop and mobile;
 - reduced-motion activation resets to stage one and remains stationary;
 - resize and breakpoint changes immediately preserve clamped alignment.
+
+### Task 8: Condense mobile lifecycle and pipeline cards
+
+**Files:**
+- Modify: `app/globals.css`
+
+**Interfaces:**
+- Desktop and tablet lifecycle layouts remain unchanged.
+- Mobile lifecycle cards keep the existing semantic order and content.
+- The hero carousel keeps its clamped 2500ms progression behavior.
+
+- [ ] **Step 1: Capture failing mobile measurements**
+
+At `390x844`, record the current lifecycle card height, pipeline lane width,
+pipeline lane height, and live pipeline card height. Confirm the current layout
+does not place icon, title, and number on one row.
+
+- [ ] **Step 2: Create the mobile lifecycle row**
+
+At `520px` and below, make each lifecycle list item a grid:
+
+```css
+grid-template-columns: 32px minmax(0, 1fr) auto;
+grid-template-areas:
+  "icon title step"
+  ". copy .";
+```
+
+Use `18px` card padding, `12px` column gaps, and `6px` row gaps. Place the
+icon, heading, step number, and description in their named areas. Make the step
+number static, reduce the icon to `32px`, remove its bottom margin, remove the
+description top margin, and allow the title to use its available width.
+
+- [ ] **Step 3: Condense the mobile hero pipeline**
+
+At `520px` and below:
+
+- set `--pipeline-lane-width` to
+  `min(180px, calc(100vw - 56px))`;
+- reduce lane minimum height to `280px`;
+- reduce header minimum height to `60px` with `8px` padding;
+- reduce agent top margin to `6px` and font size to `9px`;
+- reduce cards-area minimum height to `220px`, padding to `6px`, and gap to
+  `6px`;
+- reduce pipeline card minimum height to `66px`, padding to `8px`, and gap to
+  `6px`;
+- reduce pipeline card title text to `10px`.
+
+- [ ] **Step 4: Verify mobile behavior**
+
+At `390x844` and `320x700`, confirm:
+
+- lifecycle icon, title, and number share one row;
+- the description aligns beneath the title;
+- all card text remains readable without overlap or clipping;
+- pipeline lanes and cards use the exact compact dimensions;
+- first/intermediate/final carousel alignment still clamps correctly;
+- no visible horizontal scrollbar or document-level overflow appears.
+
+Run lint, typecheck, the full test suite, and the production build.
