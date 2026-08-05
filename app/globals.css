@@ -1263,68 +1263,9 @@ main {
 }
 
 .tool-list code {
-  position: relative;
-  z-index: 1;
   gap: 10px;
   color: var(--text);
   font-weight: 560;
-  animation: agent-relay-drift 5.8s ease-in-out infinite;
-  animation-delay: calc(var(--agent-index) * -0.72s);
-}
-
-.agent-relay-line {
-  position: absolute;
-  top: 50%;
-  right: 12%;
-  left: 12%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in srgb, var(--brand) 44%, var(--line)),
-    transparent
-  );
-}
-
-.agent-relay-line::after {
-  position: absolute;
-  top: -3px;
-  left: 0;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--brand);
-  box-shadow: 0 0 0 5px color-mix(in srgb, var(--brand) 13%, transparent);
-  content: "";
-  animation: agent-relay-pulse 5.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-@keyframes agent-relay-drift {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-@keyframes agent-relay-pulse {
-  0% {
-    left: 0;
-    opacity: 0;
-  }
-
-  12%,
-  88% {
-    opacity: 1;
-  }
-
-  100% {
-    left: calc(100% - 7px);
-    opacity: 0;
-  }
 }
 
 .agent-logo {
@@ -1922,11 +1863,6 @@ main {
     grid-column: 1;
     grid-row: auto;
     min-height: 330px;
-  }
-
-  .tool-list code,
-  .agent-relay-line::after {
-    animation: none;
   }
 
   .final-cta-inner {
