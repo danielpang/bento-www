@@ -6,10 +6,12 @@ import {
   Code,
   GitPullRequest,
   PaintBrush,
+  Pause,
+  Play,
   Ruler,
 } from "@phosphor-icons/react";
 import { LayoutGroup, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const stages = [
   {
@@ -74,14 +76,71 @@ const settledCards: Record<
 export function PipelineDemo() {
   const reduceMotion = useReducedMotion();
   const [activeStage, setActiveStage] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [previousReduceMotion, setPreviousReduceMotion] =
+    useState(reduceMotion);
+  const boardRef = useRef<HTMLDivElement>(null);
+  const laneRefs = useRef<(HTMLElement | null)[]>([]);
+  const activeStageRef = useRef(activeStage);
+  const reduceMotionRef = useRef(reduceMotion);
+
+  if (reduceMotion !== previousReduceMotion) {
+    setPreviousReduceMotion(reduceMotion);
+    if (reduceMotion) setActiveStage(0);
+  }
 
   useEffect(() => {
-    if (reduceMotion) return;
-    const timer = window.setTimeout(() => {
-      setActiveStage(1);
-    }, 3000);
-    return () => window.clearTimeout(timer);
-  }, [reduceMotion]);
+    activeStageRef.current = activeStage;
+    reduceMotionRef.current = reduceMotion;
+  }, [activeStage, reduceMotion]);
+
+  useEffect(() => {
+    if (reduceMotion || isPaused) return;
+    const timer = window.setInterval(() => {
+      setActiveStage((stage) => (stage + 1) % stages.length);
+    }, 2500);
+    return () => window.clearInterval(timer);
+  }, [isPaused, reduceMotion]);
+
+  const centerActiveLane = useCallback(() => {
+    const board = boardRef.current;
+    const lane = laneRefs.current[activeStageRef.current];
+
+    if (!board || !lane) return;
+
+    const centeredLeft =
+      lane.offsetLeft + lane.offsetWidth / 2 - board.clientWidth / 2;
+    const maximumLeft = Math.max(0, board.scrollWidth - board.clientWidth);
+
+    board.scrollTo?.({
+      behavior: reduceMotionRef.current ? "instant" : "smooth",
+      left: Math.min(maximumLeft, Math.max(0, centeredLeft)),
+    });
+  }, []);
+
+  useEffect(() => {
+    centerActiveLane();
+  }, [activeStage, centerActiveLane, reduceMotion]);
+
+  useEffect(() => {
+    const board = boardRef.current;
+
+    if (!board || typeof ResizeObserver === "undefined") return;
+
+    const observer = new ResizeObserver(centerActiveLane);
+    observer.observe(board);
+    laneRefs.current.forEach((lane) => {
+      if (lane) observer.observe(lane);
+    });
+
+    return () => observer.disconnect();
+  }, [centerActiveLane]);
+
+  const togglePaused = () => {
+    setIsPaused((paused) => !paused);
+  };
+
+  const AnimationIcon = isPaused ? Play : Pause;
 
   return (
     <section
@@ -91,17 +150,34 @@ export function PipelineDemo() {
       <h2 className="sr-only" id="live-pipeline-title">
         Live feature pipeline
       </h2>
-      <div className="pipeline-window-bar" aria-hidden="true">
-        <span>Bento</span>
-        <span>Payments platform</span>
-        <span>Live</span>
+      <div className="pipeline-window-bar">
+        <span aria-hidden="true">Bento</span>
+        <span aria-hidden="true">Payments platform</span>
+        <div className="pipeline-window-status">
+          <span aria-hidden="true">Live</span>
+          <button
+            aria-label={`${isPaused ? "Play" : "Pause"} pipeline animation`}
+            className="pipeline-animation-control"
+            onClick={togglePaused}
+            type="button"
+          >
+            <AnimationIcon aria-hidden="true" size={11} weight="bold" />
+            <span aria-hidden="true">{isPaused ? "Play" : "Pause"}</span>
+          </button>
+        </div>
       </div>
       <LayoutGroup>
-        <div className="pipeline-board">
+        <div className="pipeline-board" ref={boardRef}>
           {stages.map((stage, index) => {
             const Icon = stage.icon;
             return (
-              <section className="pipeline-lane" key={stage.name}>
+              <section
+                className="pipeline-lane"
+                key={stage.name}
+                ref={(lane) => {
+                  laneRefs.current[index] = lane;
+                }}
+              >
                 <header className="pipeline-lane-header">
                   <div className="pipeline-lane-title">
                     <span className="pipeline-ordinal">
@@ -155,7 +231,7 @@ export function PipelineDemo() {
           })}
         </div>
       </LayoutGroup>
-      <p aria-live="polite" className="sr-only">
+      <p aria-atomic="true" aria-live="polite" className="sr-only">
         Checkout recovery is in {stages[activeStage]?.name}.
       </p>
     </section>

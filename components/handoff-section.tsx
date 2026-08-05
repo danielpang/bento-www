@@ -3,15 +3,16 @@ import {
   GitBranch,
   TerminalWindow,
 } from "@phosphor-icons/react/dist/ssr";
+import { AgentLogo, type AgentName } from "./agent-logo";
 import { Reveal } from "./reveal";
 
 const agentTools = [
   "Claude Code",
   "Codex CLI",
   "Cursor CLI",
-  "opencode",
-  "pi",
-];
+  "OpenCode",
+  "Pi",
+] as const satisfies readonly AgentName[];
 
 export function HandoffSection() {
   return (
@@ -34,7 +35,10 @@ export function HandoffSection() {
             <p>Every stage pairs a coding tool with a model and a skill.</p>
             <div aria-label="Supported coding agents" className="tool-list">
               {agentTools.map((tool) => (
-                <code key={tool}>{tool}</code>
+                <code key={tool}>
+                  <AgentLogo agent={tool} className="agent-logo" />
+                  <span>{tool}</span>
+                </code>
               ))}
             </div>
           </Reveal>

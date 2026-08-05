@@ -4,7 +4,6 @@ import { GateDemo } from "@/components/gate-demo";
 import { HandoffSection } from "@/components/handoff-section";
 import { LifecycleSection } from "@/components/lifecycle-section";
 import { PipelineDemo } from "@/components/pipeline-demo";
-import { PullRequestSection } from "@/components/pull-request-section";
 import { Reveal } from "@/components/reveal";
 import { SecuritySection } from "@/components/security-section";
 import { SiteFooter } from "@/components/site-footer";
@@ -81,7 +80,6 @@ export default function Home() {
         </section>
 
         <HandoffSection />
-        <PullRequestSection />
         <SecuritySection />
       </main>
       <SiteFooter

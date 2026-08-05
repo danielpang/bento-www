@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Brain,
   CheckCircle,
@@ -5,70 +7,285 @@ import {
   GitPullRequest,
   PaintBrush,
   Ruler,
-} from "@phosphor-icons/react/dist/ssr";
-import { Reveal } from "./reveal";
+} from "@phosphor-icons/react";
+import { motion, useReducedMotion } from "motion/react";
+import type { CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const lifecycle = [
   {
-    copy: "Investigate the problem before work begins.",
+    agent: "Research agent exploring",
+    copy: "Research the product surface, reproduce the behavior, and turn scattered context into a clear opportunity.",
+    eyebrow: "A pipeline shaped by your team",
+    headline: "Understand the problem before touching the code.",
+    heading: "Every feature has a route.",
     icon: Brain,
     name: "Product investigation",
+    phase: "Discover",
+    shortName: "Investigate",
+    summary:
+      "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
   },
   {
-    copy: "Turn findings into a deliberate interaction.",
+    agent: "Design agent shaping",
+    copy: "Translate the findings into flows, interfaces, and decisions the whole team can inspect.",
+    eyebrow: "Design the interaction",
+    headline: "Turn findings into a deliberate experience.",
+    heading: "Shape the experience.",
     icon: PaintBrush,
     name: "UI/UX design",
+    phase: "Shape",
+    shortName: "Design",
+    summary:
+      "The route keeps product context attached while the experience takes shape.",
   },
   {
-    copy: "Lock the system shape and acceptance criteria.",
+    agent: "Planning agent structuring",
+    copy: "Map the system, define acceptance criteria, and give the implementation agent the context it needs.",
+    eyebrow: "The route comes alive",
+    headline: "Turn intent into an executable plan.",
+    heading: "Every stage tells the next chapter.",
     icon: Ruler,
     name: "Engineering requirements",
+    phase: "Define",
+    shortName: "Requirements",
+    summary:
+      "The route fills as decisions become a buildable, reviewable engineering plan.",
   },
   {
-    copy: "Build inside the feature's isolated workspace.",
+    agent: "Coding agent building",
+    copy: "Work inside an isolated branch with the requirements, skills, and repository rules already in context.",
+    eyebrow: "Move from plan to product",
+    headline: "Build with every prior decision in reach.",
+    heading: "Turn intent into working software.",
     icon: Code,
     name: "Implementation",
+    phase: "Build",
+    shortName: "Build",
+    summary:
+      "Implementation stays connected to the product and engineering decisions that shaped it.",
   },
   {
-    copy: "Review the branch against every prior decision.",
+    agent: "Review agent checking",
+    copy: "Inspect the branch against the plan, the intended experience, and every decision made along the route.",
+    eyebrow: "Validate every decision",
+    headline: "Review more than the final diff.",
+    heading: "Review the whole story.",
     icon: GitPullRequest,
     name: "Code review",
+    phase: "Review",
+    shortName: "Review",
+    summary:
+      "Reviewers inherit the full story instead of reconstructing intent from code alone.",
   },
   {
-    copy: "Prove the feature works before it is done.",
+    agent: "QA agent verifying",
+    copy: "Exercise the experience end-to-end, capture proof, and leave the feature ready for a confident review.",
+    eyebrow: "One route, fully visible",
+    headline: "Close the route with evidence.",
+    heading: "From question to confidence.",
     icon: CheckCircle,
     name: "Quality engineering",
+    phase: "Verify",
+    shortName: "Quality",
+    summary:
+      "The completed route becomes a record of how the feature moved from question to verified software.",
   },
 ];
 
+type ScrollStageInput = {
+  sectionHeight: number;
+  sectionTop: number;
+  stageCount: number;
+  viewportHeight: number;
+};
+
+export function getLifecycleStageFromScroll({
+  sectionHeight,
+  sectionTop,
+  stageCount,
+  viewportHeight,
+}: ScrollStageInput) {
+  const scrollableDistance = Math.max(sectionHeight - viewportHeight, 1);
+  const progress = Math.min(
+    1,
+    Math.max(0, -sectionTop / scrollableDistance),
+  );
+
+  return Math.round(progress * Math.max(stageCount - 1, 0));
+}
+
 export function LifecycleSection() {
+  const reduceMotion = useReducedMotion();
+  const [activeStage, setActiveStage] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const displayedStage = reduceMotion ? 0 : activeStage;
+  const stage = lifecycle[displayedStage] ?? lifecycle[0];
+
+  useEffect(() => {
+    if (reduceMotion) return;
+
+    let animationFrame = 0;
+
+    const updateActiveStage = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+
+      const bounds = section.getBoundingClientRect();
+      const nextStage = getLifecycleStageFromScroll({
+        sectionHeight: bounds.height,
+        sectionTop: bounds.top,
+        stageCount: lifecycle.length,
+        viewportHeight: window.innerHeight,
+      });
+
+      setActiveStage((currentStage) =>
+        currentStage === nextStage ? currentStage : nextStage,
+      );
+    };
+
+    const scheduleUpdate = () => {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = window.requestAnimationFrame(updateActiveStage);
+    };
+
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    scheduleUpdate();
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, [reduceMotion]);
+
+  const renderStageContent = (
+    item: (typeof lifecycle)[number],
+    index: number,
+  ) => {
+    const Icon = item.icon;
+
+    return (
+      <>
+        <div className="lifecycle-number-panel">
+          <span aria-hidden="true" className="lifecycle-giant-number">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <span className="lifecycle-phase">{item.phase}</span>
+          <h3>{item.name}</h3>
+        </div>
+        <div className="lifecycle-stage-story">
+          <div>
+            <h4>{item.headline}</h4>
+            <p>{item.copy}</p>
+            <span className="lifecycle-agent-status">
+              <i aria-hidden="true" />
+              {item.agent}
+            </span>
+          </div>
+          <div aria-hidden="true" className="lifecycle-stage-art">
+            <span className="lifecycle-art-icon">
+              <Icon size={22} weight="duotone" />
+            </span>
+            <span className="lifecycle-art-card">
+              <i />
+              <i />
+              <i />
+            </span>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
-    <section className="section lifecycle-section" id="product">
-      <div className="site-shell">
-        <Reveal className="section-heading">
-          <h2>Every feature has a route.</h2>
-          <p>
-            Give each stage an agent, a skill, and a clear rule for what
-            happens next.
-          </p>
-        </Reveal>
-        <ol aria-label="Default product lifecycle" className="lifecycle-track">
-          {lifecycle.map((stage, index) => {
-            const Icon = stage.icon;
-            return (
-              <li key={stage.name}>
-                <span className="lifecycle-icon">
-                  <Icon aria-hidden="true" size={20} weight="duotone" />
-                </span>
-                <h3>{stage.name}</h3>
-                <p>{stage.copy}</p>
-                {index < lifecycle.length - 1 && (
-                  <span aria-hidden="true" className="lifecycle-connector" />
-                )}
-              </li>
-            );
-          })}
-        </ol>
+    <section
+      className="section lifecycle-section"
+      id="product"
+      ref={sectionRef}
+    >
+      <div className="lifecycle-scroll-scene">
+        <div className="lifecycle-sticky">
+          <div className="site-shell lifecycle-shell">
+            <header className="lifecycle-heading">
+              <div>
+                <span className="lifecycle-eyebrow">{stage.eyebrow}</span>
+                <h2>{stage.heading}</h2>
+              </div>
+              <p>{stage.summary}</p>
+            </header>
+
+            {reduceMotion ? (
+              <ol
+                aria-label="Complete product lifecycle"
+                className="lifecycle-static-route"
+              >
+                {lifecycle.map((item, index) => (
+                  <li key={item.name}>
+                    {renderStageContent(item, index)}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <div className="lifecycle-desktop-route">
+                  <ol
+                    aria-label="Default product lifecycle"
+                    className="lifecycle-track"
+                    style={
+                      {
+                        "--lifecycle-progress":
+                          activeStage / (lifecycle.length - 1),
+                      } as CSSProperties
+                    }
+                  >
+                    {lifecycle.map((item, index) => (
+                      <li
+                        aria-current={
+                          activeStage === index ? "step" : undefined
+                        }
+                        className={
+                          index < activeStage
+                            ? "is-complete"
+                            : activeStage === index
+                              ? "is-active"
+                              : undefined
+                        }
+                        key={item.name}
+                      >
+                        <span aria-hidden="true" className="lifecycle-step">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="lifecycle-stage-name">
+                          {item.name}
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+
+                  <motion.article
+                    animate={{ opacity: 1, y: 0 }}
+                    aria-label="Active lifecycle stage"
+                    className="lifecycle-active-stage"
+                    initial={{ opacity: 0, y: 12 }}
+                    key={stage.name}
+                    role="group"
+                    transition={{
+                      duration: 0.32,
+                      ease: [0.2, 0, 0, 1],
+                    }}
+                  >
+                    {renderStageContent(stage, activeStage)}
+                  </motion.article>
+                </div>
+            )}
+
+            <p aria-atomic="true" aria-live="polite" className="sr-only">
+              Stage {displayedStage + 1} of {lifecycle.length}: {stage.name}.{" "}
+              {stage.headline}
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
