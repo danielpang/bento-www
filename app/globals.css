@@ -1625,6 +1625,40 @@ main {
     width: min(100% - 28px, 1400px);
   }
 
+  .pipeline-board {
+    --pipeline-lane-width: min(180px, calc(100vw - 56px));
+  }
+
+  .pipeline-lane {
+    min-height: 280px;
+  }
+
+  .pipeline-lane-header {
+    min-height: 60px;
+    padding: 8px;
+  }
+
+  .pipeline-agent {
+    margin-top: 6px;
+    font-size: 9px;
+  }
+
+  .pipeline-cards {
+    gap: 6px;
+    min-height: 220px;
+    padding: 6px;
+  }
+
+  .pipeline-card {
+    gap: 6px;
+    min-height: 66px;
+    padding: 8px;
+  }
+
+  .pipeline-card strong {
+    font-size: 10px;
+  }
+
   .hero {
     padding-block: 54px 68px;
   }
@@ -1668,6 +1702,39 @@ main {
 
   .lifecycle-track {
     grid-template-columns: 1fr;
+  }
+
+  .lifecycle-track li {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "icon title step"
+      ". copy .";
+    column-gap: 12px;
+    row-gap: 6px;
+    padding: 18px;
+  }
+
+  .lifecycle-icon {
+    grid-area: icon;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 0;
+  }
+
+  .lifecycle-track h3 {
+    grid-area: title;
+    max-width: none;
+  }
+
+  .lifecycle-step {
+    position: static;
+    grid-area: step;
+  }
+
+  .lifecycle-track p {
+    grid-area: copy;
+    margin-top: 0;
   }
 
   .gate-window-header {
