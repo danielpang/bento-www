@@ -139,6 +139,23 @@ describe("LifecycleSection", () => {
     expect(activeStage).toHaveAttribute("aria-current", "step");
   });
 
+  it("uses one pinned stage panel for desktop and mobile", () => {
+    const view = render(<LifecycleSection />);
+
+    expect(
+      screen.getByRole("list", { name: "Default product lifecycle" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("group", { name: "Active lifecycle stage" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("list", { name: "Product lifecycle on mobile" }),
+    ).not.toBeInTheDocument();
+    expect(
+      view.container.querySelectorAll(".lifecycle-active-stage"),
+    ).toHaveLength(1);
+  });
+
   it("keeps every stage readable without scroll animation for reduced motion", () => {
     motionPreference.value = true;
 

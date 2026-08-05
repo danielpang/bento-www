@@ -3,6 +3,7 @@ import {
   GitBranch,
   TerminalWindow,
 } from "@phosphor-icons/react/dist/ssr";
+import type { CSSProperties } from "react";
 import { AgentLogo, type AgentName } from "./agent-logo";
 import { Reveal } from "./reveal";
 
@@ -34,8 +35,12 @@ export function HandoffSection() {
             <h3>Use the agents you already trust</h3>
             <p>Every stage pairs a coding tool with a model and a skill.</p>
             <div aria-label="Supported coding agents" className="tool-list">
-              {agentTools.map((tool) => (
-                <code key={tool}>
+              <span aria-hidden="true" className="agent-relay-line" />
+              {agentTools.map((tool, index) => (
+                <code
+                  key={tool}
+                  style={{ "--agent-index": index } as CSSProperties}
+                >
                   <AgentLogo agent={tool} className="agent-logo" />
                   <span>{tool}</span>
                 </code>

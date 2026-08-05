@@ -115,33 +115,10 @@ export function getLifecycleStageFromScroll({
   return Math.round(progress * Math.max(stageCount - 1, 0));
 }
 
-function getClosestMobileStage(
-  stages: (HTMLLIElement | null)[],
-  viewportHeight: number,
-) {
-  const viewportCenter = viewportHeight / 2;
-  let closestIndex = 0;
-  let closestDistance = Number.POSITIVE_INFINITY;
-
-  stages.forEach((stage, index) => {
-    if (!stage) return;
-    const bounds = stage.getBoundingClientRect();
-    const distance = Math.abs(bounds.top + bounds.height / 2 - viewportCenter);
-
-    if (distance < closestDistance) {
-      closestDistance = distance;
-      closestIndex = index;
-    }
-  });
-
-  return closestIndex;
-}
-
 export function LifecycleSection() {
   const reduceMotion = useReducedMotion();
   const [activeStage, setActiveStage] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
-  const mobileStageRefs = useRef<(HTMLLIElement | null)[]>([]);
   const displayedStage = reduceMotion ? 0 : activeStage;
   const stage = lifecycle[displayedStage] ?? lifecycle[0];
 
@@ -154,15 +131,13 @@ export function LifecycleSection() {
       const section = sectionRef.current;
       if (!section) return;
 
-      const isMobile = window.matchMedia("(max-width: 700px)").matches;
-      const nextStage = isMobile
-        ? getClosestMobileStage(mobileStageRefs.current, window.innerHeight)
-        : getLifecycleStageFromScroll({
-            sectionHeight: section.getBoundingClientRect().height,
-            sectionTop: section.getBoundingClientRect().top,
-            stageCount: lifecycle.length,
-            viewportHeight: window.innerHeight,
-          });
+      const bounds = section.getBoundingClientRect();
+      const nextStage = getLifecycleStageFromScroll({
+        sectionHeight: bounds.height,
+        sectionTop: bounds.top,
+        stageCount: lifecycle.length,
+        viewportHeight: window.innerHeight,
+      });
 
       setActiveStage((currentStage) =>
         currentStage === nextStage ? currentStage : nextStage,
@@ -253,8 +228,7 @@ export function LifecycleSection() {
                 ))}
               </ol>
             ) : (
-              <>
-                <div className="lifecycle-desktop-route">
+              <div className="lifecycle-desktop-route">
                   <ol
                     aria-label="Default product lifecycle"
                     className="lifecycle-track"
@@ -304,28 +278,6 @@ export function LifecycleSection() {
                     {renderStageContent(stage, activeStage)}
                   </motion.article>
                 </div>
-
-                <ol
-                  aria-label="Product lifecycle on mobile"
-                  className="lifecycle-mobile-route"
-                >
-                  {lifecycle.map((item, index) => (
-                    <li
-                      aria-current={activeStage === index ? "step" : undefined}
-                      className={activeStage === index ? "is-active" : undefined}
-                      key={item.name}
-                      ref={(node) => {
-                        mobileStageRefs.current[index] = node;
-                      }}
-                    >
-                      <span aria-hidden="true" className="lifecycle-mobile-node">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <article>{renderStageContent(item, index)}</article>
-                    </li>
-                  ))}
-                </ol>
-              </>
             )}
 
             <p aria-atomic="true" aria-live="polite" className="sr-only">

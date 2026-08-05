@@ -1169,7 +1169,7 @@ main {
 .handoff-cell {
   position: relative;
   display: flex;
-  min-height: 290px;
+  min-height: 380px;
   flex-direction: column;
   align-items: flex-start;
   overflow: hidden;
@@ -1197,6 +1197,11 @@ main {
   line-height: 1.6;
 }
 
+.handoff-artifact h3,
+.handoff-repos h3 {
+  font-size: clamp(1.35rem, 1.8vw, 1.7rem);
+}
+
 .cell-icon {
   display: grid;
   width: 42px;
@@ -1208,9 +1213,7 @@ main {
 }
 
 .handoff-tools {
-  grid-column: span 7;
-  grid-row: span 2;
-  min-height: 594px;
+  grid-column: span 6;
   background:
     linear-gradient(
       145deg,
@@ -1221,7 +1224,7 @@ main {
 
 .handoff-artifact,
 .handoff-repos {
-  grid-column: span 5;
+  grid-column: span 3;
 }
 
 .handoff-artifact {
@@ -1237,11 +1240,12 @@ main {
 }
 
 .tool-list {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   width: 100%;
-  margin-top: auto;
+  margin-top: 30px;
 }
 
 .tool-list code,
@@ -1259,9 +1263,68 @@ main {
 }
 
 .tool-list code {
+  position: relative;
+  z-index: 1;
   gap: 10px;
   color: var(--text);
   font-weight: 560;
+  animation: agent-relay-drift 5.8s ease-in-out infinite;
+  animation-delay: calc(var(--agent-index) * -0.72s);
+}
+
+.agent-relay-line {
+  position: absolute;
+  top: 50%;
+  right: 12%;
+  left: 12%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--brand) 44%, var(--line)),
+    transparent
+  );
+}
+
+.agent-relay-line::after {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--brand) 13%, transparent);
+  content: "";
+  animation: agent-relay-pulse 5.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes agent-relay-drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes agent-relay-pulse {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+
+  12%,
+  88% {
+    opacity: 1;
+  }
+
+  100% {
+    left: calc(100% - 7px);
+    opacity: 0;
+  }
 }
 
 .agent-logo {
@@ -1861,6 +1924,11 @@ main {
     min-height: 330px;
   }
 
+  .tool-list code,
+  .agent-relay-line::after {
+    animation: none;
+  }
+
   .final-cta-inner {
     grid-template-columns: 1fr;
     align-items: start;
@@ -1869,14 +1937,14 @@ main {
 
 @media (max-width: 700px) {
   .lifecycle-scroll-scene {
-    height: auto;
+    height: 420vh;
   }
 
   .lifecycle-sticky {
-    position: static;
-    display: block;
-    height: auto;
-    padding-block: 0;
+    position: sticky;
+    display: flex;
+    height: calc(100vh - 68px);
+    padding-block: 14px;
   }
 
   .lifecycle-shell {
@@ -1884,146 +1952,134 @@ main {
   }
 
   .lifecycle-heading {
-    position: sticky;
-    z-index: 8;
-    top: 68px;
+    position: static;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 9px;
-    min-height: 168px;
-    align-content: center;
-    padding-block: 20px;
-    border-bottom: 1px solid var(--line);
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
-    backdrop-filter: blur(16px) saturate(135%);
+    gap: 7px;
+    min-height: 0;
+    padding-block: 0;
+    border-bottom: 0;
+    background: transparent;
+    backdrop-filter: none;
   }
 
   .lifecycle-heading h2 {
     max-width: 14ch;
-    margin-top: 5px;
-    font-size: clamp(2.15rem, 10vw, 3rem);
+    margin-top: 4px;
+    font-size: clamp(1.95rem, 8.8vw, 2.55rem);
     line-height: 0.98;
   }
 
   .lifecycle-heading > p {
     max-width: 46ch;
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.42;
   }
 
   .lifecycle-desktop-route {
-    display: none;
-  }
-
-  .lifecycle-mobile-route {
-    position: relative;
     display: grid;
-    gap: 0;
-    margin: 34px 0 0;
-    padding: 0 0 42px 44px;
-    list-style: none;
+    grid-template-columns: 34px minmax(0, 1fr);
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 16px;
   }
 
-  .lifecycle-mobile-route::before {
-    position: absolute;
+  .lifecycle-track {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+    min-height: 430px;
+    margin: 0;
+  }
+
+  .lifecycle-track::before,
+  .lifecycle-track::after {
     top: 16px;
-    bottom: 58px;
     left: 15px;
     width: 2px;
-    background: linear-gradient(
-      var(--brand),
-      color-mix(in srgb, var(--brand) 20%, var(--line))
+  }
+
+  .lifecycle-track::before {
+    right: auto;
+    bottom: 16px;
+    height: auto;
+  }
+
+  .lifecycle-track::after {
+    height: calc(
+      (100% - 32px) * var(--lifecycle-progress)
     );
-    content: "";
+    transition: height 320ms cubic-bezier(0.2, 0, 0, 1);
   }
 
-  .lifecycle-mobile-route > li {
-    position: relative;
-    min-height: 58vh;
-    padding-bottom: 52px;
-    opacity: 0.52;
-    transform: translateY(12px);
-    transition:
-      opacity 260ms ease,
-      transform 260ms ease;
+  .lifecycle-track li {
+    align-content: center;
+    justify-items: start;
   }
 
-  .lifecycle-mobile-route > li:last-child {
-    min-height: 0;
-    padding-bottom: 0;
-  }
-
-  .lifecycle-mobile-route > .is-active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .lifecycle-mobile-node {
-    position: absolute;
-    top: 10px;
-    left: -44px;
-    z-index: 1;
-    display: grid;
-    width: 32px;
-    height: 32px;
-    place-items: center;
-    border: 2px solid var(--line-strong);
-    border-radius: 50%;
+  .lifecycle-track .lifecycle-step {
+    width: 30px;
+    height: 30px;
     background: var(--surface);
-    color: var(--text-faint);
-    font-family: var(--font-jetbrains-mono), monospace;
-    font-size: 9px;
-    font-weight: 750;
-    transition:
-      color 220ms ease,
-      border-color 220ms ease,
-      background 220ms ease,
-      box-shadow 220ms ease;
   }
 
-  .lifecycle-mobile-route .is-active .lifecycle-mobile-node {
-    border-color: var(--brand);
-    background: var(--surface-raised);
-    color: var(--brand);
-    box-shadow: 0 0 0 6px color-mix(in srgb, var(--brand) 15%, transparent);
-  }
-
-  .lifecycle-mobile-route article {
+  .lifecycle-stage-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
     overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: calc(var(--radius) * 1.5);
-    background: var(--surface-raised);
-    box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow) 45%, transparent);
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
-  .lifecycle-mobile-route .lifecycle-number-panel {
-    min-height: 108px;
-    padding: 18px 20px;
+  .lifecycle-active-stage {
+    display: flex;
+    min-height: 430px;
+    flex-direction: column;
+  }
+
+  .lifecycle-active-stage .lifecycle-number-panel {
+    min-height: 98px;
+    padding: 16px 18px;
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
 
-  .lifecycle-mobile-route .lifecycle-giant-number {
-    top: -18px;
-    font-size: 82px;
+  .lifecycle-active-stage .lifecycle-giant-number {
+    top: -16px;
+    font-size: 76px;
   }
 
-  .lifecycle-mobile-route .lifecycle-number-panel h3 {
+  .lifecycle-active-stage .lifecycle-number-panel h3 {
+    font-size: 16px;
+  }
+
+  .lifecycle-active-stage .lifecycle-stage-story {
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: 15px;
+    min-height: 0;
+    flex: 1;
+    padding: 18px;
+  }
+
+  .lifecycle-active-stage .lifecycle-stage-story h4 {
     font-size: 18px;
   }
 
-  .lifecycle-mobile-route .lifecycle-stage-story {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 20px;
+  .lifecycle-active-stage .lifecycle-stage-story p {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.45;
   }
 
-  .lifecycle-mobile-route .lifecycle-stage-story h4 {
-    font-size: 19px;
+  .lifecycle-active-stage .lifecycle-agent-status {
+    margin-top: 12px;
+    font-size: 9px;
   }
 
-  .lifecycle-mobile-route .lifecycle-stage-art {
-    height: 90px;
+  .lifecycle-active-stage .lifecycle-stage-art {
+    height: 76px;
   }
 
   .lifecycle-static-route {
@@ -2150,7 +2206,7 @@ main {
   }
 
   .handoff-tools {
-    min-height: 480px;
+    min-height: 390px;
   }
 
   .tool-list,
@@ -2170,6 +2226,35 @@ main {
   .header-actions .cta-link-quiet {
     width: 40px;
     padding: 0;
+  }
+}
+
+@media (max-width: 700px) and (max-height: 760px) {
+  .lifecycle-heading h2 {
+    font-size: 1.8rem;
+  }
+
+  .lifecycle-heading > p {
+    font-size: 11px;
+    line-height: 1.32;
+  }
+
+  .lifecycle-track,
+  .lifecycle-active-stage {
+    min-height: 350px;
+  }
+
+  .lifecycle-active-stage .lifecycle-number-panel {
+    min-height: 84px;
+    padding: 13px 16px;
+  }
+
+  .lifecycle-active-stage .lifecycle-stage-story {
+    padding: 15px;
+  }
+
+  .lifecycle-active-stage .lifecycle-stage-art {
+    display: none;
   }
 }
 

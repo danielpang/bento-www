@@ -49,4 +49,18 @@ describe("HandoffSection", () => {
 
     expect(new Set(pathSignatures).size).toBe(logos.length);
   });
+
+  it("adds a decorative desktop relay without duplicating accessible labels", () => {
+    render(<HandoffSection />);
+
+    const agentList = screen.getByLabelText("Supported coding agents");
+    const relay = agentList.querySelector(".agent-relay-line");
+    const agentItems = agentList.querySelectorAll("code");
+
+    expect(relay).toHaveAttribute("aria-hidden", "true");
+    expect(agentItems).toHaveLength(5);
+    agentItems.forEach((item, index) => {
+      expect(item).toHaveStyle(`--agent-index: ${index}`);
+    });
+  });
 });
