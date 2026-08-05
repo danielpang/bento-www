@@ -142,13 +142,11 @@ export function LifecycleSection() {
   const [activeStage, setActiveStage] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const mobileStageRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const stage = lifecycle[activeStage] ?? lifecycle[0];
+  const displayedStage = reduceMotion ? 0 : activeStage;
+  const stage = lifecycle[displayedStage] ?? lifecycle[0];
 
   useEffect(() => {
-    if (reduceMotion) {
-      setActiveStage(0);
-      return;
-    }
+    if (reduceMotion) return;
 
     let animationFrame = 0;
 
@@ -331,7 +329,7 @@ export function LifecycleSection() {
             )}
 
             <p aria-atomic="true" aria-live="polite" className="sr-only">
-              Stage {activeStage + 1} of {lifecycle.length}: {stage.name}.{" "}
+              Stage {displayedStage + 1} of {lifecycle.length}: {stage.name}.{" "}
               {stage.headline}
             </p>
           </div>
