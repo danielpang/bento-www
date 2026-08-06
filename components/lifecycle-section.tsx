@@ -12,84 +12,67 @@ import { motion, useReducedMotion } from "motion/react";
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 
+const lifecycleIntro = {
+  eyebrow: "A pipeline shaped by your team",
+  heading: "Every feature has a route.",
+  summary:
+    "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
+};
+
 const lifecycle = [
   {
     agent: "Research agent exploring",
     copy: "Research the product surface, reproduce the behavior, and turn scattered context into a clear opportunity.",
-    eyebrow: "A pipeline shaped by your team",
     headline: "Understand the problem before touching the code.",
-    heading: "Every feature has a route.",
     icon: Brain,
     name: "Product investigation",
     phase: "Discover",
     shortName: "Investigate",
-    summary:
-      "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
   },
   {
     agent: "Design agent shaping",
     copy: "Translate the findings into flows, interfaces, and decisions the whole team can inspect.",
-    eyebrow: "Design the interaction",
     headline: "Turn findings into a deliberate experience.",
-    heading: "Shape the experience.",
     icon: PaintBrush,
     name: "UI/UX design",
     phase: "Shape",
     shortName: "Design",
-    summary:
-      "The route keeps product context attached while the experience takes shape.",
   },
   {
     agent: "Planning agent structuring",
     copy: "Map the system, define acceptance criteria, and give the implementation agent the context it needs.",
-    eyebrow: "The route comes alive",
     headline: "Turn intent into an executable plan.",
-    heading: "Every stage tells the next chapter.",
     icon: Ruler,
     name: "Engineering requirements",
     phase: "Define",
     shortName: "Requirements",
-    summary:
-      "The route fills as decisions become a buildable, reviewable engineering plan.",
   },
   {
     agent: "Coding agent building",
     copy: "Work inside an isolated branch with the requirements, skills, and repository rules already in context.",
-    eyebrow: "Move from plan to product",
     headline: "Build with every prior decision in reach.",
-    heading: "Turn intent into working software.",
     icon: Code,
     name: "Implementation",
     phase: "Build",
     shortName: "Build",
-    summary:
-      "Implementation stays connected to the product and engineering decisions that shaped it.",
   },
   {
     agent: "Review agent checking",
     copy: "Inspect the branch against the plan, the intended experience, and every decision made along the route.",
-    eyebrow: "Validate every decision",
     headline: "Review more than the final diff.",
-    heading: "Review the whole story.",
     icon: GitPullRequest,
     name: "Code review",
     phase: "Review",
     shortName: "Review",
-    summary:
-      "Reviewers inherit the full story instead of reconstructing intent from code alone.",
   },
   {
     agent: "QA agent verifying",
     copy: "Exercise the experience end-to-end, capture proof, and leave the feature ready for a confident review.",
-    eyebrow: "One route, fully visible",
     headline: "Close the route with evidence.",
-    heading: "From question to confidence.",
     icon: CheckCircle,
     name: "Quality engineering",
     phase: "Verify",
     shortName: "Quality",
-    summary:
-      "The completed route becomes a record of how the feature moved from question to verified software.",
   },
 ];
 
@@ -210,10 +193,12 @@ export function LifecycleSection() {
           <div className="site-shell lifecycle-shell">
             <header className="lifecycle-heading">
               <div>
-                <span className="lifecycle-eyebrow">{stage.eyebrow}</span>
-                <h2>{stage.heading}</h2>
+                <span className="lifecycle-eyebrow">
+                  {lifecycleIntro.eyebrow}
+                </span>
+                <h2>{lifecycleIntro.heading}</h2>
               </div>
-              <p>{stage.summary}</p>
+              <p>{lifecycleIntro.summary}</p>
             </header>
 
             {reduceMotion ? (

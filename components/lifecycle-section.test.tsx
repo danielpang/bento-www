@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   getLifecycleStageFromScroll,
@@ -93,7 +94,7 @@ describe("LifecycleSection", () => {
     ).toBe(5);
   });
 
-  it("changes the editorial heading as the user scrolls through the route", () => {
+  it("keeps the editorial heading fixed as the route advances", () => {
     vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
       callback(0);
       return 1;
@@ -122,8 +123,13 @@ describe("LifecycleSection", () => {
     expect(
       screen.getByRole("heading", {
         level: 2,
-        name: "Every stage tells the next chapter.",
+        name: "Every feature has a route.",
       }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
+      ),
     ).toBeInTheDocument();
     expect(
       within(
@@ -137,6 +143,17 @@ describe("LifecycleSection", () => {
       .closest("li");
 
     expect(activeStage).toHaveAttribute("aria-current", "step");
+  });
+
+  it("does not hide stage art in short mobile viewports", () => {
+    const styles = readFileSync(
+      new URL("app/globals.css", `file://${process.cwd()}/`),
+      "utf8",
+    );
+
+    expect(styles).not.toMatch(
+      /\.lifecycle-active-stage \.lifecycle-stage-art\s*\{[^}]*display:\s*none/,
+    );
   });
 
   it("uses one pinned stage panel for desktop and mobile", () => {
