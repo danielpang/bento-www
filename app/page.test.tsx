@@ -7,7 +7,15 @@ describe("Bento landing page", () => {
     const { container } = render(<Home />);
 
     expect(
-      screen.getByRole("heading", { level: 1, name: "See the whole build." }),
+      screen.getByRole("heading", {
+        level: 1,
+        name: "Automate the software development lifecycle",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Build features by coordinating agents across your development pipeline, step in when your judgment is needed.",
+      ),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Every feature has a route." }),

@@ -22,12 +22,12 @@ export default function Home() {
           <div className="site-shell hero-grid">
             <div className="hero-copy">
               <h1>
-                <span>See the</span>{" "}
-                <span>whole build.</span>
+                <span>Automate the software</span>{" "}
+                <span>development lifecycle</span>
               </h1>
               <p>
-                Coordinate coding agents through every product stage, then
-                step in only when your judgment is needed.
+                Build features by coordinating agents across your development
+                pipeline, step in when your judgment is needed.
               </p>
               <div className="hero-actions">
                 <CtaLink href={siteConfig.signupUrl}>
