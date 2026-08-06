@@ -3,6 +3,16 @@ import { describe, expect, it } from "vitest";
 import { HandoffSection } from "./handoff-section";
 
 describe("HandoffSection", () => {
+  it("explains how users provide model access", () => {
+    render(<HandoffSection />);
+
+    expect(
+      screen.getByText(
+        "Pick the right tool and model for each stage without losing what the last agent learned. Bring your own model provider API keys, or reuse a supported agent subscription.",
+      ),
+    ).toBeInTheDocument();
+  });
+
   it("shows a decorative mark beside every supported coding agent", () => {
     render(<HandoffSection />);
 
