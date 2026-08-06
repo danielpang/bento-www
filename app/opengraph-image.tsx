@@ -23,26 +23,41 @@ export default function OpenGraphImage() {
       <div style={{ alignItems: "center", display: "flex", gap: "18px" }}>
         <div
           style={{
+            background: "#12161e",
+            border: "2px solid #39414f",
+            borderRadius: "10px",
             display: "flex",
-            flexWrap: "wrap",
-            gap: "4px",
-            height: "34px",
-            width: "34px",
+            flexDirection: "column",
+            gap: "5px",
+            height: "48px",
+            padding: "7px",
+            width: "48px",
           }}
         >
-          {["#33415a", "#ff8a3d", "#33415a", "#33415a"].map(
-            (background, index) => (
-              <div
-                key={index}
-                style={{
-                  background,
-                  borderRadius: "4px",
-                  height: "15px",
-                  width: "15px",
-                }}
-              />
-            ),
-          )}
+          <div style={{ display: "flex", flex: 1, gap: "5px" }}>
+            <div
+              style={{
+                background: "#f97316",
+                borderRadius: "4px",
+                flex: "0 0 20px",
+              }}
+            />
+            <div
+              style={{ background: "#3a4353", borderRadius: "4px", flex: 1 }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "5px", height: "11px" }}>
+            <div
+              style={{
+                background: "#3a4353",
+                borderRadius: "4px",
+                flex: "0 0 11px",
+              }}
+            />
+            <div
+              style={{ background: "#3e77e8", borderRadius: "4px", flex: 1 }}
+            />
+          </div>
         </div>
         <span style={{ fontSize: "32px", fontWeight: 700 }}>Bento</span>
       </div>
