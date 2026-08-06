@@ -2188,10 +2188,6 @@ main {
   .lifecycle-active-stage .lifecycle-stage-story {
     padding: 15px;
   }
-
-  .lifecycle-active-stage .lifecycle-stage-art {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
