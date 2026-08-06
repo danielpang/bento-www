@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface BrandLockupProps {
@@ -11,12 +12,14 @@ export function BrandLockup({ className = "" }: BrandLockupProps) {
       className={`brand-lockup ${className}`.trim()}
       href="/"
     >
-      <span aria-hidden="true" className="brand-glyph">
-        <i />
-        <i />
-        <i />
-        <i />
-      </span>
+      <Image
+        alt=""
+        aria-hidden="true"
+        className="brand-glyph"
+        height={22}
+        src="/bento-logo.svg"
+        width={22}
+      />
       <span>Bento</span>
     </Link>
   );
