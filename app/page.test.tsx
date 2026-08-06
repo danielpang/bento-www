@@ -9,7 +9,7 @@ describe("Bento landing page", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "See the whole lifecycle",
+        name: "Automate the software development lifecycle",
       }),
     ).toBeInTheDocument();
     expect(

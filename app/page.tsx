@@ -22,8 +22,8 @@ export default function Home() {
           <div className="site-shell hero-grid">
             <div className="hero-copy">
               <h1>
-                <span>See the</span>{" "}
-                <span>whole lifecycle</span>
+                <span>Automate the software</span>{" "}
+                <span>development lifecycle</span>
               </h1>
               <p>
                 Build features by coordinating agents across your development
