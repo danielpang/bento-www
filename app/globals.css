@@ -137,20 +137,10 @@ button {
 }
 
 .brand-glyph {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
-  width: 17px;
-  height: 17px;
-}
-
-.brand-glyph i {
-  border-radius: 2px;
-  background: var(--line-strong);
-}
-
-.brand-glyph i:nth-child(2) {
-  background: var(--brand);
+  display: block;
+  flex: none;
+  width: 18px;
+  height: 18px;
 }
 
 .primary-navigation {
