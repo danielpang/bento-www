@@ -23,7 +23,7 @@ export function HandoffSection() {
           <p>
             Pick the right tool and model for each stage without losing
             what the last agent learned. Bring your own model provider API
-            keys, or reuse a supported agent subscription.
+            keys.
           </p>
         </Reveal>
 
