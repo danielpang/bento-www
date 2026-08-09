@@ -22,7 +22,8 @@ export function HandoffSection() {
           <h2>Different agents. One handoff.</h2>
           <p>
             Pick the right tool and model for each stage without losing
-            what the last agent learned.
+            what the last agent learned. Bring your own model provider API
+            keys.
           </p>
         </Reveal>
 
