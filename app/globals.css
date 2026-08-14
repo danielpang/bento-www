@@ -854,11 +854,22 @@ main {
 .lifecycle-track li {
   position: relative;
   z-index: 1;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+.lifecycle-step-button {
   display: grid;
   justify-items: center;
   gap: 8px;
-  color: var(--text-faint);
-  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: inherit;
 }
 
 .lifecycle-step {
@@ -878,6 +889,13 @@ main {
     border-color 220ms ease,
     background 220ms ease,
     box-shadow 220ms ease;
+}
+
+.lifecycle-track li:not(.is-complete):not(.is-active)
+  .lifecycle-step-button:hover
+  .lifecycle-step {
+  border-color: color-mix(in srgb, var(--brand) 55%, var(--line-strong));
+  color: var(--brand);
 }
 
 .lifecycle-track .is-complete .lifecycle-step {
@@ -1938,6 +1956,11 @@ main {
   }
 
   .lifecycle-track li {
+    align-content: center;
+    justify-items: start;
+  }
+
+  .lifecycle-track .lifecycle-step-button {
     align-content: center;
     justify-items: start;
   }

@@ -1,7 +1,9 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  getLifecycleScrollTopForStage,
   getLifecycleStageFromScroll,
   LifecycleSection,
 } from "./lifecycle-section";
@@ -67,6 +69,75 @@ describe("LifecycleSection", () => {
     expect(lifecycle.querySelector(".lifecycle-connector")).toBeNull();
   });
 
+  it("exposes each stage number as a button that can activate that slide", () => {
+    render(<LifecycleSection />);
+
+    const track = screen.getByRole("list", {
+      name: "Default product lifecycle",
+    });
+
+    expect(
+      within(track).getByRole("button", { name: "Implementation" }),
+    ).toHaveTextContent("04");
+  });
+
+  it("switches to the matching slide when a stage number is activated", async () => {
+    const user = userEvent.setup();
+    vi.spyOn(window, "scrollTo").mockImplementation(() => {});
+    render(<LifecycleSection />);
+
+    const track = screen.getByRole("list", {
+      name: "Default product lifecycle",
+    });
+
+    await user.click(within(track).getByText("04"));
+
+    expect(
+      within(
+        screen.getByRole("group", { name: "Active lifecycle stage" }),
+      ).getByText("Build with every prior decision in reach."),
+    ).toBeInTheDocument();
+    expect(
+      within(track).getByRole("button", { name: "Implementation" }),
+    ).toHaveAttribute("aria-current", "step");
+  });
+
+  it("scrolls the pinned scene to the chosen stage", async () => {
+    const user = userEvent.setup();
+    const scrollTo = vi.spyOn(window, "scrollTo").mockImplementation(() => {});
+    const view = render(<LifecycleSection />);
+    const section = view.container.querySelector<HTMLElement>(
+      ".lifecycle-section",
+    );
+
+    if (!section) throw new Error("Lifecycle section was not rendered");
+
+    vi.spyOn(section, "getBoundingClientRect").mockReturnValue({
+      bottom: 3000,
+      height: 3000,
+      left: 0,
+      right: 1200,
+      top: 0,
+      width: 1200,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    });
+    vi.spyOn(window, "scrollY", "get").mockReturnValue(0);
+    vi.spyOn(window, "innerHeight", "get").mockReturnValue(1000);
+
+    const track = screen.getByRole("list", {
+      name: "Default product lifecycle",
+    });
+
+    await user.click(within(track).getByText("04"));
+
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: "auto",
+      top: 1200,
+    });
+  });
+
   it("maps section scroll progress across all six stages", () => {
     expect(
       getLifecycleStageFromScroll({
@@ -92,6 +163,31 @@ describe("LifecycleSection", () => {
         viewportHeight: 1000,
       }),
     ).toBe(5);
+  });
+
+  it("maps each stage index back to the matching scroll offset", () => {
+    const sectionHeight = 3000;
+    const viewportHeight = 1000;
+
+    for (const stageIndex of [0, 2, 5]) {
+      const windowScrollY = getLifecycleScrollTopForStage({
+        sectionHeight,
+        sectionTop: 0,
+        stageCount: 6,
+        stageIndex,
+        viewportHeight,
+        windowScrollY: 0,
+      });
+
+      expect(
+        getLifecycleStageFromScroll({
+          sectionHeight,
+          sectionTop: -windowScrollY,
+          stageCount: 6,
+          viewportHeight,
+        }),
+      ).toBe(stageIndex);
+    }
   });
 
   it("keeps the editorial heading fixed as the route advances", () => {
@@ -138,9 +234,7 @@ describe("LifecycleSection", () => {
     ).toBeInTheDocument();
     const activeStage = within(
       screen.getByRole("list", { name: "Default product lifecycle" }),
-    )
-      .getByText("Engineering requirements")
-      .closest("li");
+    ).getByRole("button", { name: "Engineering requirements" });
 
     expect(activeStage).toHaveAttribute("aria-current", "step");
   });
