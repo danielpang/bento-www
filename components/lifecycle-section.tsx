@@ -83,6 +83,11 @@ type ScrollStageInput = {
   viewportHeight: number;
 };
 
+type ScrollTopInput = ScrollStageInput & {
+  stageIndex: number;
+  windowScrollY: number;
+};
+
 export function getLifecycleStageFromScroll({
   sectionHeight,
   sectionTop,
@@ -98,12 +103,52 @@ export function getLifecycleStageFromScroll({
   return Math.round(progress * Math.max(stageCount - 1, 0));
 }
 
+export function getLifecycleScrollTopForStage({
+  sectionHeight,
+  sectionTop,
+  stageCount,
+  stageIndex,
+  viewportHeight,
+  windowScrollY,
+}: ScrollTopInput) {
+  const lastIndex = Math.max(stageCount - 1, 0);
+  const clampedIndex = Math.min(Math.max(stageIndex, 0), lastIndex);
+  const scrollableDistance = Math.max(sectionHeight - viewportHeight, 1);
+  const progress = lastIndex === 0 ? 0 : clampedIndex / lastIndex;
+  const targetSectionTop = -progress * scrollableDistance;
+
+  return windowScrollY + sectionTop - targetSectionTop;
+}
+
 export function LifecycleSection() {
   const reduceMotion = useReducedMotion();
   const [activeStage, setActiveStage] = useState(0);
+  const pinnedStageRef = useRef<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const displayedStage = reduceMotion ? 0 : activeStage;
   const stage = lifecycle[displayedStage] ?? lifecycle[0];
+
+  const goToStage = (index: number) => {
+    const section = sectionRef.current;
+
+    pinnedStageRef.current = index;
+    setActiveStage(index);
+
+    if (!section) return;
+
+    const bounds = section.getBoundingClientRect();
+    window.scrollTo({
+      behavior: "auto",
+      top: getLifecycleScrollTopForStage({
+        sectionHeight: bounds.height,
+        sectionTop: bounds.top,
+        stageCount: lifecycle.length,
+        stageIndex: index,
+        viewportHeight: window.innerHeight,
+        windowScrollY: window.scrollY,
+      }),
+    });
+  };
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -121,6 +166,14 @@ export function LifecycleSection() {
         stageCount: lifecycle.length,
         viewportHeight: window.innerHeight,
       });
+
+      if (pinnedStageRef.current !== null) {
+        if (nextStage !== pinnedStageRef.current) {
+          return;
+        }
+
+        pinnedStageRef.current = null;
+      }
 
       setActiveStage((currentStage) =>
         currentStage === nextStage ? currentStage : nextStage,
@@ -226,9 +279,6 @@ export function LifecycleSection() {
                   >
                     {lifecycle.map((item, index) => (
                       <li
-                        aria-current={
-                          activeStage === index ? "step" : undefined
-                        }
                         className={
                           index < activeStage
                             ? "is-complete"
@@ -238,12 +288,21 @@ export function LifecycleSection() {
                         }
                         key={item.name}
                       >
-                        <span aria-hidden="true" className="lifecycle-step">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                        <span className="lifecycle-stage-name">
-                          {item.name}
-                        </span>
+                        <button
+                          aria-current={
+                            activeStage === index ? "step" : undefined
+                          }
+                          className="lifecycle-step-button"
+                          onClick={() => goToStage(index)}
+                          type="button"
+                        >
+                          <span aria-hidden="true" className="lifecycle-step">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <span className="lifecycle-stage-name">
+                            {item.name}
+                          </span>
+                        </button>
                       </li>
                     ))}
                   </ol>
