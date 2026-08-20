@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { siteDescription, siteHeadline } from "@/lib/copy";
 import Home from "./page";
 
 describe("Bento landing page", () => {
@@ -9,14 +10,10 @@ describe("Bento landing page", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "Automate the software development lifecycle",
+        name: siteHeadline,
       }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        "Build features by coordinating agents across your development pipeline, step in when your judgment is needed.",
-      ),
-    ).toBeInTheDocument();
+    expect(screen.getByText(siteDescription)).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Every feature has a route." }),
     ).toBeInTheDocument();

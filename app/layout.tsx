@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
+import { siteDescription, siteName, siteTitle } from "@/lib/copy";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -16,27 +17,24 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: siteConfig.siteUrl,
   title: {
-    default: "Bento | Orchestrate the whole build",
-    template: "%s | Bento",
+    default: siteTitle,
+    template: `%s | ${siteName}`,
   },
-  description:
-    "Coordinate coding agents through every product stage, then step in only when your judgment is needed.",
+  description: siteDescription,
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Bento | Orchestrate the whole build",
-    description:
-      "A command center for the agents building your product.",
-    siteName: "Bento",
+    title: siteTitle,
+    description: siteDescription,
+    siteName,
     type: "website",
     url: siteConfig.siteUrl,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bento | Orchestrate the whole build",
-    description:
-      "A command center for the agents building your product.",
+    title: siteTitle,
+    description: siteDescription,
   },
 };
 

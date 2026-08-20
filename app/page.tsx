@@ -8,6 +8,7 @@ import { Reveal } from "@/components/reveal";
 import { SecuritySection } from "@/components/security-section";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { siteDescription, siteHeadlineLines } from "@/lib/copy";
 import { siteConfig } from "@/lib/site";
 
 export default function Home() {
@@ -22,13 +23,10 @@ export default function Home() {
           <div className="site-shell hero-grid">
             <div className="hero-copy">
               <h1>
-                <span>Automate the software</span>{" "}
-                <span>development lifecycle</span>
+                <span>{siteHeadlineLines[0]}</span>{" "}
+                <span>{siteHeadlineLines[1]}</span>
               </h1>
-              <p>
-                Build features by coordinating agents across your development
-                pipeline, step in when your judgment is needed.
-              </p>
+              <p>{siteDescription}</p>
               <div className="hero-actions">
                 <CtaLink href={siteConfig.signupUrl}>
                   Sign up
