@@ -185,7 +185,11 @@ export default function OpenGraphImage() {
                   style={{
                     background: tone.accent,
                     borderRadius: "2px",
+                    flexGrow: 0,
+                    flexShrink: 0,
                     height: "8px",
+                    minHeight: "8px",
+                    minWidth: "8px",
                     width: "8px",
                   }}
                 />
