@@ -11,12 +11,12 @@ export const size = { height: 630, width: 1200 };
 export const contentType = "image/png";
 
 const pipelineStages = [
-  { name: "Discover", state: "done" },
-  { name: "Shape", state: "done" },
-  { name: "Define", state: "done" },
-  { name: "Build", state: "running" },
+  { name: "Product", state: "done" },
+  { name: "Design", state: "done" },
+  { name: "Spec", state: "done" },
+  { name: "Implementation", state: "running" },
   { name: "Review", state: "gated" },
-  { name: "Verify", state: "idle" },
+  { name: "QA", state: "idle" },
 ] as const;
 
 const stageTone = {
@@ -161,7 +161,7 @@ export default function OpenGraphImage() {
                 flex: 1,
                 flexDirection: "column",
                 gap: "12px",
-                padding: "18px 20px 20px",
+                padding: "18px 14px 18px",
               }}
             >
               <div
@@ -198,8 +198,9 @@ export default function OpenGraphImage() {
                 style={{
                   color: tone.label,
                   display: "flex",
-                  fontSize: "18px",
+                  fontSize: "16px",
                   fontWeight: 650,
+                  letterSpacing: "-0.02em",
                 }}
               >
                 {stage.name}

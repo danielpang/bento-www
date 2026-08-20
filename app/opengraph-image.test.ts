@@ -50,11 +50,13 @@ describe("open graph image", () => {
     const image = OpenGraphImage() as unknown as { element: unknown };
     const text = collectText(image.element);
 
-    expect(text).toContain("Discover");
-    expect(text).toContain("Shape");
-    expect(text).toContain("Define");
-    expect(text).toContain("Build");
+    expect(text).toContain("Product");
+    expect(text).toContain("Design");
+    expect(text).toContain("Spec");
+    expect(text).toContain("Implementation");
     expect(text).toContain("Review");
-    expect(text).toContain("Verify");
+    expect(text).toContain("QA");
+    expect(text).not.toContain("Discover");
+    expect(text).not.toContain("Verify");
   });
 });
