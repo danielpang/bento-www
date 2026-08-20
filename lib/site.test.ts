@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeSiteConfig } from "./site";
+import { makeSiteConfig, slackInstallUrl } from "./site";
 
 describe("makeSiteConfig", () => {
   it("keeps configured public destinations", () => {
@@ -27,6 +27,21 @@ describe("makeSiteConfig", () => {
   it("uses the local origin when the canonical URL is absent", () => {
     expect(makeSiteConfig({}).siteUrl.toString()).toBe(
       "http://localhost:3000/",
+    );
+  });
+});
+
+describe("slackInstallUrl", () => {
+  it("points at the public one-click Slack OAuth install", () => {
+    const url = new URL(slackInstallUrl);
+
+    expect(url.origin).toBe("https://slack.com");
+    expect(url.pathname).toBe("/oauth/v2/authorize");
+    expect(url.searchParams.get("client_id")).toBe(
+      "10676673193079.11868275221140",
+    );
+    expect(url.searchParams.get("scope")).toBe(
+      "app_mentions:read,chat:write,users:read,users:read.email",
     );
   });
 });

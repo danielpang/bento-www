@@ -11,6 +11,7 @@ interface SiteHeaderProps {
 const navigation = [
   { href: "/#product", label: "Product" },
   { href: "/#how-it-works", label: "How it works" },
+  { href: "/#integrations", label: "Integrations" },
   { href: "/#security", label: "Security" },
 ];
 

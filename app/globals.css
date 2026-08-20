@@ -1315,6 +1315,125 @@ main {
   margin-top: auto;
 }
 
+.integrations-section {
+  border-top: 1px solid var(--line);
+  background: var(--page);
+}
+
+.integrations-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.integration-card {
+  display: flex;
+  min-height: 420px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(24px, 3vw, 38px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-raised);
+}
+
+.integration-card-slack {
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--surface-raised) 96%, var(--brand)),
+      var(--surface)
+    );
+}
+
+.integration-card h3 {
+  margin: 30px 0 0;
+  color: var(--text);
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
+  font-weight: 630;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.integration-card > p {
+  max-width: 46ch;
+  margin: 14px 0 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.integration-card code {
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface-sunken);
+  color: var(--text);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+}
+
+.integration-logo {
+  width: 22px;
+  height: 22px;
+}
+
+.integration-card > .integration-flow,
+.integration-footer {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 28px;
+}
+
+.integration-flow {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 16px;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface-raised) 88%, transparent);
+}
+
+.integration-flow li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  align-items: baseline;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.integration-flow span {
+  color: var(--brand);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+
+.integration-install {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.integration-install-note {
+  color: var(--text-faint);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
 .security-section {
   border-top: 1px solid var(--line);
   background: var(--surface-sunken);
@@ -1872,6 +1991,14 @@ main {
     min-height: 330px;
   }
 
+  .integrations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .integration-card {
+    min-height: 330px;
+  }
+
   .final-cta-inner {
     grid-template-columns: 1fr;
     align-items: start;
@@ -2149,7 +2276,8 @@ main {
     grid-template-columns: 1fr;
   }
 
-  .handoff-cell {
+  .handoff-cell,
+  .integration-card {
     min-height: 320px;
     padding: 24px;
   }

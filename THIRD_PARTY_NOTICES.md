@@ -32,3 +32,13 @@ Anysphere, Inc.; OpenCode is a mark of Anomaly; and Pi's name and logo are
 trademarks of Earendil. All product names and logo marks remain the property of
 their respective owners. Their inclusion identifies supported tools and does
 not imply sponsorship or endorsement.
+
+## Linear mark
+
+`components/integrations-section.tsx` includes a monochrome Linear mark adapted
+from the [Simple Icons Linear SVG](https://github.com/simple-icons/simple-icons/blob/master/icons/linear.svg).
+Simple Icons artwork is dedicated to the public domain under CC0 1.0.
+
+Linear is a mark of Linear Orbit, Inc. Slack is a mark of Slack Technologies,
+LLC. Their inclusion identifies supported integrations and does not imply
+sponsorship or endorsement.

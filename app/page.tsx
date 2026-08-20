@@ -2,6 +2,7 @@ import { ArrowRight, GithubLogo } from "@phosphor-icons/react/dist/ssr";
 import { CtaLink } from "@/components/cta-link";
 import { GateDemo } from "@/components/gate-demo";
 import { HandoffSection } from "@/components/handoff-section";
+import { IntegrationsSection } from "@/components/integrations-section";
 import { LifecycleSection } from "@/components/lifecycle-section";
 import { PipelineDemo } from "@/components/pipeline-demo";
 import { Reveal } from "@/components/reveal";
@@ -78,6 +79,7 @@ export default function Home() {
         </section>
 
         <HandoffSection />
+        <IntegrationsSection />
         <SecuritySection />
       </main>
       <SiteFooter

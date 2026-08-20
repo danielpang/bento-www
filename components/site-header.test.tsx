@@ -19,6 +19,9 @@ describe("SiteHeader", () => {
     expect(
       within(navigation).getByRole("link", { name: "How it works" }),
     ).toHaveAttribute("href", "/#how-it-works");
+    expect(
+      within(navigation).getByRole("link", { name: "Integrations" }),
+    ).toHaveAttribute("href", "/#integrations");
     expect(within(navigation).getByRole("link", { name: "Security" })).toHaveAttribute(
       "href",
       "/#security",
