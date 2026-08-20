@@ -45,4 +45,16 @@ describe("open graph image", () => {
     expect(text).not.toMatch(/Orchestrate the whole build/i);
     expect(text).not.toMatch(/One pipeline for every agent/i);
   });
+
+  it("shows the product lifecycle instead of a decorative underline", () => {
+    const image = OpenGraphImage() as unknown as { element: unknown };
+    const text = collectText(image.element);
+
+    expect(text).toContain("Discover");
+    expect(text).toContain("Shape");
+    expect(text).toContain("Define");
+    expect(text).toContain("Build");
+    expect(text).toContain("Review");
+    expect(text).toContain("Verify");
+  });
 });
