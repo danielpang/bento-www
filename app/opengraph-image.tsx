@@ -1,6 +1,12 @@
 import { ImageResponse } from "next/og";
+import {
+  siteDescription,
+  siteHeadlineLines,
+  siteImageAlt,
+  siteName,
+} from "@/lib/copy";
 
-export const alt = "Bento. Orchestrate the whole build.";
+export const alt = siteImageAlt;
 export const size = { height: 630, width: 1200 };
 export const contentType = "image/png";
 
@@ -59,28 +65,38 @@ export default function OpenGraphImage() {
             />
           </div>
         </div>
-        <span style={{ fontSize: "32px", fontWeight: 700 }}>Bento</span>
+        <span style={{ fontSize: "32px", fontWeight: 700 }}>{siteName}</span>
       </div>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           gap: "18px",
-          maxWidth: "880px",
+          maxWidth: "980px",
         }}
       >
         <div
           style={{
-            fontSize: "76px",
+            display: "flex",
+            flexDirection: "column",
+            fontSize: "64px",
             fontWeight: 650,
-            letterSpacing: "-4px",
-            lineHeight: 1.03,
+            letterSpacing: "-3px",
+            lineHeight: 1.08,
           }}
         >
-          Orchestrate the whole build.
+          <div style={{ display: "flex" }}>{siteHeadlineLines[0]}</div>
+          <div style={{ display: "flex" }}>{siteHeadlineLines[1]}</div>
         </div>
-        <div style={{ color: "#8496b0", fontSize: "28px" }}>
-          One pipeline for every agent, handoff, and human decision.
+        <div
+          style={{
+            color: "#8496b0",
+            display: "flex",
+            fontSize: "26px",
+            lineHeight: 1.35,
+          }}
+        >
+          {siteDescription}
         </div>
       </div>
       <div
