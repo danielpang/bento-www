@@ -1,7 +1,7 @@
 export const siteName = "Bento";
 
 export const siteHeadlineLines = [
-  "Automate the software",
+  "Automate your software",
   "development lifecycle",
 ] as const;
 
