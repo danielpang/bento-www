@@ -79,8 +79,8 @@ export default function Home() {
         </section>
 
         <HandoffSection />
-        <IntegrationsSection />
         <SecuritySection />
+        <IntegrationsSection />
       </main>
       <SiteFooter
         githubUrl={siteConfig.githubUrl}
