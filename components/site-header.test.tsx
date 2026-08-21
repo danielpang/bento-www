@@ -23,6 +23,12 @@ describe("SiteHeader", () => {
       "href",
       "/#security",
     );
+    expect(
+      within(navigation).getByRole("link", { name: "Integrations" }),
+    ).toHaveAttribute("href", "/#integrations");
+    expect(
+      Array.from(navigation.querySelectorAll("a"), (link) => link.textContent),
+    ).toEqual(["Product", "How it works", "Security", "Integrations"]);
     expect(screen.getByRole("link", { name: "GitHub" })).toHaveAttribute(
       "href",
       "https://github.com/example/bento",

@@ -29,9 +29,22 @@ describe("Bento landing page", () => {
     expect(
       screen.getByRole("heading", { name: "The sandbox is the boundary." }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "Start a card from Linear or Slack.",
+      }),
+    ).toBeInTheDocument();
     expect(container.querySelector("#product")).toBeInTheDocument();
     expect(container.querySelector("#how-it-works")).toBeInTheDocument();
     expect(container.querySelector("#security")).toBeInTheDocument();
+    expect(container.querySelector("#integrations")).toBeInTheDocument();
+
+    expect(
+      Array.from(
+        container.querySelectorAll("#security, #integrations"),
+        (section) => section.id,
+      ),
+    ).toEqual(["security", "integrations"]);
   });
 
   it("keeps prohibited dash characters out of visible copy", () => {

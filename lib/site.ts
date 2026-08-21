@@ -33,3 +33,6 @@ export const siteConfig = makeSiteConfig({
   NEXT_PUBLIC_SIGNUP_URL: process.env.NEXT_PUBLIC_SIGNUP_URL,
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
 });
+
+export const slackInstallUrl =
+  "https://slack.com/oauth/v2/authorize?client_id=10676673193079.11868275221140&scope=app_mentions:read,chat:write,users:read,users:read.email&user_scope=";
