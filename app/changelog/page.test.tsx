@@ -17,7 +17,10 @@ describe("Changelog", () => {
       screen.getByRole("heading", { name: "Linear integration" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/tagging @bento in Slack/i),
+      screen.getByText((_, element) =>
+        element?.textContent ===
+        "Create new Bento features by tagging @bento in Slack.",
+      ),
     ).toBeInTheDocument();
     expect(
       screen.getByText(/default Linear team and project/i),
