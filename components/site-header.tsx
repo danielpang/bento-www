@@ -13,6 +13,7 @@ const navigation = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#security", label: "Security" },
   { href: "/#integrations", label: "Integrations" },
+  { href: "/changelog", label: "Changelog" },
 ];
 
 export function SiteHeader({ githubUrl, signupUrl }: SiteHeaderProps) {
