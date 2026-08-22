@@ -1738,16 +1738,16 @@ main {
 }
 
 .changelog-header {
-  margin: 0 0 clamp(48px, 6vw, 80px);
+  margin: 0 0 clamp(28px, 4vw, 40px);
 }
 
 .changelog-header h1 {
   margin: 0;
   color: var(--text);
-  font-size: clamp(3.2rem, 7vw, 5.8rem);
+  font-size: clamp(1.7rem, 2.4vw, 2rem);
   font-weight: 640;
-  letter-spacing: -0.06em;
-  line-height: 0.96;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
 }
 
 .changelog-feed {
@@ -1768,11 +1768,14 @@ main {
 }
 
 .changelog-entry-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 10px;
   height: fit-content;
+}
+
+.changelog-entry-heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
 }
 
 .changelog-entry-date {
@@ -1786,23 +1789,11 @@ main {
   color: var(--text-muted);
 }
 
-.changelog-entry-kind {
-  color: var(--text-faint);
-  font-size: 13px;
-  font-weight: 520;
-}
-
-.changelog-entry-kind::before {
-  content: "·";
-  margin-right: 10px;
-  color: var(--text-faint);
-}
-
 .changelog-entry-body {
   max-width: 62ch;
 }
 
-.changelog-entry-body h2 {
+.changelog-entry-body h3 {
   margin: 0;
   color: var(--text);
   font-size: clamp(1.6rem, 3vw, 2rem);

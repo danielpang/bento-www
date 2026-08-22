@@ -4,7 +4,7 @@ import { changelogEntries } from "@/lib/changelog";
 import ChangelogPage, { metadata } from "./page";
 
 describe("Changelog", () => {
-  it("renders dated entries newest first with permalinks and no versions", () => {
+  it("renders dated entries newest first with heading permalinks and no versions", () => {
     const { container } = render(<ChangelogPage />);
 
     expect(
@@ -27,18 +27,17 @@ describe("Changelog", () => {
     ).toBeInTheDocument();
 
     const entries = container.querySelectorAll(".changelog-entry");
-    expect(Array.from(entries, (entry) => entry.id)).toEqual(
-      changelogEntries.map((entry) => entry.slug),
-    );
+    expect(entries).toHaveLength(changelogEntries.length);
+    expect(container.querySelector(".changelog-entry-kind")).toBeNull();
 
-    for (const entry of changelogEntries) {
-      const article = container.querySelector(`[id="${entry.slug}"]`);
-      expect(article).not.toBeNull();
+    for (const [index, entry] of changelogEntries.entries()) {
+      const article = entries[index] as HTMLElement;
       expect(
-        within(article as HTMLElement).getByRole("link", {
-          name: entry.displayDate,
-        }),
-      ).toHaveAttribute("href", `/changelog/${entry.slug}`);
+        within(article).getByRole("heading", { name: entry.displayDate }),
+      ).toHaveAttribute("id", entry.slug);
+      expect(
+        within(article).getByRole("link", { name: entry.displayDate }),
+      ).toHaveAttribute("href", `/changelog#${entry.slug}`);
     }
 
     expect(container.textContent).not.toMatch(/\bv?\d+\.\d+/);

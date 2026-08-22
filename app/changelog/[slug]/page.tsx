@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { ChangelogFeed } from "@/components/changelog-feed";
-import { ChangelogShell } from "@/components/changelog-shell";
+import { notFound, redirect } from "next/navigation";
 import {
   getChangelogEntry,
   getChangelogSlugs,
@@ -25,16 +23,10 @@ export async function generateMetadata({
   }
 
   return {
-    title: entry.title,
+    title: "Changelog",
     description: entry.description,
     alternates: {
-      canonical: `/changelog/${entry.slug}`,
-    },
-    openGraph: {
-      title: `${entry.title} | Bento`,
-      description: entry.description,
-      type: "article",
-      url: `/changelog/${entry.slug}`,
+      canonical: "/changelog",
     },
   };
 }
@@ -46,12 +38,5 @@ export default async function ChangelogEntryPage({
   const entry = getChangelogEntry(slug);
   if (!entry) notFound();
 
-  return (
-    <ChangelogShell>
-      <header className="changelog-header">
-        <h1>Changelog</h1>
-      </header>
-      <ChangelogFeed entries={[entry]} />
-    </ChangelogShell>
-  );
+  redirect(`/changelog#${entry.slug}`);
 }

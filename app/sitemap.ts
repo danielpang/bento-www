@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { changelogEntries } from "@/lib/changelog";
 import { listDocs } from "@/lib/docs";
 import { siteConfig } from "@/lib/site";
 
@@ -26,11 +25,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
       url: new URL("/changelog", siteConfig.siteUrl).toString(),
     },
-    ...changelogEntries.map((entry) => ({
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-      url: new URL(`/changelog/${entry.slug}`, siteConfig.siteUrl).toString(),
-    })),
     ...docs,
     {
       changeFrequency: "yearly",
