@@ -59,6 +59,9 @@ export function SiteFooter({
             <CtaLink href="/docs" variant="quiet">
               Documentation
             </CtaLink>
+            <CtaLink href="/changelog" variant="quiet">
+              Changelog
+            </CtaLink>
             <CtaLink href="/license" variant="quiet">
               License
             </CtaLink>

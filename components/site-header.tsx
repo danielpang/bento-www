@@ -10,9 +10,9 @@ interface SiteHeaderProps {
 
 const navigation = [
   { href: "/#product", label: "Product" },
-  { href: "/#how-it-works", label: "How it works" },
   { href: "/#security", label: "Security" },
   { href: "/#integrations", label: "Integrations" },
+  { href: "/changelog", label: "Changelog" },
 ];
 
 export function SiteHeader({ githubUrl, signupUrl }: SiteHeaderProps) {

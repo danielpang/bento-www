@@ -17,8 +17,8 @@ describe("SiteHeader", () => {
       "/#product",
     );
     expect(
-      within(navigation).getByRole("link", { name: "How it works" }),
-    ).toHaveAttribute("href", "/#how-it-works");
+      within(navigation).queryByRole("link", { name: "How it works" }),
+    ).not.toBeInTheDocument();
     expect(within(navigation).getByRole("link", { name: "Security" })).toHaveAttribute(
       "href",
       "/#security",
@@ -27,8 +27,11 @@ describe("SiteHeader", () => {
       within(navigation).getByRole("link", { name: "Integrations" }),
     ).toHaveAttribute("href", "/#integrations");
     expect(
+      within(navigation).getByRole("link", { name: "Changelog" }),
+    ).toHaveAttribute("href", "/changelog");
+    expect(
       Array.from(navigation.querySelectorAll("a"), (link) => link.textContent),
-    ).toEqual(["Product", "How it works", "Security", "Integrations"]);
+    ).toEqual(["Product", "Security", "Integrations", "Changelog"]);
     expect(screen.getByRole("link", { name: "GitHub" })).toHaveAttribute(
       "href",
       "https://github.com/example/bento",
