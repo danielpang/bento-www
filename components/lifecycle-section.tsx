@@ -301,6 +301,9 @@ export function LifecycleSection() {
                             activeStage === index ? "step" : undefined
                           }
                           className="lifecycle-step-button"
+                          onMouseDown={(event) => {
+                            event.preventDefault();
+                          }}
                           onClick={() => goToStage(index)}
                           type="button"
                         >

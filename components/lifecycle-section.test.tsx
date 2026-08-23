@@ -81,6 +81,25 @@ describe("LifecycleSection", () => {
     ).toHaveTextContent("04");
   });
 
+  it("does not let focusing the last stage button scroll the page", () => {
+    render(<LifecycleSection />);
+
+    const track = screen.getByRole("list", {
+      name: "Default product lifecycle",
+    });
+    const lastStep = within(track).getByRole("button", {
+      name: "Quality engineering",
+    });
+    const event = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    lastStep.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(true);
+  });
+
   it("switches to the matching slide when a stage number is activated", async () => {
     const user = userEvent.setup();
     vi.spyOn(window, "scrollTo").mockImplementation(() => {});
