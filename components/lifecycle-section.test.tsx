@@ -81,6 +81,25 @@ describe("LifecycleSection", () => {
     ).toHaveTextContent("04");
   });
 
+  it("does not let focusing the last stage button scroll the page", () => {
+    render(<LifecycleSection />);
+
+    const track = screen.getByRole("list", {
+      name: "Default product lifecycle",
+    });
+    const lastStep = within(track).getByRole("button", {
+      name: "Quality engineering",
+    });
+    const event = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    lastStep.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(true);
+  });
+
   it("switches to the matching slide when a stage number is activated", async () => {
     const user = userEvent.setup();
     vi.spyOn(window, "scrollTo").mockImplementation(() => {});
@@ -190,6 +209,30 @@ describe("LifecycleSection", () => {
     }
   });
 
+  it("keeps the last stage inside the sticky range instead of the section end", () => {
+    const sectionHeight = 3000;
+    const viewportHeight = 1000;
+    const scrollableDistance = sectionHeight - viewportHeight;
+    const top = getLifecycleScrollTopForStage({
+      sectionHeight,
+      sectionTop: 0,
+      stageCount: 6,
+      stageIndex: 5,
+      viewportHeight,
+      windowScrollY: 0,
+    });
+
+    expect(top).toBeLessThan(scrollableDistance);
+    expect(
+      getLifecycleStageFromScroll({
+        sectionHeight,
+        sectionTop: -top,
+        stageCount: 6,
+        viewportHeight,
+      }),
+    ).toBe(5);
+  });
+
   it("keeps the editorial heading fixed as the route advances", () => {
     vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
       callback(0);
@@ -247,6 +290,20 @@ describe("LifecycleSection", () => {
 
     expect(styles).not.toMatch(
       /\.lifecycle-active-stage \.lifecycle-stage-art\s*\{[^}]*display:\s*none/,
+    );
+  });
+
+  it("fills the selected lifecycle step marker", () => {
+    const styles = readFileSync(
+      new URL("app/globals.css", `file://${process.cwd()}/`),
+      "utf8",
+    );
+
+    expect(styles).toMatch(
+      /\.lifecycle-track \.is-active \.lifecycle-step\s*\{[^}]*background:\s*var\(--brand\)/,
+    );
+    expect(styles).toMatch(
+      /\.lifecycle-track \.is-active \.lifecycle-step\s*\{[^}]*color:\s*var\(--on-brand\)/,
     );
   });
 

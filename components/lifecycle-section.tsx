@@ -114,7 +114,15 @@ export function getLifecycleScrollTopForStage({
   const lastIndex = Math.max(stageCount - 1, 0);
   const clampedIndex = Math.min(Math.max(stageIndex, 0), lastIndex);
   const scrollableDistance = Math.max(sectionHeight - viewportHeight, 1);
-  const progress = lastIndex === 0 ? 0 : clampedIndex / lastIndex;
+  // The last rounding bucket starts at (lastIndex - 0.5) / lastIndex.
+  // Pinning to 1.0 puts the sticky scene on its unstick edge, so the
+  // following section jumps into view when stage 06 is chosen.
+  const progress =
+    lastIndex === 0
+      ? 0
+      : clampedIndex === lastIndex
+        ? (lastIndex - 0.5) / lastIndex
+        : clampedIndex / lastIndex;
   const targetSectionTop = -progress * scrollableDistance;
 
   return windowScrollY + sectionTop - targetSectionTop;
@@ -293,6 +301,9 @@ export function LifecycleSection() {
                             activeStage === index ? "step" : undefined
                           }
                           className="lifecycle-step-button"
+                          onMouseDown={(event) => {
+                            event.preventDefault();
+                          }}
                           onClick={() => goToStage(index)}
                           type="button"
                         >
