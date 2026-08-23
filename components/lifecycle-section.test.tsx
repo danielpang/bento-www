@@ -190,6 +190,30 @@ describe("LifecycleSection", () => {
     }
   });
 
+  it("keeps the last stage inside the sticky range instead of the section end", () => {
+    const sectionHeight = 3000;
+    const viewportHeight = 1000;
+    const scrollableDistance = sectionHeight - viewportHeight;
+    const top = getLifecycleScrollTopForStage({
+      sectionHeight,
+      sectionTop: 0,
+      stageCount: 6,
+      stageIndex: 5,
+      viewportHeight,
+      windowScrollY: 0,
+    });
+
+    expect(top).toBeLessThan(scrollableDistance);
+    expect(
+      getLifecycleStageFromScroll({
+        sectionHeight,
+        sectionTop: -top,
+        stageCount: 6,
+        viewportHeight,
+      }),
+    ).toBe(5);
+  });
+
   it("keeps the editorial heading fixed as the route advances", () => {
     vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
       callback(0);
