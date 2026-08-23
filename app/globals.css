@@ -906,8 +906,8 @@ main {
 
 .lifecycle-track .is-active .lifecycle-step {
   border-color: var(--brand);
-  background: var(--surface-raised);
-  color: var(--brand);
+  background: var(--brand);
+  color: var(--on-brand);
   box-shadow: 0 0 0 7px color-mix(in srgb, var(--brand) 15%, transparent);
 }
 

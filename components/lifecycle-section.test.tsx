@@ -250,6 +250,20 @@ describe("LifecycleSection", () => {
     );
   });
 
+  it("fills the selected lifecycle step marker", () => {
+    const styles = readFileSync(
+      new URL("app/globals.css", `file://${process.cwd()}/`),
+      "utf8",
+    );
+
+    expect(styles).toMatch(
+      /\.lifecycle-track \.is-active \.lifecycle-step\s*\{[^}]*background:\s*var\(--brand\)/,
+    );
+    expect(styles).toMatch(
+      /\.lifecycle-track \.is-active \.lifecycle-step\s*\{[^}]*color:\s*var\(--on-brand\)/,
+    );
+  });
+
   it("uses one pinned stage panel for desktop and mobile", () => {
     const view = render(<LifecycleSection />);
 
