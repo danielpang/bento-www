@@ -18,6 +18,7 @@ export const changelogEntries: ChangelogEntry[] = [
     paragraphs: [
       "Bento now includes DeepSeek models and a harness to run them.",
       "Pair DeepSeek with a skill and assign it to any pipeline stage, the same way you use the other coding agents.",
+      "See the [DeepSeek website](https://www.deepseek.com) and [DeepSeek GitHub](https://github.com/deepseek-ai).",
     ],
   },
   {
@@ -30,6 +31,7 @@ export const changelogEntries: ChangelogEntry[] = [
     paragraphs: [
       "Bento now supports Poolside as a coding agent.",
       "Pair it with a model and a skill, then assign it to any pipeline stage.",
+      "See the [Poolside website](https://www.poolside.ai) and [Poolside GitHub](https://github.com/poolsideai).",
     ],
   },
   {
