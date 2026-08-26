@@ -11,10 +11,22 @@ describe("Changelog", () => {
       screen.getByRole("heading", { level: 1, name: "Changelog" }),
     ).toBeInTheDocument();
     expect(
+      screen.getByRole("heading", { name: "DeepSeek models and harness" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Poolside coding agent" }),
+    ).toBeInTheDocument();
+    expect(
       screen.getByRole("heading", { name: "Slack integration" }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Linear integration" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/DeepSeek models and a harness/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/supports Poolside as a coding agent/i),
     ).toBeInTheDocument();
     expect(
       screen.getByText((_, element) =>
@@ -39,6 +51,43 @@ describe("Changelog", () => {
         within(article).getByRole("link", { name: entry.displayDate }),
       ).toHaveAttribute("href", `/changelog#${entry.slug}`);
     }
+
+    const deepseek = entries[0] as HTMLElement;
+    const deepseekWebsite = within(deepseek).getByRole("link", {
+      name: "DeepSeek website",
+    });
+    const deepseekGithub = within(deepseek).getByRole("link", {
+      name: "DeepSeek GitHub",
+    });
+    expect(deepseekWebsite).toHaveAttribute("href", "https://www.deepseek.com");
+    expect(deepseekWebsite).toHaveAttribute("target", "_blank");
+    expect(deepseekWebsite).toHaveAttribute("rel", "noreferrer");
+    expect(deepseekGithub).toHaveAttribute(
+      "href",
+      "https://github.com/deepseek-ai",
+    );
+    expect(deepseekGithub).toHaveAttribute("target", "_blank");
+    expect(deepseekGithub).toHaveAttribute("rel", "noreferrer");
+
+    const poolside = entries[1] as HTMLElement;
+    const poolsideWebsite = within(poolside).getByRole("link", {
+      name: "Poolside website",
+    });
+    const poolsideGithub = within(poolside).getByRole("link", {
+      name: "Poolside GitHub",
+    });
+    expect(poolsideWebsite).toHaveAttribute(
+      "href",
+      "https://www.poolside.ai",
+    );
+    expect(poolsideWebsite).toHaveAttribute("target", "_blank");
+    expect(poolsideWebsite).toHaveAttribute("rel", "noreferrer");
+    expect(poolsideGithub).toHaveAttribute(
+      "href",
+      "https://github.com/poolsideai",
+    );
+    expect(poolsideGithub).toHaveAttribute("target", "_blank");
+    expect(poolsideGithub).toHaveAttribute("rel", "noreferrer");
 
     expect(container.textContent).not.toMatch(/\bv?\d+\.\d+/);
     expect(container.textContent).not.toMatch(/[—–]/);

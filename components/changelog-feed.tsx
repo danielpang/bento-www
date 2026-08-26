@@ -6,9 +6,36 @@ interface ChangelogFeedProps {
 }
 
 function formatInline(text: string): ReactNode[] {
-  return text.split(/(@bento)/g).map((part, index) =>
-    part === "@bento" ? <code key={index}>@bento</code> : part,
-  );
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let key = 0;
+  const pattern = /@bento|\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g;
+
+  for (const match of text.matchAll(pattern)) {
+    const index = match.index ?? 0;
+    if (index > lastIndex) {
+      nodes.push(text.slice(lastIndex, index));
+    }
+
+    if (match[0] === "@bento") {
+      nodes.push(<code key={key}>@bento</code>);
+    } else {
+      nodes.push(
+        <a href={match[2]} key={key} rel="noreferrer" target="_blank">
+          {match[1]}
+        </a>,
+      );
+    }
+
+    key += 1;
+    lastIndex = index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+
+  return nodes;
 }
 
 export function ChangelogFeed({ entries }: ChangelogFeedProps) {

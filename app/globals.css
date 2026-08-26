@@ -1809,6 +1809,16 @@ main {
   line-height: 1.7;
 }
 
+.changelog-entry-body a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.changelog-entry-body a:hover {
+  color: var(--text-muted);
+}
+
 .changelog-entry-body code {
   padding: 1px 5px;
   border: 1px solid var(--line);

@@ -10,8 +10,10 @@ const agentTools = [
   "Claude Code",
   "Codex CLI",
   "Cursor CLI",
+  "DeepSeek",
   "OpenCode",
   "Pi",
+  "Poolside",
 ] as const satisfies readonly AgentName[];
 
 export function HandoffSection() {
