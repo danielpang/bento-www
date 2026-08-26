@@ -11,10 +11,22 @@ describe("Changelog", () => {
       screen.getByRole("heading", { level: 1, name: "Changelog" }),
     ).toBeInTheDocument();
     expect(
+      screen.getByRole("heading", { name: "DeepSeek models and harness" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Poolside coding agent" }),
+    ).toBeInTheDocument();
+    expect(
       screen.getByRole("heading", { name: "Slack integration" }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Linear integration" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/DeepSeek models and a harness/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/supports Poolside as a coding agent/i),
     ).toBeInTheDocument();
     expect(
       screen.getByText((_, element) =>

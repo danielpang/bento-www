@@ -9,6 +9,30 @@ export interface ChangelogEntry {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    slug: "2026-08-26",
+    date: "2026-08-26",
+    displayDate: "August 26, 2026",
+    title: "DeepSeek models and harness",
+    description:
+      "Run DeepSeek models in Bento with a dedicated harness.",
+    paragraphs: [
+      "Bento now includes DeepSeek models and a harness to run them.",
+      "Pair DeepSeek with a skill and assign it to any pipeline stage, the same way you use the other coding agents.",
+    ],
+  },
+  {
+    slug: "2026-08-23",
+    date: "2026-08-23",
+    displayDate: "August 23, 2026",
+    title: "Poolside coding agent",
+    description:
+      "Use Poolside as a coding agent in Bento pipelines.",
+    paragraphs: [
+      "Bento now supports Poolside as a coding agent.",
+      "Pair it with a model and a skill, then assign it to any pipeline stage.",
+    ],
+  },
+  {
     slug: "2026-08-19",
     date: "2026-08-19",
     displayDate: "August 19, 2026",

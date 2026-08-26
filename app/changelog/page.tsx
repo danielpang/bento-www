@@ -6,14 +6,14 @@ import { changelogEntries } from "@/lib/changelog";
 export const metadata: Metadata = {
   title: "Changelog",
   description:
-    "Product updates for Bento, including Linear and Slack integrations.",
+    "Product updates for Bento, including coding agents, models, and integrations.",
   alternates: {
     canonical: "/changelog",
   },
   openGraph: {
     title: "Changelog | Bento",
     description:
-      "Product updates for Bento, including Linear and Slack integrations.",
+      "Product updates for Bento, including coding agents, models, and integrations.",
     type: "website",
     url: "/changelog",
   },
