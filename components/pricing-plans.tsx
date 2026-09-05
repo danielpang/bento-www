@@ -1,6 +1,7 @@
 import { ArrowUpRight, Check } from "@phosphor-icons/react/dist/ssr";
 import { CtaLink } from "./cta-link";
 import {
+  planCtaHref,
   planPriceHint,
   planPriceLabel,
   pricingPlans,
@@ -55,7 +56,7 @@ function PlanCard({
       </ul>
       <CtaLink
         className="pricing-card-cta"
-        href={signupUrl}
+        href={planCtaHref(plan, signupUrl)}
         variant={plan.featured ? "primary" : "secondary"}
       >
         {plan.ctaLabel}

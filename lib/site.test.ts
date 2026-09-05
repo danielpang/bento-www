@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeSiteConfig, slackInstallUrl } from "./site";
+import { makeSiteConfig, salesMailto, slackInstallUrl } from "./site";
 
 describe("makeSiteConfig", () => {
   it("keeps configured public destinations", () => {
@@ -28,6 +28,12 @@ describe("makeSiteConfig", () => {
     expect(makeSiteConfig({}).siteUrl.toString()).toBe(
       "http://localhost:3000/",
     );
+  });
+});
+
+describe("salesMailto", () => {
+  it("opens the sales inbox on usebento.ai", () => {
+    expect(salesMailto).toBe("mailto:daniel@usebento.ai");
   });
 });
 

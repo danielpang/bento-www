@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   money,
+  planCtaHref,
   planPriceHint,
   planPriceLabel,
   pricingPlans,
@@ -46,6 +47,15 @@ describe("hosted pricing catalog", () => {
     );
     expect(planPriceHint(pricingPlans[3]!)).toBe(
       "per user a month, 25 seats minimum",
+    );
+  });
+
+  it("sends Enterprise Talk to us to the sales inbox", () => {
+    expect(planCtaHref(pricingPlans[3]!, "https://app.usebento.dev")).toBe(
+      "mailto:daniel@usebento.ai",
+    );
+    expect(planCtaHref(pricingPlans[1]!, "https://app.usebento.dev")).toBe(
+      "https://app.usebento.dev",
     );
   });
 });

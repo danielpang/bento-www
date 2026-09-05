@@ -1,3 +1,5 @@
+import { salesMailto } from "./site";
+
 /**
  * Monthly hosted prices, matching the live Bento console billing catalog.
  *
@@ -20,7 +22,15 @@ export interface PricingPlan {
   memberLimit: number | null;
   featured: boolean;
   ctaLabel: string;
+  ctaHref?: string;
   highlights: string[];
+}
+
+export function planCtaHref(
+  plan: PricingPlan,
+  signupUrl: string | null,
+): string | null {
+  return plan.ctaHref ?? signupUrl;
 }
 
 export function money(usd: number): string {
@@ -119,6 +129,7 @@ export const pricingPlans: PricingPlan[] = [
     memberLimit: null,
     featured: false,
     ctaLabel: "Talk to us",
+    ctaHref: salesMailto,
     highlights: [
       "Everything in Business",
       "2000 agent hours a month for the team",
