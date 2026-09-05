@@ -28,11 +28,15 @@ describe("Pricing", () => {
     ).toBeInTheDocument();
 
     expect(within(plans).getByText("$0")).toBeInTheDocument();
-    expect(within(plans).getAllByText("$29")).toHaveLength(2);
-    expect(within(plans).getByText("From $99")).toBeInTheDocument();
+    expect(within(plans).getByText("$29")).toBeInTheDocument();
+    expect(within(plans).getByText("$59")).toBeInTheDocument();
+    expect(within(plans).getByText("From $110")).toBeInTheDocument();
     expect(
-      within(plans).getAllByText("per user a month, 5 seats minimum"),
-    ).toHaveLength(2);
+      within(plans).getByText("per user a month, 5 seats minimum"),
+    ).toBeInTheDocument();
+    expect(
+      within(plans).getByText("per user a month, 25 seats minimum"),
+    ).toBeInTheDocument();
     expect(
       within(plans).getByText("5 agent hours a month for the team"),
     ).toBeInTheDocument();
@@ -46,6 +50,18 @@ describe("Pricing", () => {
       within(plans).getByText("2000 agent hours a month for the team"),
     ).toBeInTheDocument();
     expect(within(plans).getByText("SSO and SCIM")).toBeInTheDocument();
+    expect(
+      within(plans).getByText("Then $0.90 an agent hour"),
+    ).toBeInTheDocument();
+    expect(
+      within(plans).getByText("Then $0.80 an agent hour"),
+    ).toBeInTheDocument();
+    expect(
+      within(plans).getByText("Then $0.65 an agent hour"),
+    ).toBeInTheDocument();
+    expect(
+      within(plans).getByText("Billed for 25 seats minimum"),
+    ).toBeInTheDocument();
     expect(within(plans).getByRole("link", { name: /Start Pro/ })).toBeInTheDocument();
     expect(pricingPlans).toHaveLength(4);
     expect(plans.querySelector(".pricing-card")).not.toHaveStyle({
@@ -62,7 +78,14 @@ describe("Pricing", () => {
     expect(
       screen.getByText(/signup or subscription anniversary/i),
     ).toBeInTheDocument();
-    expect(screen.getAllByText(/\$2 an agent hour/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/\$0\.90 an agent hour/i).length).toBeGreaterThan(
+      0,
+    );
+    expect(screen.getByText(/\$0\.80 on Business/i)).toBeInTheDocument();
+    expect(screen.getByText(/\$0\.65 on Enterprise/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Enterprise bills at least 25/i),
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: "source license" }),
     ).toHaveAttribute("href", "/license");

@@ -1,11 +1,9 @@
 /**
- * Monthly hosted prices, matching the catalog the cloud billing
- * module returns to the console.
+ * Monthly hosted prices, matching the live Bento console billing catalog.
  *
- * Seat rates and included hours come from that catalog: Free is $0,
- * Pro is $29 a seat, Business is the same seat rate with a 5-seat
- * floor, Enterprise starts at $99 a seat, and paid overage is $2 an
- * agent hour.
+ * Seat rates: Free is $0, Pro is $29 a seat, Business is $59 a seat
+ * with a 5-seat floor, Enterprise starts at $110 a seat with a
+ * 25-seat floor. Paid overage is $0.90 / $0.80 / $0.65 an agent hour.
  */
 export type PricingPlanId = "free" | "pro" | "business" | "enterprise";
 
@@ -75,7 +73,7 @@ export const pricingPlans: PricingPlan[] = [
     perSeat: true,
     minimumSeats: 1,
     includedAgentHours: 25,
-    overageUsdPerAgentHour: 2,
+    overageUsdPerAgentHour: 0.9,
     memberLimit: null,
     featured: true,
     ctaLabel: "Start Pro",
@@ -83,19 +81,19 @@ export const pricingPlans: PricingPlan[] = [
       "Billed per seat",
       "Unlimited cards on the board",
       "25 agent hours a month for the team",
-      `Then ${money(2)} an agent hour, with a ceiling you set`,
+      `Then ${money(0.9)} an agent hour`,
     ],
   },
   {
     id: "business",
     name: "Business",
     summary: "More hours, a seat floor, and a longer paper trail.",
-    amountUsd: 29,
+    amountUsd: 59,
     fromPrice: false,
     perSeat: true,
     minimumSeats: 5,
     includedAgentHours: 500,
-    overageUsdPerAgentHour: 2,
+    overageUsdPerAgentHour: 0.8,
     memberLimit: null,
     featured: false,
     ctaLabel: "Start Business",
@@ -105,18 +103,19 @@ export const pricingPlans: PricingPlan[] = [
       "90 day transcript history and audit log",
       "Priority run queue",
       "Billed for 5 seats minimum",
+      `Then ${money(0.8)} an agent hour`,
     ],
   },
   {
     id: "enterprise",
     name: "Enterprise",
     summary: "SSO, your own Fly org, and a plan sized with sales.",
-    amountUsd: 99,
+    amountUsd: 110,
     fromPrice: true,
     perSeat: true,
-    minimumSeats: 5,
+    minimumSeats: 25,
     includedAgentHours: 2000,
-    overageUsdPerAgentHour: 2,
+    overageUsdPerAgentHour: 0.65,
     memberLimit: null,
     featured: false,
     ctaLabel: "Talk to us",
@@ -125,6 +124,8 @@ export const pricingPlans: PricingPlan[] = [
       "2000 agent hours a month for the team",
       "SSO and SCIM",
       "Sandboxes in your own Fly organization",
+      "Billed for 25 seats minimum",
+      `Then ${money(0.65)} an agent hour`,
     ],
   },
 ];

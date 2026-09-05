@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { PricingPlans } from "@/components/pricing-plans";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { money, pricingPlans } from "@/lib/pricing";
 import { siteConfig } from "@/lib/site";
+
+const pro = pricingPlans.find((plan) => plan.id === "pro")!;
+const business = pricingPlans.find((plan) => plan.id === "business")!;
+const enterprise = pricingPlans.find((plan) => plan.id === "enterprise")!;
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -31,11 +36,11 @@ const questions = [
   },
   {
     title: "What happens when the hours run out?",
-    body: "Free pauses new runs until the next month. Pro and Business can stop, or keep going at $2 an agent hour with a ceiling you set so the bill cannot more than double unless you raise it.",
+    body: `Free pauses new runs until the next month. Paid plans can keep going at the overage rate on the plan: ${money(pro.overageUsdPerAgentHour!)} an agent hour on Pro, ${money(business.overageUsdPerAgentHour!)} on Business, ${money(enterprise.overageUsdPerAgentHour!)} on Enterprise.`,
   },
   {
     title: "What does a seat include?",
-    body: "A seat is a person on the team, including open invitations. Pro bills each seat. Business bills at least five. Model usage is billed by your provider. Bento records spend when a tool reports it.",
+    body: `A seat is a person on the team, including open invitations. Pro bills each seat. Business bills at least ${business.minimumSeats}. Enterprise bills at least ${enterprise.minimumSeats}. Model usage is billed by your provider. Bento records spend when a tool reports it.`,
   },
   {
     title: "Can we self-host instead?",
