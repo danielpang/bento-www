@@ -36,3 +36,5 @@ export const siteConfig = makeSiteConfig({
 
 export const slackInstallUrl =
   "https://slack.com/oauth/v2/authorize?client_id=10676673193079.11868275221140&scope=app_mentions:read,chat:write,users:read,users:read.email&user_scope=";
+
+export const salesMailto = "mailto:daniel@usebento.ai";

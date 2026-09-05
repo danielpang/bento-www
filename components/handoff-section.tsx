@@ -10,6 +10,7 @@ const agentTools = [
   "Claude Code",
   "Codex CLI",
   "Cursor CLI",
+  "Antigravity",
   "DeepSeek",
   "OpenCode",
   "Pi",

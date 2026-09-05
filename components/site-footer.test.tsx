@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { SiteFooter } from "./site-footer";
 
 describe("SiteFooter", () => {
-  it("links to docs, changelog, license, and terms, and reuses the GitHub env URL", () => {
+  it("links to docs, changelog, pricing, license, and terms, and reuses the GitHub env URL", () => {
     render(
       <SiteFooter
         githubUrl="https://github.com/danielpang/bento"
@@ -22,6 +22,9 @@ describe("SiteFooter", () => {
     expect(
       within(footer).getByRole("link", { name: "Changelog" }),
     ).toHaveAttribute("href", "/changelog");
+    expect(
+      within(footer).getByRole("link", { name: "Pricing" }),
+    ).toHaveAttribute("href", "/pricing");
     expect(
       within(footer).getByRole("link", { name: "License" }),
     ).toHaveAttribute("href", "/license");

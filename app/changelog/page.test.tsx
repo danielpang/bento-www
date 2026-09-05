@@ -11,6 +11,9 @@ describe("Changelog", () => {
       screen.getByRole("heading", { level: 1, name: "Changelog" }),
     ).toBeInTheDocument();
     expect(
+      screen.getByRole("heading", { name: "Google Antigravity CLI" }),
+    ).toBeInTheDocument();
+    expect(
       screen.getByRole("heading", { name: "DeepSeek models and harness" }),
     ).toBeInTheDocument();
     expect(
@@ -21,6 +24,9 @@ describe("Changelog", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Linear integration" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/supports Google Antigravity CLI as a coding agent/i),
     ).toBeInTheDocument();
     expect(
       screen.getByText(/DeepSeek models and a harness/i),
@@ -52,7 +58,27 @@ describe("Changelog", () => {
       ).toHaveAttribute("href", `/changelog#${entry.slug}`);
     }
 
-    const deepseek = entries[0] as HTMLElement;
+    const antigravity = entries[0] as HTMLElement;
+    const antigravityWebsite = within(antigravity).getByRole("link", {
+      name: "Antigravity website",
+    });
+    const antigravityGithub = within(antigravity).getByRole("link", {
+      name: "Antigravity CLI GitHub",
+    });
+    expect(antigravityWebsite).toHaveAttribute(
+      "href",
+      "https://antigravity.google",
+    );
+    expect(antigravityWebsite).toHaveAttribute("target", "_blank");
+    expect(antigravityWebsite).toHaveAttribute("rel", "noreferrer");
+    expect(antigravityGithub).toHaveAttribute(
+      "href",
+      "https://github.com/google-antigravity/antigravity-cli",
+    );
+    expect(antigravityGithub).toHaveAttribute("target", "_blank");
+    expect(antigravityGithub).toHaveAttribute("rel", "noreferrer");
+
+    const deepseek = entries[1] as HTMLElement;
     const deepseekWebsite = within(deepseek).getByRole("link", {
       name: "DeepSeek website",
     });
@@ -69,7 +95,7 @@ describe("Changelog", () => {
     expect(deepseekGithub).toHaveAttribute("target", "_blank");
     expect(deepseekGithub).toHaveAttribute("rel", "noreferrer");
 
-    const poolside = entries[1] as HTMLElement;
+    const poolside = entries[2] as HTMLElement;
     const poolsideWebsite = within(poolside).getByRole("link", {
       name: "Poolside website",
     });

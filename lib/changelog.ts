@@ -9,6 +9,19 @@ export interface ChangelogEntry {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    slug: "2026-09-05",
+    date: "2026-09-05",
+    displayDate: "September 5, 2026",
+    title: "Google Antigravity CLI",
+    description:
+      "Use Google Antigravity CLI as a coding agent in Bento pipelines.",
+    paragraphs: [
+      "Bento now supports Google Antigravity CLI as a coding agent.",
+      "Pair it with a Gemini model and a skill, then assign it to any pipeline stage.",
+      "See the [Antigravity website](https://antigravity.google) and [Antigravity CLI GitHub](https://github.com/google-antigravity/antigravity-cli).",
+    ],
+  },
+  {
     slug: "2026-08-26",
     date: "2026-08-26",
     displayDate: "August 26, 2026",
