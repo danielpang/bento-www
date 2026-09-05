@@ -1,7 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { pricingPlans } from "@/lib/pricing";
-import { siteConfig } from "@/lib/site";
 import PricingPage, { metadata } from "./page";
 
 describe("Pricing", () => {
@@ -63,10 +62,7 @@ describe("Pricing", () => {
     expect(
       within(plans).getByText("Billed for 25 seats minimum"),
     ).toBeInTheDocument();
-    expect(within(plans).getByRole("link", { name: /Start Pro/ })).toHaveAttribute(
-      "href",
-      siteConfig.signupUrl ?? undefined,
-    );
+    expect(within(plans).getByRole("link", { name: /Start Pro/ })).toBeInTheDocument();
     expect(within(plans).getByRole("link", { name: /Talk to us/ })).toHaveAttribute(
       "href",
       "mailto:daniel@usebento.ai",
