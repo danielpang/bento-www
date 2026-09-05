@@ -27,11 +27,14 @@ describe("SiteHeader", () => {
       within(navigation).getByRole("link", { name: "Integrations" }),
     ).toHaveAttribute("href", "/#integrations");
     expect(
+      within(navigation).getByRole("link", { name: "Pricing" }),
+    ).toHaveAttribute("href", "/pricing");
+    expect(
       within(navigation).getByRole("link", { name: "Changelog" }),
     ).toHaveAttribute("href", "/changelog");
     expect(
       Array.from(navigation.querySelectorAll("a"), (link) => link.textContent),
-    ).toEqual(["Product", "Security", "Integrations", "Changelog"]);
+    ).toEqual(["Product", "Security", "Integrations", "Pricing", "Changelog"]);
     expect(screen.getByRole("link", { name: "GitHub" })).toHaveAttribute(
       "href",
       "https://github.com/example/bento",
