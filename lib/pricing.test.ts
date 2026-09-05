@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { salesMailto } from "./site";
 import {
   money,
   planCtaHref,
@@ -52,7 +53,7 @@ describe("hosted pricing catalog", () => {
 
   it("sends Enterprise Talk to us to the sales inbox", () => {
     expect(planCtaHref(pricingPlans[3]!, "https://app.usebento.dev")).toBe(
-      "mailto:daniel@usebento.ai",
+      salesMailto,
     );
     expect(planCtaHref(pricingPlans[1]!, "https://app.usebento.dev")).toBe(
       "https://app.usebento.dev",

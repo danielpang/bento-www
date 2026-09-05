@@ -1,5 +1,3 @@
-import { salesMailto } from "./site";
-
 /**
  * Monthly hosted prices, matching the live Bento console billing catalog.
  *
@@ -129,7 +127,7 @@ export const pricingPlans: PricingPlan[] = [
     memberLimit: null,
     featured: false,
     ctaLabel: "Talk to us",
-    ctaHref: salesMailto,
+    ctaHref: "mailto:daniel@usebento.ai",
     highlights: [
       "Everything in Business",
       "2000 agent hours a month for the team",
