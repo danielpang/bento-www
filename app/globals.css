@@ -1839,13 +1839,17 @@ main {
 }
 
 .pricing-header h1 {
-  max-width: 16ch;
+  max-width: 20ch;
   margin: 0;
   color: var(--text);
   font-size: clamp(3.2rem, 7vw, 5.8rem);
   font-weight: 640;
   letter-spacing: -0.06em;
   line-height: 0.96;
+}
+
+.pricing-header h1 span {
+  display: block;
 }
 
 .pricing-lead {

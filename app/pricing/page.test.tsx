@@ -10,8 +10,11 @@ describe("Pricing", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "Hosted Bento, billed monthly.",
+        name: "Start free. Scale the pipeline.",
       }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Begin on Free, then pick a plan as the board fills up/i),
     ).toBeInTheDocument();
 
     const plans = screen.getByRole("region", { name: "Plans" });

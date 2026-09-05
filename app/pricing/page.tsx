@@ -7,14 +7,14 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Monthly pricing for hosted Bento. Seats for people on the team, pooled agent hours, and a plan that scales with you.",
+    "Start free, then pick a monthly plan as your pipeline grows. Seats for people on the team, pooled agent hours, and a price you can read.",
   alternates: {
     canonical: "/pricing",
   },
   openGraph: {
     title: "Pricing | Bento",
     description:
-      "Monthly pricing for hosted Bento. Seats for people on the team, pooled agent hours, and a plan that scales with you.",
+      "Start free, then pick a monthly plan as your pipeline grows. Seats for people on the team, pooled agent hours, and a price you can read.",
     type: "website",
     url: "/pricing",
   },
@@ -53,11 +53,14 @@ export default function PricingPage() {
       <main className="pricing-page">
         <header className="site-shell pricing-header">
           <p className="section-eyebrow">Pricing</p>
-          <h1>Hosted Bento, billed monthly.</h1>
+          <h1>
+            <span>Start free.</span>{" "}
+            <span>Scale the pipeline.</span>
+          </h1>
           <p className="pricing-lead">
             Seats are the people on the team. Hours are the sandbox time
-            agents spend working. Start on Free, then pay for the seats
-            and hours you need.
+            agents spend working. Begin on Free, then pick a plan as the
+            board fills up.
           </p>
         </header>
 
