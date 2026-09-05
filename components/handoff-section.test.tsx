@@ -26,6 +26,7 @@ describe("HandoffSection", () => {
       "Claude Code",
       "Codex CLI",
       "Cursor CLI",
+      "Antigravity",
       "DeepSeek",
       "OpenCode",
       "Pi",
@@ -36,7 +37,7 @@ describe("HandoffSection", () => {
 
     const logos = agentList.querySelectorAll("svg.agent-logo");
 
-    expect(logos).toHaveLength(7);
+    expect(logos).toHaveLength(8);
     expect(agentList.querySelector(".agent-relay-line")).toBeNull();
     for (const logo of logos) {
       expect(logo).toHaveAttribute("aria-hidden", "true");
@@ -49,7 +50,7 @@ describe("HandoffSection", () => {
       Array.from(logos, (logo) => logo.innerHTML),
     );
 
-    expect(distinctLogoStructures.size).toBe(7);
+    expect(distinctLogoStructures.size).toBe(8);
 
     const pathSignatures = Array.from(logos, (logo) => {
       const logoPaths = Array.from(logo.querySelectorAll("path"));

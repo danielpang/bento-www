@@ -27,7 +27,8 @@ retained, with the Pi mark retaining its two-path structure.
 
 ### Trademarks
 
-The Apache License does not grant trademark rights. Claude and Claude Code are
+The Apache License does not grant trademark rights. Antigravity is a mark of
+Google LLC; Claude and Claude Code are
 marks of Anthropic PBC; Codex is a mark of OpenAI; Cursor is a mark of
 Anysphere, Inc.; OpenCode is a mark of Anomaly; Pi's name and logo are
 trademarks of Earendil; and DeepSeek is a mark of Hangzhou DeepSeek Artificial

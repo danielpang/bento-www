@@ -4,6 +4,7 @@ import type { JSX } from "react";
 // Poolside's public favicon. See THIRD_PARTY_NOTICES.md and
 // licenses/Apache-2.0.txt.
 export type AgentName =
+  | "Antigravity"
   | "Claude Code"
   | "Codex CLI"
   | "Cursor CLI"
@@ -18,6 +19,9 @@ type AgentLogoProps = {
 };
 
 const paths: Record<AgentName, JSX.Element> = {
+  Antigravity: (
+    <path d="M12 2.4c-4.9 0-8.8 5.3-8.8 12.4v6.8h3.5V14.8c0-5 2.3-8.9 5.3-8.9s5.3 3.9 5.3 8.9v6.8h3.5V14.8C20.8 7.7 16.9 2.4 12 2.4z" />
+  ),
   "Claude Code": (
     <path
       clipRule="evenodd"
