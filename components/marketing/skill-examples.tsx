@@ -51,6 +51,7 @@ const serverSnapshot = () => false;
 export function SkillExamples() {
   const hydrated = useSyncExternalStore(subscribeToHydration, clientSnapshot, serverSnapshot);
   const container = useRef<HTMLDivElement>(null);
+  const stageList = useRef<HTMLDivElement>(null);
   const inView = useInView(container, { amount: 0.5 });
   const reducedMotion = useReducedMotion();
   const [selected, setSelected] = useState(0);
@@ -75,6 +76,19 @@ export function SkillExamples() {
     return () => window.clearInterval(timer);
   }, [playing, inView, pageVisible, hovered]);
 
+  useEffect(() => {
+    const list = stageList.current;
+    const active = list?.children[selected];
+    if (!list || !active || list.scrollWidth <= list.clientWidth) return;
+    const listBounds = list.getBoundingClientRect();
+    const activeBounds = active.getBoundingClientRect();
+    const offset = activeBounds.left < listBounds.left + 3
+      ? activeBounds.left - listBounds.left - 3
+      : Math.max(0, activeBounds.right - listBounds.right + 3);
+    // Scroll only the stage row so autoplay never moves the page vertically.
+    if (offset) list.scrollBy({ left: offset, behavior: motionEnabled ? "smooth" : "instant" });
+  }, [selected, motionEnabled]);
+
   const PlaybackIcon = playing ? Pause : Play;
 
   return (
@@ -94,7 +108,7 @@ export function SkillExamples() {
       }}
     >
       <div className="m-skill-controls">
-        <div className="m-skill-stages" role="group" aria-label="Choose a pipeline stage example">
+        <div className="m-skill-stages" ref={stageList} role="group" aria-label="Choose a pipeline stage example">
           {examples.map((example, index) => (
             <button
               key={example.stage}

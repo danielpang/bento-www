@@ -191,6 +191,9 @@ body:has(.marketing-page) { background: #0b0b0c; }
   .m-section { padding-block: 68px; }
   .m-stage-showcase, .m-gate-layout, .m-context-handoff { grid-template-columns: 1fr; }
   .m-stage-showcase { padding: 28px; gap: 32px; }
+  .m-skill-stages { flex: 1; min-width: 0; flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; padding: 3px; scrollbar-width: thin; }
+  .m-skill-stages button { flex: none; min-height: 44px; }
+  .m-skill-playback { width: 44px; min-height: 44px; }
   .m-context-handoff { gap: 12px; }
   .m-gate-layout { gap: 38px; }
   .m-boundaries { grid-template-columns: 1fr; gap: 20px; }
@@ -207,8 +210,6 @@ body:has(.marketing-page) { background: #0b0b0c; }
   .marketing-page .hero-actions { flex-direction: column; align-items: stretch; gap: 10px; }
   .m-agents > div { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; padding-inline: 12px; }
   .m-stage-showcase { padding: 23px; }
-  .m-skill-stages { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .m-skill-stages button { font-size: 10px; padding-inline: 6px; }
   .m-artifacts { gap: 10px; padding-block: 23px; }
   .m-artifacts code { font-size: 9px; }
   .marketing-page .pricing-grid { grid-template-columns: 1fr; gap: 15px; border: 0; background: transparent; }
