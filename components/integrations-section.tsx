@@ -1,5 +1,5 @@
 import { ArrowUpRight, SlackLogo } from "@phosphor-icons/react/dist/ssr";
-import { slackInstallUrl } from "@/lib/site";
+import { siteConfig, slackInstallUrl } from "@/lib/site";
 import { CtaLink } from "./cta-link";
 import { Reveal } from "./reveal";
 
@@ -31,7 +31,19 @@ const slackSteps = [
   "Read the agent output there",
 ] as const;
 
-export function IntegrationsSection() {
+export function IntegrationsSection({ redesigned = false }: { redesigned?: boolean }) {
+  const linearFlow = (
+    <ol aria-label="Linear integration flow" className="integration-flow">
+      {linearSteps.map((step, index) => (
+        <li key={step}>
+          <span aria-hidden="true">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          {step}
+        </li>
+      ))}
+    </ol>
+  );
   return (
     <section className="section integrations-section" id="integrations">
       <div className="site-shell">
@@ -54,16 +66,15 @@ export function IntegrationsSection() {
               Tasks created in Linear can automatically create a feature card
               in Bento and start the pipeline.
             </p>
-            <ol aria-label="Linear integration flow" className="integration-flow">
-              {linearSteps.map((step, index) => (
-                <li key={step}>
-                  <span aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  {step}
-                </li>
-              ))}
-            </ol>
+            {redesigned ? (
+              <div className="integration-footer">
+                {linearFlow}
+                <div className="integration-install">
+                  <span className="integration-install-note">Connect your account in Bento</span>
+                  <CtaLink href={siteConfig.signupUrl}>Sign up to connect Linear</CtaLink>
+                </div>
+              </div>
+            ) : linearFlow}
           </Reveal>
 
           <Reveal className="integration-card integration-card-slack" delay={0.06}>
@@ -82,7 +93,7 @@ export function IntegrationsSection() {
                     <span aria-hidden="true">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    {step}
+                    {redesigned && index === 3 ? "Read the agent output in the thread" : step}
                   </li>
                 ))}
               </ol>
@@ -96,7 +107,7 @@ export function IntegrationsSection() {
                   target="_blank"
                 >
                   Add to Slack
-                  <ArrowUpRight aria-hidden="true" size={15} weight="bold" />
+                  {!redesigned && <ArrowUpRight aria-hidden="true" size={15} weight="bold" />}
                 </CtaLink>
               </div>
             </div>

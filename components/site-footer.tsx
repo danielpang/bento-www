@@ -7,12 +7,16 @@ interface SiteFooterProps {
   githubUrl: string | null;
   signupUrl: string | null;
   showFinalCta?: boolean;
+  hideCtaArrows?: boolean;
+  hideDocsLink?: boolean;
 }
 
 export function SiteFooter({
   githubUrl,
   signupUrl,
   showFinalCta = true,
+  hideCtaArrows = false,
+  hideDocsLink = false,
 }: SiteFooterProps) {
   return (
     <>
@@ -29,7 +33,7 @@ export function SiteFooter({
             <div className="final-cta-actions">
               <CtaLink href={signupUrl}>
                 Sign up
-                <ArrowUpRight aria-hidden="true" size={16} weight="bold" />
+                {!hideCtaArrows && <ArrowUpRight aria-hidden="true" size={16} weight="bold" />}
               </CtaLink>
               <CtaLink
                 href={githubUrl}
@@ -56,9 +60,9 @@ export function SiteFooter({
             >
               GitHub
             </CtaLink>
-            <CtaLink href="/docs" variant="quiet">
+            {!hideDocsLink && <CtaLink href="/docs" variant="quiet">
               Documentation
-            </CtaLink>
+            </CtaLink>}
             <CtaLink href="/changelog" variant="quiet">
               Changelog
             </CtaLink>

@@ -6,9 +6,11 @@ import { CtaLink } from "./cta-link";
 interface SiteHeaderProps {
   githubUrl: string | null;
   signupUrl: string | null;
+  hideCtaArrows?: boolean;
+  navigation?: readonly { href: string; label: string }[];
 }
 
-const navigation = [
+const defaultNavigation = [
   { href: "/#product", label: "Product" },
   { href: "/#security", label: "Security" },
   { href: "/#integrations", label: "Integrations" },
@@ -16,7 +18,12 @@ const navigation = [
   { href: "/changelog", label: "Changelog" },
 ];
 
-export function SiteHeader({ githubUrl, signupUrl }: SiteHeaderProps) {
+export function SiteHeader({
+  githubUrl,
+  signupUrl,
+  hideCtaArrows = false,
+  navigation = defaultNavigation,
+}: SiteHeaderProps) {
   return (
     <header className="site-header">
       <div className="site-shell header-inner">
@@ -41,7 +48,7 @@ export function SiteHeader({ githubUrl, signupUrl }: SiteHeaderProps) {
           </CtaLink>
           <CtaLink href={signupUrl}>
             Sign up
-            <ArrowUpRight aria-hidden="true" size={15} weight="bold" />
+            {!hideCtaArrows && <ArrowUpRight aria-hidden="true" size={15} weight="bold" />}
           </CtaLink>
         </div>
       </div>

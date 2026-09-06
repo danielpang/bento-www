@@ -4,6 +4,8 @@ import { siteDescription, siteName, siteTitle } from "@/lib/copy";
 import { socialImage } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
+import "./marketing.css";
+import { MarketingAnalytics } from "@/components/marketing/analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,7 +53,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${jetBrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>{children}<MarketingAnalytics signupUrl={siteConfig.signupUrl} /></body>
     </html>
   );
 }
