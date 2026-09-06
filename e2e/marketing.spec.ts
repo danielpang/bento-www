@@ -55,7 +55,7 @@ test("stage examples are selectable without changing the section height", async 
   const showcase = page.locator(".m-stage-showcase");
   await showcase.scrollIntoViewIfNeeded();
   const height = (await showcase.boundingBox())!.height;
-  for (const stage of ["PM", "Product design", "Tech exploration", "Implementation", "QA", "Rollout planning"]) {
+  for (const stage of ["PM", "Product design", "Tech exploration", "Implementation", "QA", "DevOps"]) {
     await page.getByRole("button", { name: stage, exact: true }).click();
     await expect(page.locator('.m-skill-example[data-active="true"]')).toContainText(stage);
     expect((await showcase.boundingBox())!.height).toBe(height);

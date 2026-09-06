@@ -24,7 +24,7 @@ describe("pipeline skill examples", () => {
   it("cycles through all six stage examples, then starts again", () => {
     render(<SkillExamples />);
     expectStage("PM");
-    for (const stage of ["Product design", "Tech exploration", "Implementation", "QA", "Rollout planning", "PM"]) {
+    for (const stage of ["Product design", "Tech exploration", "Implementation", "QA", "DevOps", "PM"]) {
       act(() => vi.advanceTimersByTime(6000));
       expectStage(stage);
     }

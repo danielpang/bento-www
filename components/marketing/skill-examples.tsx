@@ -36,7 +36,7 @@ const examples = [
     skill: "Validate the feature against the acceptance criteria. Reproduce failures and report whether it is ready to ship.",
   },
   {
-    stage: "Rollout planning",
+    stage: "DevOps",
     agent: "DevOps engineer",
     model: "Claude Opus 4.6",
     skill: "Plan the rollout and data migrations. Define deployment steps, verification checks, and a rollback plan for a safe release.",
