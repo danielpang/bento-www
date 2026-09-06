@@ -8,31 +8,37 @@ const examples = [
   {
     stage: "PM",
     agent: "Product manager",
+    model: "Claude Sonnet 4.6",
     skill: "Define the user problem, scope, and acceptance criteria. Produce a product brief the team can build from.",
   },
   {
     stage: "Product design",
     agent: "Product designer",
+    model: "Gemini 3.1 Pro",
     skill: "Design the user flow, interactions, and key states. Deliver a design handoff with accessibility requirements and clear acceptance criteria.",
   },
   {
     stage: "Tech exploration",
     agent: "Staff engineer",
+    model: "DeepSeek V4 Pro",
     skill: "Explore the codebase, compare approaches, and document a technical plan with risks and tradeoffs.",
   },
   {
     stage: "Implementation",
     agent: "Software engineer",
+    model: "GPT-5.4",
     skill: "Implement the agreed plan, add tests, and deliver working changes that satisfy the acceptance criteria.",
   },
   {
     stage: "QA",
     agent: "QA engineer",
+    model: "Composer 2.5",
     skill: "Validate the feature against the acceptance criteria. Reproduce failures and report whether it is ready to ship.",
   },
   {
     stage: "Rollout planning",
     agent: "DevOps engineer",
+    model: "Claude Opus 4.6",
     skill: "Plan the rollout and data migrations. Define deployment steps, verification checks, and a rollback plan for a safe release.",
   },
 ];
@@ -119,12 +125,13 @@ export function SkillExamples() {
           <dl
             key={example.stage}
             className="m-skill-example"
-            aria-label={`${example.stage} stage, agent, and skill`}
+            aria-label={`${example.stage} stage, agent, model, and skill`}
             aria-hidden={selected !== index}
             data-active={selected === index}
           >
             <div><dt>Stage</dt><dd>{example.stage}</dd></div>
             <div><dt>Agent</dt><dd>{example.agent}</dd></div>
+            <div><dt>Model</dt><dd>{example.model}</dd></div>
             <div><dt>Skill</dt><dd>{example.skill}</dd></div>
           </dl>
         ))}

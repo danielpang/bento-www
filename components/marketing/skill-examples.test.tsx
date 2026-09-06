@@ -17,7 +17,7 @@ afterEach(() => vi.useRealTimers());
 
 function expectStage(stage: string) {
   expect(screen.getByRole("button", { name: stage })).toHaveAttribute("aria-pressed", "true");
-  expect(screen.getByLabelText(`${stage} stage, agent, and skill`)).toHaveAttribute("data-active", "true");
+  expect(screen.getByLabelText(`${stage} stage, agent, model, and skill`)).toHaveAttribute("data-active", "true");
 }
 
 describe("pipeline skill examples", () => {
