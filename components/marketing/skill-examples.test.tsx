@@ -21,10 +21,10 @@ function expectStage(stage: string) {
 }
 
 describe("pipeline skill examples", () => {
-  it("cycles PM, Tech exploration, Implementation, QA, then starts again", () => {
+  it("cycles through all six stage examples, then starts again", () => {
     render(<SkillExamples />);
     expectStage("PM");
-    for (const stage of ["Tech exploration", "Implementation", "QA", "PM"]) {
+    for (const stage of ["Product design", "Tech exploration", "Implementation", "QA", "Rollout planning", "PM"]) {
       act(() => vi.advanceTimersByTime(6000));
       expectStage(stage);
     }
@@ -36,7 +36,7 @@ describe("pipeline skill examples", () => {
     expectStage("PM");
     fireEvent.click(screen.getByRole("button", { name: "Play stage examples" }));
     act(() => vi.advanceTimersByTime(6000));
-    expectStage("Tech exploration");
+    expectStage("Product design");
   });
   it("manual selection stops automatic rotation so the example stays readable", () => {
     render(<SkillExamples />);

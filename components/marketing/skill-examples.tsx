@@ -11,6 +11,11 @@ const examples = [
     skill: "Define the user problem, scope, and acceptance criteria. Produce a product brief the team can build from.",
   },
   {
+    stage: "Product design",
+    agent: "Product designer",
+    skill: "Design the user flow, interactions, and key states. Deliver a design handoff with accessibility requirements and clear acceptance criteria.",
+  },
+  {
     stage: "Tech exploration",
     agent: "Staff engineer",
     skill: "Explore the codebase, compare approaches, and document a technical plan with risks and tradeoffs.",
@@ -24,6 +29,11 @@ const examples = [
     stage: "QA",
     agent: "QA engineer",
     skill: "Validate the feature against the acceptance criteria. Reproduce failures and report whether it is ready to ship.",
+  },
+  {
+    stage: "Rollout planning",
+    agent: "DevOps engineer",
+    skill: "Plan the rollout and data migrations. Define deployment steps, verification checks, and a rollback plan for a safe release.",
   },
 ];
 

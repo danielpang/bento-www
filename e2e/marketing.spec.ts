@@ -55,7 +55,7 @@ test("stage examples are selectable without changing the section height", async 
   const showcase = page.locator(".m-stage-showcase");
   await showcase.scrollIntoViewIfNeeded();
   const height = (await showcase.boundingBox())!.height;
-  for (const stage of ["PM", "Tech exploration", "Implementation", "QA"]) {
+  for (const stage of ["PM", "Product design", "Tech exploration", "Implementation", "QA", "Rollout planning"]) {
     await page.getByRole("button", { name: stage, exact: true }).click();
     await expect(page.locator('.m-skill-example[data-active="true"]')).toContainText(stage);
     expect((await showcase.boundingBox())!.height).toBe(height);
@@ -72,12 +72,12 @@ test("visible stage examples advance automatically", async ({ page }) => {
   await page.goto("/preview/redesign");
   await page.locator(".m-stage-showcase").scrollIntoViewIfNeeded();
   await page.mouse.move(0, 0);
-  await expect(page.getByRole("button", { name: "Tech exploration", exact: true })).toHaveAttribute("aria-pressed", "true", { timeout: 10000 });
+  await expect(page.getByRole("button", { name: "Product design", exact: true })).toHaveAttribute("aria-pressed", "true", { timeout: 10000 });
   await page.getByRole("button", { name: "Pause stage examples" }).click();
   await page.mouse.move(0, 0);
   await expect(page.getByRole("button", { name: "Play stage examples" })).toBeVisible();
   await page.clock.install();
   await page.clock.fastForward(12000);
   expect(hydrationErrors).toEqual([]);
-  await expect(page.getByRole("button", { name: "Tech exploration", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: "Product design", exact: true })).toHaveAttribute("aria-pressed", "true");
 });
