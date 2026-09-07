@@ -1,7 +1,9 @@
 import { PricingPlans } from "@/components/pricing-plans";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+
 import { pageMetadata } from "@/lib/metadata";
+
+import { MarketingHeader } from "@/components/marketing/header";
 import { money, pricingPlans } from "@/lib/pricing";
 import { siteConfig } from "@/lib/site";
 
@@ -41,12 +43,9 @@ const questions = [
 
 export default function PricingPage() {
   return (
-    <>
-      <SiteHeader
-        githubUrl={siteConfig.githubUrl}
-        signupUrl={siteConfig.signupUrl}
-      />
-      <main className="pricing-page">
+    <div className="marketing-page">
+      <MarketingHeader />
+      <main className="pricing-page" id="main-content">
         <header className="site-shell pricing-header">
           <p className="section-eyebrow">Pricing</p>
           <h1>
@@ -103,9 +102,10 @@ export default function PricingPage() {
         </section>
       </main>
       <SiteFooter
+        hideCtaArrows
         githubUrl={siteConfig.githubUrl}
         signupUrl={siteConfig.signupUrl}
       />
-    </>
+    </div>
   );
 }

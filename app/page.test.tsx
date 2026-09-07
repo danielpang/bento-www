@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { siteDescription, siteHeadline } from "@/lib/copy";
-import Home from "./page";
+import Home from "@/components/marketing/control-home";
 
 describe("Bento landing page", () => {
   it("presents the product story in a single accessible document", () => {

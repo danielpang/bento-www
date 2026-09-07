@@ -15,6 +15,7 @@ export default function ChangelogPage() {
     <ChangelogShell>
       <header className="changelog-header">
         <h1>Changelog</h1>
+        <p>More ways to build. Follow the latest agents, integrations, and improvements to Bento.</p>
       </header>
       <ChangelogFeed entries={changelogEntries} />
     </ChangelogShell>

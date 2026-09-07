@@ -1,4 +1,4 @@
-import { ArrowUpRight, Check } from "@phosphor-icons/react/dist/ssr";
+import { Check } from "@phosphor-icons/react/dist/ssr";
 import { CtaLink } from "./cta-link";
 import {
   planCtaHref,
@@ -60,7 +60,6 @@ function PlanCard({
         variant={plan.featured ? "primary" : "secondary"}
       >
         {plan.ctaLabel}
-        <ArrowUpRight aria-hidden="true" size={15} weight="bold" />
       </CtaLink>
     </article>
   );
