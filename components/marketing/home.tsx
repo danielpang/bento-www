@@ -9,6 +9,7 @@ import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { MarketingHeader } from "./header";
 import { SkillExamples } from "./skill-examples";
+import { FeatureArtifacts } from "./feature-artifacts";
 import { siteConfig } from "@/lib/site";
 const agents: AgentName[] = ["Claude Code", "Codex CLI", "Cursor CLI", "Antigravity", "DeepSeek", "OpenCode", "Pi", "Poolside"];
 export function MarketingHome() {
@@ -62,13 +63,9 @@ export function MarketingHome() {
           <div>
             <GitBranch size={25} aria-hidden="true" />
             <h3>The context goes with the code.</h3>
-            <p>Plans, decisions, and acceptance criteria become committed artifacts. The next agent starts with what the last one learned.</p>
+            <p>Each feature keeps its own plans, designs, and review artifacts. Stage write-ups are committed alongside the code, so the next agent starts with what the last one learned.</p>
           </div>
-          <div className="m-artifacts" aria-label="Example artifacts passed between stages">
-            <code>product-investigation.md</code><ArrowRight size={17} aria-hidden="true" />
-            <code>ui-ux-design.md</code><ArrowRight size={17} aria-hidden="true" />
-            <code>implementation</code>
-          </div>
+          <FeatureArtifacts />
         </Reveal>
       </section>
       <section className="m-section site-shell m-security" id="security">
