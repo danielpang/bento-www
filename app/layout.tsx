@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
 import { siteDescription, siteName, siteTitle } from "@/lib/copy";
+import { socialImage } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -30,11 +31,13 @@ export const metadata: Metadata = {
     siteName,
     type: "website",
     url: siteConfig.siteUrl,
+    images: [socialImage],
   },
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
+    images: [socialImage],
   },
 };
 

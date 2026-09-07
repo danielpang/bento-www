@@ -1,14 +1,9 @@
-import { ImageResponse } from "next/og";
-import {
-  siteDescription,
-  siteHeadlineLines,
-  siteImageAlt,
-  siteName,
-} from "@/lib/copy";
+import { siteDescription, siteHeadlineLines, siteName } from "@/lib/copy";
 
-export const alt = siteImageAlt;
-export const size = { height: 630, width: 1200 };
-export const contentType = "image/png";
+/**
+ * The link-preview card rendered by `next/og` (satori). Only flexbox and a
+ * subset of CSS are supported, so every container declares `display: flex`.
+ */
 
 const pipelineStages = [
   { name: "Product", state: "done" },
@@ -74,8 +69,8 @@ function BentoMark({ size }: { size: number }) {
   );
 }
 
-export default function OpenGraphImage() {
-  return new ImageResponse(
+export function SocialCard() {
+  return (
     <div
       style={{
         background: "#0a0e16",
@@ -209,7 +204,6 @@ export default function OpenGraphImage() {
           );
         })}
       </div>
-    </div>,
-    size,
+    </div>
   );
 }
