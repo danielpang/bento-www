@@ -1,23 +1,14 @@
-import type { Metadata } from "next";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { pageMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Terms of Use",
   description:
     "Terms of use for Bento, including how we handle your data and code.",
-  alternates: {
-    canonical: "/terms",
-  },
-  openGraph: {
-    title: "Terms of Use | Bento",
-    description:
-      "Terms of use for Bento, including how we handle your data and code.",
-    type: "website",
-    url: "/terms",
-  },
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

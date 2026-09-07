@@ -1,22 +1,15 @@
-import type { Metadata } from "next";
 import { CtaLink } from "@/components/cta-link";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { pageMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Accessibility",
   description: "How Bento approaches an accessible product experience.",
-  alternates: {
-    canonical: "/accessibility",
-  },
-  openGraph: {
-    title: "Accessibility at Bento",
-    description: "How Bento approaches an accessible product experience.",
-    type: "website",
-    url: "/accessibility",
-  },
-};
+  path: "/accessibility",
+  socialTitle: "Accessibility at Bento",
+});
 
 export default function AccessibilityPage() {
   return (
