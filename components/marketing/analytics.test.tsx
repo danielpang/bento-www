@@ -25,10 +25,11 @@ function Page({ variant = "redesign" }: { variant?: string }) {
 describe("experiment analytics", () => {
   it("records the rendered exposure and signup intent, never a completed signup", () => {
     render(<Page />);
-    expect(mocks.capture).toHaveBeenCalledWith("$feature_flag_called", expect.objectContaining({ $feature_flag: MARKETING_FLAG, $feature_flag_response: "redesign" }));
+    expect(mocks.capture).toHaveBeenCalledWith("$feature_flag_called", expect.objectContaining({ service: "bento-www", $feature_flag: MARKETING_FLAG, $feature_flag_response: "redesign" }));
+    expect(mocks.capture).toHaveBeenCalledWith("marketing page viewed", expect.objectContaining({ service: "bento-www" }));
     fireEvent.click(screen.getByText("GitHub"));
     fireEvent.click(screen.getByText("Sign up"));
-    expect(mocks.capture).toHaveBeenCalledWith("marketing signup clicked", expect.objectContaining({ marketing_variant: "redesign" }), { transport: "sendBeacon" });
+    expect(mocks.capture).toHaveBeenCalledWith("marketing signup clicked", expect.objectContaining({ service: "bento-www", marketing_variant: "redesign" }), { transport: "sendBeacon" });
     expect(mocks.capture.mock.calls.some(call => call[0] === "user signed up")).toBe(false);
   });
   it("excludes previews even when a real assignment cookie already exists", () => {

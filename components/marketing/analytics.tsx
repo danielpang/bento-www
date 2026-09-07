@@ -40,7 +40,8 @@ export function MarketingAnalytics({ signupUrl }: { signupUrl: string | null }) 
       initialized = true;
     }
     if (posthog.has_opted_out_capturing() || posthog.get_distinct_id() !== assignment.distinctId) return;
-    const properties = { marketing_variant: assignment.variant, [`$feature/${MARKETING_FLAG}`]: assignment.variant, experiment_key: MARKETING_FLAG };
+    // Keep service on each event: shared identity cookies also belong to the hosted app.
+    const properties = { service: "bento-www", marketing_variant: assignment.variant, [`$feature/${MARKETING_FLAG}`]: assignment.variant, experiment_key: MARKETING_FLAG };
     const rendered = document.querySelector("[data-marketing-variant]")?.getAttribute("data-marketing-variant");
     if (pathname === "/" && rendered !== assignment.variant) return;
     if (pathname === "/") {
