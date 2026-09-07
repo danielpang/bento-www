@@ -1,23 +1,14 @@
-import type { Metadata } from "next";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { pageMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "License",
   description:
     "Bento source license: read and self-host for your team, without offering a competing hosted service.",
-  alternates: {
-    canonical: "/license",
-  },
-  openGraph: {
-    title: "License | Bento",
-    description:
-      "Bento source license: read and self-host for your team, without offering a competing hosted service.",
-    type: "website",
-    url: "/license",
-  },
-};
+  path: "/license",
+});
 
 export default function LicensePage() {
   return (

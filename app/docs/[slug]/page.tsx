@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { DocsShell } from "@/components/docs-shell";
 import { MarkdownContent } from "@/components/markdown-content";
 import { getDoc, getDocSlugs, listDocs } from "@/lib/docs";
+import { pageMetadata } from "@/lib/metadata";
 
 interface DocPageProps {
   params: Promise<{ slug: string }>;
@@ -21,19 +22,13 @@ export async function generateMetadata({
     return { title: "Documentation" };
   }
 
-  return {
+  return pageMetadata({
     title: doc.meta.title,
     description: doc.meta.description,
-    alternates: {
-      canonical: `/docs/${slug}`,
-    },
-    openGraph: {
-      title: `${doc.meta.title} | Bento docs`,
-      description: doc.meta.description,
-      type: "article",
-      url: `/docs/${slug}`,
-    },
-  };
+    path: `/docs/${slug}`,
+    socialTitle: `${doc.meta.title} | Bento docs`,
+    type: "article",
+  });
 }
 
 export default async function DocPage({ params }: DocPageProps) {

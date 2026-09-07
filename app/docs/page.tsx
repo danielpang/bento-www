@@ -1,23 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { DocsShell } from "@/components/docs-shell";
 import { listDocs } from "@/lib/docs";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Documentation",
   description:
     "Guides for running Bento: pipelines, agents, pull requests, and the web console.",
-  alternates: {
-    canonical: "/docs",
-  },
-  openGraph: {
-    title: "Bento documentation",
-    description:
-      "Guides for running Bento: pipelines, agents, pull requests, and the web console.",
-    type: "website",
-    url: "/docs",
-  },
-};
+  path: "/docs",
+  socialTitle: "Bento documentation",
+});
 
 export default function DocsIndexPage() {
   const docs = listDocs();

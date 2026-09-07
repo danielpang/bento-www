@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import { PricingPlans } from "@/components/pricing-plans";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { pageMetadata } from "@/lib/metadata";
 import { money, pricingPlans } from "@/lib/pricing";
 import { siteConfig } from "@/lib/site";
 
@@ -9,21 +9,12 @@ const pro = pricingPlans.find((plan) => plan.id === "pro")!;
 const business = pricingPlans.find((plan) => plan.id === "business")!;
 const enterprise = pricingPlans.find((plan) => plan.id === "enterprise")!;
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Pricing",
   description:
     "Start free, then pick a monthly plan as your pipeline grows. Seats for people on the team, pooled agent hours, and a price you can read.",
-  alternates: {
-    canonical: "/pricing",
-  },
-  openGraph: {
-    title: "Pricing | Bento",
-    description:
-      "Start free, then pick a monthly plan as your pipeline grows. Seats for people on the team, pooled agent hours, and a price you can read.",
-    type: "website",
-    url: "/pricing",
-  },
-};
+  path: "/pricing",
+});
 
 const questions = [
   {
