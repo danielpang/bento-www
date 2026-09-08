@@ -62,7 +62,7 @@ export function llmsTxt(config: typeof siteConfig = siteConfig): string {
     "",
     `> ${siteDescription}`,
     "",
-    "Bento is a kanban board and orchestrator for coding agents. A feature moves through a pipeline of stages; each stage pairs a coding agent with a model and a skill that describes the outcome you expect, and the agent works in its own sandboxed environment. Stage write-ups are committed alongside the code, so the next agent starts with what the last one learned. Every stage begins with a manual gate for a person to review, approve, or steer, and a gate can be made automatic once its requirements can decide. Cards can be started from Linear or Slack, and finished work is published as a pull request on GitHub.",
+    "Bento is a kanban board and orchestrator for coding agents. A feature moves through a pipeline of stages; each stage pairs a coding agent with a model and a skill that describes the outcome you expect, and each feature gets its own sandboxed environment. Stage write-ups are committed alongside the code, so the next agent starts with what the last one learned. Every stage begins with a manual gate for a person to review, approve, or steer, and a gate can be made automatic once its requirements can decide. Cards can be started from Linear or Slack, and finished work is published as a pull request on GitHub.",
     "",
     "Supported coding agents: Claude Code, Codex CLI, Cursor CLI, Antigravity, DeepSeek, OpenCode, Pi, and Poolside. Model API keys stay with your team on every plan. Bento can be self-hosted with Docker, or used as a shared board with code and agents running on your own machine.",
     "",
