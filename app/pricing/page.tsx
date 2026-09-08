@@ -1,3 +1,4 @@
+import { JsonLd } from "@/components/json-ld";
 import { PricingPlans } from "@/components/pricing-plans";
 import { SiteFooter } from "@/components/site-footer";
 
@@ -6,6 +7,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { MarketingHeader } from "@/components/marketing/header";
 import { money, pricingPlans } from "@/lib/pricing";
 import { siteConfig } from "@/lib/site";
+import { faqPageJsonLd } from "@/lib/structured-data";
 
 const pro = pricingPlans.find((plan) => plan.id === "pro")!;
 const business = pricingPlans.find((plan) => plan.id === "business")!;
@@ -44,6 +46,8 @@ const questions = [
 export default function PricingPage() {
   return (
     <div className="marketing-page">
+      {/* The same questions the <dl> below shows, so the two cannot drift. */}
+      <JsonLd data={faqPageJsonLd(questions)} />
       <MarketingHeader />
       <main className="pricing-page" id="main-content">
         <header className="site-shell pricing-header">
