@@ -1,5 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { makeSiteConfig, salesMailto, slackInstallUrl } from "./site";
+import { absoluteUrl, makeSiteConfig, salesMailto, slackInstallUrl } from "./site";
+
+describe("absoluteUrl", () => {
+  const base = new URL("https://usebento.ai/");
+
+  it("writes the homepage as the bare origin, matching the canonical link", () => {
+    expect(absoluteUrl("/", base)).toBe("https://usebento.ai");
+    expect(absoluteUrl("/?utm_source=x", base)).toBe("https://usebento.ai?utm_source=x");
+  });
+
+  it("keeps other paths as written", () => {
+    expect(absoluteUrl("/pricing", base)).toBe("https://usebento.ai/pricing");
+    expect(absoluteUrl("/docs/concepts", base)).toBe("https://usebento.ai/docs/concepts");
+  });
+});
 
 describe("makeSiteConfig", () => {
   it("keeps configured public destinations", () => {

@@ -34,6 +34,17 @@ export const siteConfig = makeSiteConfig({
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
 });
 
+/**
+ * Absolute URL for a site path, written the way Next renders the canonical
+ * link and og:url: the homepage is the bare origin, without a trailing slash.
+ * The sitemap, JSON-LD, and llms.txt all go through here so every surface
+ * names the homepage identically.
+ */
+export function absoluteUrl(path: string, base: URL = siteConfig.siteUrl): string {
+  const url = new URL(path, base);
+  return url.pathname === "/" ? `${url.origin}${url.search}${url.hash}` : url.toString();
+}
+
 export const slackInstallUrl =
   "https://slack.com/oauth/v2/authorize?client_id=10676673193079.11868275221140&scope=app_mentions:read,chat:write,users:read,users:read.email&user_scope=";
 
