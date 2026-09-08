@@ -51,9 +51,11 @@ Cookie sharing does not cross unrelated domains. If signup moves away from a sib
 
 ## Implementation and failure handling
 
-`proxy.ts` evaluates the PostHog `/flags?v=2` endpoint with a 1.2-second timeout and rewrites to the control before HTML rendering. It never swaps the page after hydration. Assignment responses are private/no-store. Unknown/disabled flags, errors, quota limits, and timeouts fall back to the control without enrolling the visitor. Preview paths do not evaluate flags.
+`proxy.ts` evaluates the PostHog `/flags?v=2` endpoint with a 1.2-second timeout and rewrites to the control before HTML rendering. It never swaps the page after hydration. While the experiment is enabled every homepage response is private/no-store; while it is disabled the homepage is the same for everyone and is served with a public `s-maxage` so shared caches can hold it. Unknown/disabled flags, errors, quota limits, and timeouts fall back to the control without enrolling the visitor. Preview paths do not evaluate flags.
 
-`MarketingAnalytics` records exposure and signup clicks with `$feature/marketing-homepage-v2`. Autocapture, pageviews, session recording, and surveys are disabled. It never creates a completed-signup event and never delays navigation. Attribution survives navigation to pricing/changelog via the assignment cookie. Repeated signup clicks are possible; the experiment metric must count converted people, not total clicks.
+`MarketingAnalytics` loads posthog-js lazily whenever `NEXT_PUBLIC_POSTHOG_KEY` is set, with or without the experiment, and records a `$pageview` (and `$pageleave`) for every marketing page and App Router navigation, tagged `service: bento-www`, so web analytics for usebento.ai land in the same project as the console. Autocapture, session recording, and surveys stay disabled. With the experiment enabled and a server assignment present, it also records exposure and signup clicks with `$feature/marketing-homepage-v2`; signup clicks outside the experiment carry no variant properties. It never creates a completed-signup event and never delays navigation. Attribution survives navigation to pricing/changelog via the assignment cookie. Repeated signup clicks are possible; the experiment metric must count converted people, not total clicks.
+
+Because the client now initializes before any assignment exists, a returning visitor already has a PostHog identity cookie on the parent domain when the experiment starts. `proxy.ts` reads that cookie first, so the server assignment and the browser identity agree without a bootstrap.
 
 ## Checks
 

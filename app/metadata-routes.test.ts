@@ -14,7 +14,9 @@ describe("metadata routes", () => {
   it("publishes the marketing, docs, and legal pages", () => {
     const urls = sitemap().map((entry) => entry.url);
 
-    expect(urls).toContain("http://localhost:3000/");
+    // The homepage is written exactly as the canonical link renders it.
+    expect(urls).toContain("http://localhost:3000");
+    expect(urls).not.toContain("http://localhost:3000/");
     expect(urls).toContain("http://localhost:3000/docs");
     expect(urls).toContain("http://localhost:3000/changelog");
     expect(urls).toContain("http://localhost:3000/pricing");

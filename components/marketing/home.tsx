@@ -1,16 +1,20 @@
 import Link from "next/link";
 import { ArrowRight, Check, FileText, GitBranch, ShieldCheck, TerminalWindow, UsersThree } from "@phosphor-icons/react/dist/ssr";
 import { AgentLogo, type AgentName } from "@/components/agent-logo";
+import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
-import { GateDemo } from "@/components/gate-demo";
-import { PipelineDemo } from "@/components/pipeline-demo";
 import { IntegrationsSection } from "@/components/integrations-section";
 import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { MarketingHeader } from "./header";
-import { SkillExamples } from "./skill-examples";
 import { FeatureArtifacts } from "./feature-artifacts";
 import { siteConfig } from "@/lib/site";
+// The animated demos carry the motion library. They are server-rendered as
+// usual but hydrate from their own chunks, so the page's initial script graph
+// is the framework plus a few small islands.
+const PipelineDemo = dynamic(() => import("@/components/pipeline-demo").then(m => m.PipelineDemo));
+const GateDemo = dynamic(() => import("@/components/gate-demo").then(m => m.GateDemo));
+const SkillExamples = dynamic(() => import("./skill-examples").then(m => m.SkillExamples));
 const agents: AgentName[] = ["Claude Code", "Codex CLI", "Cursor CLI", "Antigravity", "DeepSeek", "OpenCode", "Pi", "Poolside"];
 export function MarketingHome() {
   return <div className="marketing-page" data-marketing-variant="redesign">

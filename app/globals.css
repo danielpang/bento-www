@@ -2641,6 +2641,22 @@ main {
   }
 }
 
+/*
+ * Scroll-in reveal (components/reveal.tsx). Hiding happens without a
+ * transition so hydration never fades content out; only the reveal animates.
+ */
+.reveal {
+  transition:
+    opacity 0.58s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.58s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal[data-hidden] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
