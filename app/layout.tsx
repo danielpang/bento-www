@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
+import { Suspense } from "react";
 import { siteDescription, siteName, siteTitle } from "@/lib/copy";
 import { socialImage } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
+import { siteJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 import "./marketing.css";
+import { JsonLd } from "@/components/json-ld";
 import { MarketingAnalytics } from "@/components/marketing/analytics";
 
 const geistSans = Geist({
@@ -53,7 +56,13 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${jetBrainsMono.variable}`}
     >
-      <body>{children}<MarketingAnalytics signupUrl={siteConfig.signupUrl} /></body>
+      <body>
+        {children}
+        <JsonLd data={siteJsonLd()} />
+        <Suspense fallback={null}>
+          <MarketingAnalytics signupUrl={siteConfig.signupUrl} />
+        </Suspense>
+      </body>
     </html>
   );
 }

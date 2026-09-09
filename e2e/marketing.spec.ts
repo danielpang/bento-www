@@ -8,6 +8,7 @@ for (const width of [375, 768, 1024, 1519]) {
     const captures: string[] = [];
     page.on("request", request => { if (request.url().includes("posthog.com")) captures.push(request.url()); });
     for (const path of ["/preview/redesign", "/pricing", "/changelog"]) {
+      captures.length = 0;
       await page.goto(path);
       await expect(page.locator("h1")).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
@@ -37,9 +38,10 @@ for (const width of [375, 768, 1024, 1519]) {
         }
       }
       await page.screenshot({ path: `test-results/${path.replaceAll("/", "-")}-${width}.png`, fullPage: true });
+      // Previews never load analytics. Public pages record pageviews when NEXT_PUBLIC_POSTHOG_KEY is set.
+      if (path.startsWith("/preview")) expect(captures).toEqual([]);
     }
     expect(errors).toEqual([]);
-    expect(captures).toEqual([]);
   });
 }
 

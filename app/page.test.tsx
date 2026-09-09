@@ -4,7 +4,7 @@ import { siteDescription, siteHeadline } from "@/lib/copy";
 import Home from "@/components/marketing/control-home";
 
 describe("Bento landing page", () => {
-  it("presents the product story in a single accessible document", () => {
+  it("presents the product story in a single accessible document", async () => {
     const { container } = render(<Home />);
 
     expect(
@@ -14,8 +14,9 @@ describe("Bento landing page", () => {
       }),
     ).toBeInTheDocument();
     expect(screen.getByText(siteDescription)).toBeInTheDocument();
+    // The lifecycle section hydrates from its own chunk, so it arrives async here.
     expect(
-      screen.getByRole("heading", { name: "Every feature has a route." }),
+      await screen.findByRole("heading", { name: "Every feature has a route." }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Your judgment has a place." }),
@@ -53,8 +54,9 @@ describe("Bento landing page", () => {
     expect(container.textContent).not.toMatch(/[—–]/);
   });
 
-  it("keeps heading levels in document order", () => {
+  it("keeps heading levels in document order", async () => {
     render(<Home />);
+    await screen.findByRole("heading", { name: "Every feature has a route." });
     const levels = screen
       .getAllByRole("heading")
       .map((heading) => Number(heading.tagName.slice(1)));

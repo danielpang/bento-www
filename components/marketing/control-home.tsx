@@ -1,16 +1,21 @@
 import { ArrowRight, GithubLogo } from "@phosphor-icons/react/dist/ssr";
+import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
-import { GateDemo } from "@/components/gate-demo";
 import { HandoffSection } from "@/components/handoff-section";
 import { IntegrationsSection } from "@/components/integrations-section";
-import { LifecycleSection } from "@/components/lifecycle-section";
-import { PipelineDemo } from "@/components/pipeline-demo";
 import { Reveal } from "@/components/reveal";
 import { SecuritySection } from "@/components/security-section";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteDescription, siteHeadlineLines } from "@/lib/copy";
 import { siteConfig } from "@/lib/site";
+
+// The animated sections carry the motion library. They are server-rendered as
+// usual but hydrate from their own chunks, so the page's initial script graph
+// is the framework plus a few small islands.
+const PipelineDemo = dynamic(() => import("@/components/pipeline-demo").then(m => m.PipelineDemo));
+const GateDemo = dynamic(() => import("@/components/gate-demo").then(m => m.GateDemo));
+const LifecycleSection = dynamic(() => import("@/components/lifecycle-section").then(m => m.LifecycleSection));
 
 export default function Home() {
   return (
