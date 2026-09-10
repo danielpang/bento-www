@@ -1,4 +1,4 @@
-import { siteDescription, siteName } from "@/lib/copy";
+import { siteDescription, siteDisambiguation, siteName } from "@/lib/copy";
 import { socialImagePath, socialImageSize } from "@/lib/metadata";
 import { pricingPlans, type PricingPlan } from "@/lib/pricing";
 import { absoluteUrl, salesMailto, siteConfig } from "@/lib/site";
@@ -22,6 +22,7 @@ export function siteJsonLd(config: SiteConfig = siteConfig) {
         "@id": organizationId,
         name: siteName,
         url: home,
+        disambiguatingDescription: siteDisambiguation,
         logo: {
           "@type": "ImageObject",
           url: absoluteUrl("/android-chrome-512x512.png", config.siteUrl),
@@ -45,6 +46,7 @@ export function siteJsonLd(config: SiteConfig = siteConfig) {
         name: siteName,
         url: home,
         description: siteDescription,
+        disambiguatingDescription: siteDisambiguation,
         applicationCategory: "DeveloperApplication",
         operatingSystem: "Web",
         image: {

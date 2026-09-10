@@ -1,6 +1,6 @@
 import { changelogEntries } from "@/lib/changelog";
-import { siteDescription, siteName } from "@/lib/copy";
-import { listDocs } from "@/lib/docs";
+import { siteDescription, siteDisambiguation, siteName } from "@/lib/copy";
+import { docsIndexDescription, listDocs } from "@/lib/docs";
 import { money, pricingPlans, planPriceLabel } from "@/lib/pricing";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
@@ -11,7 +11,8 @@ import { absoluteUrl, siteConfig } from "@/lib/site";
  * reader short on context, so the essentials come before it.
  *
  * Everything below restates copy that already ships on the site or in its
- * pricing catalog and docs. Nothing is claimed here that a page does not.
+ * pricing catalog and docs. Nothing is claimed here that a page does not,
+ * apart from the disambiguation line, which is kept for machine readers.
  */
 export function llmsTxt(config: typeof siteConfig = siteConfig): string {
   const link = (path: string, label: string, note: string) =>
@@ -46,7 +47,7 @@ export function llmsTxt(config: typeof siteConfig = siteConfig): string {
 
   const product = [
     link("/", "Homepage", siteDescription),
-    link("/docs", "Documentation", "Guides for running Bento: pipelines, agents, pull requests, and the web console."),
+    link("/docs", "Documentation", docsIndexDescription),
     link("/pricing", "Pricing", "Start free, then pick a monthly plan as your pipeline grows. Seats for people on the team, pooled agent hours."),
     link("/changelog", "Changelog", "Product updates for Bento, including coding agents, models, and integrations."),
   ];
@@ -61,6 +62,8 @@ export function llmsTxt(config: typeof siteConfig = siteConfig): string {
     `# ${siteName}`,
     "",
     `> ${siteDescription}`,
+    "",
+    siteDisambiguation,
     "",
     "Bento is a kanban board and orchestrator for coding agents. A feature moves through a pipeline of stages; each stage pairs a coding agent with a model and a skill that describes the outcome you expect, and each feature gets its own sandboxed environment. Stage write-ups are committed alongside the code, so the next agent starts with what the last one learned. Every stage begins with a manual gate for a person to review, approve, or steer, and a gate can be made automatic once its requirements can decide. Cards can be started from Linear or Slack, and finished work is published as a pull request on GitHub.",
     "",

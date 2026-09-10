@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { DocsShell } from "@/components/docs-shell";
-import { listDocs } from "@/lib/docs";
+import { docsIndexDescription, listDocs } from "@/lib/docs";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Documentation",
-  description:
-    "Guides for running Bento: pipelines, agents, pull requests, and the web console.",
+  description: docsIndexDescription,
   path: "/docs",
   socialTitle: "Bento documentation",
 });
@@ -17,7 +16,7 @@ export default function DocsIndexPage() {
   return (
     <DocsShell
       docs={docs}
-      lead="Start with how cards move through stages, then dig into agents, pull requests, and setup."
+      lead="Bento is an agent pipeline: coding agents move each feature through your stages, behind human gates and inside their own sandboxes. Start with how cards move through stages, then dig into agents, pull requests, and setup."
       title="Guides"
     >
       <ul className="docs-index-list">

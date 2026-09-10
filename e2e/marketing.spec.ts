@@ -13,7 +13,10 @@ for (const width of [375, 768, 1024, 1519]) {
       await expect(page.locator("h1")).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
       if (path === "/preview/redesign") {
-        await expect(page.locator('a[href^="/docs"]')).toHaveCount(0);
+        await expect(page.getByRole("contentinfo").getByRole("link", { name: "Documentation" })).toHaveAttribute("href", "/docs");
+        if (width > 800) {
+          await expect(page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Docs" })).toBeVisible();
+        }
         if (width > 980) {
           const linear = await page.getByRole("list", { name: "Linear integration flow" }).boundingBox();
           const slack = await page.getByRole("list", { name: "Slack integration flow" }).boundingBox();

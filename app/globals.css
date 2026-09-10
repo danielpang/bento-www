@@ -2156,6 +2156,7 @@ main {
 .docs-table-wrap {
   margin: 0 0 20px;
   max-width: 100%;
+  overflow-x: auto;
 }
 
 .docs-table-wrap table {
@@ -2163,6 +2164,11 @@ main {
   table-layout: fixed;
   border-collapse: collapse;
   font-size: 13px;
+}
+
+/* Two and three column tables wrap their cells; wider ones scroll instead. */
+.docs-table-wrap table:has(th:nth-child(4)) {
+  min-width: 640px;
 }
 
 .docs-body th,

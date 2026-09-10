@@ -5,6 +5,7 @@ import { siteConfig } from "@/lib/site";
 
 const navigation = [
   { label: "Integrations", href: "/#integrations" },
+  { label: "Docs", href: "/docs" },
   { label: "Pricing", href: "/pricing" },
   { label: "Changelog", href: "/changelog" },
 ];

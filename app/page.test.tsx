@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { siteDescription, siteHeadline } from "@/lib/copy";
+import { siteDescription, siteDisambiguation, siteHeadline } from "@/lib/copy";
 import Home from "@/components/marketing/control-home";
 
 describe("Bento landing page", () => {
@@ -52,6 +52,13 @@ describe("Bento landing page", () => {
     const { container } = render(<Home />);
 
     expect(container.textContent).not.toMatch(/[—–]/);
+  });
+
+  it("keeps the machine-only disambiguation line out of the visible page", () => {
+    const { container } = render(<Home />);
+
+    expect(container.textContent).not.toContain(siteDisambiguation);
+    expect(container.textContent).not.toMatch(/Not to be confused/);
   });
 
   it("keeps heading levels in document order", async () => {

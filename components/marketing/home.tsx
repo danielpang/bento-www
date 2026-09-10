@@ -25,7 +25,7 @@ export function MarketingHome() {
         <div className="m-hero-heading">
           <div className="hero-copy">
             <h1>Your agents.<br /><span>One shipping team.</span></h1>
-            <p>Orchestrate coding agents from idea to pull request. Track all your open features while keeping the context.</p>
+            <p>An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.</p>
             <div className="hero-actions">
               <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
             </div>
@@ -83,6 +83,6 @@ export function MarketingHome() {
       <IntegrationsSection redesigned />
       <section className="m-bottom-cta site-shell"><div><h2>Put your agents<br /><span>on the same team.</span></h2><p>Start free with 3 members and 5 agent hours a month.</p></div><div><CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink><Link className="m-text-link" href="/pricing">Find your plan</Link></div></section>
     </main>
-    <SiteFooter {...siteConfig} showFinalCta={false} hideDocsLink />
+    <SiteFooter {...siteConfig} showFinalCta={false} />
   </div>;
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { siteDescription } from "./copy";
+import { siteDescription, siteDisambiguation } from "./copy";
 import { pricingPlans } from "./pricing";
 import { makeSiteConfig } from "./site";
 import { faqPageJsonLd, siteJsonLd } from "./structured-data";
@@ -48,6 +48,12 @@ describe("site JSON-LD", () => {
     });
     expect((software.softwareHelp as Node).url).toBe("https://usebento.ai/docs");
     expect(software.author).toEqual({ "@id": "https://usebento.ai/#organization" });
+  });
+
+  it("tells the other Bentos apart on the organization and the product", () => {
+    expect(node("Organization").disambiguatingDescription).toBe(siteDisambiguation);
+    expect(node("SoftwareApplication").disambiguatingDescription).toBe(siteDisambiguation);
+    expect(siteDisambiguation).toMatch(/bentonow/);
   });
 
   it("lists offers straight from the pricing catalog", () => {

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { siteDisambiguation } from "@/lib/copy";
 import { listDocs } from "@/lib/docs";
 import { pricingPlans } from "@/lib/pricing";
 import { GET } from "./route";
@@ -35,5 +36,15 @@ describe("GET /llms.txt", () => {
     expect(text).toContain("- Enterprise: From $110 per seat a month, 25 seats minimum, 2000 agent hours a month for the team, then $0.65 an agent hour.");
     expect(pricingPlans).toHaveLength(4);
     expect(text).not.toMatch(/[—–]/);
+  });
+
+  it("carries the machine-only disambiguation line and the docs hub description", async () => {
+    const text = await GET().text();
+    const lines = text.split("\n");
+
+    // The one-liner sits right under the summary, before any section.
+    expect(lines.indexOf(siteDisambiguation)).toBeGreaterThan(0);
+    expect(lines.indexOf(siteDisambiguation)).toBeLessThan(lines.indexOf("## Product"));
+    expect(text).toContain("](http://localhost:3000/docs): Guides for Bento, the agent pipeline at usebento.ai");
   });
 });
