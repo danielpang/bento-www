@@ -32,10 +32,16 @@ If the signup or GitHub URL is absent, its CTA renders as an accessible disabled
   On Vercel the alias domains must be attached to the project as plain
   domains (not dashboard "Redirect to" entries) for these rules to run.
 - Every page carries Organization, WebSite, and SoftwareApplication JSON-LD
-  built from `lib/copy.ts` and `lib/pricing.ts`; `/pricing` adds FAQPage
-  markup from its questions section. See `lib/structured-data.ts`.
+  built from `lib/copy.ts` and `lib/pricing.ts`; the homepage adds FAQPage
+  markup from `lib/faq.ts` and `/pricing` from its questions section. See
+  `lib/structured-data.ts`.
+- Several unrelated products are called Bento. `siteDisambiguation` in
+  `lib/copy.ts` is the one sentence that says which one this is; it is shown
+  in the homepage hero (both variants) and the docs hub header, quoted in
+  `/llms.txt`, and set as `disambiguatingDescription` on the Organization and
+  SoftwareApplication nodes. Edit it in one place.
 - `/llms.txt` is a plain-text one-pager for agents and crawlers, generated
-  from the same copy, docs, and pricing catalog. See `lib/llms.ts`.
+  from the same copy, FAQ, docs, and pricing catalog. See `lib/llms.ts`.
 - The homepage is cached by shared caches (`s-maxage` with
   `stale-while-revalidate`) while the experiment below is off, and
   `private, no-store` while it assigns variants.

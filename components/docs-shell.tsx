@@ -11,6 +11,8 @@ interface DocsShellProps {
   currentSlug?: string;
   title: string;
   lead?: string;
+  /** Extra header content rendered after the lead, such as a short note. */
+  note?: ReactNode;
 }
 
 export function DocsShell({
@@ -19,6 +21,7 @@ export function DocsShell({
   currentSlug,
   title,
   lead,
+  note,
 }: DocsShellProps) {
   return (
     <>
@@ -62,6 +65,7 @@ export function DocsShell({
               <p className="section-eyebrow">Documentation</p>
               <h1>{title}</h1>
               {lead ? <p className="docs-lead">{lead}</p> : null}
+              {note}
             </header>
             <div className="docs-body">{children}</div>
           </article>

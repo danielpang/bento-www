@@ -108,10 +108,10 @@ describe("Pricing", () => {
     const data = JSON.parse(script!.textContent ?? "null");
     expect(data["@type"]).toBe("FAQPage");
 
-    const shownQuestions = Array.from(container.querySelectorAll(".pricing-faq dt")).map(
+    const shownQuestions = Array.from(container.querySelectorAll(".faq-section dt")).map(
       (term) => term.textContent,
     );
-    const shownAnswers = Array.from(container.querySelectorAll(".pricing-faq dd")).map(
+    const shownAnswers = Array.from(container.querySelectorAll(".faq-section dd")).map(
       (detail) => detail.textContent,
     );
     expect(shownQuestions.length).toBeGreaterThan(0);

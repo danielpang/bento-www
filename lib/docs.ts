@@ -10,6 +10,10 @@ export interface DocMeta {
 
 const DOCS_DIR = path.join(process.cwd(), "content/docs");
 
+/** The docs hub description, shared by its metadata and /llms.txt. */
+export const docsIndexDescription =
+  "Guides for Bento, the agent pipeline at usebento.ai: pipelines, agents, pull requests, and the web console.";
+
 const DOC_META: Record<
   string,
   Omit<DocMeta, "slug">

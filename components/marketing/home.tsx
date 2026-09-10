@@ -3,7 +3,9 @@ import { ArrowRight, Check, FileText, GitBranch, ShieldCheck, TerminalWindow, Us
 import { AgentLogo, type AgentName } from "@/components/agent-logo";
 import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
+import { DisambiguationNote } from "@/components/disambiguation-note";
 import { IntegrationsSection } from "@/components/integrations-section";
+import { ProductFaq } from "@/components/product-faq";
 import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { MarketingHeader } from "./header";
@@ -25,10 +27,11 @@ export function MarketingHome() {
         <div className="m-hero-heading">
           <div className="hero-copy">
             <h1>Your agents.<br /><span>One shipping team.</span></h1>
-            <p>Orchestrate coding agents from idea to pull request. Track all your open features while keeping the context.</p>
+            <p>An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.</p>
             <div className="hero-actions">
               <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
             </div>
+            <DisambiguationNote className="hero-note" />
           </div>
           <div className="m-demo hero-visual" id="product">
           <div className="m-demo-caption"><span><TerminalWindow size={16} aria-hidden="true" /> A feature, moving forward.</span><span>Interactive pipeline demo</span></div>
@@ -81,6 +84,7 @@ export function MarketingHome() {
         </div>
       </section>
       <IntegrationsSection redesigned />
+      <ProductFaq className="home-faq" />
       <section className="m-bottom-cta site-shell"><div><h2>Put your agents<br /><span>on the same team.</span></h2><p>Start free with 3 members and 5 agent hours a month.</p></div><div><CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink><Link className="m-text-link" href="/pricing">Find your plan</Link></div></section>
     </main>
     <SiteFooter {...siteConfig} showFinalCta={false} hideDocsLink />

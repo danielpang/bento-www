@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   siteDescription,
+  siteDisambiguation,
+  siteDomain,
   siteHeadline,
   siteHeadlineLines,
   siteImageAlt,
@@ -21,5 +23,16 @@ describe("site copy", () => {
     expect(siteTitle).toBe(`${siteName} | ${siteHeadline}`);
     expect(siteImageAlt).toBe(`${siteName}. ${siteHeadline}.`);
     expect(siteDescription).toContain("coordinating agents");
+  });
+
+  it("tells the other Bentos apart in one quotable sentence", () => {
+    expect(siteDomain).toBe("usebento.ai");
+    expect(siteDisambiguation).toContain("bentonow");
+    expect(siteDisambiguation).toContain("getbento.sh");
+    expect(siteDisambiguation).toContain("agent pipeline");
+    expect(siteDisambiguation).toContain(siteDomain);
+    // One sentence, so every surface can quote it whole.
+    expect(siteDisambiguation.match(/[.!?](\s|$)/g)).toHaveLength(1);
+    expect(siteDisambiguation).not.toMatch(/[—–]/);
   });
 });

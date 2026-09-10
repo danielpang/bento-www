@@ -697,6 +697,22 @@ main {
   padding-inline: 18px;
 }
 
+/* Which Bento this is, said once and quietly, under the first call to action. */
+.disambiguation-note {
+  max-width: 52ch;
+  color: var(--text-faint);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.hero-copy > p.hero-note {
+  max-width: 52ch;
+  margin: 22px 0 0;
+  color: var(--text-faint);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .hero-visual {
   min-width: 0;
   width: calc(100% - clamp(12px, 2vw, 28px));
@@ -1684,6 +1700,10 @@ main {
   line-height: 1.7;
 }
 
+.docs-header .docs-note {
+  margin: 16px 0 0;
+}
+
 .legal-content section {
   margin-top: 56px;
   padding-top: 28px;
@@ -1982,13 +2002,19 @@ main {
   text-underline-offset: 3px;
 }
 
-.pricing-faq {
+.faq-section {
   margin-top: clamp(64px, 8vw, 96px);
   padding-top: 36px;
   border-top: 1px solid var(--line);
 }
 
-.pricing-faq h2 {
+/* On the homepage the questions are a full-width band after the last section. */
+.home-faq {
+  margin-top: 0;
+  padding: clamp(64px, 8vw, 96px) 0 clamp(72px, 9vw, 120px);
+}
+
+.faq-section h2 {
   margin: 0 0 28px;
   color: var(--text);
   font-size: clamp(1.8rem, 3vw, 2.4rem);
@@ -1996,21 +2022,21 @@ main {
   letter-spacing: -0.04em;
 }
 
-.pricing-faq dl {
+.faq-section dl {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px 48px;
   margin: 0;
 }
 
-.pricing-faq dt {
+.faq-section dt {
   color: var(--text);
   font-size: 16px;
   font-weight: 620;
   letter-spacing: -0.02em;
 }
 
-.pricing-faq dd {
+.faq-section dd {
   max-width: 52ch;
   margin: 8px 0 0;
   color: var(--text-muted);
@@ -2294,7 +2320,7 @@ main {
     min-height: 330px;
   }
 
-  .pricing-faq dl {
+  .faq-section dl {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -2488,7 +2514,7 @@ main {
   }
 
   .pricing-grid,
-  .pricing-faq dl {
+  .faq-section dl {
     grid-template-columns: 1fr;
   }
 }
