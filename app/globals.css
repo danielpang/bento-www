@@ -2318,6 +2318,10 @@ main {
 }
 
 .pipeline-flow {
+  /* Tall enough for the live card including its activity line, so a
+     stage that already holds another card does not grow the figure. */
+  --flow-live-h: 4rem;
+
   container-type: inline-size;
   margin: 0;
   overflow: hidden;
@@ -2537,10 +2541,15 @@ main {
   flex: 1 1 auto;
   flex-direction: column;
   gap: 6px;
-  min-height: 96px;
+  min-height: 0;
   padding: 7px;
   border-radius: 0 0 var(--radius) var(--radius);
   background: var(--surface-sunken);
+}
+
+.flow-live {
+  flex: none;
+  min-height: var(--flow-live-h);
 }
 
 .flow-card {
@@ -2556,17 +2565,23 @@ main {
 }
 
 .flow-card strong {
+  overflow: hidden;
   color: var(--text);
   font-size: 10px;
   font-weight: 580;
   line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .flow-card > span:not(.activity-line) {
+  overflow: hidden;
   color: var(--text-faint);
   font-family: var(--font-jetbrains-mono), monospace;
   font-size: 8.5px;
   line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .flow-card[data-state="running"] {
@@ -2818,16 +2833,7 @@ main {
   }
 
   .flow-slot {
-    min-height: 0;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: flex-start;
     border-radius: 0 var(--radius) var(--radius) 0;
-  }
-
-  .flow-slot .flow-card {
-    flex: 1 1 130px;
-    max-width: 100%;
   }
 
   .flow-gate {

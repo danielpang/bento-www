@@ -9,7 +9,7 @@ import {
   Play,
 } from "@phosphor-icons/react";
 import { LayoutGroup, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { AgentLogo, type AgentName } from "@/components/agent-logo";
 
 type GateMode = "auto" | "manual";
@@ -167,6 +167,27 @@ function liveCardLabel(position: Position): string {
 
 function locationName(stage: number): string {
   return stage === DONE ? "Done" : pipelineStages[stage]!.name;
+}
+
+/** Reserved live-card lane plus any settled cards already in the stage. */
+function StageSlot({
+  live,
+  cards = [],
+}: {
+  live: ReactNode;
+  cards?: SettledCard[];
+}) {
+  return (
+    <div className="flow-slot">
+      <div className="flow-live">{live}</div>
+      {cards.map((card) => (
+        <article className="flow-card" data-state={card.state} key={card.title}>
+          <strong>{card.title}</strong>
+          <span>{card.label}</span>
+        </article>
+      ))}
+    </div>
+  );
 }
 
 export function PipelineFlowDiagram() {
@@ -337,19 +358,7 @@ export function PipelineFlowDiagram() {
                       <span>{stage.harness}</span>
                     </span>
                   </button>
-                  <div className="flow-slot">
-                    {holdsCard ? liveCard : null}
-                    {(settledCards[index] ?? []).map((card) => (
-                      <article
-                        className="flow-card"
-                        data-state={card.state}
-                        key={card.title}
-                      >
-                        <strong>{card.title}</strong>
-                        <span>{card.label}</span>
-                      </article>
-                    ))}
-                  </div>
+                  <StageSlot live={holdsCard ? liveCard : null} cards={settledCards[index]} />
                 </div>
                 <span
                   aria-hidden="true"
@@ -383,19 +392,7 @@ export function PipelineFlowDiagram() {
                 <span className="flow-stage-name">Done</span>
                 <span className="flow-agent">No agent runs</span>
               </button>
-              <div className="flow-slot">
-                {atDone ? liveCard : null}
-                {settledCards[DONE]!.map((card) => (
-                  <article
-                    className="flow-card"
-                    data-state={card.state}
-                    key={card.title}
-                  >
-                    <strong>{card.title}</strong>
-                    <span>{card.label}</span>
-                  </article>
-                ))}
-              </div>
+              <StageSlot live={atDone ? liveCard : null} cards={settledCards[DONE]} />
             </div>
           </li>
         </ol>

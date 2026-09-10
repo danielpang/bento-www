@@ -73,6 +73,12 @@ describe("PipelineFlowDiagram", () => {
       "manual",
     ]);
 
+    // Every stage reserves a live-card lane so a occupied column does not grow.
+    expect(track.querySelectorAll(".flow-live")).toHaveLength(stages.length);
+    const occupied = stages[2] as HTMLElement;
+    expect(occupied.querySelector(".flow-live")).toBeEmptyDOMElement();
+    expect(occupied).toHaveTextContent("Usage-based billing");
+
     // Other features share the board with the moving card.
     expect(screen.getByText("Usage-based billing")).toBeInTheDocument();
     expect(screen.getByText("Rate limit the public API")).toBeInTheDocument();
@@ -210,6 +216,24 @@ describe("PipelineFlowDiagram", () => {
     // Selecting the pinned stage again releases it.
     fireEvent.click(screen.getByRole("button", { name: /Done/ }));
     expect(detailPanel()).toHaveTextContent("Staff Engineer");
+  });
+
+  it("places the live card in the reserved lane of an already occupied stage", () => {
+    render(<PipelineFlowDiagram />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Approve" }));
+    fireEvent.click(screen.getByRole("button", { name: "Approve" }));
+    expectCardIn("Engineering requirements", "agent working");
+
+    const occupied = screen
+      .getByRole("list", { name: "Pipeline stages" })
+      .querySelectorAll(".flow-stage")[2] as HTMLElement;
+    const lane = occupied.querySelector(".flow-live") as HTMLElement;
+    const settled = occupied.querySelector(".flow-card:not([data-live])") as HTMLElement;
+
+    expect(lane).toContainElement(liveCard());
+    expect(settled).toHaveTextContent("Usage-based billing");
+    expect(lane.compareDocumentPosition(settled) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it("pauses and resumes the animation", () => {
