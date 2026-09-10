@@ -23,6 +23,10 @@ A stage with an assigned agent starts when a card arrives. Sending a card back s
 
 ## Gates
 
+### How do human gates work in a multi-agent pipeline?
+
+In Bento, the agent pipeline at [usebento.ai](/), every stage begins with a gate, and new projects default to manual approval on all six stages. A person reviews the stage's output, then approves the card, sends it back, or steers the agent. Switch a stage to automatic once its requirements can decide: the card advances when every listed criterion passes, and holds when one fails.
+
 All criteria on a stage must pass:
 
 | Criterion | Pass condition |
@@ -37,6 +41,8 @@ All criteria on a stage must pass:
 Re-evaluation triggers: run completion, GitHub webhook, manual re-check, or every five minutes.
 
 **Judge agent:** second agent on the same card. Configure via skill and use a different model from the working agent. Incomplete verdict holds the card and displays the reason. New work triggers a new judgment.
+
+Gates are part of every plan, including Free, which comes with 3 members and 5 agent hours a month. [Create an account](https://app.usebento.ai/) to set up a pipeline, or [compare plans on the pricing page](/pricing).
 
 ## Agents
 
