@@ -5,6 +5,7 @@ import { renderToString } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { GateDemo } from "./gate-demo";
 import { PipelineDemo } from "./pipeline-demo";
+import { PipelineFlowDiagram } from "./pipeline-flow-diagram";
 
 const motionPreference = vi.hoisted(() => ({
   value: null as boolean | null,
@@ -54,6 +55,7 @@ describe("animated client islands", () => {
       <>
         <PipelineDemo />
         <GateDemo />
+        <PipelineFlowDiagram />
       </>,
     );
 
