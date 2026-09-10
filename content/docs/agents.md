@@ -1,65 +1,101 @@
 # Supported coding agents
 
-Every stage of a pipeline runs one of these tools, paired with a model, as an agent you name and give a skill. They differ in three ways that matter day to day: how they authenticate, whether you can talk to them while they work, and whether they report what a run cost.
+Each stage runs one agent: harness, model, and skill. Tools differ in authentication, mid-run messaging, and cost reporting.
 
-- **Claude Code** — Model `claude-sonnet-5`. Credential: `ANTHROPIC_API_KEY`, or a subscription token. Talk while working: yes; messages queue behind the current step in the same conversation. Reports cost: yes.
-- **pi** — Model `anthropic/claude-sonnet-5`. Credential: whichever provider key the model needs. Talk while working: yes; messages steer the agent while it works. Reports cost: yes.
-- **Codex CLI** — Model `gpt-5-codex`. Credential: `OPENAI_API_KEY`. Talk while working: between runs; delivered when the run ends. Reports cost: no.
-- **Cursor CLI** — Model `claude-sonnet-5`. Credential: `CURSOR_API_KEY`. Talk while working: between runs; delivered when the run ends. Reports cost: no.
-- **opencode** — Model `anthropic/claude-sonnet-5`. Credential: whichever provider key the model needs. Talk while working: between runs; delivered when the run ends. Reports cost: no.
+| Tool | Model format | Credential | Mid-run messaging | Reports cost |
+| --- | --- | --- | --- | --- |
+| Claude Code | `claude-sonnet-5` | `ANTHROPIC_API_KEY` or subscription token | Queued in same session | Yes |
+| pi | `anthropic/claude-sonnet-5` | Provider key for selected model | Steering after current tool call | Yes |
+| Codex CLI | `gpt-5-codex` | `OPENAI_API_KEY` | Between runs (session resume) | No |
+| Cursor CLI | `claude-sonnet-5`, `composer-2.5`, `grok-4.6` | `CURSOR_API_KEY` | Between runs (session resume) | No |
+| opencode | `anthropic/claude-sonnet-5` | Provider key for selected model | Between runs (session resume) | No |
+| Poolside (pool) | `poolside/laguna-s-2.1` | `POOLSIDE_API_KEY` | Between runs (new run, no session id) | No |
+| DeepSeek Harness (dsh, preview) | `deepseek-v4-pro` | `DEEPSEEK_API_KEY` | Between runs (new run, no session id) | No |
+| Antigravity CLI | `gemini-3.1-pro-high` | `GEMINI_API_KEY` | Between runs (conversation resume) | No |
 
-Keys are stored encrypted, per organization in multi mode and locally in local mode, through the web console, `bento setup`, or the Mac app. To route Claude Code or Codex through OpenRouter, save the OpenRouter key and set `ANTHROPIC_BASE_URL` or `OPENAI_BASE_URL` to `https://openrouter.ai/api/v1`.
+Keys are stored encrypted (per organization in multi mode; local scope in local mode) via the web console or `bento setup`.
+
+OpenRouter routing for Claude Code or Codex: save the OpenRouter key and set `ANTHROPIC_BASE_URL` or `OPENAI_BASE_URL` to `https://openrouter.ai/api/v1`.
+
+**DeepSeek:** use pi or opencode for streamed runs with `DEEPSEEK_API_KEY` or `openrouter/deepseek/...`. DeepSeek Harness (`dsh`) is preview-only (see below). Warm sandboxes reinstall pi below 0.70.1, opencode below 1.14.24, or dsh when `--version` does not match the pin.
+
+Export/import agents as YAML from **Agents**, **Settings, Config**, or `bento agents export` / `import`. See [the agents file](/docs/pipeline#the-agents-file).
 
 ## Talking to a working agent
 
-You can always type into a card's composer, whatever the agent is doing. What happens next depends on the tool:
+The card composer accepts input during runs. Behavior by tool:
 
-- **pi** holds a live session and *steers*: your message reaches the agent after the tool call it is in the middle of, and it changes course without finishing the old plan first.
-- **Claude Code** holds a live session and *queues in conversation*: your message is read after the current step, in the same session, with everything the agent has already seen.
-- **Codex, Cursor, and opencode** take messages *between runs*: yours is delivered the moment the current run ends, as a resume of the same session, so no context is lost.
+- **pi:** message delivered after the current tool call (steering). Manual stages keep the session open after a turn.
+- **Claude Code:** message queued for the next step in the same session. Manual stages keep the session open.
+- **Codex, Cursor, opencode, Antigravity:** message delivered when the current run ends; next run resumes the session.
+- **pool, dsh:** message delivered when the current run ends; next run starts fresh with stage prompt and compacted transcript.
 
-The composer says which of these applies to the agent that is working, and Stop always ends the run immediately. A message that has to wait for the run to end stays on the card as a queued message until the agent picks it up.
+If the session is unavailable (sandbox recreated or CLI session lost), Bento starts a new run with the same instructions and compacted transcript.
+
+**Stop** terminates the run immediately. Pending messages remain queued on the card.
 
 ## Claude Code on a subscription
 
-Claude Code can run on a Claude subscription you already pay for instead of an API key. One step makes this durable:
+Local mode only. Not supported on hosted Bento at [usebento.ai](/).
 
 ```bash
 claude setup-token
 ```
 
-It opens a browser once, you approve, and it prints a long lived token. Save that token in any of these places:
+Save the token in:
 
-- **Web console**: Agents panel, "Use a subscription instead of a key", paste and Save. Takes effect on the next run, no restart.
-- **`bento setup`**: the credentials step offers "Claude subscription token".
-- **`.env`** as `CLAUDE_CODE_OAUTH_TOKEN=...` for the docker compose stack. A token saved in the console overrides this.
+- **Web console:** Agents → Claude subscription
+- `bento setup`
+- `.env` as `CLAUDE_CODE_OAUTH_TOKEN=` (docker compose). Console value overrides `.env`.
 
-The token counts as a full credential: with it present, no `ANTHROPIC_API_KEY` is needed and runs bill the subscription.
+When a subscription token is present, `ANTHROPIC_API_KEY` is not sent. Claude Code prefers API keys when both are available. `ANTHROPIC_BASE_URL` forces API key use (tokens are valid only at Anthropic's endpoint).
 
-Two things to know:
+Do not use macOS Keychain login for server deployments. Keychain tokens rotate frequently and are unavailable in containers. Use `setup-token`.
 
-- **Do not rely on the machine's Claude login for servers.** The login in the macOS Keychain rotates its access token on a timescale of minutes, so copies of it die almost immediately, and a server in a container cannot reach the Keychain at all. `setup-token` exists precisely for this; it is the only Claude credential that survives unattended operation.
-- **If a run fails with "OAuth access token has been revoked"**, the saved token was invalidated. Run `claude setup-token` again and save the new one; the failure message in the run log says exactly this.
+On "OAuth access token has been revoked", regenerate with `claude setup-token` and update the stored token.
 
 ## Per tool notes
 
 ### Claude Code
 
-Anthropic's agent. Model ids are bare (`claude-sonnet-5`, `claude-opus-5`). Credential: `ANTHROPIC_API_KEY` or the subscription token above. Runs report cost, so card and project spend are real figures. Live sessions run over its streaming JSON protocol; there is no mid-step interrupt short of Stop.
+Bare model ids (`claude-sonnet-5`, `claude-opus-5`). Reports cost. Mid-run interruption: **Stop** only.
 
 ### pi
 
-The open source, provider agnostic agent from earendil-works. Models are `provider/id` (`anthropic/claude-sonnet-5`, `openrouter/z-ai/glm-4.6`); it uses whichever of `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, or `GEMINI_API_KEY` the chosen provider needs. Live sessions run over its RPC mode, and steering is pi's own first class concept. Reports cost.
+Provider-agnostic (`provider/id` format). Keys: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `GEMINI_API_KEY`, `DEEPSEEK_API_KEY` as required by model. Reports cost.
 
 ### Codex CLI
 
-OpenAI's agent. Bare model ids (`gpt-5-codex`). Credential: `OPENAI_API_KEY`, or OpenRouter via `OPENAI_BASE_URL`. Messages are delivered between runs today; the tool itself has a steering interface (its app server), which is a candidate for a future live integration. Does not report cost, so spend totals mark its runs as unmeasured.
+Bare model ids. `OPENAI_API_KEY` or OpenRouter via `OPENAI_BASE_URL`. Does not report cost.
 
 ### Cursor CLI
 
-Cursor's terminal agent. Bare model ids, subject to your Cursor plan. Credential: `CURSOR_API_KEY`. Its headless mode takes no input while running, so messages are delivered between runs; that is a limit of the tool, not a configuration. Does not report cost.
+Bare model ids per Cursor plan. Single `CURSOR_API_KEY`. Unlisted model ids may be entered manually. Headless mode accepts no mid-run input. Does not report cost.
 
 ### opencode
 
-The open source terminal agent from sst. Models are `provider/id`, with `openrouter/` prefixes supported. Same provider keys as pi. Messages are delivered between runs. Does not report cost.
+`provider/id` format including `openrouter/`. Same provider keys as pi. Does not report cost.
 
+### Poolside (pool)
+
+Vendor-prefixed ids (`poolside/laguna-s-2.1`). `POOLSIDE_API_KEY`. Additional Laguna ids may be typed manually.
+
+`pool exec` has no `--model` flag. Bento sets `POOLSIDE_STANDALONE_MODEL` and the Poolside Platform base URL. Override with `POOLSIDE_STANDALONE_BASE_URL` locally.
+
+OpenRouter alternative: pi or opencode with `openrouter/poolside/laguna-s-2.1`. Does not report cost.
+
+### DeepSeek Harness (dsh)
+
+Preview. Pinned `@deepseek-ai/dsh@0.1.1-rc.2`. Bare model id (e.g. `deepseek-v4-pro`). `DEEPSEEK_API_KEY`; optional `DEEPSEEK_BASE_URL`.
+
+Outputs final message only (no streamed tool/thinking events). No session id. Use **Changes** for file-level results.
+
+### Antigravity CLI
+
+Google's `agy`, run headlessly (`agy -p ... --output-format stream-json`). Bare Antigravity model slugs, which name the model tier and its reasoning effort together: `gemini-3.1-pro-high`, `gemini-3.6-flash-medium`. Unlisted slugs may be typed manually.
+
+Authentication is `GEMINI_API_KEY`. Antigravity normally signs in with a Google account, which no sandbox can do, so Bento's sandboxes carry `{"modelProvider": "gemini"}` in `~/.gemini/antigravity-cli/settings.json` and the CLI runs against the key. Optional `GOOGLE_GEMINI_BASE_URL` points it at a Gemini compatible endpoint. Only Gemini models are served on this route: the Claude and GPT models Antigravity offers need a signed-in account, which local mode can supply by sharing this machine's `~/.gemini` (Agents, "Use this machine's logins"), with the same risk that sharing any login carries.
+
+Runs resume by conversation id (`--conversation`), so a follow-up continues the same conversation. Headless mode accepts no mid-run input. Does not report cost: Antigravity bills against a plan's quota rather than per run.
+
+MCP servers attach through `~/.gemini/config/mcp_config.json`, which Bento rewrites before every run.

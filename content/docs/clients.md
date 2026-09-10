@@ -1,22 +1,24 @@
 # Other clients
 
-The TUI and web app are both still in progress and have not reached feature parity yet: features land unevenly across clients, and neither is complete.
+Bento has two clients: the web console (`apps/web`) and the terminal (`apps/tui`). Both use the same API. The web console is the complete client and has the broadest feature set. The TUI is still in development and trails it.
 
 ## Terminal
 
-`apps/tui`. A full board in the terminal, plus the commands that make a board scriptable. It can also run the whole server itself, or act as a runner that executes work a shared server is holding.
+`apps/tui` provides a terminal board and scriptable commands. It can run the full server locally or connect to a remote server as a thin client or as a local agent runner.
 
-Select a card with `j`/`k`; the pane below tails the newest run's transcript, `h` switches it to the card's history, `a` approves a manual gate and `R` rejects it, `r` re-checks, `x` stops the agent and `c` continues it with your own instructions.
+Card navigation: `j`/`k` to select; the pane below tails the newest run transcript; `h` for card history; `a` approve, `R` reject; `r` re-check; `x` stop; `c` continue with instructions.
 
-`bento setup` covers repositories, agents, stages, and provider keys. The scriptable versions of the same things:
+Setup and configuration:
 
 ```bash
+bento setup
 bento repos add ../api --project Checkout --setup "npm ci" --test "npm test"
 bento agents edit Reviewer --model claude-sonnet-5
+bento agents export team-agents.yaml
 bento pipeline export team-pipeline.yaml
 ```
 
-## What each covers today
+## Feature coverage
 
 | Task | Web console | Terminal |
 | --- | --- | --- |
@@ -25,6 +27,7 @@ bento pipeline export team-pipeline.yaml
 | Connect and remove repositories | Yes | Yes |
 | Set a repository's setup and test commands | Yes | `bento repos set` |
 | Export and import a pipeline as YAML | Yes | `bento pipeline` |
+| Export and import agents as YAML | Yes | `bento agents export` / `import` |
 | Add a card | Yes | No |
 | Add, edit and remove agents | Yes | Yes |
 | Assign an agent to a stage | Yes | Yes |
@@ -39,16 +42,16 @@ bento pipeline export team-pipeline.yaml
 | Save and remove provider API keys | Yes | Yes |
 | Manage the team and its credentials | Yes | No |
 
-Both drive the same API. Team management and stored credentials are multi mode only in every client, because a local install has one user and no organization to hold them.
+Team management and stored credentials require multi mode. Local mode has one user and no organization.
 
-## Where the board lives, and where agents run
+## Server and agent placement
 
-These are separate choices, which is what the terminal client is for:
+The terminal separates where the board runs from where agents run:
 
 ```bash
-bento                                                     # everything on this machine
-bento --server https://bento.example.com                  # thin client: board and agents on the server
-bento --server https://bento.example.com --agents local   # shared board, agents run here
+bento                                                     # server and agents on this machine
+bento --server https://bento.example.com                  # board on server; agents on server
+bento --server https://bento.example.com --run-agents local   # board on server; agents on this machine
 ```
 
-The last one suits teams who want a shared board without their code or agent API keys leaving their machines. The board, run history, and transcripts are tracked normally and teammates see them; what stays local is the work product. Agents commit into checkouts on that machine, runs queued for a machine wait while it is offline, and nothing is pushed for you, because those worktrees are where the server cannot reach them.
+With `--run-agents local`, the shared server holds board state and transcripts. Agents run against local checkouts on the member's machine. Runs queue when that machine is offline. The server does not push to GitHub because it cannot access local worktrees.
