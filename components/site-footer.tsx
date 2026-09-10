@@ -59,7 +59,7 @@ export function SiteFooter({
               GitHub
             </CtaLink>
             <CtaLink href="/docs" variant="quiet">
-              Documentation
+              Docs
             </CtaLink>
             <CtaLink href="/changelog" variant="quiet">
               Changelog

@@ -17,7 +17,7 @@ describe("SiteFooter", () => {
       within(footer).getByRole("link", { name: "GitHub" }),
     ).toHaveAttribute("href", "https://github.com/danielpang/bento");
     expect(
-      within(footer).getByRole("link", { name: "Documentation" }),
+      within(footer).getByRole("link", { name: "Docs" }),
     ).toHaveAttribute("href", "/docs");
     expect(
       within(footer).getByRole("link", { name: "Changelog" }),

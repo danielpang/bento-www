@@ -24,7 +24,7 @@ describe("redesigned homepage", () => {
       within(screen.getByRole("navigation", { name: "Mobile navigation" })).getByRole("link", { name: "Docs" }),
     ).toHaveAttribute("href", "/docs");
     const footer = screen.getByRole("contentinfo");
-    expect(within(footer).getByRole("link", { name: "Documentation" })).toHaveAttribute("href", "/docs");
+    expect(within(footer).getByRole("link", { name: "Docs" })).toHaveAttribute("href", "/docs");
     expect(container.textContent).not.toMatch(/[—–]/);
   });
 });
