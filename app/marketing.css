@@ -1,6 +1,8 @@
 /* Developer marketing aesthetic: charcoal, Bento orange, 6px controls / 10px panels.
-   Scoped to the treatment and shared destination pages to preserve the control. */
-.marketing-page {
+   Shared by the redesign and the control homepage so / and /preview/redesign
+   sit on the same page color. Layout overrides stay on .marketing-page. */
+.marketing-page,
+.control-page {
   color-scheme: dark;
   --page: #0b0b0c;
   --surface: #111113;
@@ -17,12 +19,15 @@
   --gated: #e5b388;
   --success: #b8c8b8;
   --header: #0b0b0cf2;
-  --radius: 6px;
   min-height: 100dvh;
   background: var(--page);
   color: var(--text);
 }
-body:has(.marketing-page) { background: #0b0b0c; }
+.marketing-page { --radius: 6px; }
+html:has(.marketing-page),
+html:has(.control-page),
+body:has(.marketing-page),
+body:has(.control-page) { background: #0b0b0c; }
 .marketing-page .site-shell { width: min(100% - 96px, 1280px); }
 .marketing-header { position: sticky; top: 0; z-index: 30; }
 .marketing-page .site-header { position: relative; height: 76px; backdrop-filter: none; }

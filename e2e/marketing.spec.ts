@@ -55,6 +55,22 @@ test("control preview preserves the current homepage", async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
 });
 
+test("control and redesign share the charcoal page background", async ({ page }) => {
+  const pageColor = async (path: string) => {
+    await page.goto(path);
+    return page.evaluate(() => ({
+      html: getComputedStyle(document.documentElement).backgroundColor,
+      body: getComputedStyle(document.body).backgroundColor,
+    }));
+  };
+
+  const redesign = await pageColor("/preview/redesign");
+  const control = await pageColor("/preview/control");
+  expect(control).toEqual(redesign);
+  expect(control.body).toBe("rgb(11, 11, 12)");
+  expect(control.html).toBe("rgb(11, 11, 12)");
+});
+
 test("stage examples are selectable without changing the section height", async ({ page }) => {
   await page.goto("/preview/redesign");
   const showcase = page.locator(".m-stage-showcase");
