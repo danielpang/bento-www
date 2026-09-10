@@ -38,6 +38,16 @@ describe("Documentation index", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("shares the marketing theme with the redesigned homepage", () => {
+    const { container } = render(<DocsIndexPage />);
+
+    expect(container.firstElementChild).toHaveClass("marketing-page");
+    expect(
+      within(screen.getByRole("navigation", { name: "Primary" })).getByRole("link", { name: "Docs" }),
+    ).toHaveAttribute("href", "/docs");
+    expect(container.querySelector(".docs-figure")).toBeNull();
+  });
+
   it("defines Bento as an agent pipeline without the machine-only note", () => {
     const { container } = render(<DocsIndexPage />);
     const header = container.querySelector(".docs-header")!;

@@ -13,7 +13,7 @@ for (const width of [375, 768, 1024, 1519]) {
       await expect(page.locator("h1")).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
       if (path === "/preview/redesign") {
-        await expect(page.getByRole("contentinfo").getByRole("link", { name: "Documentation" })).toHaveAttribute("href", "/docs");
+        await expect(page.getByRole("contentinfo").getByRole("link", { name: "Docs" })).toHaveAttribute("href", "/docs");
         if (width > 800) {
           await expect(page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Docs" })).toBeVisible();
         }
@@ -55,6 +55,22 @@ test("control preview preserves the current homepage", async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
 });
 
+test("control and redesign share the charcoal page background", async ({ page }) => {
+  const pageColor = async (path: string) => {
+    await page.goto(path);
+    return page.evaluate(() => ({
+      html: getComputedStyle(document.documentElement).backgroundColor,
+      body: getComputedStyle(document.body).backgroundColor,
+    }));
+  };
+
+  const redesign = await pageColor("/preview/redesign");
+  const control = await pageColor("/preview/control");
+  expect(control).toEqual(redesign);
+  expect(control.body).toBe("rgb(11, 11, 12)");
+  expect(control.html).toBe("rgb(11, 11, 12)");
+});
+
 test("stage examples are selectable without changing the section height", async ({ page }) => {
   await page.goto("/preview/redesign");
   const showcase = page.locator(".m-stage-showcase");
@@ -85,4 +101,29 @@ test("visible stage examples advance automatically", async ({ page }) => {
   await page.clock.fastForward(12000);
   expect(hydrationErrors).toEqual([]);
   await expect(page.getByRole("button", { name: "Product design", exact: true })).toHaveAttribute("aria-pressed", "true");
+});
+
+test("docs diagram keeps a stable height as the card enters occupied stages", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/docs/concepts");
+  await expect(page.getByRole("contentinfo").getByRole("link", { name: "Docs" })).toHaveAttribute("href", "/docs");
+  await expect(page.getByRole("contentinfo").getByRole("link", { name: "Documentation" })).toHaveCount(0);
+
+  const figure = page.locator(".pipeline-flow");
+  await expect(figure).toBeVisible();
+  const start = await figure.boundingBox();
+  expect(start).not.toBeNull();
+
+  for (const name of [
+    "Approve",
+    "Approve",
+    "Approve",
+    "Approve",
+    "Re-check",
+    "Approve",
+  ]) {
+    await page.getByRole("button", { name }).click();
+    const next = await figure.boundingBox();
+    expect(Math.abs(next!.height - start!.height)).toBeLessThan(1);
+  }
 });

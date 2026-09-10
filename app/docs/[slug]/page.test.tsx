@@ -73,6 +73,43 @@ describe("Documentation page", () => {
     }
   });
 
+  it("opens How it works with the interactive pipeline diagram, above the guide text", async () => {
+    const { container } = render(await DocPage(params("concepts")));
+
+    const figure = await screen.findByRole("figure", { name: /Default pipeline/ });
+    const slot = container.querySelector(".docs-figure") as HTMLElement;
+    expect(slot).toContainElement(figure);
+    expect(slot.nextElementSibling).toHaveClass("docs-body");
+    expect(container.querySelector(".docs-header")!.nextElementSibling).toBe(slot);
+
+    const track = within(figure).getByRole("list", { name: "Pipeline stages" });
+    expect(within(track).getAllByRole("listitem")).toHaveLength(7);
+    expect(within(figure).getByRole("button", { name: "Approve" })).toBeInTheDocument();
+    expect(container.textContent).not.toMatch(/[—–]/);
+  });
+
+  it("keeps the other guides free of the diagram", async () => {
+    for (const slug of ["pipeline", "agents", "pull-requests", "web-app", "clients"]) {
+      const { container, unmount } = render(await DocPage(params(slug)));
+      expect(container.querySelector(".docs-figure")).toBeNull();
+      unmount();
+    }
+  });
+
+  it("wears the redesigned marketing theme and navigation like the homepage", async () => {
+    const { container } = render(await DocPage(params("concepts")));
+
+    expect(container.firstElementChild).toHaveClass("marketing-page");
+    expect(
+      within(screen.getByRole("navigation", { name: "Primary" })).getByRole("link", { name: "Docs" }),
+    ).toHaveAttribute("href", "/docs");
+    expect(
+      within(screen.getByRole("navigation", { name: "Mobile navigation" })).getByRole("link", { name: "Pricing" }),
+    ).toHaveAttribute("href", "/pricing");
+    expect(screen.getByRole("link", { name: "Skip to content" })).toHaveAttribute("href", "#main-content");
+    expect(screen.getByRole("main")).toHaveAttribute("id", "main-content");
+  });
+
   it("describes the page for search and social cards", async () => {
     const metadata = await generateMetadata(params("pipeline"));
 
