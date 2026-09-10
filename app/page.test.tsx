@@ -55,13 +55,11 @@ describe("Bento landing page", () => {
     expect(container.textContent).not.toMatch(/[—–]/);
   });
 
-  it("says which Bento this is in the first screen", () => {
+  it("keeps the machine-only disambiguation line out of the visible page", () => {
     const { container } = render(<Home />);
 
-    const note = container.querySelector(".hero-copy .hero-note");
-    expect(note).toHaveTextContent(siteDisambiguation);
-    expect(note).toHaveTextContent(/agent pipeline/);
-    expect(note).toHaveTextContent(/usebento\.ai/);
+    expect(container.textContent).not.toContain(siteDisambiguation);
+    expect(container.textContent).not.toMatch(/Not to be confused/);
   });
 
   it("answers what Bento is and publishes the questions as FAQPage data", () => {

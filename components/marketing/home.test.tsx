@@ -5,18 +5,14 @@ import { productFaq } from "@/lib/faq";
 import { MarketingHome } from "./home";
 
 describe("redesigned homepage", () => {
-  it("names the agent pipeline and which Bento this is above the fold", () => {
+  it("names the agent pipeline above the fold without the machine-only note", () => {
     const { container } = render(<MarketingHome />);
 
     const hero = container.querySelector(".m-hero .hero-copy");
     expect(hero).not.toBeNull();
     expect(hero!.querySelector("p")).toHaveTextContent(/agent pipeline/);
-    expect(hero!.querySelector(".hero-note")).toHaveTextContent(siteDisambiguation);
-    // The note follows the call to action rather than displacing it.
-    const children = Array.from(hero!.children).map((child) => child.className);
-    expect(children.indexOf("hero-actions")).toBeLessThan(
-      children.findIndex((name) => name.includes("hero-note")),
-    );
+    expect(container.textContent).not.toContain(siteDisambiguation);
+    expect(container.textContent).not.toMatch(/Not to be confused/);
   });
 
   it("publishes the visible questions as FAQPage structured data", () => {

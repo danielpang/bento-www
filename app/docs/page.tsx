@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { DisambiguationNote } from "@/components/disambiguation-note";
 import { DocsShell } from "@/components/docs-shell";
 import { docsIndexDescription, listDocs } from "@/lib/docs";
 import { pageMetadata } from "@/lib/metadata";
@@ -18,7 +17,6 @@ export default function DocsIndexPage() {
     <DocsShell
       docs={docs}
       lead="Bento is an agent pipeline: coding agents move each feature through your stages, behind human gates and inside their own sandboxes. Start with how cards move through stages, then dig into agents, pull requests, and setup."
-      note={<DisambiguationNote className="docs-note" />}
       title="Guides"
     >
       <ul className="docs-index-list">

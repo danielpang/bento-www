@@ -697,22 +697,6 @@ main {
   padding-inline: 18px;
 }
 
-/* Which Bento this is, said once and quietly, under the first call to action. */
-.disambiguation-note {
-  max-width: 52ch;
-  color: var(--text-faint);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.hero-copy > p.hero-note {
-  max-width: 52ch;
-  margin: 22px 0 0;
-  color: var(--text-faint);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
 .hero-visual {
   min-width: 0;
   width: calc(100% - clamp(12px, 2vw, 28px));
@@ -1699,11 +1683,6 @@ main {
   font-size: 19px;
   line-height: 1.7;
 }
-
-.docs-header .docs-note {
-  margin: 16px 0 0;
-}
-
 .legal-content section {
   margin-top: 56px;
   padding-top: 28px;

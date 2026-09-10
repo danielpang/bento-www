@@ -36,10 +36,10 @@ If the signup or GitHub URL is absent, its CTA renders as an accessible disabled
   markup from `lib/faq.ts` and `/pricing` from its questions section. See
   `lib/structured-data.ts`.
 - Several unrelated products are called Bento. `siteDisambiguation` in
-  `lib/copy.ts` is the one sentence that says which one this is; it is shown
-  in the homepage hero (both variants) and the docs hub header, quoted in
-  `/llms.txt`, and set as `disambiguatingDescription` on the Organization and
-  SoftwareApplication nodes. Edit it in one place.
+  `lib/copy.ts` is the one sentence that says which one this is. It is for
+  crawlers and answer engines only: quoted in `/llms.txt` and set as
+  `disambiguatingDescription` on the Organization and SoftwareApplication
+  nodes, never rendered on a page. Edit it in one place.
 - `/llms.txt` is a plain-text one-pager for agents and crawlers, generated
   from the same copy, FAQ, docs, and pricing catalog. See `lib/llms.ts`.
 - The homepage is cached by shared caches (`s-maxage` with

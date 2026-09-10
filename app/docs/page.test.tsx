@@ -34,12 +34,12 @@ describe("Documentation index", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("says which Bento this is before the guides", () => {
+  it("defines Bento as an agent pipeline without the machine-only note", () => {
     const { container } = render(<DocsIndexPage />);
     const header = container.querySelector(".docs-header")!;
 
     expect(header.querySelector(".docs-lead")).toHaveTextContent(/agent pipeline/);
-    expect(header.querySelector(".docs-note")).toHaveTextContent(siteDisambiguation);
+    expect(container.textContent).not.toContain(siteDisambiguation);
     expect(metadata.description).toContain("agent pipeline");
     expect(metadata.description).toContain("usebento.ai");
     expect(container.textContent).not.toMatch(/[—–]/);

@@ -3,7 +3,6 @@ import { ArrowRight, Check, FileText, GitBranch, ShieldCheck, TerminalWindow, Us
 import { AgentLogo, type AgentName } from "@/components/agent-logo";
 import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
-import { DisambiguationNote } from "@/components/disambiguation-note";
 import { IntegrationsSection } from "@/components/integrations-section";
 import { ProductFaq } from "@/components/product-faq";
 import { Reveal } from "@/components/reveal";
@@ -31,7 +30,6 @@ export function MarketingHome() {
             <div className="hero-actions">
               <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
             </div>
-            <DisambiguationNote className="hero-note" />
           </div>
           <div className="m-demo hero-visual" id="product">
           <div className="m-demo-caption"><span><TerminalWindow size={16} aria-hidden="true" /> A feature, moving forward.</span><span>Interactive pipeline demo</span></div>

@@ -1,7 +1,6 @@
 import { ArrowRight, GithubLogo } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
-import { DisambiguationNote } from "@/components/disambiguation-note";
 import { HandoffSection } from "@/components/handoff-section";
 import { IntegrationsSection } from "@/components/integrations-section";
 import { ProductFaq } from "@/components/product-faq";
@@ -50,7 +49,6 @@ export default function Home() {
                   GitHub
                 </CtaLink>
               </div>
-              <DisambiguationNote className="hero-note" />
             </div>
             <div className="hero-visual">
               <PipelineDemo />
