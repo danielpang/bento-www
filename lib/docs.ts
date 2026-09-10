@@ -60,19 +60,15 @@ const DOC_META: Record<
     questions: [
       {
         title: "What if a write-up leaves something out?",
-        body: "The next agent starts from the stage prompt and the files on the branch, so a gap in the write-up is a gap in its context. The person at the gate can send the card back with instructions, and the stage's skill can name what every write-up must contain.",
+        body: "The next agent has only the stage prompt and the files on the branch, so the gap is in its context too. The person at the gate can send the card back with instructions, and the skill can name what every write-up must contain.",
       },
       {
         title: "Can one stage use Claude Code and the next use Cursor?",
-        body: "Yes. The handoff is a committed Markdown file, not a chat session, so any supported agent can read it. Each stage pairs its own tool, model, and skill, and the write-ups from earlier stages are already in the worktree when the next agent runs.",
+        body: "Yes. The handoff is a committed Markdown file, not a chat session, so any supported agent can read it. Each stage pairs its own tool, model, and skill.",
       },
       {
         title: "Do handoff artifacts end up in the pull request?",
-        body: "Not by default. Bento removes the docs/bento/ files from the branch tip before publishing, so the PR diff contains code only. The files remain in git history, and a setting under Settings, GitHub keeps them in the pull request instead.",
-      },
-      {
-        title: "Who reviews the write-up before the next agent starts?",
-        body: "The person at the gate. Every stage begins with a manual gate by default, so a teammate can read the write-up and the changes, then approve, send the card back, or steer. A gate can be made automatic once its requirements can decide.",
+        body: "Not by default. Bento removes the docs/bento/ files from the branch tip before publishing, so the PR diff contains code only. They remain in git history, and Settings, GitHub can keep them in the pull request.",
       },
     ],
   },
