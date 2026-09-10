@@ -34,14 +34,6 @@ If the signup or GitHub URL is absent, its CTA renders as an accessible disabled
 - Every page carries Organization, WebSite, and SoftwareApplication JSON-LD
   built from `lib/copy.ts` and `lib/pricing.ts`; `/pricing` adds FAQPage
   markup from its questions section. See `lib/structured-data.ts`.
-- Docs guides written to answer a problem query (starting with
-  `/docs/handoff-artifacts`) lead with the question as their `heading` in
-  `lib/docs.ts` (the H1 and document title), keep a short `title` for the
-  navigation and index, open with a direct answer, and link into the
-  reference guides for depth rather than repeating them. They may carry
-  `questions`, rendered as a closing Questions section and as FAQPage
-  JSON-LD from the same entries. The docs index, sitemap, and `/llms.txt`
-  pick up new guides from `listDocs()`.
 - Several unrelated products are called Bento. `siteDisambiguation` in
   `lib/copy.ts` is the one sentence that says which one this is. It is for
   crawlers and answer engines only: quoted in `/llms.txt` and set as
