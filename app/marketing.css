@@ -170,7 +170,12 @@ body:has(.marketing-page) { background: #0b0b0c; }
 .marketing-page .changelog-header p { color: var(--text-muted); max-width: 490px; font-size: 15px; line-height: 1.7; }
 .marketing-page .changelog-entry { padding-block: 40px; border-color: var(--line); }
 .marketing-page .changelog-entry-date { color: var(--text-faint); font: 11px var(--font-jetbrains-mono), monospace; }
-.marketing-page .changelog-entry-body h3 { font-size: 25px; font-weight: 500; letter-spacing: -0.03em; }
+.marketing-page .changelog-entry-title { font-size: 25px; font-weight: 500; letter-spacing: -0.03em; }
+.marketing-page .changelog-entry-title a { color: inherit; text-decoration: none; }
+.marketing-page .changelog-entry-title a:hover { color: var(--brand); }
+.marketing-page .changelog-post-header { padding-bottom: 36px; }
+.marketing-page .changelog-post-header h1 { font-size: clamp(32px, 4vw, 48px); font-weight: 520; letter-spacing: -0.045em; }
+.marketing-page .changelog-post-footer a { color: var(--brand); }
 .marketing-page .changelog-entry-body p { font-size: 14px; line-height: 1.85; }
 .marketing-page .changelog-entry-body a { color: var(--brand); }
 @media (max-width: 1100px) {
