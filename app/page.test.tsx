@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { siteDescription, siteDisambiguation, siteHeadline } from "@/lib/copy";
 import Home from "@/components/marketing/control-home";
@@ -46,6 +46,36 @@ describe("Bento landing page", () => {
         (section) => section.id,
       ),
     ).toEqual(["security", "integrations"]);
+  });
+
+  it("wraps one existing phrase per section with a link to the matching guide", async () => {
+    const { container } = render(<Home />);
+    await screen.findByRole("heading", { name: "Every feature has a route." });
+    const main = container.querySelector("main") as HTMLElement;
+
+    const sectionLinks: Array<[selector: string, name: string, href: string]> = [
+      [".lifecycle-heading", "Define any pipeline you want", "/docs/pipeline"],
+      [".gate-copy", "Every stage starts manual.", "/docs/pipeline#gates"],
+      [".handoff-section .section-heading", "Pick the right tool and model for each stage", "/docs/agents"],
+      [".handoff-artifact", "durable write-up", "/docs/concepts"],
+      [".security-intro", "per-feature environment", "/docs/concepts#what-a-sandbox-contains"],
+      [".integration-card:not(.integration-card-slack)", "Tasks created in Linear", "/changelog/linear-integration"],
+      [".integration-card-slack", "create a card", "/changelog/slack-integration"],
+    ];
+    for (const [selector, name, href] of sectionLinks) {
+      const section = main.querySelector(selector) as HTMLElement;
+      expect(section, selector).not.toBeNull();
+      const link = within(section).getByRole("link", { name });
+      expect(link).toHaveAttribute("href", href);
+      expect(link).toHaveClass("copy-link");
+      expect(section.querySelectorAll("a.copy-link")).toHaveLength(1);
+    }
+    // The copy itself is unchanged; the link wraps words already there.
+    expect(main.querySelector(".gate-copy > p")).toHaveTextContent(
+      "Every stage starts manual. Make it automatic only when its requirements deserve to decide.",
+    );
+    expect(main.innerHTML).not.toContain("handoff-artifacts");
+    expect(within(main).queryByRole("link", { name: /learn more|read the docs/i })).toBeNull();
   });
 
   it("keeps prohibited dash characters out of visible copy", () => {

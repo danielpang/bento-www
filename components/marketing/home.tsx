@@ -37,7 +37,7 @@ export function MarketingHome() {
         </div>
       </section>
       <section className="site-shell m-agents" aria-label="Supported coding agents">
-        <p>Your favourite harnesses and models</p>
+        <p>Your favourite <Link className="copy-link" href="/docs/agents">harnesses and models</Link></p>
         <div>{agents.map(agent => <span className="m-agent" key={agent}><AgentLogo agent={agent} className="agent-logo" /><span>{agent.replace(" CLI", "")}</span></span>)}</div>
       </section>
       <section className="m-section site-shell m-context">
@@ -46,7 +46,7 @@ export function MarketingHome() {
           <div className="m-stage-intro">
             <FileText size={25} aria-hidden="true" />
             <h3>Give every stage a clear outcome.</h3>
-            <p>Assign an agent to each pipeline stage, then give it a skill that describes the outcome you expect.</p>
+            <p>Assign an agent to <Link className="copy-link" href="/docs/pipeline">each pipeline stage</Link>, then give it a skill that describes the outcome you expect.</p>
           </div>
           <SkillExamples />
         </Reveal>
@@ -60,20 +60,20 @@ export function MarketingHome() {
       </section>
       <section className="m-section m-gates" id="how-it-works">
         <div className="site-shell m-gate-layout">
-          <Reveal className="m-section-heading"><span className="m-eyebrow">Human judgment, built in</span><h2>Move fast.<br /><span>Keep the final say.</span></h2><p>Every stage starts with a manual gate. Review, approve, or steer the work. Automate when you’re ready.</p><ul className="m-check-list"><li><Check size={17} aria-hidden="true" />Approve work before it moves forward</li><li><Check size={17} aria-hidden="true" />Set requirements for automatic gates</li><li><Check size={17} aria-hidden="true" />Keep a history of every decision</li></ul></Reveal>
+          <Reveal className="m-section-heading"><span className="m-eyebrow">Human judgment, built in</span><h2>Move fast.<br /><span>Keep the final say.</span></h2><p>Every stage starts with a <Link className="copy-link" href="/docs/pipeline#gates">manual gate</Link>. Review, approve, or steer the work. Automate when you’re ready.</p><ul className="m-check-list"><li><Check size={17} aria-hidden="true" />Approve work before it moves forward</li><li><Check size={17} aria-hidden="true" />Set requirements for automatic gates</li><li><Check size={17} aria-hidden="true" />Keep a history of every decision</li></ul></Reveal>
           <Reveal className="m-gate-demo" delay={0.08}><GateDemo /></Reveal>
         </div>
         <Reveal className="site-shell m-context-handoff">
           <div>
             <GitBranch size={25} aria-hidden="true" />
             <h3>The context goes with the code.</h3>
-            <p>Each feature keeps its own plans, designs, and review artifacts. Stage write-ups are committed alongside the code, so the next agent starts with what the last one learned.</p>
+            <p>Each feature keeps its own plans, designs, and review artifacts. <Link className="copy-link" href="/docs/concepts">Stage write-ups are committed alongside the code</Link>, so the next agent starts with what the last one learned.</p>
           </div>
           <FeatureArtifacts />
         </Reveal>
       </section>
       <section className="m-section site-shell m-security" id="security">
-        <Reveal className="m-section-heading"><ShieldCheck size={32} aria-hidden="true" /><h2>A sandbox for agents.<br /><span>A boundary you control.</span></h2><p>Each feature gets its own environment. Trusted services hold the credentials and publish the result.</p></Reveal>
+        <Reveal className="m-section-heading"><ShieldCheck size={32} aria-hidden="true" /><h2>A sandbox for agents.<br /><span>A boundary you control.</span></h2><p>Each feature gets <Link className="copy-link" href="/docs/concepts#what-a-sandbox-contains">its own environment</Link>. Trusted services hold the credentials and publish the result.</p></Reveal>
         <div className="m-boundaries">
           <div><h3>Isolated workspaces</h3><p>Per-feature worktrees. No host SSH keys or host git configuration in the agent’s environment.</p></div>
           <div><h3>Scoped credentials</h3><p>Encrypted organization credentials and short-lived GitHub tokens scoped to the repository being published.</p></div>

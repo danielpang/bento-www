@@ -27,4 +27,30 @@ describe("redesigned homepage", () => {
     expect(within(footer).getByRole("link", { name: "Documentation" })).toHaveAttribute("href", "/docs");
     expect(container.textContent).not.toMatch(/[—–]/);
   });
+
+  it("wraps one existing phrase per section with a link to the matching guide", () => {
+    const { container } = render(<MarketingHome />);
+    const main = container.querySelector("main") as HTMLElement;
+
+    const sectionLinks: Array<[selector: string, name: string, href: string]> = [
+      [".m-agents", "harnesses and models", "/docs/agents"],
+      [".m-stage-intro", "each pipeline stage", "/docs/pipeline"],
+      [".m-gate-layout", "manual gate", "/docs/pipeline#gates"],
+      [".m-context-handoff", "Stage write-ups are committed alongside the code", "/docs/concepts"],
+      [".m-security", "its own environment", "/docs/concepts#what-a-sandbox-contains"],
+    ];
+    for (const [selector, name, href] of sectionLinks) {
+      const section = main.querySelector(selector) as HTMLElement;
+      const link = within(section).getByRole("link", { name });
+      expect(link).toHaveAttribute("href", href);
+      expect(link).toHaveClass("copy-link");
+      expect(section.querySelectorAll("a.copy-link")).toHaveLength(1);
+    }
+    // The copy itself is unchanged; the link wraps words already there.
+    expect(main.querySelector(".m-gate-layout .m-section-heading p")).toHaveTextContent(
+      "Every stage starts with a manual gate. Review, approve, or steer the work. Automate when you’re ready.",
+    );
+    expect(main.innerHTML).not.toContain("handoff-artifacts");
+    expect(within(main).queryByRole("link", { name: /learn more|read the docs/i })).toBeNull();
+  });
 });

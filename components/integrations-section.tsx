@@ -1,4 +1,5 @@
 import { ArrowUpRight, SlackLogo } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 import { siteConfig, slackInstallUrl } from "@/lib/site";
 import { CtaLink } from "./cta-link";
 import { Reveal } from "./reveal";
@@ -63,8 +64,11 @@ export function IntegrationsSection({ redesigned = false }: { redesigned?: boole
             </div>
             <h3>Linear</h3>
             <p>
-              Tasks created in Linear can automatically create a feature card
-              in Bento and start the pipeline.
+              <Link className="copy-link" href="/changelog/linear-integration">
+                Tasks created in Linear
+              </Link>{" "}
+              can automatically create a feature card in Bento and start the
+              pipeline.
             </p>
             {redesigned ? (
               <div className="integration-footer">
@@ -83,8 +87,11 @@ export function IntegrationsSection({ redesigned = false }: { redesigned?: boole
             </div>
             <h3>Slack</h3>
             <p>
-              Message <code>@bento</code> to create a card and start the
-              pipeline. Approve in Slack and see agent output.
+              Message <code>@bento</code> to{" "}
+              <Link className="copy-link" href="/changelog/slack-integration">
+                create a card
+              </Link>{" "}
+              and start the pipeline. Approve in Slack and see agent output.
             </p>
             <div className="integration-footer">
               <ol aria-label="Slack integration flow" className="integration-flow">
