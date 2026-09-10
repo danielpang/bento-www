@@ -4,27 +4,21 @@ import { changelogEntries } from "@/lib/changelog";
 import ChangelogPage, { metadata } from "./page";
 
 describe("Changelog", () => {
-  it("renders dated entries newest first with heading permalinks and no versions", () => {
+  it("renders dated entries newest first, each titled and linked to its own page", () => {
     const { container } = render(<ChangelogPage />);
 
     expect(
       screen.getByRole("heading", { level: 1, name: "Changelog" }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Google Antigravity CLI" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "DeepSeek models and harness" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Poolside coding agent" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Slack integration" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Linear integration" }),
-    ).toBeInTheDocument();
+    for (const name of [
+      "Google Antigravity CLI as a coding agent",
+      "DeepSeek models and harness",
+      "Poolside as a coding agent",
+      "Slack integration",
+      "Linear integration",
+    ]) {
+      expect(screen.getByRole("heading", { level: 2, name })).toBeInTheDocument();
+    }
     expect(
       screen.getByText(/supports Google Antigravity CLI as a coding agent/i),
     ).toBeInTheDocument();
@@ -50,12 +44,16 @@ describe("Changelog", () => {
 
     for (const [index, entry] of changelogEntries.entries()) {
       const article = entries[index] as HTMLElement;
-      expect(
-        within(article).getByRole("heading", { name: entry.displayDate }),
-      ).toHaveAttribute("id", entry.slug);
+      expect(article).toHaveAttribute("id", entry.slug);
       expect(
         within(article).getByRole("link", { name: entry.displayDate }),
-      ).toHaveAttribute("href", `/changelog#${entry.slug}`);
+      ).toHaveAttribute("href", `/changelog/${entry.slug}`);
+      expect(
+        within(article).getByRole("link", { name: entry.title }),
+      ).toHaveAttribute("href", `/changelog/${entry.slug}`);
+      expect(within(article).getByRole("heading", { level: 2 })).toHaveTextContent(
+        entry.title,
+      );
     }
 
     const antigravity = entries[0] as HTMLElement;

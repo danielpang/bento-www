@@ -1,11 +1,23 @@
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 
+export interface DocQuestion {
+  title: string;
+  body: string;
+}
+
 export interface DocMeta {
   slug: string;
   title: string;
+  /** One line, shown on the docs index card, as the page lead, and in /llms.txt. */
   description: string;
   order: number;
+  /**
+   * Questions the guide asks and answers in its own text, as an H3 followed
+   * by the answer paragraph, repeated as FAQPage JSON-LD on that page only.
+   * `lib/docs.test.ts` checks the markup stays identical to the visible copy.
+   */
+  questions?: readonly DocQuestion[];
 }
 
 const DOCS_DIR = path.join(process.cwd(), "content/docs");
@@ -20,27 +32,38 @@ const DOC_META: Record<
 > = {
   concepts: {
     title: "How it works",
-    description: "Cards, sandboxes, spend, and tenancy.",
+    description:
+      "How a card moves through stages: one branch, one sandbox, context in committed files.",
     order: 1,
   },
   pipeline: {
     title: "Pipelines",
-    description: "Stages, gates, agents, and repository commands.",
+    description:
+      "Stages, human gates and their requirements, judge agents, and pipeline YAML.",
     order: 2,
+    questions: [
+      {
+        title: "How do human gates work in a multi-agent pipeline?",
+        body: "In Bento, the agent pipeline at usebento.ai, every stage begins with a gate, and new projects default to manual approval on all six stages. A person reviews the stage's output, then approves the card, sends it back, or steers the agent. Switch a stage to automatic once its requirements can decide: the card advances when every listed criterion passes, and holds when one fails.",
+      },
+    ],
   },
   agents: {
     title: "Coding agents",
-    description: "Supported tools, credentials, and live steering.",
+    description:
+      "Claude Code, Codex, Cursor, opencode, pi, Poolside, DeepSeek, Antigravity: keys and steering.",
     order: 3,
   },
   "pull-requests": {
     title: "Pull requests",
-    description: "Opening PRs, attribution, and GitHub connections.",
+    description:
+      "Publishing agent work as GitHub pull requests, attribution, and GitHub connections.",
     order: 4,
   },
   "web-app": {
     title: "Web console",
-    description: "Local setup, containers, and day-to-day console use.",
+    description:
+      "Run the console from source or Docker, local and multi mode, sandbox drivers, log export.",
     order: 5,
   },
   clients: {
@@ -70,6 +93,7 @@ export function listDocs(): DocMeta[] {
         title: meta?.title ?? titleFromMarkdown(markdown, slug),
         description: meta?.description ?? "Bento documentation.",
         order: meta?.order ?? 99,
+        ...(meta?.questions ? { questions: meta.questions } : {}),
       };
     })
     .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));

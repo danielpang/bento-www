@@ -1771,18 +1771,12 @@ main {
   height: fit-content;
 }
 
-.changelog-entry-heading {
-  margin: 0;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-}
-
 .changelog-entry-date {
   color: var(--text);
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.02em;
+  text-decoration: none;
 }
 
 .changelog-entry-date:hover {
@@ -1793,13 +1787,91 @@ main {
   max-width: 62ch;
 }
 
-.changelog-entry-body h3 {
+.changelog-entry-title {
   margin: 0;
   color: var(--text);
   font-size: clamp(1.6rem, 3vw, 2rem);
   font-weight: 640;
   letter-spacing: -0.04em;
   line-height: 1.15;
+}
+
+.changelog-entry-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.changelog-entry-title a:hover {
+  color: var(--brand);
+}
+
+.changelog-post {
+  max-width: 720px;
+}
+
+.changelog-post-crumb {
+  margin: 0 0 22px;
+}
+
+.changelog-post-crumb a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.changelog-post-crumb a:hover {
+  color: var(--brand);
+}
+
+.changelog-post-header h1 {
+  max-width: 20ch;
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.changelog-post-date {
+  margin: 18px 0 0;
+  color: var(--text-faint);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+}
+
+.changelog-post-body p:first-child {
+  margin-top: 0;
+}
+
+.changelog-post-footer {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.changelog-post-footer p {
+  margin: 0;
+}
+
+.changelog-post-footer p + p {
+  margin-top: 14px;
+}
+
+.changelog-post-footer a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.changelog-post-footer a:hover {
+  color: var(--brand);
 }
 
 .changelog-entry-body p {
@@ -2195,30 +2267,43 @@ main {
   list-style: none;
 }
 
-.docs-index-list a {
+.docs-index-list li {
+  position: relative;
   display: grid;
   gap: 6px;
   padding: 18px 0;
   border-bottom: 1px solid var(--line);
-  color: inherit;
-  text-decoration: none;
 }
 
-.docs-index-list a span {
+.docs-index-list h2 {
+  margin: 0;
   color: var(--text);
   font-size: 18px;
   font-weight: 640;
   letter-spacing: -0.03em;
+  line-height: 1.3;
 }
 
-.docs-index-list a p {
+.docs-index-list h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The whole card is the click target; the heading link stretches over it. */
+.docs-index-list h2 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.docs-index-list p {
   margin: 0;
   color: var(--text-muted);
   font-size: 14px;
   line-height: 1.55;
 }
 
-.docs-index-list a:hover span {
+.docs-index-list li:hover h2 {
   color: var(--brand);
 }
 

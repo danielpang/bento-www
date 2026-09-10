@@ -17,15 +17,15 @@ export default function DocsIndexPage() {
     <DocsShell
       docs={docs}
       lead="Bento is an agent pipeline: coding agents move each feature through your stages, behind human gates and inside their own sandboxes. Start with how cards move through stages, then dig into agents, pull requests, and setup."
-      title="Guides"
+      title="Bento documentation"
     >
       <ul className="docs-index-list">
         {docs.map((doc) => (
           <li key={doc.slug}>
-            <Link href={`/docs/${doc.slug}`}>
-              <span>{doc.title}</span>
-              <p>{doc.description}</p>
-            </Link>
+            <h2>
+              <Link href={`/docs/${doc.slug}`}>{doc.title}</Link>
+            </h2>
+            <p>{doc.description}</p>
           </li>
         ))}
       </ul>

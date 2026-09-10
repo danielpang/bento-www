@@ -102,6 +102,39 @@ function planOffer(plan: PricingPlan, config: SiteConfig) {
   };
 }
 
+export interface ArticleFacts {
+  title: string;
+  description: string;
+  date: string;
+  path: string;
+}
+
+/**
+ * A changelog entry as a TechArticle. Headline, date, and description are the
+ * entry's own visible fields; the publisher is the Organization node the
+ * layout already emits on every page.
+ */
+export function techArticleJsonLd(article: ArticleFacts, config: SiteConfig = siteConfig) {
+  const home = absoluteUrl("/", config.siteUrl);
+  const url = absoluteUrl(article.path, config.siteUrl);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "@id": `${url}#article`,
+    headline: article.title,
+    description: article.description,
+    datePublished: article.date,
+    url,
+    mainEntityOfPage: url,
+    inLanguage: "en",
+    isPartOf: { "@id": `${home}/#website` },
+    author: { "@id": `${home}/#organization` },
+    publisher: { "@id": `${home}/#organization` },
+    about: { "@id": `${home}/#software` },
+  };
+}
+
 export interface FaqEntry {
   title: string;
   body: string;
