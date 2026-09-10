@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { MarketingHeader } from "@/components/marketing/header";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 import type { DocMeta } from "@/lib/docs";
 import { siteConfig } from "@/lib/site";
 
@@ -11,6 +11,8 @@ interface DocsShellProps {
   currentSlug?: string;
   title: string;
   lead?: string;
+  /** A figure shown between the page header and the guide text. */
+  figure?: ReactNode;
 }
 
 export function DocsShell({
@@ -19,14 +21,14 @@ export function DocsShell({
   currentSlug,
   title,
   lead,
+  figure,
 }: DocsShellProps) {
+  // The docs share the redesigned marketing treatment so moving between the
+  // homepage, pricing, changelog, and a guide never changes theme.
   return (
-    <>
-      <SiteHeader
-        githubUrl={siteConfig.githubUrl}
-        signupUrl={siteConfig.signupUrl}
-      />
-      <main className="docs-page">
+    <div className="marketing-page">
+      <MarketingHeader />
+      <main className="docs-page" id="main-content">
         <div className="site-shell docs-layout">
           <aside className="docs-nav" aria-label="Documentation">
             <p className="docs-nav-label">Guides</p>
@@ -63,6 +65,7 @@ export function DocsShell({
               <h1>{title}</h1>
               {lead ? <p className="docs-lead">{lead}</p> : null}
             </header>
+            {figure ? <div className="docs-figure">{figure}</div> : null}
             <div className="docs-body">{children}</div>
           </article>
         </div>
@@ -72,6 +75,6 @@ export function DocsShell({
         showFinalCta={false}
         signupUrl={siteConfig.signupUrl}
       />
-    </>
+    </div>
   );
 }
