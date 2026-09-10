@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
 import { HandoffSection } from "@/components/handoff-section";
 import { IntegrationsSection } from "@/components/integrations-section";
-import { ProductFaq } from "@/components/product-faq";
 import { Reveal } from "@/components/reveal";
 import { SecuritySection } from "@/components/security-section";
 import { SiteFooter } from "@/components/site-footer";
@@ -87,7 +86,6 @@ export default function Home() {
         <HandoffSection />
         <SecuritySection />
         <IntegrationsSection />
-        <ProductFaq className="home-faq" />
       </main>
       <SiteFooter
         githubUrl={siteConfig.githubUrl}

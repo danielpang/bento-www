@@ -1828,16 +1828,19 @@ main {
   font-size: 0.86em;
 }
 
-.pricing-page {
+.pricing-page,
+.faq-page {
   padding: clamp(72px, 9vw, 128px) 0 clamp(72px, 8vw, 120px);
 }
 
-.pricing-header {
+.pricing-header,
+.faq-header {
   max-width: 860px;
   margin-bottom: clamp(48px, 6vw, 72px);
 }
 
-.pricing-header h1 {
+.pricing-header h1,
+.faq-header h1 {
   max-width: 20ch;
   margin: 0;
   color: var(--text);
@@ -1851,7 +1854,8 @@ main {
   display: block;
 }
 
-.pricing-lead {
+.pricing-lead,
+.faq-lead {
   max-width: 58ch;
   margin: 30px 0 0;
   color: var(--text-muted);
@@ -1987,10 +1991,11 @@ main {
   border-top: 1px solid var(--line);
 }
 
-/* On the homepage the questions are a full-width band after the last section. */
-.home-faq {
+/* On /faq the questions follow the page header directly, without a divider. */
+.faq-page-questions {
   margin-top: 0;
-  padding: clamp(64px, 8vw, 96px) 0 clamp(72px, 9vw, 120px);
+  padding-top: 0;
+  border-top: 0;
 }
 
 .faq-section h2 {

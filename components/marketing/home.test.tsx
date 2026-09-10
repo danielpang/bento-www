@@ -1,7 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { siteDisambiguation } from "@/lib/copy";
-import { productFaq } from "@/lib/faq";
 import { MarketingHome } from "./home";
 
 describe("redesigned homepage", () => {
@@ -15,23 +14,8 @@ describe("redesigned homepage", () => {
     expect(container.textContent).not.toMatch(/Not to be confused/);
   });
 
-  it("publishes the visible questions as FAQPage structured data", () => {
+  it("links to the documentation and the FAQ page", () => {
     const { container } = render(<MarketingHome />);
-
-    expect(screen.getByRole("heading", { name: "Questions" })).toBeInTheDocument();
-    const script = container.querySelector('script[type="application/ld+json"]');
-    const data = JSON.parse(script!.textContent ?? "null");
-    expect(data["@type"]).toBe("FAQPage");
-    expect(data.mainEntity.map((entry: { name: string }) => entry.name)).toEqual(
-      productFaq.map((question) => question.title),
-    );
-    expect(
-      Array.from(container.querySelectorAll(".faq-section dd")).map((detail) => detail.textContent),
-    ).toEqual(productFaq.map((question) => question.body));
-  });
-
-  it("links to the documentation from the header and footer", () => {
-    render(<MarketingHome />);
 
     expect(
       within(screen.getByRole("navigation", { name: "Primary" })).getByRole("link", { name: "Docs" }),
@@ -39,19 +23,12 @@ describe("redesigned homepage", () => {
     expect(
       within(screen.getByRole("navigation", { name: "Mobile navigation" })).getByRole("link", { name: "Docs" }),
     ).toHaveAttribute("href", "/docs");
-    expect(
-      within(screen.getByRole("contentinfo")).getByRole("link", { name: "Documentation" }),
-    ).toHaveAttribute("href", "/docs");
-  });
-
-  it("keeps the questions before the closing call to action", () => {
-    const { container } = render(<MarketingHome />);
-
-    const main = container.querySelector("main")!;
-    const sections = Array.from(main.children).map((child) => child.className);
-    expect(sections.findIndex((name) => name.includes("faq-section"))).toBeLessThan(
-      sections.findIndex((name) => name.includes("m-bottom-cta")),
-    );
+    const footer = screen.getByRole("contentinfo");
+    expect(within(footer).getByRole("link", { name: "Documentation" })).toHaveAttribute("href", "/docs");
+    expect(within(footer).getByRole("link", { name: "FAQ" })).toHaveAttribute("href", "/faq");
+    // The questions themselves live on /faq, not on the homepage.
+    expect(screen.queryByText("What is Bento (usebento.ai)?")).not.toBeInTheDocument();
+    expect(container.querySelector('script[type="application/ld+json"]')).toBeNull();
     expect(container.textContent).not.toMatch(/[—–]/);
   });
 });

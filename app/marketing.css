@@ -148,10 +148,10 @@ body:has(.marketing-page) { background: #0b0b0c; }
 .marketing-page .site-footer { border-top: 1px solid var(--line); background: var(--page); }
 .marketing-page .footer-inner { padding-block: 40px; }
 .marketing-page .final-cta { background: #101012; border-top: 1px solid var(--line); }
-.marketing-page .pricing-header { padding-top: 75px; }
-.marketing-page .pricing-header h1 { font-size: clamp(40px, 5vw, 68px); font-weight: 520; letter-spacing: -0.055em; }
+.marketing-page .pricing-header, .marketing-page .faq-header { padding-top: 75px; }
+.marketing-page .pricing-header h1, .marketing-page .faq-header h1 { font-size: clamp(40px, 5vw, 68px); font-weight: 520; letter-spacing: -0.055em; }
 .marketing-page .pricing-header h1 span:last-child { color: var(--text-muted); }
-.marketing-page .pricing-lead { max-width: 560px; font-size: 15px; }
+.marketing-page .pricing-lead, .marketing-page .faq-lead { max-width: 560px; font-size: 15px; }
 .marketing-page .pricing-grid { gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: visible; }
 .marketing-page .pricing-card { border: 0; border-radius: 0; background: #101012; padding: 26px 23px; box-shadow: none; }
 .marketing-page .pricing-card:first-child { border-radius: 10px 0 0 10px; }
@@ -164,7 +164,8 @@ body:has(.marketing-page) { background: #0b0b0c; }
 .marketing-page .pricing-aside { border-bottom: 1px solid var(--line); padding-bottom: 42px; }
 .marketing-page .faq-section { padding-block: 70px; }
 .marketing-page .faq-section h2 { font-size: 30px; font-weight: 500; letter-spacing: -0.03em; }
-.marketing-page .home-faq { border-bottom: 1px solid var(--line); }.marketing-page .changelog-shell { max-width: 1020px; padding-block: 72px 95px; }
+.marketing-page .faq-page-questions { padding-top: 0; }
+.marketing-page .changelog-shell { max-width: 1020px; padding-block: 72px 95px; }
 .marketing-page .changelog-header { padding-bottom: 50px; margin: 0; }
 .marketing-page .changelog-header h1 { font-size: clamp(44px, 5vw, 64px); font-weight: 520; letter-spacing: -0.05em; }
 .marketing-page .changelog-header p { color: var(--text-muted); max-width: 490px; font-size: 15px; line-height: 1.7; }
@@ -215,7 +216,7 @@ body:has(.marketing-page) { background: #0b0b0c; }
   .m-boundaries p { max-width: 500px; }
   .m-bottom-cta { grid-template-columns: 1fr; padding-block: 65px; gap: 22px; }
   .m-bottom-cta > div:last-child { justify-items: start; }
-  .marketing-page .pricing-header { padding-top: 48px; }
+  .marketing-page .pricing-header, .marketing-page .faq-header { padding-top: 48px; }
   .marketing-page .changelog-shell { padding-top: 48px; }
 }
 @media (max-width: 520px) {

@@ -1,7 +1,7 @@
 import { changelogEntries } from "@/lib/changelog";
 import { siteDescription, siteDisambiguation, siteName } from "@/lib/copy";
 import { docsIndexDescription, listDocs } from "@/lib/docs";
-import { productFaq } from "@/lib/faq";
+import { faqDescription, productFaq } from "@/lib/faq";
 import { money, pricingPlans, planPriceLabel } from "@/lib/pricing";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
@@ -50,6 +50,7 @@ export function llmsTxt(config: typeof siteConfig = siteConfig): string {
     link("/", "Homepage", siteDescription),
     link("/docs", "Documentation", docsIndexDescription),
     link("/pricing", "Pricing", "Start free, then pick a monthly plan as your pipeline grows. Seats for people on the team, pooled agent hours."),
+    link("/faq", "FAQ", faqDescription),
     link("/changelog", "Changelog", "Product updates for Bento, including coding agents, models, and integrations."),
   ];
   if (config.githubUrl) {

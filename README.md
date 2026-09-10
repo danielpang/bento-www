@@ -32,8 +32,8 @@ If the signup or GitHub URL is absent, its CTA renders as an accessible disabled
   On Vercel the alias domains must be attached to the project as plain
   domains (not dashboard "Redirect to" entries) for these rules to run.
 - Every page carries Organization, WebSite, and SoftwareApplication JSON-LD
-  built from `lib/copy.ts` and `lib/pricing.ts`; the homepage adds FAQPage
-  markup from `lib/faq.ts` and `/pricing` from its questions section. See
+  built from `lib/copy.ts` and `lib/pricing.ts`; `/faq` adds FAQPage markup
+  from `lib/faq.ts` and `/pricing` from its questions section. See
   `lib/structured-data.ts`.
 - Several unrelated products are called Bento. `siteDisambiguation` in
   `lib/copy.ts` is the one sentence that says which one this is. It is for

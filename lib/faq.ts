@@ -1,11 +1,15 @@
 import { siteDomain, siteName } from "@/lib/copy";
 import type { FaqEntry } from "@/lib/structured-data";
 
+/** The /faq page description, shared by its metadata, lead, and /llms.txt. */
+export const faqDescription =
+  "What Bento is, which coding agents it runs, how work moves between them, and where it happens.";
+
 /**
- * The product questions shown on the homepage and published there as
- * FAQPage structured data. Each answer restates what the homepage and docs
- * already say (concepts, agents, security), so the FAQ can never claim more
- * than the pages it sits on. Pricing questions live with /pricing.
+ * The product questions shown on /faq and published there as FAQPage
+ * structured data. Each answer restates what the homepage and docs already
+ * say (concepts, agents, security), so the FAQ can never claim more than
+ * the pages it draws on. Pricing questions live with /pricing.
  */
 export const productFaq: readonly FaqEntry[] = [
   {

@@ -1,7 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { siteDescription, siteDisambiguation, siteHeadline } from "@/lib/copy";
-import { productFaq } from "@/lib/faq";
 import Home from "@/components/marketing/control-home";
 
 describe("Bento landing page", () => {
@@ -62,26 +61,14 @@ describe("Bento landing page", () => {
     expect(container.textContent).not.toMatch(/Not to be confused/);
   });
 
-  it("answers what Bento is and publishes the questions as FAQPage data", () => {
+  it("leaves the questions to /faq and links there from the footer", () => {
     const { container } = render(<Home />);
 
-    expect(screen.getByRole("heading", { name: "Questions" })).toBeInTheDocument();
-    expect(screen.getByText("What is Bento (usebento.ai)?")).toBeInTheDocument();
-
-    const script = container.querySelector('script[type="application/ld+json"]');
-    const data = JSON.parse(script!.textContent ?? "null");
-    expect(data["@type"]).toBe("FAQPage");
-    const shownQuestions = Array.from(container.querySelectorAll(".faq-section dt")).map(
-      (term) => term.textContent,
-    );
-    const shownAnswers = Array.from(container.querySelectorAll(".faq-section dd")).map(
-      (detail) => detail.textContent,
-    );
-    expect(shownQuestions).toEqual(productFaq.map((question) => question.title));
-    expect(data.mainEntity.map((entry: { name: string }) => entry.name)).toEqual(shownQuestions);
+    expect(screen.queryByText("What is Bento (usebento.ai)?")).not.toBeInTheDocument();
+    expect(container.querySelector('script[type="application/ld+json"]')).toBeNull();
     expect(
-      data.mainEntity.map((entry: { acceptedAnswer: { text: string } }) => entry.acceptedAnswer.text),
-    ).toEqual(shownAnswers);
+      within(screen.getByRole("contentinfo")).getByRole("link", { name: "FAQ" }),
+    ).toHaveAttribute("href", "/faq");
   });
 
   it("keeps heading levels in document order", async () => {
