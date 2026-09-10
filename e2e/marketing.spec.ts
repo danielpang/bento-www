@@ -86,3 +86,28 @@ test("visible stage examples advance automatically", async ({ page }) => {
   expect(hydrationErrors).toEqual([]);
   await expect(page.getByRole("button", { name: "Product design", exact: true })).toHaveAttribute("aria-pressed", "true");
 });
+
+test("docs diagram keeps a stable height as the card enters occupied stages", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/docs/concepts");
+  await expect(page.getByRole("contentinfo").getByRole("link", { name: "Docs" })).toHaveAttribute("href", "/docs");
+  await expect(page.getByRole("contentinfo").getByRole("link", { name: "Documentation" })).toHaveCount(0);
+
+  const figure = page.locator(".pipeline-flow");
+  await expect(figure).toBeVisible();
+  const start = await figure.boundingBox();
+  expect(start).not.toBeNull();
+
+  for (const name of [
+    "Approve",
+    "Approve",
+    "Approve",
+    "Approve",
+    "Re-check",
+    "Approve",
+  ]) {
+    await page.getByRole("button", { name }).click();
+    const next = await figure.boundingBox();
+    expect(Math.abs(next!.height - start!.height)).toBeLessThan(1);
+  }
+});

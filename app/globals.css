@@ -2688,6 +2688,7 @@ main {
 .flow-detail {
   display: grid;
   gap: 12px;
+  min-height: 13rem;
   padding: 16px;
   border-top: 1px solid var(--line);
   background: var(--surface-raised);
@@ -2834,6 +2835,10 @@ main {
 
   .flow-slot {
     border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  .flow-detail {
+    min-height: 22rem;
   }
 
   .flow-gate {
