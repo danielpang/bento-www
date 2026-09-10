@@ -11,16 +11,20 @@ describe("Documentation index", () => {
 
     expect(index).not.toBeNull();
     expect(
-      screen.getByRole("heading", { level: 1, name: "Guides" }),
+      screen.getByRole("heading", { level: 1, name: "Bento documentation" }),
     ).toBeInTheDocument();
 
-    for (const doc of listDocs()) {
-      expect(
-        within(index as HTMLElement).getByRole("link", {
-          name: (_, element) =>
-            element.getAttribute("href") === `/docs/${doc.slug}`,
-        }),
-      ).toBeInTheDocument();
+    // Each card is a heading that links to the guide, with its one-line blurb.
+    const cards = (index as HTMLElement).querySelectorAll("li");
+    expect(cards).toHaveLength(listDocs().length);
+    for (const [i, doc] of listDocs().entries()) {
+      const card = cards[i] as HTMLElement;
+      const heading = within(card).getByRole("heading", { level: 2, name: doc.title });
+      expect(within(heading).getByRole("link", { name: doc.title })).toHaveAttribute(
+        "href",
+        `/docs/${doc.slug}`,
+      );
+      expect(card.querySelector("p")).toHaveTextContent(doc.description);
     }
 
     expect(metadata.openGraph).toMatchObject({
