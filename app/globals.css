@@ -753,22 +753,6 @@ main {
   text-transform: uppercase;
 }
 
-/* A phrase of section copy that leads into the matching guide. */
-.copy-link {
-  color: var(--text);
-  text-decoration: underline;
-  text-decoration-color: var(--line-strong);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: color 160ms ease, text-decoration-color 160ms ease;
-}
-
-.copy-link:hover,
-.copy-link:focus-visible {
-  color: var(--brand);
-  text-decoration-color: var(--brand);
-}
-
 .lifecycle-section {
   overflow: clip;
   border-block: 1px solid var(--line);

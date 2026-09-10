@@ -3,7 +3,6 @@ import {
   LockKey,
   ShieldCheck,
 } from "@phosphor-icons/react/dist/ssr";
-import Link from "next/link";
 import { Reveal } from "./reveal";
 
 const boundaries = [
@@ -32,14 +31,8 @@ export function SecuritySection() {
           <span className="section-eyebrow">Security model</span>
           <h2>The sandbox is the boundary.</h2>
           <p>
-            Agent work stays inside a{" "}
-            <Link
-              className="copy-link"
-              href="/docs/concepts#what-a-sandbox-contains"
-            >
-              per-feature environment
-            </Link>
-            . Trusted services keep the credentials and publish the result.
+            Agent work stays inside a per-feature environment. Trusted
+            services keep the credentials and publish the result.
           </p>
           <code>one card / one branch / one sandbox</code>
         </Reveal>

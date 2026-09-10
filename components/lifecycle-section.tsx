@@ -9,22 +9,14 @@ import {
   Ruler,
 } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "motion/react";
-import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 
 const lifecycleIntro = {
   eyebrow: "A pipeline shaped by your team",
   heading: "Every feature has a route.",
-  summary: (
-    <>
-      This is one example.{" "}
-      <Link className="copy-link" href="/docs/pipeline">
-        Define any pipeline you want
-      </Link>
-      , with the stages, agents, skills, and rules that fit your team.
-    </>
-  ),
+  summary:
+    "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
 };
 
 const lifecycle = [

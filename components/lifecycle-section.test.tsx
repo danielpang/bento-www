@@ -35,17 +35,11 @@ describe("LifecycleSection", () => {
     const sectionHeading = heading.closest(".lifecycle-heading");
 
     expect(sectionHeading).not.toBeNull();
-    const summary = (sectionHeading as HTMLElement).querySelector("p");
-    expect(summary).toHaveTextContent(
-      "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
-    );
-    // The existing phrase leads into the Pipelines guide.
     expect(
-      within(summary as HTMLElement).getByRole("link", {
-        name: "Define any pipeline you want",
-      }),
-    ).toHaveAttribute("href", "/docs/pipeline");
-    expect(within(summary as HTMLElement).getAllByRole("link")).toHaveLength(1);
+      within(sectionHeading as HTMLElement).getByText(
+        "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
+      ),
+    ).toBeInTheDocument();
   });
 
   it("preserves the semantic lifecycle order with sequence markers", () => {
@@ -272,10 +266,10 @@ describe("LifecycleSection", () => {
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/^This is one example\./).closest("p"),
-    ).toHaveTextContent(
-      "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
-    );
+      screen.getByText(
+        "This is one example. Define any pipeline you want, with the stages, agents, skills, and rules that fit your team.",
+      ),
+    ).toBeInTheDocument();
     expect(
       within(
         screen.getByRole("group", { name: "Active lifecycle stage" }),

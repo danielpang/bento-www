@@ -12,30 +12,19 @@ describe("IntegrationsSection", () => {
         name: "Start a card from Linear or Slack.",
       }),
     ).toBeInTheDocument();
-    const linear = screen.getByText(
-      (_, element) =>
-        element?.tagName === "P" &&
-        element.textContent ===
-          "Tasks created in Linear can automatically create a feature card in Bento and start the pipeline.",
-    );
-    const slack = screen.getByText(
-      (_, element) =>
-        element?.tagName === "P" &&
-        element.textContent ===
-          "Message @bento to create a card and start the pipeline. Approve in Slack and see agent output.",
-    );
-
-    // Each card wraps one existing phrase with a link to its release note;
-    // no docs guide covers the integrations yet.
     expect(
-      within(linear).getByRole("link", { name: "Tasks created in Linear" }),
-    ).toHaveAttribute("href", "/changelog/linear-integration");
-    expect(within(slack).getByRole("link", { name: "create a card" })).toHaveAttribute(
-      "href",
-      "/changelog/slack-integration",
-    );
-    expect(within(linear).getAllByRole("link")).toHaveLength(1);
-    expect(within(slack).getAllByRole("link")).toHaveLength(1);
+      screen.getByText(
+        "Tasks created in Linear can automatically create a feature card in Bento and start the pipeline.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        (_, element) =>
+          element?.tagName === "P" &&
+          element.textContent ===
+            "Message @bento to create a card and start the pipeline. Approve in Slack and see agent output.",
+      ),
+    ).toBeInTheDocument();
   });
 
   it("links Slack to the one-click OAuth install", () => {

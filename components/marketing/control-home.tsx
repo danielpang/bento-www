@@ -1,6 +1,5 @@
 import { ArrowRight, GithubLogo } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { CtaLink } from "@/components/cta-link";
 import { HandoffSection } from "@/components/handoff-section";
 import { IntegrationsSection } from "@/components/integrations-section";
@@ -64,11 +63,8 @@ export default function Home() {
               <span className="section-eyebrow">Human gates</span>
               <h2>Your judgment has a place.</h2>
               <p>
-                <Link className="copy-link" href="/docs/pipeline#gates">
-                  Every stage starts manual.
-                </Link>{" "}
-                Make it automatic only when its requirements deserve to
-                decide.
+                Every stage starts manual. Make it automatic only when its
+                requirements deserve to decide.
               </p>
               <dl className="trust-modes">
                 <div>

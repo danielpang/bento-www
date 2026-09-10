@@ -3,7 +3,6 @@ import {
   GitBranch,
   TerminalWindow,
 } from "@phosphor-icons/react/dist/ssr";
-import Link from "next/link";
 import { AgentLogo, type AgentName } from "./agent-logo";
 import { Reveal } from "./reveal";
 
@@ -25,11 +24,9 @@ export function HandoffSection() {
         <Reveal className="section-heading">
           <h2>Different agents. One handoff.</h2>
           <p>
-            <Link className="copy-link" href="/docs/agents">
-              Pick the right tool and model for each stage
-            </Link>{" "}
-            without losing what the last agent learned. Bring your own model
-            provider API keys.
+            Pick the right tool and model for each stage without losing
+            what the last agent learned. Bring your own model provider API
+            keys.
           </p>
         </Reveal>
 
@@ -56,11 +53,8 @@ export function HandoffSection() {
             </div>
             <h3>Context becomes an artifact</h3>
             <p>
-              Each stage commits a{" "}
-              <Link className="copy-link" href="/docs/concepts">
-                durable write-up
-              </Link>{" "}
-              for the next agent to read.
+              Each stage commits a durable write-up for the next agent to
+              read.
             </p>
             <div className="artifact-preview">
               <code>docs/bento/ui-ux-design.md</code>
