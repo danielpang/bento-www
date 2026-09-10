@@ -8,7 +8,13 @@ export interface DocQuestion {
 
 export interface DocMeta {
   slug: string;
+  /** Short label used in the docs navigation and index. */
   title: string;
+  /**
+   * The page's H1 and document title when it should differ from the label:
+   * a guide that answers a question leads with the question people ask.
+   */
+  heading?: string;
   description: string;
   order: number;
   /**
@@ -47,13 +53,14 @@ const DOC_META: Record<
   },
   "handoff-artifacts": {
     title: "Handoff artifacts",
+    heading: "How do I pass context to the next agent?",
     description:
-      "Pass context between coding agents in a Bento agent pipeline at usebento.ai: each stage commits a write-up that the next agent reads before it starts.",
+      "Handoff artifacts in a Bento agent pipeline at usebento.ai: each stage commits a write-up that the next coding agent reads before it starts, so context moves with the code instead of a chat dump.",
     order: 4,
     questions: [
       {
-        title: "How do I hand context from one coding agent to another?",
-        body: "Have each stage commit a write-up to the repository. In Bento, every stage ends by writing docs/bento/<stage>.md on the feature branch, and the next stage's agent is told to read those files before it starts, whichever tool or model it runs.",
+        title: "What if a write-up leaves something out?",
+        body: "The next agent starts from the stage prompt and the files on the branch, so a gap in the write-up is a gap in its context. The person at the gate can send the card back with instructions, and the stage's skill can name what every write-up must contain.",
       },
       {
         title: "Can one stage use Claude Code and the next use Cursor?",
@@ -106,6 +113,7 @@ export function listDocs(): DocMeta[] {
         title: meta?.title ?? titleFromMarkdown(markdown, slug),
         description: meta?.description ?? "Bento documentation.",
         order: meta?.order ?? 99,
+        ...(meta?.heading ? { heading: meta.heading } : {}),
         ...(meta?.questions ? { questions: meta.questions } : {}),
       };
     })

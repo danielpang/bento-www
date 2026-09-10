@@ -24,11 +24,12 @@ export async function generateMetadata({
     return { title: "Documentation" };
   }
 
+  const heading = doc.meta.heading ?? doc.meta.title;
   return pageMetadata({
-    title: doc.meta.title,
+    title: heading,
     description: doc.meta.description,
     path: `/docs/${slug}`,
-    socialTitle: `${doc.meta.title} | Bento docs`,
+    socialTitle: `${heading} | Bento docs`,
     type: "article",
   });
 }
@@ -48,7 +49,7 @@ export default async function DocPage({ params }: DocPageProps) {
         currentSlug={slug}
         docs={listDocs()}
         lead={doc.meta.description}
-        title={doc.meta.title}
+        title={doc.meta.heading ?? doc.meta.title}
       >
         <MarkdownContent content={doc.content} />
         {questions ? (

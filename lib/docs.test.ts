@@ -19,38 +19,58 @@ describe("docs catalog", () => {
     expect(getDoc("database-schema")).toBeNull();
   });
 
-  it("frames the handoff guide as the agent pipeline at usebento.ai", () => {
+  it("leads the handoff guide with the question, framed as the agent pipeline at usebento.ai", () => {
     const doc = getDoc("handoff-artifacts")!;
 
     expect(doc.meta.title).toBe("Handoff artifacts");
+    expect(doc.meta.heading).toBe("How do I pass context to the next agent?");
     expect(doc.meta.description).toContain("agent pipeline");
     expect(doc.meta.description).toContain("usebento.ai");
     expect(doc.meta.description).not.toMatch(/[—–]/);
+    // Only the question guide sets a heading; the others use their label.
+    expect(listDocs().filter((entry) => entry.heading).map((entry) => entry.slug)).toEqual([
+      "handoff-artifacts",
+    ]);
   });
 
-  it("opens the handoff guide with a direct answer of 40 to 80 words", () => {
-    const { content } = getDoc("handoff-artifacts")!;
+  it("opens the handoff guide with a direct answer of about 60 words", () => {
+    const { content, meta } = getDoc("handoff-artifacts")!;
     const [heading, answer] = content.split(/\n\n+/);
 
-    expect(heading).toBe("# Handoff artifacts");
+    expect(heading).toBe(`# ${meta.heading}`);
     const words = answer.trim().split(/\s+/).length;
-    expect(words).toBeGreaterThanOrEqual(40);
-    expect(words).toBeLessThanOrEqual(80);
+    expect(words).toBeGreaterThanOrEqual(50);
+    expect(words).toBeLessThanOrEqual(70);
+    expect(answer).toContain("handoff artifact");
+    expect(answer).toContain("not a chat dump");
     expect(answer).toContain("agent pipeline");
     expect(answer).toContain("usebento.ai");
     expect(answer).toContain("docs/bento/<stage>.md");
   });
 
-  it("links the handoff guide to pricing, signup, and the related guides", () => {
+  it("shows the real path pattern and the restart-from-files test", () => {
+    const { content } = getDoc("handoff-artifacts")!;
+
+    expect(content).toMatch(/^## The path pattern$/m);
+    expect(content).toContain("docs/bento/implementation.md");
+    expect(content).toMatch(/^## The restart-from-files test$/m);
+    expect(content).toContain("stage prompt and a compacted transcript");
+  });
+
+  it("links the handoff guide to pricing, signup, and the deep guides", () => {
     const { content } = getDoc("handoff-artifacts")!;
 
     for (const href of [
       "(/pricing)",
       "(https://app.usebento.ai/)",
+      "(/docs/concepts)",
       "(/docs/concepts#cards-sandboxes-and-worktrees)",
+      "(/docs/pipeline)",
       "(/docs/pipeline#gates)",
       "(/docs/agents)",
+      "(/docs/pull-requests)",
       "(/docs/pull-requests#stage-artifacts-in-pull-requests)",
+      "(/docs/web-app)",
     ]) {
       expect(content).toContain(href);
     }

@@ -12,13 +12,17 @@ describe("Documentation page", () => {
     const body = container.querySelector(".docs-body") as HTMLElement;
 
     expect(
-      screen.getByRole("heading", { level: 1, name: "Handoff artifacts" }),
+      screen.getByRole("heading", {
+        level: 1,
+        name: "How do I pass context to the next agent?",
+      }),
     ).toBeInTheDocument();
     expect(container.querySelector(".docs-lead")).toHaveTextContent(
       /agent pipeline at usebento\.ai/,
     );
     // The direct answer is the first thing under the heading.
     expect(body.firstElementChild?.tagName).toBe("P");
+    expect(body.firstElementChild).toHaveTextContent(/handoff artifact/);
     expect(body.firstElementChild).toHaveTextContent(/agent pipeline at usebento\.ai/);
     expect(body.firstElementChild).toHaveTextContent("docs/bento/<stage>.md");
 
@@ -30,10 +34,11 @@ describe("Documentation page", () => {
       "href",
       "https://app.usebento.ai/",
     );
-    expect(within(body).getByRole("link", { name: "Coding agents" })).toHaveAttribute(
-      "href",
-      "/docs/agents",
-    );
+    const agentLinks = within(body).getAllByRole("link", { name: "Coding agents" });
+    expect(agentLinks.length).toBeGreaterThan(1);
+    for (const link of agentLinks) {
+      expect(link).toHaveAttribute("href", "/docs/agents");
+    }
     expect(within(body).getByRole("link", { name: "Gates" })).toHaveAttribute(
       "href",
       "/docs/pipeline#gates",
@@ -80,13 +85,17 @@ describe("Documentation page", () => {
   it("describes the page for search and social cards", async () => {
     const metadata = await generateMetadata(params("handoff-artifacts"));
 
-    expect(metadata.title).toBe("Handoff artifacts");
+    expect(metadata.title).toBe("How do I pass context to the next agent?");
     expect(metadata.description).toContain("agent pipeline");
     expect(metadata.description).toContain("usebento.ai");
     expect(metadata.alternates?.canonical).toBe("/docs/handoff-artifacts");
     expect(metadata.openGraph).toMatchObject({
-      title: "Handoff artifacts | Bento docs",
+      title: "How do I pass context to the next agent? | Bento docs",
       url: "/docs/handoff-artifacts",
     });
+
+    // Guides without a heading keep their label as the title.
+    const pipeline = await generateMetadata(params("pipeline"));
+    expect(pipeline.title).toBe("Pipelines");
   });
 });

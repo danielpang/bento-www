@@ -1,8 +1,31 @@
-# Handoff artifacts
+# How do I pass context to the next agent?
 
-To hand context from one coding agent to the next, have each stage write what it learned to a file in the repository and commit it. In Bento, the agent pipeline at [usebento.ai](/), every stage ends by committing a write-up to `docs/bento/<stage>.md` on the feature branch. The next stage's agent, whichever tool or model it runs, is told to read those files before it starts, so learnings travel with the code rather than through pasted chat.
+Commit a handoff artifact: a stage write-up the agent saves in the repository before it finishes, not a chat dump pasted into the next tool. In Bento, the agent pipeline at [usebento.ai](/), every stage ends by committing `docs/bento/<stage>.md` on the feature branch, and the next stage's agent is told to read those files before it starts, whatever tool or model it runs.
 
-That is the whole mechanism. The rest of this page covers what an artifact contains, where it lives, how the next agent finds it, how it relates to gates, and why it beats copying a transcript from Claude Code into Cursor.
+This page is the short route in. The mechanics are documented in the guides it links to: [How Bento works](/docs/concepts), [Pipelines](/docs/pipeline), [Coding agents](/docs/agents), and [Pull requests](/docs/pull-requests).
+
+## The path pattern
+
+Stages pass context through committed files under `docs/bento/<stage>.md`, named after the stage's slug. In the default six stage pipeline that gives one file per stage, each written by the agent that ran it:
+
+```text
+docs/bento/product-investigation.md
+docs/bento/design.md
+docs/bento/engineering-requirements.md
+docs/bento/implementation.md
+docs/bento/code-review.md
+docs/bento/quality-engineering.md
+```
+
+Rename a stage and the path follows its slug. Each card has one branch and one sandbox with git worktrees of the project's repositories; in a project with several repositories the first one is primary and the write-ups are written there. See [cards, sandboxes and worktrees](/docs/concepts#cards-sandboxes-and-worktrees).
+
+## The restart-from-files test
+
+A stage boundary is a fresh start. The next stage's agent does not inherit a chat session from the stage before it. It gets the stage prompt, which lists the earlier stages' artifact paths and says to read the ones that exist before starting, and the files on the branch. Nothing else crosses over.
+
+That makes the test for a good write-up simple: could an agent that starts from the files alone continue the work? If the answer depends on something that was only ever said in a chat window, it belongs in the write-up. The next agent will not have it otherwise, and neither will the person reviewing the card at the gate.
+
+This is different from a lost session within a stage. When a tool's session is unavailable, Bento starts a new run with the stage prompt and a compacted transcript. Crossing to the next stage relies on the committed files, so that the tool, the model, and the skill can all change.
 
 ## What a handoff artifact is
 
@@ -10,23 +33,13 @@ A handoff artifact is the stage write-up: a concise Markdown summary of what an 
 
 It is not the run transcript. The transcript is the full log of one run and stays on the card for people to inspect. The artifact is the part worth carrying forward, written by the agent for whoever works on the card next: another agent, or the person at the next gate.
 
-What the write-up must contain is set by the stage's skill. Skills are standing instructions included in every prompt, and they define the expected outputs, artifacts, and code changes for a stage. See [Pipelines](/docs/pipeline#agents).
-
-## Where it is written
-
-Each card has one branch and one sandbox with git worktrees of the project's repositories. Stages pass context through committed files under `docs/bento/<stage>.md`, using the stage's slug as the file name, so a default pipeline produces files such as `docs/bento/design.md` and `docs/bento/implementation.md`.
-
-When a stage's agent finishes, Bento's stage prompt asks it to write a concise summary of its work to that path and commit it together with its code changes. The write-up is a normal commit on the feature branch, with the same history and blame as everything else.
-
-Projects with several repositories get one worktree per repository under a single feature workspace. The first repository is primary, and stage artifacts are written there. See [How Bento works](/docs/concepts#cards-sandboxes-and-worktrees).
+What the write-up must contain is set by the stage's skill. Skills are standing instructions included in every prompt, and they define the expected outputs, artifacts, and code changes for a stage. See [agents and skills](/docs/pipeline#agents).
 
 ## How the next agent reads it
 
-When a card moves into the next stage, that stage's agent runs in the same sandbox on the same branch, so the earlier write-ups are already in its worktree. The stage prompt lists the artifact paths from every earlier stage and tells the agent to read the ones that exist before starting.
+When a card moves into the next stage, that stage's agent runs in the same sandbox on the same branch, so the earlier write-ups are already in its worktree. Bento's stage prompt asks each agent to write a concise summary of its work to its own `docs/bento/<stage>.md` and commit it together with its code changes, and tells the next agent which of those files to read.
 
 Because the handoff is a file in git, it does not depend on either agent's session format. One stage can run Claude Code and the next Cursor CLI, Codex CLI, or opencode; each supported agent runs as its own CLI in the sandbox and reads the same files. See [Coding agents](/docs/agents) for the supported tools and how each one takes credentials and mid-run messages.
-
-Within a stage, follow-up messages resume the agent's CLI session when the tool exposes a session id. The artifact is for crossing the stage boundary, where the tool, the model, and the skill can all change.
 
 ## How gates relate
 
@@ -34,7 +47,7 @@ Every stage begins with a gate. New projects default to manual approval on all s
 
 A judge agent is a second agent on the same card, configured through its own skill and best given a different model from the working agent. It works from the same branch, write-up included, and an incomplete verdict holds the card and displays the reason. See [Gates](/docs/pipeline#gates).
 
-## How this differs from pasting chat
+## Not a chat dump
 
 Copying the end of one agent's conversation into another agent's chat window moves text, not context. The paste is whatever the person remembered to include, it lives in nobody's repository, and once the window closes it is gone.
 
@@ -49,7 +62,7 @@ Copying the end of one agent's conversation into another agent's chat window mov
 
 ## Artifacts and pull requests
 
-Stage write-ups exist for downstream stages, not for reviewers of the pull request. Before publication, Bento removes the `docs/bento/` files from the branch tip, so the PR diff contains code changes only. The files remain in git history. If you prefer to keep them in the pull request, turn that on under **Settings, GitHub**. See [Pull requests](/docs/pull-requests#stage-artifacts-in-pull-requests).
+Stage write-ups exist for downstream stages, not for reviewers of the pull request. Before publication, Bento removes the `docs/bento/` files from the branch tip, so the PR diff contains code changes only. The files remain in git history. If you prefer to keep them in the pull request, turn that on under **Settings, GitHub**. See [stage artifacts in pull requests](/docs/pull-requests#stage-artifacts-in-pull-requests).
 
 ## Writing a skill that produces a good handoff
 
@@ -62,8 +75,16 @@ the implementation stage should start from. Ask for any decision you need
 rather than guessing at it.
 ```
 
-Skills are edited under **Agents**, or exported and imported as YAML. See [The agents file](/docs/pipeline#the-agents-file).
+Skills are edited under **Agents**, or exported and imported as YAML. See [the agents file](/docs/pipeline#the-agents-file).
+
+## Go deeper
+
+- [How Bento works](/docs/concepts): cards, sandboxes, worktrees, and where artifacts are written.
+- [Pipelines](/docs/pipeline): stages, gates, judge agents, skills, and the pipeline and agents files.
+- [Coding agents](/docs/agents): the supported tools, their credentials, and how each takes mid-run messages.
+- [Pull requests](/docs/pull-requests): publishing, and what happens to `docs/bento/` files on the way out.
+- [Web console](/docs/web-app): running Bento locally or self-hosting it with Docker.
 
 ## Getting started
 
-Handoff artifacts are part of every plan, including Free, which comes with 3 members and 5 agent hours a month. [Create an account](https://app.usebento.ai/) to set up a pipeline, or [compare plans on the pricing page](/pricing). Bento can also be [self-hosted](/docs/web-app) under its source license.
+Handoff artifacts are part of every plan, including Free, which comes with 3 members and 5 agent hours a month. [Create an account](https://app.usebento.ai/) to set up a pipeline, or [compare plans on the pricing page](/pricing).
