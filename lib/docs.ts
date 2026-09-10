@@ -1,11 +1,29 @@
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 
+export interface DocQuestion {
+  title: string;
+  body: string;
+}
+
 export interface DocMeta {
   slug: string;
+  /** Short label used in the docs navigation and index. */
   title: string;
+  /**
+   * The page's H1 and document title when it should differ from the label:
+   * a guide that answers a question leads with the question people ask.
+   */
+  heading?: string;
   description: string;
   order: number;
+  /**
+   * Short answers shown at the end of the guide and repeated as FAQPage
+   * JSON-LD. Only guides written to answer a problem query carry them; the
+   * page renders the same entries, so the markup never says more than the
+   * visible copy.
+   */
+  questions?: readonly DocQuestion[];
 }
 
 const DOCS_DIR = path.join(process.cwd(), "content/docs");
@@ -33,21 +51,46 @@ const DOC_META: Record<
     description: "Supported tools, credentials, and live steering.",
     order: 3,
   },
+  "handoff-artifacts": {
+    title: "Handoff artifacts",
+    heading: "How do I pass context to the next agent?",
+    description:
+      "Handoff artifacts in a Bento agent pipeline at usebento.ai: each stage commits a write-up that the next coding agent reads before it starts, so context moves with the code instead of a chat dump.",
+    order: 4,
+    questions: [
+      {
+        title: "What if a write-up leaves something out?",
+        body: "The next agent starts from the stage prompt and the files on the branch, so a gap in the write-up is a gap in its context. The person at the gate can send the card back with instructions, and the stage's skill can name what every write-up must contain.",
+      },
+      {
+        title: "Can one stage use Claude Code and the next use Cursor?",
+        body: "Yes. The handoff is a committed Markdown file, not a chat session, so any supported agent can read it. Each stage pairs its own tool, model, and skill, and the write-ups from earlier stages are already in the worktree when the next agent runs.",
+      },
+      {
+        title: "Do handoff artifacts end up in the pull request?",
+        body: "Not by default. Bento removes the docs/bento/ files from the branch tip before publishing, so the PR diff contains code only. The files remain in git history, and a setting under Settings, GitHub keeps them in the pull request instead.",
+      },
+      {
+        title: "Who reviews the write-up before the next agent starts?",
+        body: "The person at the gate. Every stage begins with a manual gate by default, so a teammate can read the write-up and the changes, then approve, send the card back, or steer. A gate can be made automatic once its requirements can decide.",
+      },
+    ],
+  },
   "pull-requests": {
     title: "Pull requests",
     description: "Opening PRs, attribution, and GitHub connections.",
-    order: 4,
+    order: 5,
   },
   "web-app": {
     title: "Web console",
     description: "Local setup, containers, and day-to-day console use.",
-    order: 5,
+    order: 6,
   },
   clients: {
     title: "Other clients",
     description:
       "Terminal client progress, and where the board and agents can run.",
-    order: 6,
+    order: 7,
   },
 };
 
@@ -70,6 +113,8 @@ export function listDocs(): DocMeta[] {
         title: meta?.title ?? titleFromMarkdown(markdown, slug),
         description: meta?.description ?? "Bento documentation.",
         order: meta?.order ?? 99,
+        ...(meta?.heading ? { heading: meta.heading } : {}),
+        ...(meta?.questions ? { questions: meta.questions } : {}),
       };
     })
     .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
