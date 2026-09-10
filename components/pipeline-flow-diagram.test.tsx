@@ -56,7 +56,7 @@ describe("PipelineFlowDiagram", () => {
       expect(button).toHaveTextContent(String(index + 1).padStart(2, "0"));
       expect(button).toHaveTextContent(stage.name);
       expect(button).toHaveTextContent(stage.agent);
-      expect(button).toHaveTextContent(stage.model);
+      expect(button).toHaveTextContent(stage.harness);
     }
     expect(within(stages[6] as HTMLElement).getByRole("button")).toHaveTextContent(
       "Done",

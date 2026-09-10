@@ -334,7 +334,7 @@ export function PipelineFlowDiagram() {
                     <span className="flow-agent">{stage.agent}</span>
                     <span className="flow-harness">
                       <AgentLogo agent={stage.harness} className="agent-logo" />
-                      <span>{stage.model}</span>
+                      <span>{stage.harness}</span>
                     </span>
                   </button>
                   <div className="flow-slot">
