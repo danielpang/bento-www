@@ -1,6 +1,6 @@
 # Other clients
 
-The TUI and web app are both still in progress and have not reached feature parity yet. The macOS app trails further: features land unevenly across clients, and none of them is complete.
+The TUI and web app are both still in progress and have not reached feature parity yet: features land unevenly across clients, and neither is complete.
 
 ## Terminal
 
@@ -16,34 +16,30 @@ bento agents edit Reviewer --model claude-sonnet-5
 bento pipeline export team-pipeline.yaml
 ```
 
-## macOS app
-
-`apps/mac`. A native board built on the Native SDK, spawning the CLI underneath. It follows cards, approves gates, and edits agents, and does not yet do stages, repository commands, or the pipeline file.
-
 ## What each covers today
 
-| Task | Web console | Terminal | Mac app |
-| --- | --- | --- | --- |
-| Create a project | Yes | Yes | Yes |
-| Create one spanning several repositories | Yes | One, then add | One, then add |
-| Connect and remove repositories | Yes | Yes | Yes |
-| Set a repository's setup and test commands | Yes | `bento repos set` | No |
-| Export and import a pipeline as YAML | Yes | `bento pipeline` | No |
-| Add a card | Yes | No | Yes |
-| Add, edit and remove agents | Yes | Yes | Yes |
-| Assign an agent to a stage | Yes | Yes | Yes |
-| Add, remove and rename stages | Yes | Yes | Rename only |
-| Reorder stages | Drag, or arrow keys | No | No |
-| Switch a stage between manual and automatic | Yes | Yes | Yes |
-| Edit stage requirements, judge agent included | Yes | Yes | Judge shown, not edited |
-| Turn a stage's pull request on or off | Yes | Yes | No |
-| Approve or reject a card | Yes | Yes | Yes |
-| Move a card between stages | Drag it between lanes | `a` and `b` keys, one step | Arrows on each card |
-| Start, stop, and continue an agent | Yes | Yes | Yes |
-| Save and remove provider API keys | Yes | Yes | Yes |
-| Manage the team and its credentials | Yes | No | Yes |
+| Task | Web console | Terminal |
+| --- | --- | --- |
+| Create a project | Yes | Yes |
+| Create one spanning several repositories | Yes | One, then add |
+| Connect and remove repositories | Yes | Yes |
+| Set a repository's setup and test commands | Yes | `bento repos set` |
+| Export and import a pipeline as YAML | Yes | `bento pipeline` |
+| Add a card | Yes | No |
+| Add, edit and remove agents | Yes | Yes |
+| Assign an agent to a stage | Yes | Yes |
+| Add, remove and rename stages | Yes | Yes |
+| Reorder stages | Drag, or arrow keys | No |
+| Switch a stage between manual and automatic | Yes | Yes |
+| Edit stage requirements, judge agent included | Yes | Yes |
+| Turn a stage's pull request on or off | Yes | Yes |
+| Approve or reject a card | Yes | Yes |
+| Move a card between stages | Drag it between lanes | `a` and `b` keys, one step |
+| Start, stop, and continue an agent | Yes | Yes |
+| Save and remove provider API keys | Yes | Yes |
+| Manage the team and its credentials | Yes | No |
 
-All three drive the same API. Team management and stored credentials are multi mode only in every client, because a local install has one user and no organization to hold them.
+Both drive the same API. Team management and stored credentials are multi mode only in every client, because a local install has one user and no organization to hold them.
 
 ## Where the board lives, and where agents run
 

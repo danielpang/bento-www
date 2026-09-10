@@ -46,7 +46,7 @@ const DOC_META: Record<
   clients: {
     title: "Other clients",
     description:
-      "TUI and web app progress, plus the macOS client alongside them.",
+      "Terminal client progress, and where the board and agents can run.",
     order: 6,
   },
 };
