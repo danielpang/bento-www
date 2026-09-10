@@ -7,7 +7,7 @@ for (const width of [375, 768, 1024, 1519]) {
     page.on("pageerror", error => errors.push(error.message));
     const captures: string[] = [];
     page.on("request", request => { if (request.url().includes("posthog.com")) captures.push(request.url()); });
-    for (const path of ["/preview/redesign", "/pricing", "/faq", "/changelog"]) {
+    for (const path of ["/preview/redesign", "/pricing", "/changelog"]) {
       captures.length = 0;
       await page.goto(path);
       await expect(page.locator("h1")).toBeVisible();

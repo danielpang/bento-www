@@ -1,7 +1,6 @@
 import { changelogEntries } from "@/lib/changelog";
 import { siteDescription, siteDisambiguation, siteName } from "@/lib/copy";
 import { docsIndexDescription, listDocs } from "@/lib/docs";
-import { faqDescription, productFaq } from "@/lib/faq";
 import { money, pricingPlans, planPriceLabel } from "@/lib/pricing";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
@@ -12,8 +11,8 @@ import { absoluteUrl, siteConfig } from "@/lib/site";
  * reader short on context, so the essentials come before it.
  *
  * Everything below restates copy that already ships on the site or in its
- * pricing catalog, FAQ, and docs. Nothing is claimed here that a page does
- * not, and the disambiguation line is the same sentence the pages show.
+ * pricing catalog and docs. Nothing is claimed here that a page does not,
+ * apart from the disambiguation line, which is kept for machine readers.
  */
 export function llmsTxt(config: typeof siteConfig = siteConfig): string {
   const link = (path: string, label: string, note: string) =>
@@ -50,7 +49,6 @@ export function llmsTxt(config: typeof siteConfig = siteConfig): string {
     link("/", "Homepage", siteDescription),
     link("/docs", "Documentation", docsIndexDescription),
     link("/pricing", "Pricing", "Start free, then pick a monthly plan as your pipeline grows. Seats for people on the team, pooled agent hours."),
-    link("/faq", "FAQ", faqDescription),
     link("/changelog", "Changelog", "Product updates for Bento, including coding agents, models, and integrations."),
   ];
   if (config.githubUrl) {
@@ -59,8 +57,6 @@ export function llmsTxt(config: typeof siteConfig = siteConfig): string {
   if (config.signupUrl) {
     product.push(externalLink(config.signupUrl, "Web console", "Sign in or create an account for hosted Bento."));
   }
-
-  const questions = productFaq.map((question) => `- ${question.title} ${question.body}`);
 
   return [
     `# ${siteName}`,
@@ -86,10 +82,6 @@ export function llmsTxt(config: typeof siteConfig = siteConfig): string {
     "Hosted Bento is billed monthly. Seats are the people on the team; agent hours are sandbox time agents spend working, pooled for the whole team.",
     "",
     ...plans,
-    "",
-    "## Questions",
-    "",
-    ...questions,
     "",
     "## Recent changes",
     "",

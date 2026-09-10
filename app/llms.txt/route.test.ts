@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { siteDisambiguation } from "@/lib/copy";
 import { listDocs } from "@/lib/docs";
-import { productFaq } from "@/lib/faq";
 import { pricingPlans } from "@/lib/pricing";
 import { GET } from "./route";
 
@@ -21,7 +20,7 @@ describe("GET /llms.txt", () => {
 
   it("links every key URL on the marketing origin", async () => {
     const text = await GET().text();
-    for (const path of ["", "/docs", "/docs/concepts", "/pricing", "/faq", "/changelog", "/terms", "/license"]) {
+    for (const path of ["", "/docs", "/docs/concepts", "/pricing", "/changelog", "/terms", "/license"]) {
       expect(text).toContain(`](http://localhost:3000${path})`);
     }
     for (const doc of listDocs()) {
@@ -39,17 +38,13 @@ describe("GET /llms.txt", () => {
     expect(text).not.toMatch(/[—–]/);
   });
 
-  it("quotes the same disambiguation line and questions the pages show", async () => {
+  it("carries the machine-only disambiguation line and the docs hub description", async () => {
     const text = await GET().text();
     const lines = text.split("\n");
 
     // The one-liner sits right under the summary, before any section.
     expect(lines.indexOf(siteDisambiguation)).toBeGreaterThan(0);
     expect(lines.indexOf(siteDisambiguation)).toBeLessThan(lines.indexOf("## Product"));
-    expect(text).toMatch(/^## Questions$/m);
-    for (const question of productFaq) {
-      expect(text).toContain(`- ${question.title} ${question.body}`);
-    }
     expect(text).toContain("](http://localhost:3000/docs): Guides for Bento, the agent pipeline at usebento.ai");
   });
 });

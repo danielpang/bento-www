@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { siteDescription, siteDisambiguation, siteHeadline } from "@/lib/copy";
 import Home from "@/components/marketing/control-home";
@@ -59,16 +59,6 @@ describe("Bento landing page", () => {
 
     expect(container.textContent).not.toContain(siteDisambiguation);
     expect(container.textContent).not.toMatch(/Not to be confused/);
-  });
-
-  it("leaves the questions to /faq and links there from the footer", () => {
-    const { container } = render(<Home />);
-
-    expect(screen.queryByText("What is Bento (usebento.ai)?")).not.toBeInTheDocument();
-    expect(container.querySelector('script[type="application/ld+json"]')).toBeNull();
-    expect(
-      within(screen.getByRole("contentinfo")).getByRole("link", { name: "FAQ" }),
-    ).toHaveAttribute("href", "/faq");
   });
 
   it("keeps heading levels in document order", async () => {

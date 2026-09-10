@@ -8,7 +8,6 @@ Status: implemented locally; the PostHog experiment has not been created or laun
 - `control` (50%): homepage pulled from `origin/main` at `09bdfb0`, preserved in `components/marketing/control-home.tsx` with its original CSS and components.
 - `redesign` (50%): developer-focused homepage with a charcoal theme, clearer product promise, and the existing interactive pipeline beside the headline.
 - Both cohorts use the same redesigned pricing and changelog destinations, with the existing plans, prices, release history, URLs, and signup destination. This experiment measures the homepage treatment, not pricing changes.
-- Both variants link to the same `/faq` page from the footer. The footer is shared, so the link was added to the control after it was preserved; it is identical in both, so the comparison stays about the treatment.
 - `/preview/control` and `/preview/redesign` are noindex previews and do not record experiment events. `/control` redirects to the control preview on direct requests.
 
 ## Configuration

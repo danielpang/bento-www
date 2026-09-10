@@ -14,7 +14,7 @@ describe("redesigned homepage", () => {
     expect(container.textContent).not.toMatch(/Not to be confused/);
   });
 
-  it("links to the documentation and the FAQ page", () => {
+  it("links to the documentation from the header and footer", () => {
     const { container } = render(<MarketingHome />);
 
     expect(
@@ -25,10 +25,6 @@ describe("redesigned homepage", () => {
     ).toHaveAttribute("href", "/docs");
     const footer = screen.getByRole("contentinfo");
     expect(within(footer).getByRole("link", { name: "Documentation" })).toHaveAttribute("href", "/docs");
-    expect(within(footer).getByRole("link", { name: "FAQ" })).toHaveAttribute("href", "/faq");
-    // The questions themselves live on /faq, not on the homepage.
-    expect(screen.queryByText("What is Bento (usebento.ai)?")).not.toBeInTheDocument();
-    expect(container.querySelector('script[type="application/ld+json"]')).toBeNull();
     expect(container.textContent).not.toMatch(/[—–]/);
   });
 });

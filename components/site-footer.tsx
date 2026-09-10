@@ -67,9 +67,6 @@ export function SiteFooter({
             <CtaLink href="/pricing" variant="quiet">
               Pricing
             </CtaLink>
-            <CtaLink href="/faq" variant="quiet">
-              FAQ
-            </CtaLink>
             <CtaLink href="/license" variant="quiet">
               License
             </CtaLink>

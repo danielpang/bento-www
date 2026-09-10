@@ -93,7 +93,7 @@ export default function PricingPage() {
           </p>
         </section>
 
-        <section className="site-shell faq-section">
+        <section className="site-shell pricing-faq">
           <h2>Questions</h2>
           <dl>
             {questions.map((question) => (
