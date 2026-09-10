@@ -8,7 +8,6 @@ interface SiteFooterProps {
   signupUrl: string | null;
   showFinalCta?: boolean;
   hideCtaArrows?: boolean;
-  hideDocsLink?: boolean;
 }
 
 export function SiteFooter({
@@ -16,7 +15,6 @@ export function SiteFooter({
   signupUrl,
   showFinalCta = true,
   hideCtaArrows = false,
-  hideDocsLink = false,
 }: SiteFooterProps) {
   return (
     <>
@@ -60,9 +58,9 @@ export function SiteFooter({
             >
               GitHub
             </CtaLink>
-            {!hideDocsLink && <CtaLink href="/docs" variant="quiet">
+            <CtaLink href="/docs" variant="quiet">
               Documentation
-            </CtaLink>}
+            </CtaLink>
             <CtaLink href="/changelog" variant="quiet">
               Changelog
             </CtaLink>

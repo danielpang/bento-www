@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { siteDisambiguation } from "@/lib/copy";
 import { productFaq } from "@/lib/faq";
@@ -32,6 +32,20 @@ describe("redesigned homepage", () => {
     expect(
       Array.from(container.querySelectorAll(".faq-section dd")).map((detail) => detail.textContent),
     ).toEqual(productFaq.map((question) => question.body));
+  });
+
+  it("links to the documentation from the header and footer", () => {
+    render(<MarketingHome />);
+
+    expect(
+      within(screen.getByRole("navigation", { name: "Primary" })).getByRole("link", { name: "Docs" }),
+    ).toHaveAttribute("href", "/docs");
+    expect(
+      within(screen.getByRole("navigation", { name: "Mobile navigation" })).getByRole("link", { name: "Docs" }),
+    ).toHaveAttribute("href", "/docs");
+    expect(
+      within(screen.getByRole("contentinfo")).getByRole("link", { name: "Documentation" }),
+    ).toHaveAttribute("href", "/docs");
   });
 
   it("keeps the questions before the closing call to action", () => {

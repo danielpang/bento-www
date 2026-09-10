@@ -87,6 +87,6 @@ export function MarketingHome() {
       <ProductFaq className="home-faq" />
       <section className="m-bottom-cta site-shell"><div><h2>Put your agents<br /><span>on the same team.</span></h2><p>Start free with 3 members and 5 agent hours a month.</p></div><div><CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink><Link className="m-text-link" href="/pricing">Find your plan</Link></div></section>
     </main>
-    <SiteFooter {...siteConfig} showFinalCta={false} hideDocsLink />
+    <SiteFooter {...siteConfig} showFinalCta={false} />
   </div>;
 }
