@@ -54,7 +54,7 @@ export const marketingProblemBeats = [
   },
   {
     title: "Sessions shared and reviewable by the whole team",
-    body: "Run your agents in isolated sandboxes. Prevent unintended actions",
+    body: "Run your agents in isolated sandboxes. Pick up and resume work from any device and share context with your team",
   },
 ] as const;
 
