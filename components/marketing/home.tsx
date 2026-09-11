@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Check, FileText, GitBranch, ShieldCheck, TerminalWindow, UsersThree } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, Check, FileText, GitBranch, Laptop, ShieldCheck, TerminalWindow, UsersThree } from "@phosphor-icons/react/dist/ssr";
 import { AgentLogo, type AgentName } from "@/components/agent-logo";
 import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
@@ -8,6 +8,15 @@ import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { MarketingHeader } from "./header";
 import { FeatureArtifacts } from "./feature-artifacts";
+import { RemoteShareScene, TeamBoardScene } from "./lifecycle-scenes";
+import {
+  marketingAgentsLabel,
+  marketingHomeHeadlineLines,
+  marketingHomePromise,
+  marketingProblemBeats,
+  marketingProblemHeading,
+  marketingProblemLead,
+} from "@/lib/copy";
 import { siteConfig } from "@/lib/site";
 // The animated demos carry the motion library. They are server-rendered as
 // usual but hydrate from their own chunks, so the page's initial script graph
@@ -24,38 +33,50 @@ export function MarketingHome() {
         <Link className="m-announcement" href="/changelog">See what’s new <ArrowRight size={14} aria-hidden="true" /></Link>
         <div className="m-hero-heading">
           <div className="hero-copy">
-            <h1>Your agents.<br /><span>One shipping team.</span></h1>
-            <p>An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.</p>
+            <h1>{marketingHomeHeadlineLines[0]}<br /><span>{marketingHomeHeadlineLines[1]}</span></h1>
+            <p>{marketingHomePromise}</p>
             <div className="hero-actions">
               <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
             </div>
           </div>
           <div className="m-demo hero-visual" id="product">
-          <div className="m-demo-caption"><span><TerminalWindow size={16} aria-hidden="true" /> A feature, moving forward.</span><span>Interactive pipeline demo</span></div>
+            <div className="m-demo-caption"><span><TerminalWindow size={16} aria-hidden="true" /> A feature, moving forward.</span><span>Interactive pipeline demo</span></div>
             <PipelineDemo />
           </div>
         </div>
       </section>
       <section className="site-shell m-agents" aria-label="Supported coding agents">
-        <p>Your favourite harnesses and models</p>
+        <p>{marketingAgentsLabel}</p>
         <div>{agents.map(agent => <span className="m-agent" key={agent}><AgentLogo agent={agent} className="agent-logo" /><span>{agent.replace(" CLI", "")}</span></span>)}</div>
       </section>
       <section className="m-section site-shell m-context">
-        <Reveal className="m-section-heading"><h2>Model coding agents around your existing software development lifecycle</h2><p>Coordinate agents across many features at once. Your team shares one board, so progress and context stay visible.</p></Reveal>
+        <Reveal className="m-section-heading">
+          <h2>{marketingProblemHeading}</h2>
+          <p>{marketingProblemLead}</p>
+        </Reveal>
         <Reveal className="m-stage-showcase">
           <div className="m-stage-intro">
+            <UsersThree size={25} aria-hidden="true" />
+            <h3>{marketingProblemBeats[0].title}</h3>
+            <p>{marketingProblemBeats[0].body}</p>
+          </div>
+          <TeamBoardScene />
+        </Reveal>
+        <Reveal className="m-stage-showcase m-skill-showcase">
+          <div className="m-stage-intro">
             <FileText size={25} aria-hidden="true" />
-            <h3>Give every stage a clear outcome.</h3>
-            <p>Assign an agent to each pipeline stage, then give it a skill that describes the outcome you expect.</p>
+            <h3>{marketingProblemBeats[1].title}</h3>
+            <p>{marketingProblemBeats[1].body}</p>
           </div>
           <SkillExamples />
         </Reveal>
-        <Reveal className="m-shared-board">
-          <UsersThree size={28} aria-hidden="true" />
-          <div>
-            <h3>Many features. One shared board.</h3>
-            <p>Track each feature as it moves through the pipeline. Teammates see the same board, including progress, agent work, and decisions, so everyone can follow along with the context.</p>
+        <Reveal className="m-stage-showcase">
+          <div className="m-stage-intro">
+            <Laptop size={25} aria-hidden="true" />
+            <h3>{marketingProblemBeats[2].title}</h3>
+            <p>{marketingProblemBeats[2].body}</p>
           </div>
+          <RemoteShareScene />
         </Reveal>
       </section>
       <section className="m-section m-gates" id="how-it-works">

@@ -73,7 +73,7 @@ test("control and redesign share the charcoal page background", async ({ page })
 
 test("stage examples are selectable without changing the section height", async ({ page }) => {
   await page.goto("/preview/redesign");
-  const showcase = page.locator(".m-stage-showcase");
+  const showcase = page.locator(".m-skill-showcase");
   await showcase.scrollIntoViewIfNeeded();
   const height = (await showcase.boundingBox())!.height;
   for (const stage of ["PM", "Product design", "Tech exploration", "Implementation", "QA", "DevOps"]) {
@@ -91,7 +91,7 @@ test("visible stage examples advance automatically", async ({ page }) => {
   });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/preview/redesign");
-  await page.locator(".m-stage-showcase").scrollIntoViewIfNeeded();
+  await page.locator(".m-skill-showcase").scrollIntoViewIfNeeded();
   await page.mouse.move(0, 0);
   await expect(page.getByRole("button", { name: "Product design", exact: true })).toHaveAttribute("aria-pressed", "true", { timeout: 10000 });
   await page.getByRole("button", { name: "Pause stage examples" }).click();

@@ -24,3 +24,57 @@ export const siteDomain = "usebento.ai";
  * disambiguatingDescription, but no page shows it to visitors.
  */
 export const siteDisambiguation = `Not to be confused with Bento the email platform (bentonow) or getbento.sh: this is Bento the agent pipeline for coding agents, at ${siteDomain}.`;
+
+export const marketingHomeHeadlineLines = [
+  "Your agents.",
+  "One shipping team.",
+] as const;
+
+export const marketingHomeHeadline = `${marketingHomeHeadlineLines[0]} ${marketingHomeHeadlineLines[1]}`;
+
+export const marketingHomePromise =
+  "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.";
+
+export const marketingAgentsLabel = "Works with your favourite harnesses and models";
+
+export const marketingProblemHeading =
+  "Bring agents into your existing software development lifecycle";
+
+export const marketingProblemLead =
+  "Coordinate agents across many features at once. Your team shares one board, so progress and context stay visible.";
+
+export const marketingProblemBeats = [
+  {
+    title: "Keep track of all your coding agent sessions",
+    body: "Every engineer has multiple coding agent sessions going, and it is easy to lose track and sight of them. One board keeps every sessions’ status trackable",
+  },
+  {
+    title: "Build your process into a pipeline",
+    body: "You already have a process you want the agent to follow: product investigation, design, spec, implementation, code review, QA. Today you have to prompt each step by hand.",
+  },
+  {
+    title: "Sessions shared and reviewable by the whole team",
+    body: "Run your agents in isolated sandboxes. Pick up and resume work from any device and share context with your team",
+  },
+] as const;
+
+export const marketingBoardCaption = "Team board";
+export const marketingBoardCaptionMeta = "Visible to the team";
+
+export const marketingPipelineLanes = [
+  { stage: "Product investigation", title: "Checkout recovery", state: "running", label: "agent working" },
+  { stage: "UI/UX design", title: "Billing empty states", state: "idle", label: "in review" },
+  { stage: "Engineering requirements", title: "Usage-based billing", state: "idle", label: "not started" },
+  { stage: "Implementation", title: "Move audit log off hot path", state: "running", label: "agent working" },
+  { stage: "Code review", title: "Rate limit the public API", state: "gated", label: "waiting at gate" },
+  { stage: "Quality engineering", title: "Retry timed-out webhooks", state: "done", label: "done" },
+] as const;
+
+export const marketingShareRemoteTitle = "Cloud VM or docker containers";
+
+export const marketingShareSandboxes = [
+  { title: "Checkout recovery", runtime: "docker", stage: "Implementation", state: "running" },
+  { title: "Move audit log off hot path", runtime: "docker", stage: "Implementation", state: "running" },
+  { title: "Rate limit the public API", runtime: "vm", stage: "Code review", state: "running" },
+  { title: "Billing empty states", runtime: "docker", stage: "UI/UX design", state: "idle" },
+] as const;
