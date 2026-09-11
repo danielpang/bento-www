@@ -59,7 +59,7 @@ describe("site copy", () => {
       },
       {
         title: "Sessions shared and reviewable by the whole team",
-        body: "Agents run on a laptop, so they cannot be accessed remotely or shared with teammates.",
+        body: "Run your agents in isolated sandboxes. Prevent unintended actions",
       },
     ]);
   });

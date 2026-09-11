@@ -5,7 +5,6 @@ import {
   marketingShareLinkLabel,
   marketingShareLocalBody,
   marketingShareLocalTitle,
-  marketingShareRemoteBody,
   marketingShareRemoteTitle,
 } from "@/lib/copy";
 
@@ -97,11 +96,6 @@ export function RemoteShareScene() {
         </div>
         <div>
           <strong>{marketingShareRemoteTitle}</strong>
-          <span>{marketingShareRemoteBody}</span>
-          <ul>
-            <li>Alex</li>
-            <li>Sam</li>
-          </ul>
         </div>
       </div>
     </figure>

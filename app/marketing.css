@@ -126,9 +126,7 @@ body:has(.control-page) { background: #0b0b0c; }
 .m-share-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18%; align-items: start; padding-inline: 6%; text-align: center; }
 .m-share-legend div { display: grid; justify-items: center; gap: 4px; }
 .m-share-legend strong { font-size: 13px; font-weight: 520; letter-spacing: -0.02em; }
-.m-share-legend span { max-width: 20ch; color: var(--text-muted); font-size: 12px; line-height: 1.45; }
-.m-share-legend ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; list-style: none; margin: 4px 0 0; padding: 0; }
-.m-share-legend li { padding: 4px 8px; border-radius: 4px; background: #291d15; color: #e5b388; font-size: 11px; }
+.m-share-legend span { max-width: 22ch; color: var(--text-muted); font-size: 12px; line-height: 1.45; }
 .m-context-handoff { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 60px; margin-top: 70px; padding-top: 42px; border-top: 1px solid var(--line); }
 .m-feature-artifacts { min-width: 0; margin: 0; border: 1px solid var(--line); border-radius: 8px; background: #111113; }
 .m-feature-artifacts figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 22px; border-bottom: 1px solid var(--line); color: var(--text-muted); font-size: 12px; }

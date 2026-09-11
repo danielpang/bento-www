@@ -54,7 +54,7 @@ export const marketingProblemBeats = [
   },
   {
     title: "Sessions shared and reviewable by the whole team",
-    body: "Agents run on a laptop, so they cannot be accessed remotely or shared with teammates.",
+    body: "Run your agents in isolated sandboxes. Prevent unintended actions",
   },
 ] as const;
 
@@ -73,5 +73,4 @@ export const marketingPipelineLanes = [
 export const marketingShareLocalTitle = "Your laptop";
 export const marketingShareLocalBody = "You connect and review";
 export const marketingShareLinkLabel = "Session";
-export const marketingShareRemoteTitle = "Cloud VM";
-export const marketingShareRemoteBody = "Agent work teammates can reach";
+export const marketingShareRemoteTitle = "Cloud VM or docker containers";
