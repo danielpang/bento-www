@@ -31,6 +31,8 @@ describe("lifecycle scenes", () => {
     expect(screen.getByText(marketingShareLocalTitle)).toBeInTheDocument();
     expect(screen.getByText(marketingShareLinkLabel)).toBeInTheDocument();
     expect(screen.getByText(marketingShareRemoteTitle)).toBeInTheDocument();
+    expect(screen.getByText("cloud")).toBeInTheDocument();
+    expect(screen.getByText("vm-12")).toBeInTheDocument();
     expect(screen.queryByText("Alex")).not.toBeInTheDocument();
     expect(screen.queryByText("Sam")).not.toBeInTheDocument();
     expect(screen.queryByText("Agent work teammates can reach")).not.toBeInTheDocument();

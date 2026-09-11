@@ -1,3 +1,4 @@
+import { Cloud } from "@phosphor-icons/react/dist/ssr";
 import {
   marketingBoardCaption,
   marketingBoardCaptionMeta,
@@ -50,25 +51,33 @@ export function RemoteShareScene() {
       <div className="m-share-link" aria-hidden="true">
         <span>{marketingShareLinkLabel}</span>
       </div>
-      <div className="m-share-window" data-kind="remote">
-        <header>
-          <span>{marketingShareRemoteTitle}</span>
-          <code>running</code>
+      <div className="m-share-cloud">
+        <header className="m-share-cloud-bar">
+          <Cloud size={14} weight="regular" aria-hidden="true" />
+          <span>cloud</span>
+          <code>us-east-1</code>
         </header>
-        <dl className="m-share-meta">
-          <div>
-            <dt>runtime</dt>
-            <dd>docker</dd>
-          </div>
-          <div>
-            <dt>sandbox</dt>
-            <dd>isolated</dd>
-          </div>
-          <div>
-            <dt>agent</dt>
-            <dd>implementation</dd>
-          </div>
-        </dl>
+        <div className="m-share-window" data-kind="guest">
+          <header>
+            <span>vm-12</span>
+            <code>running</code>
+          </header>
+          <dl className="m-share-meta">
+            <div>
+              <dt>runtime</dt>
+              <dd>docker</dd>
+            </div>
+            <div>
+              <dt>sandbox</dt>
+              <dd>isolated</dd>
+            </div>
+            <div>
+              <dt>agent</dt>
+              <dd>implementation</dd>
+            </div>
+          </dl>
+        </div>
+        <p>{marketingShareRemoteTitle}</p>
       </div>
     </figure>
   );
