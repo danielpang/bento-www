@@ -16,6 +16,9 @@ export const siteImageAlt = `${siteName}. ${siteHeadline}.`;
 
 export const siteDomain = "usebento.ai";
 
+/** next.config.ts redirects /install.sh to the installer on the latest CLI release. */
+export const cliInstallCommand = `curl -fsSL https://${siteDomain}/install.sh | sh`;
+
 /**
  * Several unrelated products are called Bento, and searches for them land
  * here. This one sentence names the ones people mix up and says which Bento

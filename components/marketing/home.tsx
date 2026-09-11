@@ -3,6 +3,7 @@ import { ArrowRight, Check, FileText, GitBranch, Laptop, ShieldCheck, TerminalWi
 import { AgentLogo, type AgentName } from "@/components/agent-logo";
 import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
+import { InstallCommand } from "@/components/install-command";
 import { IntegrationsSection } from "@/components/integrations-section";
 import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
@@ -38,6 +39,7 @@ export function MarketingHome() {
             <div className="hero-actions">
               <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
             </div>
+            <InstallCommand />
           </div>
           <div className="m-demo hero-visual" id="product">
             <div className="m-demo-caption"><span><TerminalWindow size={16} aria-hidden="true" /> A feature, moving forward.</span><span>Interactive pipeline demo</span></div>
