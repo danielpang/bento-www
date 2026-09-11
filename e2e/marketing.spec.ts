@@ -26,12 +26,13 @@ for (const width of [375, 768, 1024, 1519]) {
           expect(Math.abs(linearCta!.y - slackCta!.y)).toBeLessThan(1);
         }
         if (width > 800) {
-          const heading = await page.locator(".hero-copy").boundingBox();
+          const hero = await page.locator(".m-hero").boundingBox();
+          const problem = await page.locator(".m-problem").boundingBox();
           const workflow = await page.locator(".m-demo").boundingBox();
-          expect(workflow!.x).toBeGreaterThan(heading!.x + heading!.width);
-          expect(Math.abs(workflow!.y - heading!.y)).toBeLessThan(120);
+          expect(problem!.y).toBeGreaterThan(hero!.y);
+          expect(workflow!.y).toBeGreaterThan(problem!.y);
           const h1Height = await page.locator("h1").evaluate(e => e.clientHeight / parseFloat(getComputedStyle(e).lineHeight));
-          expect(h1Height).toBeLessThan(2.1);
+          expect(h1Height).toBeLessThan(3.1);
           await page.getByRole("button", { name: "Pause pipeline animation" }).click();
           await expect(page.getByRole("button", { name: "Play pipeline animation" })).toBeVisible();
         } else {

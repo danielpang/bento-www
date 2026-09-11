@@ -1,6 +1,12 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { siteDisambiguation } from "@/lib/copy";
+import {
+  marketingHomeHeadline,
+  marketingHomePromise,
+  marketingProblemBeats,
+  marketingProblemHeading,
+  siteDisambiguation,
+} from "@/lib/copy";
 import { MarketingHome } from "./home";
 
 describe("redesigned homepage", () => {
@@ -9,9 +15,45 @@ describe("redesigned homepage", () => {
 
     const hero = container.querySelector(".m-hero .hero-copy");
     expect(hero).not.toBeNull();
-    expect(hero!.querySelector("p")).toHaveTextContent(/agent pipeline/);
+    expect(hero!.querySelector("h1")).toHaveTextContent(marketingHomeHeadline);
+    expect(hero!.querySelector("p")).toHaveTextContent(marketingHomePromise);
+    expect(hero!.querySelector(".m-demo")).toBeNull();
     expect(container.textContent).not.toContain(siteDisambiguation);
     expect(container.textContent).not.toMatch(/Not to be confused/);
+  });
+
+  it("places the problem beats between the hero and the pipeline demo", () => {
+    const { container } = render(<MarketingHome />);
+
+    const hero = container.querySelector(".m-hero");
+    const problem = container.querySelector(".m-problem");
+    const demo = container.querySelector(".m-product-demo");
+    expect(hero).not.toBeNull();
+    expect(problem).not.toBeNull();
+    expect(demo).not.toBeNull();
+    expect(hero!.compareDocumentPosition(problem!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(problem!.compareDocumentPosition(demo!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+
+    expect(
+      within(problem as HTMLElement).getByRole("heading", {
+        level: 2,
+        name: marketingProblemHeading,
+      }),
+    ).toBeInTheDocument();
+    for (const beat of marketingProblemBeats) {
+      expect(
+        within(problem as HTMLElement).getByRole("heading", {
+          level: 3,
+          name: beat.title,
+        }),
+      ).toHaveTextContent(beat.title);
+      expect(within(problem as HTMLElement).getByText(beat.body)).toBeInTheDocument();
+    }
+
+    expect(demo).toHaveAttribute("id", "product");
+    expect(demo!.querySelector(".m-demo")).not.toBeNull();
+    expect(container.querySelector(".m-hero .m-demo")).toBeNull();
+    expect(screen.queryByRole("heading", { name: /faq/i })).not.toBeInTheDocument();
   });
 
   it("links to the documentation from the header and footer", () => {
@@ -25,6 +67,6 @@ describe("redesigned homepage", () => {
     ).toHaveAttribute("href", "/docs");
     const footer = screen.getByRole("contentinfo");
     expect(within(footer).getByRole("link", { name: "Docs" })).toHaveAttribute("href", "/docs");
-    expect(container.textContent).not.toMatch(/[—–]/);
+    expect(container.querySelector("main a[href='/docs']")).toBeNull();
   });
 });

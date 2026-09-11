@@ -8,6 +8,12 @@ import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { MarketingHeader } from "./header";
 import { FeatureArtifacts } from "./feature-artifacts";
+import {
+  marketingHomeHeadline,
+  marketingHomePromise,
+  marketingProblemBeats,
+  marketingProblemHeading,
+} from "@/lib/copy";
 import { siteConfig } from "@/lib/site";
 // The animated demos carry the motion library. They are server-rendered as
 // usual but hydrate from their own chunks, so the page's initial script graph
@@ -24,16 +30,31 @@ export function MarketingHome() {
         <Link className="m-announcement" href="/changelog">See what’s new <ArrowRight size={14} aria-hidden="true" /></Link>
         <div className="m-hero-heading">
           <div className="hero-copy">
-            <h1>Your agents.<br /><span>One shipping team.</span></h1>
-            <p>An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.</p>
+            <h1>{marketingHomeHeadline}</h1>
+            <p>{marketingHomePromise}</p>
             <div className="hero-actions">
               <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
             </div>
           </div>
-          <div className="m-demo hero-visual" id="product">
+        </div>
+      </section>
+      <section className="site-shell m-problem">
+        <div className="m-section-heading">
+          <h2>{marketingProblemHeading}</h2>
+        </div>
+        <div className="m-problem-beats">
+          {marketingProblemBeats.map((beat) => (
+            <div key={beat.title}>
+              <h3>{beat.title}</h3>
+              <p>{beat.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="site-shell m-product-demo" id="product">
+        <div className="m-demo">
           <div className="m-demo-caption"><span><TerminalWindow size={16} aria-hidden="true" /> A feature, moving forward.</span><span>Interactive pipeline demo</span></div>
-            <PipelineDemo />
-          </div>
+          <PipelineDemo />
         </div>
       </section>
       <section className="site-shell m-agents" aria-label="Supported coding agents">

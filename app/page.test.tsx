@@ -1,7 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { siteDescription, siteDisambiguation, siteHeadline } from "@/lib/copy";
+import {
+  marketingHomeHeadline,
+  marketingHomePromise,
+  siteDescription,
+  siteDisambiguation,
+  siteHeadline,
+  siteName,
+} from "@/lib/copy";
 import Home from "@/components/marketing/control-home";
+import { metadata as homepageMetadata } from "./page";
 
 describe("Bento landing page", () => {
   it("presents the product story in a single accessible document", async () => {
@@ -83,6 +91,19 @@ describe("Bento landing page", () => {
     });
     expect(container.querySelector(".hero-visual")).not.toHaveStyle({
       opacity: "0",
+    });
+  });
+});
+
+describe("homepage metadata", () => {
+  it("matches the redesigned hero instead of the control slogan", () => {
+    expect(homepageMetadata.title).toEqual({
+      absolute: `${siteName} | ${marketingHomeHeadline}`,
+    });
+    expect(homepageMetadata.description).toBe(marketingHomePromise);
+    expect(homepageMetadata.openGraph).toMatchObject({
+      title: `${siteName} | ${marketingHomeHeadline}`,
+      description: marketingHomePromise,
     });
   });
 });
