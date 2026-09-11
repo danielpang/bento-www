@@ -22,16 +22,19 @@ describe("redesigned homepage", () => {
     expect(container.textContent).not.toMatch(/Not to be confused/);
   });
 
-  it("places the problem beats between the hero and the pipeline demo", () => {
+  it("places the problem beats after the supported agents and before the pipeline demo", () => {
     const { container } = render(<MarketingHome />);
 
     const hero = container.querySelector(".m-hero");
+    const agents = container.querySelector(".m-agents");
     const problem = container.querySelector(".m-problem");
     const demo = container.querySelector(".m-product-demo");
     expect(hero).not.toBeNull();
+    expect(agents).not.toBeNull();
     expect(problem).not.toBeNull();
     expect(demo).not.toBeNull();
-    expect(hero!.compareDocumentPosition(problem!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(hero!.compareDocumentPosition(agents!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(agents!.compareDocumentPosition(problem!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(problem!.compareDocumentPosition(demo!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
 
     expect(

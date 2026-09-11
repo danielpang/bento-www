@@ -38,6 +38,10 @@ export function MarketingHome() {
           </div>
         </div>
       </section>
+      <section className="site-shell m-agents" aria-label="Supported coding agents">
+        <p>Your favourite harnesses and models</p>
+        <div>{agents.map(agent => <span className="m-agent" key={agent}><AgentLogo agent={agent} className="agent-logo" /><span>{agent.replace(" CLI", "")}</span></span>)}</div>
+      </section>
       <section className="site-shell m-problem">
         <div className="m-section-heading">
           <h2>{marketingProblemHeading}</h2>
@@ -56,10 +60,6 @@ export function MarketingHome() {
           <div className="m-demo-caption"><span><TerminalWindow size={16} aria-hidden="true" /> A feature, moving forward.</span><span>Interactive pipeline demo</span></div>
           <PipelineDemo />
         </div>
-      </section>
-      <section className="site-shell m-agents" aria-label="Supported coding agents">
-        <p>Your favourite harnesses and models</p>
-        <div>{agents.map(agent => <span className="m-agent" key={agent}><AgentLogo agent={agent} className="agent-logo" /><span>{agent.replace(" CLI", "")}</span></span>)}</div>
       </section>
       <section className="m-section site-shell m-context">
         <Reveal className="m-section-heading"><h2>Model coding agents around your existing software development lifecycle</h2><p>Coordinate agents across many features at once. Your team shares one board, so progress and context stay visible.</p></Reveal>

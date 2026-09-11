@@ -27,9 +27,11 @@ for (const width of [375, 768, 1024, 1519]) {
         }
         if (width > 800) {
           const hero = await page.locator(".m-hero").boundingBox();
+          const agents = await page.locator(".m-agents").boundingBox();
           const problem = await page.locator(".m-problem").boundingBox();
           const workflow = await page.locator(".m-demo").boundingBox();
-          expect(problem!.y).toBeGreaterThan(hero!.y);
+          expect(agents!.y).toBeGreaterThan(hero!.y);
+          expect(problem!.y).toBeGreaterThan(agents!.y);
           expect(workflow!.y).toBeGreaterThan(problem!.y);
           const h1Height = await page.locator("h1").evaluate(e => e.clientHeight / parseFloat(getComputedStyle(e).lineHeight));
           expect(h1Height).toBeLessThan(3.1);
