@@ -259,8 +259,7 @@ body:has(.control-page) { background: #0b0b0c; }
 .marketing-page .changelog-entry-body p { font-size: 14px; line-height: 1.85; }
 .marketing-page .changelog-entry-body a { color: var(--brand); }
 .marketing-page .changelog-entry-body > p:first-child { color: #d2d2d7; font-size: 15px; text-wrap: pretty; }
-.marketing-page .changelog-entry-sections { display: grid; gap: 30px; margin-top: 30px; }
-.marketing-page .changelog-entry-section { padding-top: 23px; border-top: 1px solid var(--line); }
+.marketing-page .changelog-entry-sections { display: grid; gap: 36px; margin-top: 30px; }
 .marketing-page .changelog-entry-section h3 { margin: 0; font-size: 16px; font-weight: 540; letter-spacing: -0.02em; }
 .marketing-page .changelog-entry-section h3 + p { margin-top: 11px; }
 .marketing-page .changelog-entry-points { display: grid; margin: 16px 0 0; padding: 0; border-block: 1px solid var(--line); list-style: none; }
