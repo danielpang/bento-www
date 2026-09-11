@@ -114,8 +114,8 @@ body:has(.control-page) { background: #0b0b0c; }
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  min-height: 36px;
-  padding: 0 12px;
+  min-height: 40px;
+  padding: 0 14px;
   border-bottom: 1px solid var(--line);
   background: #101012;
 }
@@ -135,8 +135,8 @@ body:has(.control-page) { background: #0b0b0c; }
 }
 .m-share-window[data-kind="remote"] { border-left: 1px solid var(--line); background: #141210; }
 .m-share-window[data-kind="remote"] header code { color: #e5b388; }
-.m-share-term, .m-share-meta { list-style: none; margin: 0; padding: 14px 12px 16px; }
-.m-share-term { display: grid; gap: 7px; }
+.m-share-term, .m-share-meta { list-style: none; margin: 0; padding: 18px 14px 20px; min-height: 118px; }
+.m-share-term { display: grid; align-content: start; gap: 8px; }
 .m-share-term li {
   overflow: hidden;
   color: #b8a393;

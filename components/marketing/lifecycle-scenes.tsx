@@ -43,8 +43,8 @@ export function RemoteShareScene() {
         </header>
         <ol className="m-share-term">
           <li><span data-tone="prompt">$</span> attach session/7f3a</li>
-          <li><span data-tone="ok">ok</span> {marketingShareLocalBody}</li>
-          <li><span data-tone="dim">cwd</span> checkout-recovery</li>
+          <li><span data-tone="ok">ok</span> attached</li>
+          <li><span data-tone="dim">rev</span> {marketingShareLocalBody}</li>
         </ol>
       </div>
       <div className="m-share-link" aria-hidden="true">
