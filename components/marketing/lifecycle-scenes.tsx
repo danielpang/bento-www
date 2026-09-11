@@ -1,8 +1,9 @@
-import { ArrowRight, Laptop, UsersThree } from "@phosphor-icons/react/dist/ssr";
+import { Cloud, Laptop } from "@phosphor-icons/react/dist/ssr";
 import {
   marketingBoardCaption,
   marketingBoardCaptionMeta,
   marketingPipelineLanes,
+  marketingShareLinkLabel,
   marketingShareLocalBody,
   marketingShareLocalTitle,
   marketingShareRemoteBody,
@@ -36,22 +37,20 @@ export function TeamBoardScene() {
 
 export function RemoteShareScene() {
   return (
-    <figure className="m-share-compare" aria-label="Laptop-only agents versus a shared remote board">
-      <div className="m-share-panel" data-state="local">
+    <figure className="m-share-diagram" aria-label="A local laptop talking to a cloud VM">
+      <div className="m-share-node" data-kind="laptop">
         <Laptop size={22} aria-hidden="true" />
         <strong>{marketingShareLocalTitle}</strong>
         <span>{marketingShareLocalBody}</span>
-        <ul>
-          <li>You</li>
-        </ul>
       </div>
-      <ArrowRight className="m-share-arrow" size={20} aria-hidden="true" />
-      <div className="m-share-panel" data-state="remote">
-        <UsersThree size={22} aria-hidden="true" />
+      <div className="m-share-link" aria-hidden="true">
+        <span>{marketingShareLinkLabel}</span>
+      </div>
+      <div className="m-share-node" data-kind="vm">
+        <Cloud size={22} aria-hidden="true" />
         <strong>{marketingShareRemoteTitle}</strong>
         <span>{marketingShareRemoteBody}</span>
         <ul>
-          <li>You</li>
           <li>Alex</li>
           <li>Sam</li>
         </ul>

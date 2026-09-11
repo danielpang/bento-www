@@ -4,6 +4,7 @@ import {
   marketingBoardCaption,
   marketingBoardCaptionMeta,
   marketingPipelineLanes,
+  marketingShareLinkLabel,
   marketingShareLocalTitle,
   marketingShareRemoteTitle,
 } from "@/lib/copy";
@@ -23,11 +24,12 @@ describe("lifecycle scenes", () => {
     }
   });
 
-  it("compares a private laptop with a shared remote board", () => {
+  it("shows a local laptop talking to a cloud VM", () => {
     render(<RemoteShareScene />);
 
-    expect(screen.getByRole("figure", { name: /laptop-only agents versus a shared remote board/i })).toBeInTheDocument();
+    expect(screen.getByRole("figure", { name: /local laptop talking to a cloud VM/i })).toBeInTheDocument();
     expect(screen.getByText(marketingShareLocalTitle)).toBeInTheDocument();
+    expect(screen.getByText(marketingShareLinkLabel)).toBeInTheDocument();
     expect(screen.getByText(marketingShareRemoteTitle)).toBeInTheDocument();
   });
 });

@@ -70,7 +70,8 @@ export const marketingPipelineLanes = [
   { stage: "Quality engineering", title: "Retry timed-out webhooks", state: "done", label: "done" },
 ] as const;
 
-export const marketingShareLocalTitle = "On a laptop";
-export const marketingShareLocalBody = "Private to one machine";
-export const marketingShareRemoteTitle = "On the board";
-export const marketingShareRemoteBody = "Remote, and visible to teammates";
+export const marketingShareLocalTitle = "Your laptop";
+export const marketingShareLocalBody = "You connect and review";
+export const marketingShareLinkLabel = "Session";
+export const marketingShareRemoteTitle = "Cloud VM";
+export const marketingShareRemoteBody = "Agent work teammates can reach";
