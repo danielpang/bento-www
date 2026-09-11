@@ -1,7 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import {
-  marketingHomeHeadline,
   marketingHomePromise,
   marketingProblemBeats,
   marketingProblemHeading,
@@ -15,7 +14,7 @@ describe("redesigned homepage", () => {
 
     const hero = container.querySelector(".m-hero .hero-copy");
     expect(hero).not.toBeNull();
-    expect(hero!.querySelector("h1")).toHaveTextContent(marketingHomeHeadline);
+    expect(hero!.querySelector("h1")).toHaveTextContent(/Your agents\.\s*One shipping team/);
     expect(hero!.querySelector("p")).toHaveTextContent(marketingHomePromise);
     expect(hero!.querySelector(".m-demo")).toBeNull();
     expect(container.textContent).not.toContain(siteDisambiguation);

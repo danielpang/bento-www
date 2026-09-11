@@ -9,7 +9,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { MarketingHeader } from "./header";
 import { FeatureArtifacts } from "./feature-artifacts";
 import {
-  marketingHomeHeadline,
+  marketingHomeHeadlineLines,
   marketingHomePromise,
   marketingProblemBeats,
   marketingProblemHeading,
@@ -30,7 +30,7 @@ export function MarketingHome() {
         <Link className="m-announcement" href="/changelog">See what’s new <ArrowRight size={14} aria-hidden="true" /></Link>
         <div className="m-hero-heading">
           <div className="hero-copy">
-            <h1>{marketingHomeHeadline}</h1>
+            <h1>{marketingHomeHeadlineLines[0]}<br /><span>{marketingHomeHeadlineLines[1]}</span></h1>
             <p>{marketingHomePromise}</p>
             <div className="hero-actions">
               <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>

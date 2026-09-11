@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   marketingHomeHeadline,
+  marketingHomeHeadlineLines,
   marketingHomePromise,
   marketingProblemBeats,
   marketingProblemHeading,
@@ -30,25 +31,29 @@ describe("site copy", () => {
   });
 
   it("locks the redesigned homepage problem framing", () => {
-    expect(marketingHomeHeadline).toBe(
-      "Agents near your repo need a place for judgment.",
-    );
+    expect(marketingHomeHeadlineLines).toEqual([
+      "Your agents.",
+      "One shipping team.",
+    ]);
+    expect(marketingHomeHeadline).toBe("Your agents. One shipping team.");
     expect(marketingHomePromise).toBe(
       "An agent pipeline with human gates — context as artifacts, not chat dumps. usebento.ai",
     );
-    expect(marketingProblemHeading).toBe("Why the board exists.");
+    expect(marketingProblemHeading).toBe(
+      "Bring agents into your existing software development lifecycle",
+    );
     expect(marketingProblemBeats).toEqual([
       {
-        title: "Chat dumps lose context",
-        body: "Stage write-ups should be committed artifacts the next agent can read — not a scrollback nobody trusts.",
+        title: "Multiple sessions lose context",
+        body: "Every engineer has several coding agent sessions going, and it is easy to lose the thread or forget the state of each one. One board keeps every session visible to the team.",
       },
       {
-        title: "Autonomy without a gate is an unsupervised intern with merge access",
-        body: "Every stage starts manual. Automate only when requirements can decide.",
+        title: "Each step still needs a manual prompt",
+        body: "You already have a process you want the agent to follow: product investigation, design, spec, implementation, code review, QA. Today you have to prompt each step by hand.",
       },
       {
-        title: "The sandbox is the boundary",
-        body: "One card, one branch, one environment. Credentials stay with trusted services.",
+        title: "Laptop agents cannot be shared",
+        body: "Agents run on a laptop, so they cannot be accessed remotely or shared with teammates.",
       },
     ]);
   });

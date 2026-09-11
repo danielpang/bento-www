@@ -25,25 +25,30 @@ export const siteDomain = "usebento.ai";
  */
 export const siteDisambiguation = `Not to be confused with Bento the email platform (bentonow) or getbento.sh: this is Bento the agent pipeline for coding agents, at ${siteDomain}.`;
 
-export const marketingHomeHeadline =
-  "Agents near your repo need a place for judgment.";
+export const marketingHomeHeadlineLines = [
+  "Your agents.",
+  "One shipping team.",
+] as const;
+
+export const marketingHomeHeadline = `${marketingHomeHeadlineLines[0]} ${marketingHomeHeadlineLines[1]}`;
 
 export const marketingHomePromise =
   "An agent pipeline with human gates — context as artifacts, not chat dumps. usebento.ai";
 
-export const marketingProblemHeading = "Why the board exists.";
+export const marketingProblemHeading =
+  "Bring agents into your existing software development lifecycle";
 
 export const marketingProblemBeats = [
   {
-    title: "Chat dumps lose context",
-    body: "Stage write-ups should be committed artifacts the next agent can read — not a scrollback nobody trusts.",
+    title: "Multiple sessions lose context",
+    body: "Every engineer has several coding agent sessions going, and it is easy to lose the thread or forget the state of each one. One board keeps every session visible to the team.",
   },
   {
-    title: "Autonomy without a gate is an unsupervised intern with merge access",
-    body: "Every stage starts manual. Automate only when requirements can decide.",
+    title: "Each step still needs a manual prompt",
+    body: "You already have a process you want the agent to follow: product investigation, design, spec, implementation, code review, QA. Today you have to prompt each step by hand.",
   },
   {
-    title: "The sandbox is the boundary",
-    body: "One card, one branch, one environment. Credentials stay with trusted services.",
+    title: "Laptop agents cannot be shared",
+    body: "Agents run on a laptop, so they cannot be accessed remotely or shared with teammates.",
   },
 ] as const;
