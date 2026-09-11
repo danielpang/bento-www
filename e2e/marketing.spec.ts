@@ -26,15 +26,12 @@ for (const width of [375, 768, 1024, 1519]) {
           expect(Math.abs(linearCta!.y - slackCta!.y)).toBeLessThan(1);
         }
         if (width > 800) {
-          const hero = await page.locator(".m-hero").boundingBox();
-          const agents = await page.locator(".m-agents").boundingBox();
-          const problem = await page.locator(".m-problem").boundingBox();
+          const heading = await page.locator(".hero-copy").boundingBox();
           const workflow = await page.locator(".m-demo").boundingBox();
-          expect(agents!.y).toBeGreaterThan(hero!.y);
-          expect(problem!.y).toBeGreaterThan(agents!.y);
-          expect(workflow!.y).toBeGreaterThan(problem!.y);
+          expect(workflow!.x).toBeGreaterThan(heading!.x + heading!.width);
+          expect(Math.abs(workflow!.y - heading!.y)).toBeLessThan(120);
           const h1Height = await page.locator("h1").evaluate(e => e.clientHeight / parseFloat(getComputedStyle(e).lineHeight));
-          expect(h1Height).toBeLessThan(3.1);
+          expect(h1Height).toBeLessThan(2.1);
           await page.getByRole("button", { name: "Pause pipeline animation" }).click();
           await expect(page.getByRole("button", { name: "Play pipeline animation" })).toBeVisible();
         } else {
@@ -76,7 +73,7 @@ test("control and redesign share the charcoal page background", async ({ page })
 
 test("stage examples are selectable without changing the section height", async ({ page }) => {
   await page.goto("/preview/redesign");
-  const showcase = page.locator(".m-stage-showcase");
+  const showcase = page.locator(".m-skill-showcase");
   await showcase.scrollIntoViewIfNeeded();
   const height = (await showcase.boundingBox())!.height;
   for (const stage of ["PM", "Product design", "Tech exploration", "Implementation", "QA", "DevOps"]) {
@@ -94,7 +91,7 @@ test("visible stage examples advance automatically", async ({ page }) => {
   });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/preview/redesign");
-  await page.locator(".m-stage-showcase").scrollIntoViewIfNeeded();
+  await page.locator(".m-skill-showcase").scrollIntoViewIfNeeded();
   await page.mouse.move(0, 0);
   await expect(page.getByRole("button", { name: "Product design", exact: true })).toHaveAttribute("aria-pressed", "true", { timeout: 10000 });
   await page.getByRole("button", { name: "Pause stage examples" }).click();

@@ -38,6 +38,9 @@ export const marketingHomePromise =
 export const marketingProblemHeading =
   "Bring agents into your existing software development lifecycle";
 
+export const marketingProblemLead =
+  "Coordinate agents across many features at once. Your team shares one board, so progress and context stay visible.";
+
 export const marketingProblemBeats = [
   {
     title: "Multiple sessions lose context",
@@ -52,3 +55,17 @@ export const marketingProblemBeats = [
     body: "Agents run on a laptop, so they cannot be accessed remotely or shared with teammates.",
   },
 ] as const;
+
+export const marketingBoardCaption = "Team board";
+export const marketingBoardCaptionMeta = "Visible to the team";
+
+export const marketingBoardSessions = [
+  { title: "Checkout recovery", state: "running", label: "agent working", viewers: "You, Alex" },
+  { title: "Usage-based billing", state: "idle", label: "not started", viewers: "You" },
+  { title: "Rate limit the public API", state: "gated", label: "waiting at gate", viewers: "You, Sam" },
+] as const;
+
+export const marketingShareLocalTitle = "On a laptop";
+export const marketingShareLocalBody = "Private to one machine";
+export const marketingShareRemoteTitle = "On the board";
+export const marketingShareRemoteBody = "Remote, and visible to teammates";

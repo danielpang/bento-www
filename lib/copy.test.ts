@@ -5,6 +5,7 @@ import {
   marketingHomePromise,
   marketingProblemBeats,
   marketingProblemHeading,
+  marketingProblemLead,
   siteDescription,
   siteDisambiguation,
   siteDomain,
@@ -42,6 +43,7 @@ describe("site copy", () => {
     expect(marketingProblemHeading).toBe(
       "Bring agents into your existing software development lifecycle",
     );
+    expect(marketingProblemLead).toContain("shares one board");
     expect(marketingProblemBeats).toEqual([
       {
         title: "Multiple sessions lose context",
