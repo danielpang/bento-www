@@ -265,7 +265,7 @@ body:has(.control-page) { background: #0b0b0c; }
   .marketing-page .hero-copy h1 { font-size: clamp(38px, 7.5vw, 60px); }
   .m-scene-session { grid-template-columns: 1fr; gap: 6px; }
   .m-share-compare { grid-template-columns: 1fr; }
-  .m-share-arrow { justify-self: center; transform: rotate(90deg); }
+  .m-share-arrow { display: none; }
   .m-demo-caption { padding: 14px; }
   .m-demo-caption > span:last-child { display: none; }
   .m-agents { padding: 35px 0 45px; }
