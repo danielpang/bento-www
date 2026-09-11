@@ -6,15 +6,9 @@ const nextConfig: NextConfig = {
     root: process.cwd(),
   },
   async redirects() {
-    return [
-      ...hostRedirects(),
-      {
-        source: "/install.sh",
-        destination:
-          "https://github.com/danielpang/bento/releases/latest/download/install.sh",
-        permanent: false,
-      },
-    ];
+    // /install.sh is a route handler (app/install.sh/route.ts), not a redirect
+    // here, so each request can be recorded in PostHog.
+    return hostRedirects();
   },
 };
 
