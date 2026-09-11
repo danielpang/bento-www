@@ -11,7 +11,11 @@ import { cliInstallCommand } from "@/lib/copy";
  * it up. If the clipboard is unavailable (an insecure origin, or the browser
  * refuses), the command is selected instead so a keyboard copy still works.
  */
-export function InstallCommand() {
+interface InstallCommandProps {
+  label?: string;
+}
+
+export function InstallCommand({ label = "Or install the CLI" }: InstallCommandProps = {}) {
   const command = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false);
 
@@ -37,7 +41,7 @@ export function InstallCommand() {
 
   return (
     <div className="install-command">
-      <span className="install-command-label">Or install the CLI</span>
+      <span className="install-command-label">{label}</span>
       <div className="install-command-box">
         <code ref={command}>{cliInstallCommand}</code>
         <button

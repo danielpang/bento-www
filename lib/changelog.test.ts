@@ -58,8 +58,13 @@ describe("changelog catalog", () => {
       expect(entry.slug).not.toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(entry.description.length).toBeGreaterThanOrEqual(80);
       expect(entry.description.length).toBeLessThanOrEqual(160);
-      expect(entry.paragraphs.length).toBeGreaterThanOrEqual(2);
-      for (const text of [entry.title, entry.description, ...entry.paragraphs]) {
+      expect(entry.paragraphs.length + (entry.sections?.length ?? 0)).toBeGreaterThanOrEqual(2);
+      const sectionText = entry.sections?.flatMap((section) => [
+        section.title,
+        ...(section.paragraphs ?? []),
+        ...(section.points?.flatMap((point) => [point.label, point.body]) ?? []),
+      ]) ?? [];
+      for (const text of [entry.title, entry.description, ...entry.paragraphs, ...sectionText]) {
         expect(text).not.toMatch(/[—–]/);
       }
     }

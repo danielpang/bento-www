@@ -15,6 +15,17 @@ export interface ChangelogEntry {
    */
   description: string;
   paragraphs: string[];
+  sections?: ChangelogSection[];
+}
+
+export interface ChangelogSection {
+  title: string;
+  paragraphs?: string[];
+  points?: Array<{
+    label: string;
+    body: string;
+  }>;
+  installCommand?: boolean;
 }
 
 export const changelogEntries: ChangelogEntry[] = [
@@ -26,11 +37,53 @@ export const changelogEntries: ChangelogEntry[] = [
     description:
       "Bento is now available in your terminal, with local and hosted agent run modes plus full agent and pipeline setup.",
     paragraphs: [
-      "Bento is now available in your terminal, with the board, live agent conversations, artifacts, diffs, and pipeline controls in one TUI.",
-      "Install the CLI with the one-line install script on macOS or glibc Linux, follow the printed PATH instruction, and confirm the install with bento --version. Local agents also require Docker.",
-      "Run Bento entirely on your machine, connect the TUI to Bento at usebento.ai and run agents on the server, or keep the shared board in the cloud while a local runner executes agents against your checkouts.",
-      "From Settings, connect repositories, add provider credentials, configure each agent's harness, model, and skill, then assign agents to pipeline stages with manual or automatic gates.",
-      "Read the [Bento TUI guide](/docs/tui) for the install command, run modes, project setup, and keyboard shortcuts.",
+      "The Bento board now runs in your terminal. Track cards, follow live agent conversations, inspect artifacts and diffs, and control the pipeline without leaving the command line.",
+    ],
+    sections: [
+      {
+        title: "Install the CLI",
+        paragraphs: [
+          "Install Bento on macOS or glibc Linux, follow the printed PATH instruction, then run bento setup. Local agents also require Docker.",
+        ],
+        installCommand: true,
+      },
+      {
+        title: "Choose where agents run",
+        points: [
+          {
+            label: "Local",
+            body: "Keep the board, history, and agents on your machine in local Docker sandboxes.",
+          },
+          {
+            label: "Hosted",
+            body: "Connect the TUI to usebento.ai and run agents in server-managed sandboxes. Your laptop does not need Docker.",
+          },
+          {
+            label: "Hybrid",
+            body: "Keep the shared board in the cloud while a local runner executes agents against your checkouts.",
+          },
+        ],
+      },
+      {
+        title: "Set up your workflow",
+        points: [
+          {
+            label: "Repositories",
+            body: "Connect each checkout and add its dependency setup and test commands.",
+          },
+          {
+            label: "Agents",
+            body: "Choose a harness and model, save its credentials, and define the skill it follows.",
+          },
+          {
+            label: "Pipeline",
+            body: "Assign agents to stages, start with manual review, then automate gates when their requirements are reliable.",
+          },
+        ],
+        paragraphs: [
+          "Read the [Bento TUI guide](/docs/tui) for complete setup instructions and keyboard shortcuts.",
+        ],
+      },
     ],
   },
   {

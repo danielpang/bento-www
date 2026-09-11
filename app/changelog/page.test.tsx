@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { changelogEntries } from "@/lib/changelog";
+import { cliInstallCommand } from "@/lib/copy";
 import ChangelogPage, { metadata } from "./page";
 
 describe("Changelog", () => {
@@ -21,7 +22,7 @@ describe("Changelog", () => {
       expect(screen.getByRole("heading", { level: 2, name })).toBeInTheDocument();
     }
     expect(
-      screen.getByText(/available in your terminal/i),
+      screen.getByText(/board now runs in your terminal/i),
     ).toBeInTheDocument();
     expect(
       screen.getByText(/supports Google Antigravity CLI as a coding agent/i),
@@ -61,6 +62,12 @@ describe("Changelog", () => {
     }
 
     const tui = entries[0] as HTMLElement;
+    expect(within(tui).getByText(cliInstallCommand)).toBeInTheDocument();
+    expect(within(tui).getByRole("button", { name: "Copy install command" })).toBeInTheDocument();
+    expect(within(tui).getByRole("heading", { level: 3, name: "Install the CLI" })).toBeInTheDocument();
+    expect(within(tui).getByRole("heading", { level: 3, name: "Choose where agents run" })).toBeInTheDocument();
+    expect(within(tui).getByRole("heading", { level: 3, name: "Set up your workflow" })).toBeInTheDocument();
+    expect(within(tui).getAllByRole("listitem")).toHaveLength(6);
     expect(within(tui).getByRole("link", { name: "Bento TUI guide" })).toHaveAttribute(
       "href",
       "/docs/tui",

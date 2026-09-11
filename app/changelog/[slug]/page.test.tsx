@@ -2,6 +2,7 @@ import { render, screen, within } from "@testing-library/react";
 import { notFound, permanentRedirect } from "next/navigation";
 import { describe, expect, it, vi } from "vitest";
 import { changelogEntries, getChangelogEntry } from "@/lib/changelog";
+import { cliInstallCommand } from "@/lib/copy";
 import ChangelogEntryPage, {
   generateMetadata,
   generateStaticParams,
@@ -79,6 +80,11 @@ describe("Changelog entry page", () => {
     const { container } = render(await ChangelogEntryPage(params(entry.slug)));
     const body = container.querySelector(".changelog-post-body") as HTMLElement;
 
+    expect(within(body).getByText(cliInstallCommand)).toBeInTheDocument();
+    expect(within(body).getByRole("button", { name: "Copy install command" })).toBeInTheDocument();
+    expect(within(body).getByRole("heading", { name: "Install the CLI" })).toBeInTheDocument();
+    expect(within(body).getByRole("heading", { name: "Choose where agents run" })).toBeInTheDocument();
+    expect(within(body).getByRole("heading", { name: "Set up your workflow" })).toBeInTheDocument();
     expect(within(body).getByRole("link", { name: "Bento TUI guide" })).toHaveAttribute(
       "href",
       "/docs/tui",
