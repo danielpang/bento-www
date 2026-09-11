@@ -40,13 +40,14 @@ export function RemoteShareScene() {
       <div className="m-share-window" data-kind="local">
         <header>
           <span>{marketingShareLocalTitle}</span>
-          <code>local</code>
+          <code>console</code>
         </header>
-        <ol className="m-share-term">
-          <li><span data-tone="prompt">$</span> attach session/7f3a</li>
-          <li><span data-tone="ok">ok</span> attached</li>
-          <li><span data-tone="dim">rev</span> {marketingShareLocalBody}</li>
-        </ol>
+        <article className="m-share-card">
+          <span>Implementation</span>
+          <strong>Checkout recovery</strong>
+          <em>agent working</em>
+          <p>{marketingShareLocalBody}</p>
+        </article>
       </div>
       <div className="m-share-link" aria-hidden="true">
         <span>{marketingShareLinkLabel}</span>
@@ -55,11 +56,11 @@ export function RemoteShareScene() {
         <header className="m-share-cloud-bar">
           <Cloud size={14} weight="regular" aria-hidden="true" />
           <span>cloud</span>
-          <code>us-east-1</code>
+          <code>isolated</code>
         </header>
         <div className="m-share-window" data-kind="guest">
           <header>
-            <span>vm-12</span>
+            <span>sandbox</span>
             <code>running</code>
           </header>
           <dl className="m-share-meta">
@@ -68,12 +69,12 @@ export function RemoteShareScene() {
               <dd>docker</dd>
             </div>
             <div>
-              <dt>sandbox</dt>
-              <dd>isolated</dd>
+              <dt>workspace</dt>
+              <dd>worktree</dd>
             </div>
             <div>
-              <dt>agent</dt>
-              <dd>implementation</dd>
+              <dt>card</dt>
+              <dd>Checkout recovery</dd>
             </div>
           </dl>
         </div>
