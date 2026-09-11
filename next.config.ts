@@ -6,7 +6,15 @@ const nextConfig: NextConfig = {
     root: process.cwd(),
   },
   async redirects() {
-    return hostRedirects();
+    return [
+      ...hostRedirects(),
+      {
+        source: "/install.sh",
+        destination:
+          "https://github.com/danielpang/bento/releases/latest/download/install.sh",
+        permanent: false,
+      },
+    ];
   },
 };
 
