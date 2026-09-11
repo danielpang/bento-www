@@ -60,7 +60,7 @@ describe("redesigned homepage", () => {
       expect(within(scenes[index] as HTMLElement).getByText(beat.body)).toBeInTheDocument();
     }
 
-    expect(within(context as HTMLElement).getByRole("figure", { name: /shared board of agent sessions/i })).toBeInTheDocument();
+    expect(within(context as HTMLElement).getByRole("figure", { name: /one card in each stage/i })).toBeInTheDocument();
     expect(within(context as HTMLElement).getByRole("figure", { name: /laptop-only agents versus a shared remote board/i })).toBeInTheDocument();
     expect(container.querySelector(".m-skill-showcase")).not.toBeNull();
     expect(screen.queryByRole("heading", { name: /faq/i })).not.toBeInTheDocument();

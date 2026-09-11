@@ -3,22 +3,23 @@ import { describe, expect, it } from "vitest";
 import {
   marketingBoardCaption,
   marketingBoardCaptionMeta,
-  marketingBoardSessions,
+  marketingPipelineLanes,
   marketingShareLocalTitle,
   marketingShareRemoteTitle,
 } from "@/lib/copy";
 import { RemoteShareScene, TeamBoardScene } from "./lifecycle-scenes";
 
 describe("lifecycle scenes", () => {
-  it("shows a team-visible board of agent sessions", () => {
+  it("shows one card in each pipeline stage", () => {
     render(<TeamBoardScene />);
 
-    expect(screen.getByRole("figure", { name: /shared board of agent sessions/i })).toBeInTheDocument();
+    expect(screen.getByRole("figure", { name: /one card in each stage/i })).toBeInTheDocument();
     expect(screen.getByText(marketingBoardCaption)).toBeInTheDocument();
     expect(screen.getByText(marketingBoardCaptionMeta)).toBeInTheDocument();
-    for (const session of marketingBoardSessions) {
-      expect(screen.getByText(session.title)).toBeInTheDocument();
-      expect(screen.getByText(session.viewers)).toBeInTheDocument();
+    expect(screen.getAllByRole("listitem")).toHaveLength(marketingPipelineLanes.length);
+    for (const lane of marketingPipelineLanes) {
+      expect(screen.getByText(lane.stage)).toBeInTheDocument();
+      expect(screen.getByText(lane.title)).toBeInTheDocument();
     }
   });
 

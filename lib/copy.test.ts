@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  marketingAgentsLabel,
   marketingHomeHeadline,
   marketingHomeHeadlineLines,
   marketingHomePromise,
@@ -38,7 +39,10 @@ describe("site copy", () => {
     ]);
     expect(marketingHomeHeadline).toBe("Your agents. One shipping team.");
     expect(marketingHomePromise).toBe(
-      "An agent pipeline with human gates — context as artifacts, not chat dumps. usebento.ai",
+      "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.",
+    );
+    expect(marketingAgentsLabel).toBe(
+      "Works with your favourite harnesses and models",
     );
     expect(marketingProblemHeading).toBe(
       "Bring agents into your existing software development lifecycle",
@@ -46,15 +50,15 @@ describe("site copy", () => {
     expect(marketingProblemLead).toContain("shares one board");
     expect(marketingProblemBeats).toEqual([
       {
-        title: "Multiple sessions lose context",
-        body: "Every engineer has several coding agent sessions going, and it is easy to lose the thread or forget the state of each one. One board keeps every session visible to the team.",
+        title: "Keep track of all your coding agent sessions",
+        body: "Every engineer has multiple coding agent sessions going, and it is easy to lose track and sight of them. One board keeps every sessions’ status trackable",
       },
       {
-        title: "Each step still needs a manual prompt",
+        title: "Build your process into a pipeline",
         body: "You already have a process you want the agent to follow: product investigation, design, spec, implementation, code review, QA. Today you have to prompt each step by hand.",
       },
       {
-        title: "Laptop agents cannot be shared",
+        title: "Sessions shared and reviewable by the whole team",
         body: "Agents run on a laptop, so they cannot be accessed remotely or shared with teammates.",
       },
     ]);

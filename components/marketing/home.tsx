@@ -10,6 +10,7 @@ import { MarketingHeader } from "./header";
 import { FeatureArtifacts } from "./feature-artifacts";
 import { RemoteShareScene, TeamBoardScene } from "./lifecycle-scenes";
 import {
+  marketingAgentsLabel,
   marketingHomeHeadlineLines,
   marketingHomePromise,
   marketingProblemBeats,
@@ -45,7 +46,7 @@ export function MarketingHome() {
         </div>
       </section>
       <section className="site-shell m-agents" aria-label="Supported coding agents">
-        <p>Your favourite harnesses and models</p>
+        <p>{marketingAgentsLabel}</p>
         <div>{agents.map(agent => <span className="m-agent" key={agent}><AgentLogo agent={agent} className="agent-logo" /><span>{agent.replace(" CLI", "")}</span></span>)}</div>
       </section>
       <section className="m-section site-shell m-context">

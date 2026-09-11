@@ -33,7 +33,9 @@ export const marketingHomeHeadlineLines = [
 export const marketingHomeHeadline = `${marketingHomeHeadlineLines[0]} ${marketingHomeHeadlineLines[1]}`;
 
 export const marketingHomePromise =
-  "An agent pipeline with human gates — context as artifacts, not chat dumps. usebento.ai";
+  "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.";
+
+export const marketingAgentsLabel = "Works with your favourite harnesses and models";
 
 export const marketingProblemHeading =
   "Bring agents into your existing software development lifecycle";
@@ -43,15 +45,15 @@ export const marketingProblemLead =
 
 export const marketingProblemBeats = [
   {
-    title: "Multiple sessions lose context",
-    body: "Every engineer has several coding agent sessions going, and it is easy to lose the thread or forget the state of each one. One board keeps every session visible to the team.",
+    title: "Keep track of all your coding agent sessions",
+    body: "Every engineer has multiple coding agent sessions going, and it is easy to lose track and sight of them. One board keeps every sessions’ status trackable",
   },
   {
-    title: "Each step still needs a manual prompt",
+    title: "Build your process into a pipeline",
     body: "You already have a process you want the agent to follow: product investigation, design, spec, implementation, code review, QA. Today you have to prompt each step by hand.",
   },
   {
-    title: "Laptop agents cannot be shared",
+    title: "Sessions shared and reviewable by the whole team",
     body: "Agents run on a laptop, so they cannot be accessed remotely or shared with teammates.",
   },
 ] as const;
@@ -59,10 +61,13 @@ export const marketingProblemBeats = [
 export const marketingBoardCaption = "Team board";
 export const marketingBoardCaptionMeta = "Visible to the team";
 
-export const marketingBoardSessions = [
-  { title: "Checkout recovery", state: "running", label: "agent working", viewers: "You, Alex" },
-  { title: "Usage-based billing", state: "idle", label: "not started", viewers: "You" },
-  { title: "Rate limit the public API", state: "gated", label: "waiting at gate", viewers: "You, Sam" },
+export const marketingPipelineLanes = [
+  { stage: "Product investigation", title: "Checkout recovery", state: "running", label: "agent working" },
+  { stage: "UI/UX design", title: "Billing empty states", state: "idle", label: "in review" },
+  { stage: "Engineering requirements", title: "Usage-based billing", state: "idle", label: "not started" },
+  { stage: "Implementation", title: "Move audit log off hot path", state: "running", label: "agent working" },
+  { stage: "Code review", title: "Rate limit the public API", state: "gated", label: "waiting at gate" },
+  { stage: "Quality engineering", title: "Retry timed-out webhooks", state: "done", label: "done" },
 ] as const;
 
 export const marketingShareLocalTitle = "On a laptop";

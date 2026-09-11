@@ -2,7 +2,7 @@ import { ArrowRight, Laptop, UsersThree } from "@phosphor-icons/react/dist/ssr";
 import {
   marketingBoardCaption,
   marketingBoardCaptionMeta,
-  marketingBoardSessions,
+  marketingPipelineLanes,
   marketingShareLocalBody,
   marketingShareLocalTitle,
   marketingShareRemoteBody,
@@ -11,23 +11,25 @@ import {
 
 export function TeamBoardScene() {
   return (
-    <figure className="m-scene-panel" aria-label="A shared board of agent sessions the team can view">
+    <figure className="m-scene-panel" aria-label="A pipeline board with one card in each stage">
       <figcaption>
         <span>{marketingBoardCaption}</span>
         <span>{marketingBoardCaptionMeta}</span>
       </figcaption>
-      <ul className="m-scene-sessions">
-        {marketingBoardSessions.map((session) => (
-          <li className="m-scene-session" data-state={session.state} key={session.title}>
-            <span className="m-scene-session-label">{session.label}</span>
-            <strong>{session.title}</strong>
-            <span className="m-scene-session-viewers">
-              <UsersThree size={14} aria-hidden="true" />
-              {session.viewers}
-            </span>
+      <ol className="m-scene-board">
+        {marketingPipelineLanes.map((lane, index) => (
+          <li className="m-scene-lane" key={lane.stage}>
+            <header>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{lane.stage}</strong>
+            </header>
+            <article className="m-scene-card" data-state={lane.state}>
+              <strong>{lane.title}</strong>
+              <span>{lane.label}</span>
+            </article>
           </li>
         ))}
-      </ul>
+      </ol>
     </figure>
   );
 }
