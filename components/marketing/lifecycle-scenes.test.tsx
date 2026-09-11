@@ -4,9 +4,8 @@ import {
   marketingBoardCaption,
   marketingBoardCaptionMeta,
   marketingPipelineLanes,
-  marketingShareLinkLabel,
-  marketingShareLocalTitle,
   marketingShareRemoteTitle,
+  marketingShareSandboxes,
 } from "@/lib/copy";
 import { RemoteShareScene, TeamBoardScene } from "./lifecycle-scenes";
 
@@ -24,18 +23,18 @@ describe("lifecycle scenes", () => {
     }
   });
 
-  it("shows a local laptop talking to a cloud VM", () => {
+  it("shows many isolated sandboxes running in the cloud", () => {
     render(<RemoteShareScene />);
 
-    expect(screen.getByRole("figure", { name: /local laptop talking to a cloud VM/i })).toBeInTheDocument();
-    expect(screen.getByText(marketingShareLocalTitle)).toBeInTheDocument();
-    expect(screen.getByText(marketingShareLinkLabel)).toBeInTheDocument();
-    expect(screen.getByText(marketingShareRemoteTitle)).toBeInTheDocument();
+    expect(screen.getByRole("figure", { name: /many isolated sandboxes running in the cloud/i })).toBeInTheDocument();
     expect(screen.getByText("cloud")).toBeInTheDocument();
-    expect(screen.getByText("sandbox")).toBeInTheDocument();
+    expect(screen.getByText(`${marketingShareSandboxes.length} sandboxes`)).toBeInTheDocument();
+    expect(screen.getByText(marketingShareRemoteTitle)).toBeInTheDocument();
+    expect(screen.queryByText("Your laptop")).not.toBeInTheDocument();
+    expect(screen.queryByText("Session")).not.toBeInTheDocument();
     expect(screen.queryByText(/attach session/i)).not.toBeInTheDocument();
-    expect(screen.queryByText("Alex")).not.toBeInTheDocument();
-    expect(screen.queryByText("Sam")).not.toBeInTheDocument();
-    expect(screen.queryByText("Agent work teammates can reach")).not.toBeInTheDocument();
+    for (const sandbox of marketingShareSandboxes) {
+      expect(screen.getByText(sandbox.title)).toBeInTheDocument();
+    }
   });
 });

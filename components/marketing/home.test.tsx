@@ -61,7 +61,7 @@ describe("redesigned homepage", () => {
     }
 
     expect(within(context as HTMLElement).getByRole("figure", { name: /one card in each stage/i })).toBeInTheDocument();
-    expect(within(context as HTMLElement).getByRole("figure", { name: /local laptop talking to a cloud VM/i })).toBeInTheDocument();
+    expect(within(context as HTMLElement).getByRole("figure", { name: /many isolated sandboxes running in the cloud/i })).toBeInTheDocument();
     expect(container.querySelector(".m-skill-showcase")).not.toBeNull();
     expect(screen.queryByRole("heading", { name: /faq/i })).not.toBeInTheDocument();
   });

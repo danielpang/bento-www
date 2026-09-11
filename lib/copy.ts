@@ -70,7 +70,11 @@ export const marketingPipelineLanes = [
   { stage: "Quality engineering", title: "Retry timed-out webhooks", state: "done", label: "done" },
 ] as const;
 
-export const marketingShareLocalTitle = "Your laptop";
-export const marketingShareLocalBody = "You connect and review";
-export const marketingShareLinkLabel = "Session";
 export const marketingShareRemoteTitle = "Cloud VM or docker containers";
+
+export const marketingShareSandboxes = [
+  { title: "Checkout recovery", runtime: "docker", stage: "Implementation", state: "running" },
+  { title: "Move audit log off hot path", runtime: "docker", stage: "Implementation", state: "running" },
+  { title: "Rate limit the public API", runtime: "vm", stage: "Code review", state: "running" },
+  { title: "Billing empty states", runtime: "docker", stage: "UI/UX design", state: "idle" },
+] as const;
