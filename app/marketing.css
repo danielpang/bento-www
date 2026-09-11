@@ -85,7 +85,7 @@ body:has(.control-page) { background: #0b0b0c; }
 .m-scene-panel { min-width: 0; margin: 0; border: 1px solid var(--line); border-radius: 8px; background: #111113; }
 .m-scene-panel figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 22px; border-bottom: 1px solid var(--line); color: var(--text-muted); font-size: 12px; }
 .m-scene-panel figcaption > span:last-child { color: var(--brand); font: 10px var(--font-jetbrains-mono), monospace; }
-.m-scene-board { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(132px, 1fr); gap: 8px; list-style: none; margin: 0; padding: 14px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
+.m-scene-board { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; list-style: none; margin: 0; padding: 14px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
 .m-scene-lane { display: grid; align-content: start; gap: 10px; min-width: 0; }
 .m-scene-lane header { display: grid; gap: 4px; }
 .m-scene-lane header span { color: #b0a49b; font: 10px var(--font-jetbrains-mono), monospace; }
@@ -266,7 +266,7 @@ body:has(.control-page) { background: #0b0b0c; }
   .m-hero { padding-top: 32px; }
   .m-hero-heading { grid-template-columns: 1fr; padding: 32px 0 42px; }
   .marketing-page .hero-copy h1 { font-size: clamp(38px, 7.5vw, 60px); }
-  .m-scene-board { grid-auto-columns: minmax(148px, 1fr); }
+  .m-scene-board { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(148px, 1fr); }
   .m-share-compare { grid-template-columns: 1fr; }
   .m-share-arrow { display: none; }
   .m-demo-caption { padding: 14px; }
