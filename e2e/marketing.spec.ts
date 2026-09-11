@@ -55,6 +55,26 @@ test("control preview preserves the current homepage", async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
 });
 
+for (const path of ["/preview/redesign", "/preview/control"]) {
+  test(`${path} copies the CLI install command from under the signup CTA`, async ({ page }) => {
+    await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+    for (const width of [375, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(path);
+      const install = page.locator(".hero-copy .install-command");
+      await expect(install).toContainText("curl -fsSL https://usebento.ai/install.sh | sh");
+      const cta = await page.locator(".hero-copy .hero-actions").boundingBox();
+      const box = await install.boundingBox();
+      expect(box!.y).toBeGreaterThanOrEqual(cta!.y + cta!.height);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+      await install.getByRole("button", { name: "Copy install command" }).click();
+      await expect(install.getByRole("button", { name: "Copied install command" })).toBeVisible();
+      expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("curl -fsSL https://usebento.ai/install.sh | sh");
+      await page.locator(".hero-copy").screenshot({ path: `test-results/install${path.replaceAll("/", "-")}-${width}.png` });
+    }
+  });
+}
+
 test("control and redesign share the charcoal page background", async ({ page }) => {
   const pageColor = async (path: string) => {
     await page.goto(path);

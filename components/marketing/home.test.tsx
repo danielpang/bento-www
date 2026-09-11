@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import {
+  cliInstallCommand,
   marketingHomePromise,
   marketingProblemBeats,
   marketingProblemHeading,
@@ -21,6 +22,18 @@ describe("redesigned homepage", () => {
     expect(container.querySelector(".m-hero .m-demo")).toHaveAttribute("id", "product");
     expect(container.textContent).not.toContain(siteDisambiguation);
     expect(container.textContent).not.toMatch(/Not to be confused/);
+  });
+
+  it("offers the CLI install command below the signup CTA", () => {
+    const { container } = render(<MarketingHome />);
+
+    const cta = container.querySelector(".m-hero .hero-actions");
+    const install = container.querySelector(".m-hero .install-command");
+    expect(cta).not.toBeNull();
+    expect(install).not.toBeNull();
+    expect(cta!.compareDocumentPosition(install!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(install).toHaveTextContent(cliInstallCommand);
+    expect(within(install as HTMLElement).getByRole("button", { name: "Copy install command" })).toBeInTheDocument();
   });
 
   it("combines the lifecycle pains into one visual section after the agents", () => {

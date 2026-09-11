@@ -2,6 +2,7 @@ import { ArrowRight, GithubLogo } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
 import { HandoffSection } from "@/components/handoff-section";
+import { InstallCommand } from "@/components/install-command";
 import { IntegrationsSection } from "@/components/integrations-section";
 import { Reveal } from "@/components/reveal";
 import { SecuritySection } from "@/components/security-section";
@@ -48,6 +49,7 @@ export default function Home() {
                   GitHub
                 </CtaLink>
               </div>
+              <InstallCommand />
             </div>
             <div className="hero-visual">
               <PipelineDemo />
