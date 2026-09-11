@@ -19,6 +19,21 @@ export interface ChangelogEntry {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    slug: "bento-terminal-ui",
+    date: "2026-09-11",
+    displayDate: "September 11, 2026",
+    title: "Bento TUI",
+    description:
+      "Bento is now available in your terminal, with local and hosted agent run modes plus full agent and pipeline setup.",
+    paragraphs: [
+      "Bento is now available in your terminal, with the board, live agent conversations, artifacts, diffs, and pipeline controls in one TUI.",
+      "Install the CLI with the one-line install script on macOS or glibc Linux, follow the printed PATH instruction, and confirm the install with bento --version. Local agents also require Docker.",
+      "Run Bento entirely on your machine, connect the TUI to Bento at usebento.ai and run agents on the server, or keep the shared board in the cloud while a local runner executes agents against your checkouts.",
+      "From Settings, connect repositories, add provider credentials, configure each agent's harness, model, and skill, then assign agents to pipeline stages with manual or automatic gates.",
+      "Read the [Bento TUI guide](/docs/tui) for the install command, run modes, project setup, and keyboard shortcuts.",
+    ],
+  },
+  {
     slug: "google-antigravity-cli",
     date: "2026-09-05",
     displayDate: "September 5, 2026",

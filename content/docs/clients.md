@@ -1,10 +1,10 @@
 # Other clients
 
-Bento has two clients: the web console (`apps/web`) and the terminal (`apps/tui`). Both use the same API. The web console is the complete client and has the broadest feature set. The TUI is still in development and trails it.
+Bento has two clients: the web console (`apps/web`) and the terminal (`apps/tui`). The Bento TUI is now available. Both clients use the same API and can run the complete card workflow.
 
 ## Terminal
 
-`apps/tui` provides a terminal board and scriptable commands. It can run the full server locally or connect to a remote server as a thin client or as a local agent runner.
+`apps/tui` provides a terminal board and scriptable commands. It can run the full server locally or connect to a remote server as a thin client or local agent runner. See the [Bento TUI guide](/docs/tui) for installation, run modes, setup, and shortcuts.
 
 Card navigation: `j`/`k` to select; the pane below tails the newest run transcript; `h` for card history; `a` approve, `R` reject; `r` re-check; `x` stop; `c` continue with instructions.
 
@@ -28,7 +28,7 @@ bento pipeline export team-pipeline.yaml
 | Set a repository's setup and test commands | Yes | `bento repos set` |
 | Export and import a pipeline as YAML | Yes | `bento pipeline` |
 | Export and import agents as YAML | Yes | `bento agents export` / `import` |
-| Add a card | Yes | No |
+| Add a card | Yes | Yes |
 | Add, edit and remove agents | Yes | Yes |
 | Assign an agent to a stage | Yes | Yes |
 | Add, remove and rename stages | Yes | Yes |
@@ -50,8 +50,8 @@ The terminal separates where the board runs from where agents run:
 
 ```bash
 bento                                                     # server and agents on this machine
-bento --server https://bento.example.com                  # board on server; agents on server
-bento --server https://bento.example.com --run-agents local   # board on server; agents on this machine
+bento --server https://app.usebento.ai                       # board on server; agents on server
+bento --server https://app.usebento.ai --run-agents local    # board on server; agents on this machine
 ```
 
 With `--run-agents local`, the shared server holds board state and transcripts. Agents run against local checkouts on the member's machine. Runs queue when that machine is offline. The server does not push to GitHub because it cannot access local worktrees.

@@ -9,6 +9,7 @@ import {
 describe("changelog catalog", () => {
   it("lists dated product updates newest first, without versions", () => {
     expect(changelogEntries.map((entry) => entry.slug)).toEqual([
+      "bento-terminal-ui",
       "google-antigravity-cli",
       "deepseek-models-and-harness",
       "poolside-coding-agent",
@@ -16,6 +17,7 @@ describe("changelog catalog", () => {
       "linear-integration",
     ]);
     expect(changelogEntries.map((entry) => entry.date)).toEqual([
+      "2026-09-11",
       "2026-09-05",
       "2026-08-26",
       "2026-08-23",
@@ -23,6 +25,7 @@ describe("changelog catalog", () => {
       "2026-08-14",
     ]);
     expect(changelogEntries.map((entry) => entry.displayDate)).toEqual([
+      "September 11, 2026",
       "September 5, 2026",
       "August 26, 2026",
       "August 23, 2026",
@@ -30,6 +33,7 @@ describe("changelog catalog", () => {
       "August 14, 2026",
     ]);
     expect(changelogEntries.map((entry) => entry.title)).toEqual([
+      "Bento TUI",
       "Google Antigravity CLI as a coding agent",
       "DeepSeek models and harness",
       "Poolside as a coding agent",
@@ -63,6 +67,7 @@ describe("changelog catalog", () => {
 
   it("looks up entries by slug and by the date they first published under", () => {
     expect(getChangelogSlugs()).toEqual([
+      "bento-terminal-ui",
       "google-antigravity-cli",
       "deepseek-models-and-harness",
       "poolside-coding-agent",
@@ -71,6 +76,9 @@ describe("changelog catalog", () => {
     ]);
     expect(getChangelogEntry("google-antigravity-cli")?.title).toBe(
       "Google Antigravity CLI as a coding agent",
+    );
+    expect(getChangelogEntry("bento-terminal-ui")?.title).toBe(
+      "Bento TUI",
     );
     expect(getChangelogEntry("deepseek-models-and-harness")?.title).toBe(
       "DeepSeek models and harness",

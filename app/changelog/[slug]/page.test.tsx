@@ -74,6 +74,20 @@ describe("Changelog entry page", () => {
     expect(container.textContent).not.toMatch(/[—–]/);
   });
 
+  it("links the TUI launch entry to its setup guide", async () => {
+    const entry = getChangelogEntry("bento-terminal-ui")!;
+    const { container } = render(await ChangelogEntryPage(params(entry.slug)));
+    const body = container.querySelector(".changelog-post-body") as HTMLElement;
+
+    expect(within(body).getByRole("link", { name: "Bento TUI guide" })).toHaveAttribute(
+      "href",
+      "/docs/tui",
+    );
+    expect(within(body).getByRole("link", { name: "Bento TUI guide" })).not.toHaveAttribute(
+      "target",
+    );
+  });
+
   it("describes the entry as a TechArticle from its visible fields", async () => {
     const entry = getChangelogEntry("google-antigravity-cli")!;
     const { container } = render(await ChangelogEntryPage(params(entry.slug)));

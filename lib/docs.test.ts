@@ -7,6 +7,7 @@ describe("docs catalog", () => {
 
     expect(docs.map((doc) => doc.slug)).toEqual([
       "concepts",
+      "tui",
       "pipeline",
       "agents",
       "pull-requests",
@@ -14,6 +15,9 @@ describe("docs catalog", () => {
       "clients",
     ]);
     expect(getDoc("pipeline")?.content).toMatch(/# Pipelines/);
+    expect(getDoc("tui")?.content).toMatch(/# Bento TUI/);
+    expect(getDoc("clients")?.content).toContain("The Bento TUI is now available.");
+    expect(getDoc("clients")?.content).toContain("[Bento TUI guide](/docs/tui)");
     expect(getDoc("architecture")).toBeNull();
     expect(getDoc("database-schema")).toBeNull();
   });
