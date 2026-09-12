@@ -108,6 +108,30 @@ test("team board cards line up on desktop", async ({ page }) => {
   }
 });
 
+for (const path of ["/preview/redesign", "/preview/control"]) {
+  test(`${path} replaces the ending CTA with a responsive FAQ`, async ({ page }) => {
+    for (const width of [375, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(path);
+
+      const faq = page.getByRole("region", { name: "Questions? We’ve got answers." });
+      const items = faq.locator(".marketing-faq-item");
+      await expect(faq).toBeVisible();
+      await expect(items).toHaveCount(3);
+      await expect(items.nth(0)).toHaveAttribute("open", "");
+      await expect(items.nth(1)).not.toHaveAttribute("open", "");
+
+      await items.nth(1).locator("summary").click();
+      await expect(items.nth(1)).toHaveAttribute("open", "");
+      await items.nth(0).locator("summary").click();
+      await expect(items.nth(0)).not.toHaveAttribute("open", "");
+
+      await expect(page.locator(".final-cta, .m-bottom-cta")).toHaveCount(0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    }
+  });
+}
+
 test("stage examples are selectable without changing the section height", async ({ page }) => {
   await page.goto("/preview/redesign");
   const showcase = page.locator(".m-skill-showcase");

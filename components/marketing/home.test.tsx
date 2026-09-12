@@ -76,7 +76,10 @@ describe("redesigned homepage", () => {
     expect(within(context as HTMLElement).getByRole("figure", { name: /one card in each stage/i })).toBeInTheDocument();
     expect(within(context as HTMLElement).getByRole("figure", { name: /many isolated sandboxes running in the cloud/i })).toBeInTheDocument();
     expect(container.querySelector(".m-skill-showcase")).not.toBeNull();
-    expect(screen.queryByRole("heading", { name: /faq/i })).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Questions? We’ve got answers." }),
+    ).toBeInTheDocument();
+    expect(container.querySelector(".m-bottom-cta")).not.toBeInTheDocument();
   });
 
   it("links to the documentation from the header and footer", () => {

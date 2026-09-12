@@ -106,7 +106,7 @@ export function MarketingAnalytics({ signupUrl }: { signupUrl: string | null }) 
         if (event.type === "auxclick" && event.button !== 1) return;
         const link = event.target instanceof Element ? event.target.closest("a") : null;
         if (!link || !isSignupDestination(link.href, signupUrl)) return;
-        const placement = link.closest("header") ? "header" : link.closest("footer, .final-cta, .m-bottom-cta") ? "footer" : link.closest(".pricing-card") ? "pricing" : "hero";
+        const placement = link.closest("header") ? "header" : link.closest("footer, .final-cta, .marketing-faq") ? "footer" : link.closest(".pricing-card") ? "pricing" : "hero";
         posthog.capture("marketing signup clicked", { ...properties, placement, path: pathname }, { transport: "sendBeacon" });
       }
       document.addEventListener("click", captureSignupClick);

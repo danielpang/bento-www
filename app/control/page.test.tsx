@@ -1,4 +1,4 @@
-import { render, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { cliInstallCommand } from "@/lib/copy";
 import ControlPage from "./page";
@@ -24,5 +24,16 @@ describe("control homepage", () => {
     expect(cta!.compareDocumentPosition(install!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(install).toHaveTextContent(cliInstallCommand);
     expect(within(install as HTMLElement).getByRole("button", { name: "Copy install command" })).toBeInTheDocument();
+  });
+
+  it("replaces the ending CTA with the shared FAQ", () => {
+    render(<ControlPage />);
+
+    expect(
+      screen.getByRole("heading", { name: "Questions? We’ve got answers." }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: "Give every feature a clear next step." }),
+    ).not.toBeInTheDocument();
   });
 });
