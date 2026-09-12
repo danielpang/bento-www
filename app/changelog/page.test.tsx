@@ -76,6 +76,18 @@ describe("Changelog", () => {
       "target",
     );
 
+    const tuiMedia = tui.querySelector(".changelog-entry-media") as HTMLElement;
+    expect(
+      within(tuiMedia).getByRole("img", {
+        name: changelogEntries[0].media!.alt,
+      }),
+    ).toBeInTheDocument();
+    expect(tuiMedia.previousElementSibling).toHaveTextContent(
+      changelogEntries[0].paragraphs[0],
+    );
+    // Only the entry that ships a recording gets one.
+    expect(container.querySelectorAll(".changelog-entry-media")).toHaveLength(1);
+
     const antigravity = entries[1] as HTMLElement;
     const antigravityWebsite = within(antigravity).getByRole("link", {
       name: "Antigravity website",

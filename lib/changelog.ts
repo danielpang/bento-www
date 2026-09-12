@@ -1,3 +1,12 @@
+export interface ChangelogMedia {
+  /** Path under /public. Any image format, including an animated GIF. */
+  src: string;
+  /** Describes what the image shows; the entry still reads without it. */
+  alt: string;
+  width: number;
+  height: number;
+}
+
 export interface ChangelogEntry {
   /**
    * The entry's URL under /changelog and its anchor on the feed. Descriptive,
@@ -15,6 +24,8 @@ export interface ChangelogEntry {
    */
   description: string;
   paragraphs: string[];
+  /** Shown under the entry's opening paragraph, on the feed and its page. */
+  media?: ChangelogMedia;
   sections?: ChangelogSection[];
 }
 
@@ -39,6 +50,12 @@ export const changelogEntries: ChangelogEntry[] = [
     paragraphs: [
       "We’re excited to launch the Bento TUI! You can now run Bento from your terminal, hook it up to our hosted server, or keep agents running in Docker on your own machine.",
     ],
+    media: {
+      src: "/changelog/bento-terminal-ui.jpg",
+      alt: "The Bento TUI running in a terminal",
+      width: 1374,
+      height: 1080,
+    },
     sections: [
       {
         title: "Install the CLI",

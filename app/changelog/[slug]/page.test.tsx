@@ -94,6 +94,24 @@ describe("Changelog entry page", () => {
     );
   });
 
+  it("shows the TUI recording under the entry's opening paragraph", async () => {
+    const entry = getChangelogEntry("bento-terminal-ui")!;
+    const { container } = render(await ChangelogEntryPage(params(entry.slug)));
+    const body = container.querySelector(".changelog-post-body") as HTMLElement;
+
+    const media = within(body).getByRole("img", { name: entry.media!.alt });
+    expect(media).toHaveAttribute(
+      "src",
+      expect.stringContaining(entry.media!.src),
+    );
+
+    const figure = body.querySelector(".changelog-entry-media") as HTMLElement;
+    expect(figure).toContainElement(media);
+    expect(figure.previousElementSibling?.tagName).toBe("P");
+    expect(figure.previousElementSibling).toHaveTextContent(entry.paragraphs[0]);
+    expect(body.querySelector("p")).toBe(figure.previousElementSibling);
+  });
+
   it("describes the entry as a TechArticle from its visible fields", async () => {
     const entry = getChangelogEntry("google-antigravity-cli")!;
     const { container } = render(await ChangelogEntryPage(params(entry.slug)));
