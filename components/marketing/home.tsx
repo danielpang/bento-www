@@ -9,6 +9,7 @@ import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { MarketingHeader } from "./header";
 import { FeatureArtifacts } from "./feature-artifacts";
+import { MarketingFaq } from "./faq-section";
 import { RemoteShareScene, TeamBoardScene } from "./lifecycle-scenes";
 import {
   marketingAgentsLabel,
@@ -104,7 +105,7 @@ export function MarketingHome() {
         </div>
       </section>
       <IntegrationsSection redesigned />
-      <section className="m-bottom-cta site-shell"><div><h2>Put your agents<br /><span>on the same team.</span></h2><p>Start free with 3 members and 5 agent hours a month.</p></div><div><CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink><Link className="m-text-link" href="/pricing">Find your plan</Link></div></section>
+      <MarketingFaq />
     </main>
     <SiteFooter {...siteConfig} showFinalCta={false} />
   </div>;

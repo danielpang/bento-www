@@ -1,6 +1,7 @@
 import { ArrowRight, GithubLogo } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
+import { MarketingFaq } from "@/components/marketing/faq-section";
 import { HandoffSection } from "@/components/handoff-section";
 import { InstallCommand } from "@/components/install-command";
 import { IntegrationsSection } from "@/components/integrations-section";
@@ -88,9 +89,11 @@ export default function Home() {
         <HandoffSection />
         <SecuritySection />
         <IntegrationsSection />
+        <MarketingFaq />
       </main>
       <SiteFooter
         githubUrl={siteConfig.githubUrl}
+        showFinalCta={false}
         signupUrl={siteConfig.signupUrl}
       />
     </>

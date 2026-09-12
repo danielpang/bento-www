@@ -91,6 +91,52 @@ test("control and redesign share the charcoal page background", async ({ page })
   expect(control.html).toBe("rgb(11, 11, 12)");
 });
 
+test("team board cards line up on desktop", async ({ page }) => {
+  for (const width of [1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+
+    const cards = page
+      .getByRole("figure", { name: "A pipeline board with one card in each stage" })
+      .locator(".m-scene-card");
+    await expect(cards).toHaveCount(6);
+
+    const tops = await cards.evaluateAll(elements =>
+      elements.map(element => element.getBoundingClientRect().top),
+    );
+    expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(1);
+  }
+});
+
+for (const path of ["/preview/redesign", "/preview/control"]) {
+  test(`${path} replaces the ending CTA with a responsive FAQ`, async ({ page }) => {
+    for (const width of [375, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(path);
+
+      const faq = page.getByRole("region", { name: "Questions?" });
+      const items = faq.locator(".marketing-faq-item");
+      await expect(faq).toBeVisible();
+      await expect(faq.locator(".marketing-faq-eyebrow")).toHaveCSS(
+        "color",
+        "rgb(255, 152, 88)",
+      );
+      await expect(items).toHaveCount(3);
+      for (const item of await items.all()) {
+        await expect(item).not.toHaveAttribute("open", "");
+      }
+
+      await items.nth(1).locator("summary").click();
+      await expect(items.nth(1)).toHaveAttribute("open", "");
+      await items.nth(1).locator("summary").click();
+      await expect(items.nth(1)).not.toHaveAttribute("open", "");
+
+      await expect(page.locator(".final-cta, .m-bottom-cta")).toHaveCount(0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    }
+  });
+}
+
 test("stage examples are selectable without changing the section height", async ({ page }) => {
   await page.goto("/preview/redesign");
   const showcase = page.locator(".m-skill-showcase");
