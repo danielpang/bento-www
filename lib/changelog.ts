@@ -37,13 +37,13 @@ export const changelogEntries: ChangelogEntry[] = [
     description:
       "Bento is now available in your terminal, with local and hosted agent run modes plus full agent and pipeline setup.",
     paragraphs: [
-      "The Bento board now runs in your terminal. Track cards, follow live agent conversations, inspect artifacts and diffs, and control the pipeline without leaving the command line.",
+      "We’re excited to launch the Bento TUI! You can now run Bento from your terminal, hook it up to our hosted server, or keep agents running in Docker on your own machine.",
     ],
     sections: [
       {
         title: "Install the CLI",
         paragraphs: [
-          "Install Bento on macOS or glibc Linux, follow the printed PATH instruction, then run bento setup. Local agents also require Docker.",
+          "Getting started takes one command. We support macOS and glibc Linux. Follow the printed PATH instruction, then run bento setup. You’ll also need Docker if you want agents to run locally.",
         ],
         installCommand: true,
       },
@@ -52,15 +52,15 @@ export const changelogEntries: ChangelogEntry[] = [
         points: [
           {
             label: "Local",
-            body: "Keep the board, history, and agents on your machine in local Docker sandboxes.",
+            body: "Keep everything close: the board, its history, and every agent run on your machine in local Docker sandboxes.",
           },
           {
             label: "Hosted",
-            body: "Connect the TUI to usebento.ai and run agents in server-managed sandboxes. Your laptop does not need Docker.",
+            body: "Connect to our hosted server at usebento.ai and let us run the agents. You won’t need Docker on your laptop.",
           },
           {
             label: "Hybrid",
-            body: "Keep the shared board in the cloud while a local runner executes agents against your checkouts.",
+            body: "Want a shared board but local execution? Keep the board in our cloud while a local runner works against your checkouts.",
           },
         ],
       },
@@ -69,19 +69,19 @@ export const changelogEntries: ChangelogEntry[] = [
         points: [
           {
             label: "Repositories",
-            body: "Connect each checkout and add its dependency setup and test commands.",
+            body: "Point Bento at each checkout and tell it how your project installs dependencies and runs tests.",
           },
           {
             label: "Agents",
-            body: "Choose a harness and model, save its credentials, and define the skill it follows.",
+            body: "Pick the harness and model you want, add its credentials, and give the agent a skill to follow.",
           },
           {
             label: "Pipeline",
-            body: "Assign agents to stages, start with manual review, then automate gates when their requirements are reliable.",
+            body: "Shape the stages around how your team works. Start with manual review, then automate gates when you’re ready.",
           },
         ],
         paragraphs: [
-          "Read the [Bento TUI guide](/docs/tui) for complete setup instructions and keyboard shortcuts.",
+          "We’ve put the full walkthrough, including setup details and keyboard shortcuts, in the [Bento TUI guide](/docs/tui).",
         ],
       },
     ],

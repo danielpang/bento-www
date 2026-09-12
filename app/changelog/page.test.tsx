@@ -22,7 +22,7 @@ describe("Changelog", () => {
       expect(screen.getByRole("heading", { level: 2, name })).toBeInTheDocument();
     }
     expect(
-      screen.getByText(/board now runs in your terminal/i),
+      screen.getByText(/excited to launch the Bento TUI/i),
     ).toBeInTheDocument();
     expect(
       screen.getByText(/supports Google Antigravity CLI as a coding agent/i),
