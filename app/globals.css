@@ -1595,7 +1595,7 @@ main {
 .marketing-faq-eyebrow {
   display: block;
   margin-bottom: 18px;
-  color: var(--text-faint);
+  color: var(--brand);
   font-family: var(--font-jetbrains-mono), monospace;
   font-size: 11px;
   letter-spacing: 0.04em;
@@ -1609,10 +1609,6 @@ main {
   letter-spacing: -0.055em;
   line-height: 1.05;
   text-wrap: balance;
-}
-
-.marketing-faq-intro h2 span {
-  color: var(--text-faint);
 }
 
 .marketing-faq-intro p {

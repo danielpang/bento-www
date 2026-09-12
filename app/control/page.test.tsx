@@ -30,7 +30,7 @@ describe("control homepage", () => {
     render(<ControlPage />);
 
     expect(
-      screen.getByRole("heading", { name: "Questions? We’ve got answers." }),
+      screen.getByRole("heading", { name: "Questions?" }),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole("heading", { name: "Give every feature a clear next step." }),

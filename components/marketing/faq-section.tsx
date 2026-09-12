@@ -38,16 +38,14 @@ export function MarketingFaq() {
     <section className="marketing-faq" aria-labelledby="marketing-faq-title">
       <div className="site-shell marketing-faq-layout">
         <header className="marketing-faq-intro">
-          <span className="marketing-faq-eyebrow">{"// FAQ"}</span>
-          <h2 id="marketing-faq-title">
-            Questions? <span>We’ve got answers.</span>
-          </h2>
+          <span className="marketing-faq-eyebrow">FAQ</span>
+          <h2 id="marketing-faq-title">Questions?</h2>
           <p>What to know before you run Bento.</p>
         </header>
 
         <div className="marketing-faq-list">
-          {faqItems.map((item, index) => (
-            <details className="marketing-faq-item" key={item.question} open={index === 0}>
+          {faqItems.map((item) => (
+            <details className="marketing-faq-item" key={item.question}>
               <summary>
                 <span>{item.question}</span>
                 <i aria-hidden="true" className="marketing-faq-mark" />

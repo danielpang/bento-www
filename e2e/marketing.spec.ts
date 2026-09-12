@@ -114,17 +114,22 @@ for (const path of ["/preview/redesign", "/preview/control"]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(path);
 
-      const faq = page.getByRole("region", { name: "Questions? We’ve got answers." });
+      const faq = page.getByRole("region", { name: "Questions?" });
       const items = faq.locator(".marketing-faq-item");
       await expect(faq).toBeVisible();
+      await expect(faq.locator(".marketing-faq-eyebrow")).toHaveCSS(
+        "color",
+        "rgb(255, 152, 88)",
+      );
       await expect(items).toHaveCount(3);
-      await expect(items.nth(0)).toHaveAttribute("open", "");
-      await expect(items.nth(1)).not.toHaveAttribute("open", "");
+      for (const item of await items.all()) {
+        await expect(item).not.toHaveAttribute("open", "");
+      }
 
       await items.nth(1).locator("summary").click();
       await expect(items.nth(1)).toHaveAttribute("open", "");
-      await items.nth(0).locator("summary").click();
-      await expect(items.nth(0)).not.toHaveAttribute("open", "");
+      await items.nth(1).locator("summary").click();
+      await expect(items.nth(1)).not.toHaveAttribute("open", "");
 
       await expect(page.locator(".final-cta, .m-bottom-cta")).toHaveCount(0);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);

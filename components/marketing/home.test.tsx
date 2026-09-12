@@ -77,7 +77,7 @@ describe("redesigned homepage", () => {
     expect(within(context as HTMLElement).getByRole("figure", { name: /many isolated sandboxes running in the cloud/i })).toBeInTheDocument();
     expect(container.querySelector(".m-skill-showcase")).not.toBeNull();
     expect(
-      screen.getByRole("heading", { name: "Questions? We’ve got answers." }),
+      screen.getByRole("heading", { name: "Questions?" }),
     ).toBeInTheDocument();
     expect(container.querySelector(".m-bottom-cta")).not.toBeInTheDocument();
   });

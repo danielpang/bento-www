@@ -6,7 +6,7 @@ describe("marketing FAQ", () => {
   it("answers the three product questions and links to setup and plans", () => {
     render(<MarketingFaq />);
 
-    const faq = screen.getByRole("region", { name: "Questions? We’ve got answers." });
+    const faq = screen.getByRole("region", { name: "Questions?" });
     expect(within(faq).getByText("Is Bento open source?")).toBeInTheDocument();
     expect(within(faq).getByText("Does Bento support BYOK?")).toBeInTheDocument();
     expect(
@@ -35,13 +35,16 @@ describe("marketing FAQ", () => {
     const { container } = render(<MarketingFaq />);
     const items = Array.from(container.querySelectorAll(".marketing-faq-item"));
 
-    expect(items[0]).toHaveAttribute("open");
+    expect(items[0]).not.toHaveAttribute("open");
     expect(items[1]).not.toHaveAttribute("open");
     expect(items[2]).not.toHaveAttribute("open");
 
     fireEvent.click(within(items[1] as HTMLElement).getByText("Does Bento support BYOK?"));
-    expect(items[0]).toHaveAttribute("open");
+    expect(items[0]).not.toHaveAttribute("open");
     expect(items[1]).toHaveAttribute("open");
+
+    fireEvent.click(within(items[0] as HTMLElement).getByText("Is Bento open source?"));
+    expect(items[0]).toHaveAttribute("open");
 
     fireEvent.click(within(items[0] as HTMLElement).getByText("Is Bento open source?"));
     expect(items[0]).not.toHaveAttribute("open");
