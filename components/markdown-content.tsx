@@ -2,6 +2,7 @@ import type { Components } from "react-markdown";
 import type { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { CopyableCodeBlock } from "./copyable-code-block";
 
 function slugify(value: string): string {
   return value
@@ -54,6 +55,11 @@ const components: Components = {
     <div className="docs-table-wrap">
       <table>{children}</table>
     </div>
+  ),
+  pre: ({ children }) => (
+    <CopyableCodeBlock code={textFromChildren(children).replace(/\n$/, "")}>
+      {children}
+    </CopyableCodeBlock>
   ),
 };
 
