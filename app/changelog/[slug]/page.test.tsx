@@ -94,6 +94,39 @@ describe("Changelog entry page", () => {
     );
   });
 
+  it("plays the TUI recording under the entry's opening paragraph", async () => {
+    const entry = getChangelogEntry("bento-terminal-ui")!;
+    const { container } = render(await ChangelogEntryPage(params(entry.slug)));
+    const body = container.querySelector(".changelog-post-body") as HTMLElement;
+
+    const figure = body.querySelector(".changelog-entry-media") as HTMLElement;
+    const video = figure.querySelector("video") as HTMLVideoElement;
+    expect(video).toHaveAttribute("aria-label", entry.media!.alt);
+    // Silent, looping and inline is what lets it autoplay like a GIF would.
+    expect(video).toHaveAttribute("autoplay");
+    expect(video).toHaveAttribute("loop");
+    expect(video).toHaveAttribute("playsinline");
+    expect(video.muted).toBe(true);
+    expect(video).not.toHaveAttribute("controls");
+    expect(figure.querySelector("source")).toHaveAttribute("src", entry.media!.src);
+    expect(figure.querySelector("source")).toHaveAttribute("type", "video/mp4");
+    const controls = figure.querySelector(
+      ".changelog-entry-media-controls",
+    ) as HTMLElement;
+    expect(
+      within(controls).getByRole("button", { name: /the demo/ }),
+    ).toBeInTheDocument();
+    expect(
+      within(controls).getByRole("button", { name: /full screen/ }),
+    ).toBeInTheDocument();
+    expect(within(controls).getByRole("slider", { name: "Seek" })).toBeInTheDocument();
+    expect(within(controls).getByText("0:00")).toBeInTheDocument();
+
+    expect(figure.previousElementSibling?.tagName).toBe("P");
+    expect(figure.previousElementSibling).toHaveTextContent(entry.paragraphs[0]);
+    expect(body.querySelector("p")).toBe(figure.previousElementSibling);
+  });
+
   it("describes the entry as a TechArticle from its visible fields", async () => {
     const entry = getChangelogEntry("google-antigravity-cli")!;
     const { container } = render(await ChangelogEntryPage(params(entry.slug)));

@@ -1,3 +1,26 @@
+interface ChangelogMediaBase {
+  /** Path under /public. */
+  src: string;
+  /** Describes what the media shows; the entry still reads without it. */
+  alt: string;
+  /** Intrinsic size, so the copy below never shifts while the media loads. */
+  width: number;
+  height: number;
+}
+
+export interface ChangelogImage extends ChangelogMediaBase {
+  type: "image";
+}
+
+export interface ChangelogVideo extends ChangelogMediaBase {
+  type: "video";
+  /** Still frame to hold the space until the first video frame paints. */
+  poster?: string;
+}
+
+/** A demo recording: a video where we have one, an image otherwise. */
+export type ChangelogMedia = ChangelogImage | ChangelogVideo;
+
 export interface ChangelogEntry {
   /**
    * The entry's URL under /changelog and its anchor on the feed. Descriptive,
@@ -15,6 +38,8 @@ export interface ChangelogEntry {
    */
   description: string;
   paragraphs: string[];
+  /** Shown under the entry's opening paragraph, on the feed and its page. */
+  media?: ChangelogMedia;
   sections?: ChangelogSection[];
 }
 
@@ -39,6 +64,13 @@ export const changelogEntries: ChangelogEntry[] = [
     paragraphs: [
       "We’re excited to launch the Bento TUI! You can now run Bento from your terminal, hook it up to our hosted server, or keep agents running in Docker on your own machine.",
     ],
+    media: {
+      type: "video",
+      src: "/changelog/bento-tui-demo.mp4",
+      alt: "A screen recording of the Bento TUI running in a terminal",
+      width: 1716,
+      height: 964,
+    },
     sections: [
       {
         title: "Install the CLI",
