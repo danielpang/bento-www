@@ -20,6 +20,12 @@ describe("InstallCommand", () => {
     expect(screen.getByText(cliInstallCommand)).toBeInTheDocument();
   });
 
+  it("accepts a contextual label", () => {
+    render(<InstallCommand label="Copy and run in your terminal" />);
+
+    expect(screen.getByText("Copy and run in your terminal")).toBeInTheDocument();
+  });
+
   it("copies the command and confirms it", async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     mockClipboard(writeText);

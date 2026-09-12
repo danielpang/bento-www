@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { changelogEntries } from "@/lib/changelog";
+import { cliInstallCommand } from "@/lib/copy";
 import ChangelogPage, { metadata } from "./page";
 
 describe("Changelog", () => {
@@ -11,6 +12,7 @@ describe("Changelog", () => {
       screen.getByRole("heading", { level: 1, name: "Changelog" }),
     ).toBeInTheDocument();
     for (const name of [
+      "Bento TUI",
       "Google Antigravity CLI as a coding agent",
       "DeepSeek models and harness",
       "Poolside as a coding agent",
@@ -19,6 +21,9 @@ describe("Changelog", () => {
     ]) {
       expect(screen.getByRole("heading", { level: 2, name })).toBeInTheDocument();
     }
+    expect(
+      screen.getByText(/excited to launch the Bento TUI/i),
+    ).toBeInTheDocument();
     expect(
       screen.getByText(/supports Google Antigravity CLI as a coding agent/i),
     ).toBeInTheDocument();
@@ -56,7 +61,22 @@ describe("Changelog", () => {
       );
     }
 
-    const antigravity = entries[0] as HTMLElement;
+    const tui = entries[0] as HTMLElement;
+    expect(within(tui).getByText(cliInstallCommand)).toBeInTheDocument();
+    expect(within(tui).getByRole("button", { name: "Copy install command" })).toBeInTheDocument();
+    expect(within(tui).getByRole("heading", { level: 3, name: "Install the CLI" })).toBeInTheDocument();
+    expect(within(tui).getByRole("heading", { level: 3, name: "Choose where agents run" })).toBeInTheDocument();
+    expect(within(tui).getByRole("heading", { level: 3, name: "Set up your workflow" })).toBeInTheDocument();
+    expect(within(tui).getAllByRole("listitem")).toHaveLength(6);
+    expect(within(tui).getByRole("link", { name: "Bento TUI guide" })).toHaveAttribute(
+      "href",
+      "/docs/tui",
+    );
+    expect(within(tui).getByRole("link", { name: "Bento TUI guide" })).not.toHaveAttribute(
+      "target",
+    );
+
+    const antigravity = entries[1] as HTMLElement;
     const antigravityWebsite = within(antigravity).getByRole("link", {
       name: "Antigravity website",
     });
@@ -76,7 +96,7 @@ describe("Changelog", () => {
     expect(antigravityGithub).toHaveAttribute("target", "_blank");
     expect(antigravityGithub).toHaveAttribute("rel", "noreferrer");
 
-    const deepseek = entries[1] as HTMLElement;
+    const deepseek = entries[2] as HTMLElement;
     const deepseekWebsite = within(deepseek).getByRole("link", {
       name: "DeepSeek website",
     });
@@ -93,7 +113,7 @@ describe("Changelog", () => {
     expect(deepseekGithub).toHaveAttribute("target", "_blank");
     expect(deepseekGithub).toHaveAttribute("rel", "noreferrer");
 
-    const poolside = entries[2] as HTMLElement;
+    const poolside = entries[3] as HTMLElement;
     const poolsideWebsite = within(poolside).getByRole("link", {
       name: "Poolside website",
     });

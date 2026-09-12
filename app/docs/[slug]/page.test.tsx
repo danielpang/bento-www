@@ -66,7 +66,7 @@ describe("Documentation page", () => {
   });
 
   it("leaves the other guides without FAQ markup", async () => {
-    for (const slug of ["concepts", "agents", "pull-requests", "web-app", "clients"]) {
+    for (const slug of ["concepts", "tui", "agents", "pull-requests", "web-app", "clients"]) {
       const { container, unmount } = render(await DocPage(params(slug)));
       expect(container.querySelector('script[type="application/ld+json"]')).toBeNull();
       unmount();
@@ -89,11 +89,25 @@ describe("Documentation page", () => {
   });
 
   it("keeps the other guides free of the diagram", async () => {
-    for (const slug of ["pipeline", "agents", "pull-requests", "web-app", "clients"]) {
+    for (const slug of ["tui", "pipeline", "agents", "pull-requests", "web-app", "clients"]) {
       const { container, unmount } = render(await DocPage(params(slug)));
       expect(container.querySelector(".docs-figure")).toBeNull();
       unmount();
     }
+  });
+
+  it("documents TUI installation, run placement, agents, and pipelines", async () => {
+    const { container } = render(await DocPage(params("tui")));
+    const body = container.querySelector(".docs-body") as HTMLElement;
+
+    expect(screen.getByRole("heading", { level: 1, name: "TUI" })).toBeInTheDocument();
+    expect(within(body).getByText("curl -fsSL https://usebento.ai/install.sh | sh")).toBeInTheDocument();
+    expect(within(body).getByRole("heading", { level: 2, name: "Choose where agents run" })).toBeInTheDocument();
+    expect(within(body).getByRole("heading", { level: 3, name: "Hosted board and server agents" })).toBeInTheDocument();
+    expect(within(body).getByRole("heading", { level: 3, name: "Configure agents" })).toBeInTheDocument();
+    expect(within(body).getByRole("heading", { level: 3, name: "Build the pipeline" })).toBeInTheDocument();
+    expect(within(body).getByRole("link", { name: "Coding agents" })).toHaveAttribute("href", "/docs/agents");
+    expect(within(body).getByRole("link", { name: "Pipelines" })).toHaveAttribute("href", "/docs/pipeline");
   });
 
   it("wears the redesigned marketing theme and navigation like the homepage", async () => {

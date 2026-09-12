@@ -55,7 +55,7 @@ export function llmsTxt(config: typeof siteConfig = siteConfig): string {
     product.push(externalLink(config.githubUrl, "Source code on GitHub", "The Bento repository, available to self-host under its source license."));
   }
   if (config.signupUrl) {
-    product.push(externalLink(config.signupUrl, "Web console", "Sign in or create an account for hosted Bento."));
+    product.push(externalLink(config.signupUrl, "Web UI", "Sign in or create an account for hosted Bento."));
   }
 
   return [

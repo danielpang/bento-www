@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ChangelogEntry } from "@/lib/changelog";
-import { formatChangelogInline } from "./changelog-inline";
+import { ChangelogEntryContent } from "./changelog-entry-content";
 
 interface ChangelogFeedProps {
   entries: ChangelogEntry[];
@@ -23,9 +23,7 @@ export function ChangelogFeed({ entries }: ChangelogFeedProps) {
             <h2 className="changelog-entry-title">
               <Link href={`/changelog/${entry.slug}`}>{entry.title}</Link>
             </h2>
-            {entry.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{formatChangelogInline(paragraph)}</p>
-            ))}
+            <ChangelogEntryContent entry={entry} />
           </div>
         </article>
       ))}

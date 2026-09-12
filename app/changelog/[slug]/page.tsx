@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
-import { formatChangelogInline } from "@/components/changelog-inline";
+import { ChangelogEntryContent } from "@/components/changelog-entry-content";
 import { ChangelogShell } from "@/components/changelog-shell";
 import { JsonLd } from "@/components/json-ld";
 import {
@@ -81,9 +81,7 @@ export default async function ChangelogEntryPage({
           </p>
         </header>
         <div className="changelog-entry-body changelog-post-body">
-          {entry.paragraphs.map((paragraph) => (
-            <p key={paragraph}>{formatChangelogInline(paragraph)}</p>
-          ))}
+          <ChangelogEntryContent entry={entry} />
         </div>
         <footer className="changelog-post-footer">
           <p>

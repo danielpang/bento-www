@@ -24,7 +24,7 @@ const DOCS_DIR = path.join(process.cwd(), "content/docs");
 
 /** The docs hub description, shared by its metadata and /llms.txt. */
 export const docsIndexDescription =
-  "Guides for Bento, the agent pipeline at usebento.ai: pipelines, agents, pull requests, and the web console.";
+  "Guides for Bento, the agent pipeline at usebento.ai: pipelines, agents, pull requests, the Web UI, and TUI.";
 
 const DOC_META: Record<
   string,
@@ -61,16 +61,22 @@ const DOC_META: Record<
     order: 4,
   },
   "web-app": {
-    title: "Web console",
+    title: "Web UI",
     description:
-      "Run the console from source or Docker, local and multi mode, sandbox drivers, log export.",
+      "Run the Web UI from source or Docker, local and multi mode, sandbox drivers, log export.",
     order: 5,
+  },
+  tui: {
+    title: "TUI",
+    description:
+      "Install the TUI, choose where agents run, and configure projects, agents, and pipelines.",
+    order: 6,
   },
   clients: {
     title: "Other clients",
     description:
-      "Terminal client progress, and where the board and agents can run.",
-    order: 6,
+      "Compare the Web UI and terminal client, including features and agent placement.",
+    order: 7,
   },
 };
 

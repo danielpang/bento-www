@@ -15,9 +15,77 @@ export interface ChangelogEntry {
    */
   description: string;
   paragraphs: string[];
+  sections?: ChangelogSection[];
+}
+
+export interface ChangelogSection {
+  title: string;
+  paragraphs?: string[];
+  points?: Array<{
+    label: string;
+    body: string;
+  }>;
+  installCommand?: boolean;
 }
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    slug: "bento-terminal-ui",
+    date: "2026-09-11",
+    displayDate: "September 11, 2026",
+    title: "Bento TUI",
+    description:
+      "Bento is now available in your terminal, with local and hosted agent run modes plus full agent and pipeline setup.",
+    paragraphs: [
+      "We’re excited to launch the Bento TUI! You can now run Bento from your terminal, hook it up to our hosted server, or keep agents running in Docker on your own machine.",
+    ],
+    sections: [
+      {
+        title: "Install the CLI",
+        paragraphs: [
+          "Getting started takes one command. We support macOS and glibc Linux. Follow the printed PATH instruction, then run bento setup. You’ll also need Docker if you want agents to run locally.",
+        ],
+        installCommand: true,
+      },
+      {
+        title: "Choose where agents run",
+        points: [
+          {
+            label: "Local",
+            body: "Keep everything close: the board, its history, and every agent run on your machine in local Docker sandboxes.",
+          },
+          {
+            label: "Hosted",
+            body: "Connect to our hosted server at usebento.ai and let us run the agents. You won’t need Docker on your laptop.",
+          },
+          {
+            label: "Hybrid",
+            body: "Want a shared board but local execution? Keep the board in our cloud while a local runner works against your checkouts.",
+          },
+        ],
+      },
+      {
+        title: "Set up your workflow",
+        points: [
+          {
+            label: "Repositories",
+            body: "Point Bento at each checkout and tell it how your project installs dependencies and runs tests.",
+          },
+          {
+            label: "Agents",
+            body: "Pick the harness and model you want, add its credentials, and give the agent a skill to follow.",
+          },
+          {
+            label: "Pipeline",
+            body: "Shape the stages around how your team works. Start with manual review, then automate gates when you’re ready.",
+          },
+        ],
+        paragraphs: [
+          "We’ve put the full walkthrough, including setup details and keyboard shortcuts, in the [Bento TUI guide](/docs/tui).",
+        ],
+      },
+    ],
+  },
   {
     slug: "google-antigravity-cli",
     date: "2026-09-05",

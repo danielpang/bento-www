@@ -11,9 +11,18 @@ describe("docs catalog", () => {
       "agents",
       "pull-requests",
       "web-app",
+      "tui",
       "clients",
     ]);
+    expect(docs.slice(-3).map((doc) => doc.title)).toEqual([
+      "Web UI",
+      "TUI",
+      "Other clients",
+    ]);
     expect(getDoc("pipeline")?.content).toMatch(/# Pipelines/);
+    expect(getDoc("tui")?.content).toMatch(/# TUI/);
+    expect(getDoc("clients")?.content).toContain("The TUI is now available.");
+    expect(getDoc("clients")?.content).toContain("[TUI guide](/docs/tui)");
     expect(getDoc("architecture")).toBeNull();
     expect(getDoc("database-schema")).toBeNull();
   });
