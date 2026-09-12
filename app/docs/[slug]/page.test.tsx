@@ -110,6 +110,21 @@ describe("Documentation page", () => {
     expect(within(body).getByRole("link", { name: "Pipelines" })).toHaveAttribute("href", "/docs/pipeline");
   });
 
+  it("puts a copy control on every fenced command in the guides", async () => {
+    for (const slug of ["concepts", "tui", "pipeline", "agents", "pull-requests", "web-app", "clients"]) {
+      const { container, unmount } = render(await DocPage(params(slug)));
+      const body = container.querySelector(".docs-body") as HTMLElement;
+      const blocks = body.querySelectorAll("pre");
+      const buttons = within(body).queryAllByRole("button", { name: "Copy command" });
+      expect(buttons, slug).toHaveLength(blocks.length);
+      for (const block of blocks) {
+        expect(block.closest(".docs-code"), slug).not.toBeNull();
+        expect(block.nextElementSibling, slug).toHaveAttribute("aria-label", "Copy command");
+      }
+      unmount();
+    }
+  });
+
   it("wears the redesigned marketing theme and navigation like the homepage", async () => {
     const { container } = render(await DocPage(params("concepts")));
 

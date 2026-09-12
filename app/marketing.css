@@ -297,7 +297,9 @@ body:has(.control-page) { background: #0b0b0c; }
 .marketing-page .docs-body a { color: var(--brand); text-decoration: none; }
 .marketing-page .docs-body a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .marketing-page .docs-body strong { font-weight: 560; }
-.marketing-page .docs-body pre { border-radius: 8px; background: #101012; font-size: 12px; }
+.marketing-page .docs-body pre,
+.marketing-page .docs-body .docs-code { border-radius: 8px; background: #101012; font-size: 12px; }
+.marketing-page .docs-body .docs-code pre { border-radius: 0; background: none; }
 .marketing-page .docs-body :not(pre) > code { border: 1px solid var(--line); background: #17171a; color: #e5b388; }
 .marketing-page .docs-body th { color: var(--text); font-weight: 520; }
 .marketing-page .docs-body th, .marketing-page .docs-body td { font-size: 13px; }
