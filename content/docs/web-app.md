@@ -1,6 +1,6 @@
-# Running the web console
+# Web UI
 
-Console source: `apps/web`. Development: Vite on port 4401. Production: built assets served by the API server. See the [repository README](https://github.com/danielpang/bento#readme) for the minimal setup.
+Web UI source: `apps/web`. Development: Vite on port 4401. Production: built assets served by the API server. See the [repository README](https://github.com/danielpang/bento#readme) for the minimal setup.
 
 ## Processes
 
@@ -8,12 +8,12 @@ Console source: `apps/web`. Development: Vite on port 4401. Production: built as
 | -------------- | ---- | ------------------------------- |
 | Postgres       | 5439 | `docker compose up -d postgres` |
 | API server     | 4400 | `pnpm dev`                      |
-| Vite (console) | 4401 | `pnpm dev`                      |
+| Vite (Web UI)  | 4401 | `pnpm dev`                      |
 | TUI            | none | `pnpm dev`                      |
 
 `pnpm dev` starts all packages with a `dev` script via turbo. Do not start `@bento/web` separately.
 
-Server and console only:
+Server and Web UI only:
 
 ```bash
 pnpm --filter @bento/server --filter @bento/web dev
@@ -79,7 +79,7 @@ pnpm build
 BENTO_WEB_DIR="$PWD/apps/web/dist" pnpm --filter @bento/server dev
 ```
 
-Console: [http://localhost:4400](http://localhost:4400).
+Web UI: [http://localhost:4400](http://localhost:4400).
 
 ## Modes
 
@@ -116,7 +116,7 @@ The board loads without a sandbox. Agent runs require one.
 
 Local mode only. Ignored in multi mode.
 
-When enabled, Bento mounts local tool config directories read-only into the sandbox (`BENTO_SHARE_AGENT_AUTH`, console **Agents**, or `bento setup`). Credentials remain readable by the agent process; not a confidentiality boundary.
+When enabled, Bento mounts local tool config directories read-only into the sandbox (`BENTO_SHARE_AGENT_AUTH`, Web UI **Agents**, or `bento setup`). Credentials remain readable by the agent process; not a confidentiality boundary.
 
 `local-process` inherits the host environment regardless of this setting.
 
@@ -200,7 +200,7 @@ The boot summary prints the destination as `log export: ...`.
 
 | Symptom                                   | Cause / fix                                              |
 | ----------------------------------------- | -------------------------------------------------------- |
-| `404 /api/auth/get-session` in local mode | Expected. Console probes session before mode detection   |
+| `404 /api/auth/get-session` in local mode | Expected. The Web UI probes session before mode detection |
 | Empty board, `New project` inactive       | API unavailable. Check `curl localhost:4401/api/health`  |
 | `EADDRINUSE` on 4400/4401                 | Stale process. `lsof -ti:4400 | xargs kill`              |
 | Postgres connection refused               | Start postgres: `docker compose ps` (port 5439)          |

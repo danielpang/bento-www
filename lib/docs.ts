@@ -24,7 +24,7 @@ const DOCS_DIR = path.join(process.cwd(), "content/docs");
 
 /** The docs hub description, shared by its metadata and /llms.txt. */
 export const docsIndexDescription =
-  "Guides for Bento, the agent pipeline at usebento.ai: terminal, pipelines, agents, pull requests, and the web console.";
+  "Guides for Bento, the agent pipeline at usebento.ai: pipelines, agents, pull requests, the Web UI, and TUI.";
 
 const DOC_META: Record<
   string,
@@ -36,17 +36,11 @@ const DOC_META: Record<
       "How a card moves through stages: one branch, one sandbox, context in committed files.",
     order: 1,
   },
-  tui: {
-    title: "Bento TUI",
-    description:
-      "Install the Bento TUI, choose where agents run, and configure projects, agents, and pipelines.",
-    order: 2,
-  },
   pipeline: {
     title: "Pipelines",
     description:
       "Stages, human gates and their requirements, judge agents, and pipeline YAML.",
-    order: 3,
+    order: 2,
     questions: [
       {
         title: "How do human gates work in a multi-agent pipeline?",
@@ -58,24 +52,30 @@ const DOC_META: Record<
     title: "Coding agents",
     description:
       "Claude Code, Codex, Cursor, opencode, pi, Poolside, DeepSeek, Antigravity: keys and steering.",
-    order: 4,
+    order: 3,
   },
   "pull-requests": {
     title: "Pull requests",
     description:
       "Publishing agent work as GitHub pull requests, attribution, and GitHub connections.",
-    order: 5,
+    order: 4,
   },
   "web-app": {
-    title: "Web console",
+    title: "Web UI",
     description:
-      "Run the console from source or Docker, local and multi mode, sandbox drivers, log export.",
+      "Run the Web UI from source or Docker, local and multi mode, sandbox drivers, log export.",
+    order: 5,
+  },
+  tui: {
+    title: "TUI",
+    description:
+      "Install the TUI, choose where agents run, and configure projects, agents, and pipelines.",
     order: 6,
   },
   clients: {
     title: "Other clients",
     description:
-      "Compare the web console and terminal client, including features and agent placement.",
+      "Compare the Web UI and terminal client, including features and agent placement.",
     order: 7,
   },
 };

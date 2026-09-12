@@ -1,4 +1,4 @@
-# Bento TUI
+# TUI
 
 Run Bento's Kanban board in your terminal, with coding agents working in isolated sandboxes on your machine or on Bento's hosted server.
 

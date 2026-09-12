@@ -13,7 +13,7 @@ Each stage runs one agent: harness, model, and skill. Tools differ in authentica
 | DeepSeek Harness (dsh, preview) | `deepseek-v4-pro` | `DEEPSEEK_API_KEY` | Between runs (new run, no session id) | No |
 | Antigravity CLI | `gemini-3.1-pro-high` | `GEMINI_API_KEY` | Between runs (conversation resume) | No |
 
-Keys are stored encrypted (per organization in multi mode; local scope in local mode) via the web console or `bento setup`.
+Keys are stored encrypted (per organization in multi mode; local scope in local mode) via the Web UI or `bento setup`.
 
 OpenRouter routing for Claude Code or Codex: save the OpenRouter key and set `ANTHROPIC_BASE_URL` or `OPENAI_BASE_URL` to `https://openrouter.ai/api/v1`.
 
@@ -44,9 +44,9 @@ claude setup-token
 
 Save the token in:
 
-- **Web console:** Agents → Claude subscription
+- **Web UI:** Agents → Claude subscription
 - `bento setup`
-- `.env` as `CLAUDE_CODE_OAUTH_TOKEN=` (docker compose). Console value overrides `.env`.
+- `.env` as `CLAUDE_CODE_OAUTH_TOKEN=` (docker compose). The Web UI value overrides `.env`.
 
 When a subscription token is present, `ANTHROPIC_API_KEY` is not sent. Claude Code prefers API keys when both are available. `ANTHROPIC_BASE_URL` forces API key use (tokens are valid only at Anthropic's endpoint).
 

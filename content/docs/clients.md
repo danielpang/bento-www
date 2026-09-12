@@ -1,10 +1,10 @@
 # Other clients
 
-Bento has two clients: the web console (`apps/web`) and the terminal (`apps/tui`). The Bento TUI is now available. Both clients use the same API and can run the complete card workflow.
+Bento has two clients: the Web UI (`apps/web`) and the terminal (`apps/tui`). The TUI is now available. Both clients use the same API and can run the complete card workflow.
 
 ## Terminal
 
-`apps/tui` provides a terminal board and scriptable commands. It can run the full server locally or connect to a remote server as a thin client or local agent runner. See the [Bento TUI guide](/docs/tui) for installation, run modes, setup, and shortcuts.
+`apps/tui` provides a terminal board and scriptable commands. It can run the full server locally or connect to a remote server as a thin client or local agent runner. See the [TUI guide](/docs/tui) for installation, run modes, setup, and shortcuts.
 
 Card navigation: `j`/`k` to select; the pane below tails the newest run transcript; `h` for card history; `a` approve, `R` reject; `r` re-check; `x` stop; `c` continue with instructions.
 
@@ -20,7 +20,7 @@ bento pipeline export team-pipeline.yaml
 
 ## Feature coverage
 
-| Task | Web console | Terminal |
+| Task | Web UI | Terminal |
 | --- | --- | --- |
 | Create a project | Yes | Yes |
 | Create one spanning several repositories | Yes | One, then add |

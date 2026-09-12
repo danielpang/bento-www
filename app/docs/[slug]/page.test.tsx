@@ -100,7 +100,7 @@ describe("Documentation page", () => {
     const { container } = render(await DocPage(params("tui")));
     const body = container.querySelector(".docs-body") as HTMLElement;
 
-    expect(screen.getByRole("heading", { level: 1, name: "Bento TUI" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "TUI" })).toBeInTheDocument();
     expect(within(body).getByText("curl -fsSL https://usebento.ai/install.sh | sh")).toBeInTheDocument();
     expect(within(body).getByRole("heading", { level: 2, name: "Choose where agents run" })).toBeInTheDocument();
     expect(within(body).getByRole("heading", { level: 3, name: "Hosted board and server agents" })).toBeInTheDocument();
