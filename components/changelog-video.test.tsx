@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ChangelogVideo } from "@/lib/changelog";
@@ -52,6 +52,46 @@ describe("ChangelogVideoFigure", () => {
     expect(video.muted).toBe(true);
     expect(video).toHaveAttribute("aria-label", media.alt);
     expect(container.querySelector("source")).toHaveAttribute("src", media.src);
+  });
+
+  it("shows elapsed time and progress, and seeks when the scrubber moves", async () => {
+    const { container } = render(<ChangelogVideoFigure media={media} />);
+    const video = container.querySelector("video") as HTMLVideoElement;
+
+    Object.defineProperty(video, "duration", { value: 33.4, configurable: true });
+    let currentTime = 0;
+    Object.defineProperty(video, "currentTime", {
+      get: () => currentTime,
+      set: (value) => { currentTime = value; },
+      configurable: true,
+    });
+
+    fireEvent.loadedMetadata(video);
+    fireEvent.timeUpdate(video, { target: { currentTime: 67 } });
+    expect(screen.getByText("1:07")).toBeInTheDocument();
+
+    const scrubber = screen.getByRole("slider", { name: "Seek" });
+    expect(scrubber).toHaveAttribute("max", "33.4");
+    fireEvent.change(scrubber, { target: { value: "12" } });
+    expect(video.currentTime).toBe(12);
+    expect(screen.getByText("0:12")).toBeInTheDocument();
+  });
+
+  it("asks for full screen on the figure, so the controls come along", async () => {
+    const user = userEvent.setup();
+    const requestFullscreen = vi.fn();
+    Object.defineProperty(HTMLElement.prototype, "requestFullscreen", {
+      value: requestFullscreen,
+      configurable: true,
+      writable: true,
+    });
+    const { container } = render(<ChangelogVideoFigure media={media} />);
+
+    await user.click(screen.getByRole("button", { name: "Play full screen" }));
+    expect(requestFullscreen).toHaveBeenCalled();
+    expect(requestFullscreen.mock.instances[0]).toBe(
+      container.querySelector(".changelog-entry-media"),
+    );
   });
 
   it("toggles between pausing and playing from the one button", async () => {

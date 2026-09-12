@@ -110,9 +110,17 @@ describe("Changelog entry page", () => {
     expect(video).not.toHaveAttribute("controls");
     expect(figure.querySelector("source")).toHaveAttribute("src", entry.media!.src);
     expect(figure.querySelector("source")).toHaveAttribute("type", "video/mp4");
+    const controls = figure.querySelector(
+      ".changelog-entry-media-controls",
+    ) as HTMLElement;
     expect(
-      within(figure).getByRole("button", { name: /the demo/ }),
-    ).toHaveClass("changelog-entry-media-toggle");
+      within(controls).getByRole("button", { name: /the demo/ }),
+    ).toBeInTheDocument();
+    expect(
+      within(controls).getByRole("button", { name: /full screen/ }),
+    ).toBeInTheDocument();
+    expect(within(controls).getByRole("slider", { name: "Seek" })).toBeInTheDocument();
+    expect(within(controls).getByText("0:00")).toBeInTheDocument();
 
     expect(figure.previousElementSibling?.tagName).toBe("P");
     expect(figure.previousElementSibling).toHaveTextContent(entry.paragraphs[0]);

@@ -2109,44 +2109,141 @@ main {
   cursor: pointer;
 }
 
-/* Out of the way until the recording is worth stopping, and always there
-   for the keyboard and for touch, where there is no hover to reveal it. */
-.changelog-entry-media-toggle {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  display: grid;
-  width: 32px;
-  height: 32px;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--surface-sunken) 82%, transparent);
-  color: var(--text);
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 120ms ease, background 120ms ease;
-  backdrop-filter: blur(8px);
+/* Full screen hands the figure the whole viewport, where the recording
+   should fit inside it rather than stretch to its width. */
+.changelog-entry-media:fullscreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0;
+  background: #000;
 }
 
-.changelog-entry-media:hover .changelog-entry-media-toggle,
-.changelog-entry-media-toggle:focus-visible {
+.changelog-entry-media:fullscreen video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* A control bar over the recording: out of the way until the figure is
+   hovered, and always there for the keyboard and for touch, where there is
+   no hover to reveal it. */
+.changelog-entry-media-controls {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px 7px 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface-sunken) 78%, transparent);
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 140ms ease;
+  backdrop-filter: blur(12px);
+}
+
+.changelog-entry-media:hover .changelog-entry-media-controls,
+.changelog-entry-media-controls:focus-within {
   opacity: 1;
 }
 
-.changelog-entry-media-toggle:hover {
+.changelog-entry-media-time {
+  flex: none;
+  color: var(--text);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.changelog-entry-media-scrubber {
+  flex: 1;
+  min-width: 0;
+  height: 16px;
+  margin: 0;
+  background: none;
+  cursor: pointer;
+  appearance: none;
+}
+
+.changelog-entry-media-scrubber::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--text) 0 var(--progress, 0%),
+    color-mix(in srgb, var(--text) 25%, transparent) var(--progress, 0%) 100%
+  );
+}
+
+.changelog-entry-media-scrubber::-moz-range-track {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--text) 0 var(--progress, 0%),
+    color-mix(in srgb, var(--text) 25%, transparent) var(--progress, 0%) 100%
+  );
+}
+
+.changelog-entry-media-scrubber::-webkit-slider-thumb {
+  width: 11px;
+  height: 11px;
+  margin-top: -4px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--text);
+  appearance: none;
+}
+
+.changelog-entry-media-scrubber::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--text);
+}
+
+.changelog-entry-media-scrubber:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+.changelog-entry-media-button {
+  display: grid;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.changelog-entry-media-button:hover {
   background: var(--surface-raised);
 }
 
 @media (hover: none) {
-  .changelog-entry-media-toggle {
+  .changelog-entry-media-controls {
     opacity: 1;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .changelog-entry-media-toggle {
+  .changelog-entry-media-controls {
     opacity: 1;
+    transition: none;
+  }
+
+  .changelog-entry-media-button {
     transition: none;
   }
 }
