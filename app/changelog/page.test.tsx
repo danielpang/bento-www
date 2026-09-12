@@ -77,11 +77,14 @@ describe("Changelog", () => {
     );
 
     const tuiMedia = tui.querySelector(".changelog-entry-media") as HTMLElement;
-    expect(
-      within(tuiMedia).getByRole("img", {
-        name: changelogEntries[0].media!.alt,
-      }),
-    ).toBeInTheDocument();
+    expect(tuiMedia.querySelector("video")).toHaveAttribute(
+      "aria-label",
+      changelogEntries[0].media!.alt,
+    );
+    expect(tuiMedia.querySelector("source")).toHaveAttribute(
+      "src",
+      changelogEntries[0].media!.src,
+    );
     expect(tuiMedia.previousElementSibling).toHaveTextContent(
       changelogEntries[0].paragraphs[0],
     );

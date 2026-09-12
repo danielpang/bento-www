@@ -2089,6 +2089,7 @@ main {
 }
 
 .changelog-entry-media {
+  position: relative;
   margin: 24px 0 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -2097,9 +2098,57 @@ main {
   line-height: 0;
 }
 
-.changelog-entry-media img {
+.changelog-entry-media img,
+.changelog-entry-media video {
+  display: block;
   width: 100%;
   height: auto;
+}
+
+.changelog-entry-media video {
+  cursor: pointer;
+}
+
+/* Out of the way until the recording is worth stopping, and always there
+   for the keyboard and for touch, where there is no hover to reveal it. */
+.changelog-entry-media-toggle {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-sunken) 82%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms ease, background 120ms ease;
+  backdrop-filter: blur(8px);
+}
+
+.changelog-entry-media:hover .changelog-entry-media-toggle,
+.changelog-entry-media-toggle:focus-visible {
+  opacity: 1;
+}
+
+.changelog-entry-media-toggle:hover {
+  background: var(--surface-raised);
+}
+
+@media (hover: none) {
+  .changelog-entry-media-toggle {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .changelog-entry-media-toggle {
+    opacity: 1;
+    transition: none;
+  }
 }
 
 .changelog-entry-body a {

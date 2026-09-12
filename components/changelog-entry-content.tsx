@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import Image from "next/image";
+import { ChangelogVideoFigure } from "@/components/changelog-video";
 import { InstallCommand } from "@/components/install-command";
 import type { ChangelogEntry } from "@/lib/changelog";
 import { formatChangelogInline } from "./changelog-inline";
@@ -15,16 +16,20 @@ export function ChangelogEntryContent({ entry }: ChangelogEntryContentProps) {
         <Fragment key={paragraph}>
           <p>{formatChangelogInline(paragraph)}</p>
           {index === 0 && entry.media ? (
-            <figure className="changelog-entry-media">
-              {/* Unoptimized so an animated GIF keeps animating. */}
-              <Image
-                alt={entry.media.alt}
-                height={entry.media.height}
-                src={entry.media.src}
-                unoptimized
-                width={entry.media.width}
-              />
-            </figure>
+            entry.media.type === "video" ? (
+              <ChangelogVideoFigure media={entry.media} />
+            ) : (
+              <figure className="changelog-entry-media">
+                {/* Unoptimized so an animated GIF keeps animating. */}
+                <Image
+                  alt={entry.media.alt}
+                  height={entry.media.height}
+                  src={entry.media.src}
+                  unoptimized
+                  width={entry.media.width}
+                />
+              </figure>
+            )
           ) : null}
         </Fragment>
       ))}
