@@ -8,37 +8,37 @@ const examples = [
   {
     stage: "PM",
     agent: "Product manager",
-    model: "Claude Sonnet 4.6",
+    model: "Claude Sonnet 5.0",
     skill: "Define the user problem, scope, and acceptance criteria. Produce a product brief the team can build from.",
   },
   {
     stage: "Product design",
     agent: "Product designer",
-    model: "Gemini 3.1 Pro",
+    model: "GPT-5.6-Sol",
     skill: "Design the user flow, interactions, and key states. Deliver a design handoff with accessibility requirements and clear acceptance criteria.",
   },
   {
     stage: "Tech exploration",
     agent: "Staff engineer",
-    model: "DeepSeek V4 Pro",
+    model: "Claude Fable 5.1",
     skill: "Explore the codebase, compare approaches, and document a technical plan with risks and tradeoffs.",
   },
   {
     stage: "Implementation",
     agent: "Software engineer",
-    model: "GPT-5.4",
+    model: "Claude Opus 5.0",
     skill: "Implement the agreed plan, add tests, and deliver working changes that satisfy the acceptance criteria.",
   },
   {
     stage: "QA",
     agent: "QA engineer",
-    model: "Composer 2.5",
+    model: "Grok 4.6",
     skill: "Validate the feature against the acceptance criteria. Reproduce failures and report whether it is ready to ship.",
   },
   {
     stage: "DevOps",
     agent: "DevOps engineer",
-    model: "Claude Opus 4.6",
+    model: "Cursor Compose 2.5",
     skill: "Plan the rollout and data migrations. Define deployment steps, verification checks, and a rollback plan for a safe release.",
   },
 ];

@@ -29,6 +29,20 @@ describe("pipeline skill examples", () => {
       expectStage(stage);
     }
   });
+  it("shows the configured model for every pipeline stage", () => {
+    render(<SkillExamples />);
+    for (const [stage, model] of [
+      ["PM", "Claude Sonnet 5.0"],
+      ["Product design", "GPT-5.6-Sol"],
+      ["Tech exploration", "Claude Fable 5.1"],
+      ["Implementation", "Claude Opus 5.0"],
+      ["QA", "Grok 4.6"],
+      ["DevOps", "Cursor Compose 2.5"],
+    ]) {
+      fireEvent.click(screen.getByRole("button", { name: stage }));
+      expect(screen.getByLabelText(`${stage} stage, agent, model, and skill`)).toHaveTextContent(model);
+    }
+  });
   it("pauses and resumes without skipping the selected example", () => {
     render(<SkillExamples />);
     fireEvent.click(screen.getByRole("button", { name: "Pause stage examples" }));

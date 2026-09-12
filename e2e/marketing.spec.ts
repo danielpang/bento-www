@@ -91,6 +91,23 @@ test("control and redesign share the charcoal page background", async ({ page })
   expect(control.html).toBe("rgb(11, 11, 12)");
 });
 
+test("team board cards line up on desktop", async ({ page }) => {
+  for (const width of [1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+
+    const cards = page
+      .getByRole("figure", { name: "A pipeline board with one card in each stage" })
+      .locator(".m-scene-card");
+    await expect(cards).toHaveCount(6);
+
+    const tops = await cards.evaluateAll(elements =>
+      elements.map(element => element.getBoundingClientRect().top),
+    );
+    expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(1);
+  }
+});
+
 test("stage examples are selectable without changing the section height", async ({ page }) => {
   await page.goto("/preview/redesign");
   const showcase = page.locator(".m-skill-showcase");

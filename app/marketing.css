@@ -96,6 +96,10 @@ body:has(.control-page) { background: #0b0b0c; }
 .m-scene-card[data-state="done"] { background: #161816; }
 .m-scene-card strong { font-size: 12px; font-weight: 520; letter-spacing: -0.02em; line-height: 1.35; }
 .m-scene-card span { color: var(--text-faint); font-size: 11px; }
+@media (min-width: 801px) {
+  .m-scene-board { grid-template-rows: auto auto; row-gap: 10px; }
+  .m-scene-lane { grid-row: span 2; grid-template-rows: subgrid; }
+}
 .m-share-diagram {
   display: grid;
   grid-template-rows: auto 1fr auto;
