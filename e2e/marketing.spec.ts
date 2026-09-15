@@ -1,4 +1,14 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
+
+async function pageColors(page: Page) {
+  return page.evaluate(() => ({
+    html: getComputedStyle(document.documentElement).backgroundColor,
+    body: getComputedStyle(document.body).backgroundColor,
+    scheme: getComputedStyle(document.documentElement).colorScheme,
+    brand: getComputedStyle(document.documentElement).getPropertyValue("--brand").trim(),
+    text: getComputedStyle(document.body).color,
+  }));
+}
 
 for (const width of [375, 768, 1024, 1519]) {
   test(`marketing routes fit a ${width}px viewport`, async ({ page }) => {
@@ -61,14 +71,46 @@ test("the homepage copies the CLI install command from under the signup CTA", as
   }
 });
 
-test("the homepage uses the charcoal page background", async ({ page }) => {
+test("the homepage follows the device color scheme", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
   await page.goto("/");
-  const pageColor = await page.evaluate(() => ({
-    html: getComputedStyle(document.documentElement).backgroundColor,
-    body: getComputedStyle(document.body).backgroundColor,
-  }));
-  expect(pageColor.body).toBe("rgb(11, 11, 12)");
-  expect(pageColor.html).toBe("rgb(11, 11, 12)");
+  expect(await pageColors(page)).toMatchObject({
+    html: "rgb(11, 11, 12)",
+    body: "rgb(11, 11, 12)",
+    scheme: "dark",
+    brand: "#ff9858",
+    text: "rgb(237, 237, 238)",
+  });
+
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.reload();
+  expect(await pageColors(page)).toMatchObject({
+    html: "rgb(255, 255, 255)",
+    body: "rgb(255, 255, 255)",
+    scheme: "light",
+    brand: "#c24e16",
+    text: "rgb(23, 23, 26)",
+  });
+});
+
+test("pricing and docs follow the same device color scheme", async ({ page }) => {
+  for (const path of ["/pricing", "/docs"]) {
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.goto(path);
+    expect(await pageColors(page)).toMatchObject({
+      html: "rgb(255, 255, 255)",
+      body: "rgb(255, 255, 255)",
+      scheme: "light",
+    });
+
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.reload();
+    expect(await pageColors(page)).toMatchObject({
+      html: "rgb(11, 11, 12)",
+      body: "rgb(11, 11, 12)",
+      scheme: "dark",
+    });
+  }
 });
 
 test("team board cards line up on desktop", async ({ page }) => {
@@ -96,10 +138,15 @@ test("the homepage ends with a responsive FAQ", async ({ page }) => {
     const faq = page.getByRole("region", { name: "Questions?" });
     const items = faq.locator(".marketing-faq-item");
     await expect(faq).toBeVisible();
-    await expect(faq.locator(".marketing-faq-eyebrow")).toHaveCSS(
-      "color",
-      "rgb(255, 152, 88)",
-    );
+    const brandColor = await page.evaluate(() => {
+      const probe = document.createElement("span");
+      probe.style.color = "var(--brand)";
+      document.body.append(probe);
+      const color = getComputedStyle(probe).color;
+      probe.remove();
+      return color;
+    });
+    await expect(faq.locator(".marketing-faq-eyebrow")).toHaveCSS("color", brandColor);
     await expect(items).toHaveCount(3);
     for (const item of await items.all()) {
       await expect(item).not.toHaveAttribute("open", "");
