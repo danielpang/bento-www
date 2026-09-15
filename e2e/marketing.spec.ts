@@ -5,14 +5,11 @@ for (const width of [375, 768, 1024, 1519]) {
     await page.setViewportSize({ width, height: 1000 });
     const errors: string[] = [];
     page.on("pageerror", error => errors.push(error.message));
-    const captures: string[] = [];
-    page.on("request", request => { if (request.url().includes("posthog.com")) captures.push(request.url()); });
-    for (const path of ["/preview/redesign", "/pricing", "/changelog"]) {
-      captures.length = 0;
+    for (const path of ["/", "/pricing", "/changelog"]) {
       await page.goto(path);
       await expect(page.locator("h1")).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-      if (path === "/preview/redesign") {
+      if (path === "/") {
         await expect(page.getByRole("contentinfo").getByRole("link", { name: "Docs" })).toHaveAttribute("href", "/docs");
         if (width > 800) {
           await expect(page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Docs" })).toBeVisible();
@@ -41,54 +38,37 @@ for (const width of [375, 768, 1024, 1519]) {
         }
       }
       await page.screenshot({ path: `test-results/${path.replaceAll("/", "-")}-${width}.png`, fullPage: true });
-      // Previews never load analytics. Public pages record pageviews when NEXT_PUBLIC_POSTHOG_KEY is set.
-      if (path.startsWith("/preview")) expect(captures).toEqual([]);
     }
     expect(errors).toEqual([]);
   });
 }
 
-test("control preview preserves the current homepage", async ({ page }) => {
-  await page.goto("/preview/control");
-  await expect(page.locator("h1")).toContainText("Automate your software");
-  await expect(page.locator('[data-marketing-variant="control"]')).toBeVisible();
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
+test("the homepage copies the CLI install command from under the signup CTA", async ({ page }) => {
+  await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+  for (const width of [375, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const install = page.locator(".hero-copy .install-command");
+    await expect(install).toContainText("curl -fsSL https://usebento.ai/install.sh | sh");
+    const cta = await page.locator(".hero-copy .hero-actions").boundingBox();
+    const box = await install.boundingBox();
+    expect(box!.y).toBeGreaterThanOrEqual(cta!.y + cta!.height);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await install.getByRole("button", { name: "Copy install command" }).click();
+    await expect(install.getByRole("button", { name: "Copied install command" })).toBeVisible();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("curl -fsSL https://usebento.ai/install.sh | sh");
+    await page.locator(".hero-copy").screenshot({ path: `test-results/install-home-${width}.png` });
+  }
 });
 
-for (const path of ["/preview/redesign", "/preview/control"]) {
-  test(`${path} copies the CLI install command from under the signup CTA`, async ({ page }) => {
-    await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
-    for (const width of [375, 1440]) {
-      await page.setViewportSize({ width, height: 900 });
-      await page.goto(path);
-      const install = page.locator(".hero-copy .install-command");
-      await expect(install).toContainText("curl -fsSL https://usebento.ai/install.sh | sh");
-      const cta = await page.locator(".hero-copy .hero-actions").boundingBox();
-      const box = await install.boundingBox();
-      expect(box!.y).toBeGreaterThanOrEqual(cta!.y + cta!.height);
-      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-      await install.getByRole("button", { name: "Copy install command" }).click();
-      await expect(install.getByRole("button", { name: "Copied install command" })).toBeVisible();
-      expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("curl -fsSL https://usebento.ai/install.sh | sh");
-      await page.locator(".hero-copy").screenshot({ path: `test-results/install${path.replaceAll("/", "-")}-${width}.png` });
-    }
-  });
-}
-
-test("control and redesign share the charcoal page background", async ({ page }) => {
-  const pageColor = async (path: string) => {
-    await page.goto(path);
-    return page.evaluate(() => ({
-      html: getComputedStyle(document.documentElement).backgroundColor,
-      body: getComputedStyle(document.body).backgroundColor,
-    }));
-  };
-
-  const redesign = await pageColor("/preview/redesign");
-  const control = await pageColor("/preview/control");
-  expect(control).toEqual(redesign);
-  expect(control.body).toBe("rgb(11, 11, 12)");
-  expect(control.html).toBe("rgb(11, 11, 12)");
+test("the homepage uses the charcoal page background", async ({ page }) => {
+  await page.goto("/");
+  const pageColor = await page.evaluate(() => ({
+    html: getComputedStyle(document.documentElement).backgroundColor,
+    body: getComputedStyle(document.body).backgroundColor,
+  }));
+  expect(pageColor.body).toBe("rgb(11, 11, 12)");
+  expect(pageColor.html).toBe("rgb(11, 11, 12)");
 });
 
 test("team board cards line up on desktop", async ({ page }) => {
@@ -108,37 +88,35 @@ test("team board cards line up on desktop", async ({ page }) => {
   }
 });
 
-for (const path of ["/preview/redesign", "/preview/control"]) {
-  test(`${path} replaces the ending CTA with a responsive FAQ`, async ({ page }) => {
-    for (const width of [375, 1440]) {
-      await page.setViewportSize({ width, height: 900 });
-      await page.goto(path);
+test("the homepage ends with a responsive FAQ", async ({ page }) => {
+  for (const width of [375, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
 
-      const faq = page.getByRole("region", { name: "Questions?" });
-      const items = faq.locator(".marketing-faq-item");
-      await expect(faq).toBeVisible();
-      await expect(faq.locator(".marketing-faq-eyebrow")).toHaveCSS(
-        "color",
-        "rgb(255, 152, 88)",
-      );
-      await expect(items).toHaveCount(3);
-      for (const item of await items.all()) {
-        await expect(item).not.toHaveAttribute("open", "");
-      }
-
-      await items.nth(1).locator("summary").click();
-      await expect(items.nth(1)).toHaveAttribute("open", "");
-      await items.nth(1).locator("summary").click();
-      await expect(items.nth(1)).not.toHaveAttribute("open", "");
-
-      await expect(page.locator(".final-cta, .m-bottom-cta")).toHaveCount(0);
-      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    const faq = page.getByRole("region", { name: "Questions?" });
+    const items = faq.locator(".marketing-faq-item");
+    await expect(faq).toBeVisible();
+    await expect(faq.locator(".marketing-faq-eyebrow")).toHaveCSS(
+      "color",
+      "rgb(255, 152, 88)",
+    );
+    await expect(items).toHaveCount(3);
+    for (const item of await items.all()) {
+      await expect(item).not.toHaveAttribute("open", "");
     }
-  });
-}
+
+    await items.nth(1).locator("summary").click();
+    await expect(items.nth(1)).toHaveAttribute("open", "");
+    await items.nth(1).locator("summary").click();
+    await expect(items.nth(1)).not.toHaveAttribute("open", "");
+
+    await expect(page.locator(".final-cta, .m-bottom-cta")).toHaveCount(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  }
+});
 
 test("stage examples are selectable without changing the section height", async ({ page }) => {
-  await page.goto("/preview/redesign");
+  await page.goto("/");
   const showcase = page.locator(".m-skill-showcase");
   await showcase.scrollIntoViewIfNeeded();
   const height = (await showcase.boundingBox())!.height;
@@ -147,7 +125,7 @@ test("stage examples are selectable without changing the section height", async 
     await expect(page.locator('.m-skill-example[data-active="true"]')).toContainText(stage);
     expect((await showcase.boundingBox())!.height).toBe(height);
   }
-  await expect(page.locator("#how-it-works")).toContainText("The context goes with the code.");
+  await expect(page.locator(".m-context-handoff")).toContainText("The context goes with the code.");
 });
 
 test("visible stage examples advance automatically", async ({ page }) => {
@@ -156,7 +134,7 @@ test("visible stage examples advance automatically", async ({ page }) => {
     if (message.type() === "error" && /hydrat/i.test(message.text())) hydrationErrors.push(message.text());
   });
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/preview/redesign");
+  await page.goto("/");
   await page.locator(".m-skill-showcase").scrollIntoViewIfNeeded();
   await page.mouse.move(0, 0);
   await expect(page.getByRole("button", { name: "Product design", exact: true })).toHaveAttribute("aria-pressed", "true", { timeout: 10000 });
