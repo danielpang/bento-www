@@ -1,7 +1,10 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-const styles = readFileSync(new URL("./marketing.css", import.meta.url), "utf8");
+const styles = readFileSync(
+  new URL("app/marketing.css", `file://${process.cwd()}/`),
+  "utf8",
+);
 
 describe("marketing color scheme", () => {
   it("keeps the charcoal palette for dark devices", () => {
