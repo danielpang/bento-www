@@ -41,10 +41,6 @@ If the signup or GitHub URL is absent, its CTA renders as an accessible disabled
   nodes, never rendered on a page. Edit it in one place.
 - `/llms.txt` is a plain-text one-pager for agents and crawlers, generated
   from the same copy, docs, and pricing catalog. See `lib/llms.ts`.
-- The homepage is cached by shared caches (`s-maxage` with
-  `stale-while-revalidate`) while the experiment below is off, and
-  `private, no-store` while it assigns variants.
-
 ## Checks
 
 ```bash
@@ -54,15 +50,9 @@ pnpm test
 pnpm build
 ```
 
-## Marketing redesign and A/B experiment
+## Homepage
 
-Preview the redesign at `/preview/redesign` and the preserved current homepage
-at `/preview/control`. Pricing and changelog retain the existing catalog and
-release history with the new visual treatment.
-
-The PostHog homepage experiment is opt-in and defaults to the control in
-production. See [the experiment runbook](docs/marketing-experiment.md) for the
-50/50 flag configuration, completed-signup metric, identity verification, and
-launch steps. It has not been launched by this code change.
+The developer-focused marketing homepage is served at `/`. Retired redesign
+preview and control URLs redirect to the homepage.
 
 Browser checks: `pnpm exec playwright install chromium`, then `pnpm test:e2e`.

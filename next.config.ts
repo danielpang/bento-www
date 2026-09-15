@@ -8,7 +8,12 @@ const nextConfig: NextConfig = {
   async redirects() {
     // /install.sh is a route handler (app/install.sh/route.ts), not a redirect
     // here, so each request can be recorded in PostHog.
-    return hostRedirects();
+    return [
+      ...hostRedirects(),
+      { source: "/control", destination: "/", permanent: true },
+      { source: "/preview/control", destination: "/", permanent: true },
+      { source: "/preview/redesign", destination: "/", permanent: true },
+    ];
   },
 };
 

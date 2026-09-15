@@ -76,10 +76,53 @@ describe("redesigned homepage", () => {
     expect(within(context as HTMLElement).getByRole("figure", { name: /one card in each stage/i })).toBeInTheDocument();
     expect(within(context as HTMLElement).getByRole("figure", { name: /many isolated sandboxes running in the cloud/i })).toBeInTheDocument();
     expect(container.querySelector(".m-skill-showcase")).not.toBeNull();
+    expect(context!.querySelector(".m-context-handoff")).not.toBeNull();
+    expect(container.querySelector(".m-gates")).toBeNull();
     expect(
       screen.getByRole("heading", { name: "Questions?" }),
     ).toBeInTheDocument();
     expect(container.querySelector(".m-bottom-cta")).not.toBeInTheDocument();
+  });
+
+  it("explains the security boundary with an asymmetric execution bento", () => {
+    const { container } = render(<MarketingHome />);
+
+    const security = container.querySelector("#security");
+    expect(security).not.toBeNull();
+    expect(
+      within(security as HTMLElement).getByRole("heading", {
+        level: 2,
+        name: /Control how agents move\. Keep the boundaries clear\./,
+      }),
+    ).toBeInTheDocument();
+    expect(security!.querySelector(".m-security-bento")).not.toBeNull();
+    expect(security!.querySelectorAll(".m-security-card")).toHaveLength(3);
+    expect(
+      within(security as HTMLElement).getByRole("heading", {
+        level: 3,
+        name: "Manual when judgment matters. Automatic when requirements pass.",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(security as HTMLElement).getByRole("figure", {
+        name: "Manual and automatic stage approval options",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(security as HTMLElement).getByRole("heading", {
+        level: 3,
+        name: "One feature. One isolated workspace.",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(security as HTMLElement).getByRole("heading", {
+        level: 3,
+        name: "Credentials stay outside the sandbox.",
+      }),
+    ).toBeInTheDocument();
+    expect(within(security as HTMLElement).getByText("Manual approval")).toBeInTheDocument();
+    expect(within(security as HTMLElement).getByText("Auto approval")).toBeInTheDocument();
+    expect(container.querySelector(".m-gate-layout")).toBeNull();
   });
 
   it("links to the documentation from the header and footer", () => {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Check, FileText, GitBranch, Laptop, ShieldCheck, TerminalWindow, UsersThree } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, FileText, GitBranch, Laptop, TerminalWindow, UsersThree } from "@phosphor-icons/react/dist/ssr";
 import { AgentLogo, type AgentName } from "@/components/agent-logo";
 import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
@@ -11,6 +11,7 @@ import { MarketingHeader } from "./header";
 import { FeatureArtifacts } from "./feature-artifacts";
 import { MarketingFaq } from "./faq-section";
 import { RemoteShareScene, TeamBoardScene } from "./lifecycle-scenes";
+import { SecurityBento } from "./security-bento";
 import {
   marketingAgentsLabel,
   marketingHomeHeadlineLines,
@@ -24,11 +25,10 @@ import { siteConfig } from "@/lib/site";
 // usual but hydrate from their own chunks, so the page's initial script graph
 // is the framework plus a few small islands.
 const PipelineDemo = dynamic(() => import("@/components/pipeline-demo").then(m => m.PipelineDemo));
-const GateDemo = dynamic(() => import("@/components/gate-demo").then(m => m.GateDemo));
 const SkillExamples = dynamic(() => import("./skill-examples").then(m => m.SkillExamples));
 const agents: AgentName[] = ["Claude Code", "Codex CLI", "Cursor CLI", "Antigravity", "DeepSeek", "OpenCode", "Pi", "Poolside"];
 export function MarketingHome() {
-  return <div className="marketing-page" data-marketing-variant="redesign">
+  return <div className="marketing-page">
     <MarketingHeader />
     <main id="main-content">
       <section className="m-hero site-shell">
@@ -81,13 +81,7 @@ export function MarketingHome() {
           </div>
           <RemoteShareScene />
         </Reveal>
-      </section>
-      <section className="m-section m-gates" id="how-it-works">
-        <div className="site-shell m-gate-layout">
-          <Reveal className="m-section-heading"><span className="m-eyebrow">Human judgment, built in</span><h2>Move fast.<br /><span>Keep the final say.</span></h2><p>Every stage starts with a manual gate. Review, approve, or steer the work. Automate when you’re ready.</p><ul className="m-check-list"><li><Check size={17} aria-hidden="true" />Approve work before it moves forward</li><li><Check size={17} aria-hidden="true" />Set requirements for automatic gates</li><li><Check size={17} aria-hidden="true" />Keep a history of every decision</li></ul></Reveal>
-          <Reveal className="m-gate-demo" delay={0.08}><GateDemo /></Reveal>
-        </div>
-        <Reveal className="site-shell m-context-handoff">
+        <Reveal className="m-context-handoff">
           <div>
             <GitBranch size={25} aria-hidden="true" />
             <h3>The context goes with the code.</h3>
@@ -96,14 +90,7 @@ export function MarketingHome() {
           <FeatureArtifacts />
         </Reveal>
       </section>
-      <section className="m-section site-shell m-security" id="security">
-        <Reveal className="m-section-heading"><ShieldCheck size={32} aria-hidden="true" /><h2>A sandbox for agents.<br /><span>A boundary you control.</span></h2><p>Each feature gets its own environment. Trusted services hold the credentials and publish the result.</p></Reveal>
-        <div className="m-boundaries">
-          <div><h3>Isolated workspaces</h3><p>Per-feature worktrees. No host SSH keys or host git configuration in the agent’s environment.</p></div>
-          <div><h3>Scoped credentials</h3><p>Encrypted organization credentials and short-lived GitHub tokens scoped to the repository being published.</p></div>
-          <div><h3>Run it your way</h3><p>Self-host with Docker, or use a shared board with code and agents running on your own machine.</p></div>
-        </div>
-      </section>
+      <SecurityBento />
       <IntegrationsSection redesigned />
       <MarketingFaq />
     </main>

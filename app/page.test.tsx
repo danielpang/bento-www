@@ -3,40 +3,29 @@ import { describe, expect, it } from "vitest";
 import {
   marketingHomeHeadline,
   marketingHomePromise,
-  siteDescription,
+  marketingProblemHeading,
   siteDisambiguation,
-  siteHeadline,
   siteName,
 } from "@/lib/copy";
-import Home from "@/components/marketing/control-home";
-import { metadata as homepageMetadata } from "./page";
+import Home, { metadata as homepageMetadata } from "./page";
 
 describe("Bento landing page", () => {
-  it("presents the product story in a single accessible document", async () => {
+  it("presents the redesigned product story in a single accessible document", () => {
     const { container } = render(<Home />);
 
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: siteHeadline,
+        name: /Your agents\.\s*One shipping team\./,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText(siteDescription)).toBeInTheDocument();
-    // The lifecycle section hydrates from its own chunk, so it arrives async here.
     expect(
-      await screen.findByRole("heading", { name: "Every feature has a route." }),
+      screen.getByRole("heading", { name: marketingProblemHeading }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Your judgment has a place." }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Different agents. One handoff." }),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("heading", { name: "From idea to pull request." }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "The sandbox is the boundary." }),
+      screen.getByRole("heading", {
+        name: /Control how agents move\.\s*Keep the boundaries clear\./,
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
@@ -44,16 +33,8 @@ describe("Bento landing page", () => {
       }),
     ).toBeInTheDocument();
     expect(container.querySelector("#product")).toBeInTheDocument();
-    expect(container.querySelector("#how-it-works")).toBeInTheDocument();
     expect(container.querySelector("#security")).toBeInTheDocument();
     expect(container.querySelector("#integrations")).toBeInTheDocument();
-
-    expect(
-      Array.from(
-        container.querySelectorAll("#security, #integrations"),
-        (section) => section.id,
-      ),
-    ).toEqual(["security", "integrations"]);
   });
 
   it("keeps prohibited dash characters out of visible copy", () => {
@@ -69,9 +50,8 @@ describe("Bento landing page", () => {
     expect(container.textContent).not.toMatch(/Not to be confused/);
   });
 
-  it("keeps heading levels in document order", async () => {
+  it("keeps heading levels in document order", () => {
     render(<Home />);
-    await screen.findByRole("heading", { name: "Every feature has a route." });
     const levels = screen
       .getAllByRole("heading")
       .map((heading) => Number(heading.tagName.slice(1)));
