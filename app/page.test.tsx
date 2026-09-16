@@ -16,7 +16,7 @@ describe("Bento landing page", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /Your agents\.\s*One shipping team\./,
+        name: marketingHomeHeadline,
       }),
     ).toBeInTheDocument();
     expect(

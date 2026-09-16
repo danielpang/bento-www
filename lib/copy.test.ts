@@ -32,12 +32,9 @@ describe("site copy", () => {
     expect(siteDescription).toContain("coordinating agents");
   });
 
-  it("locks the redesigned homepage problem framing", () => {
-    expect(marketingHomeHeadlineLines).toEqual([
-      "Your agents.",
-      "One shipping team.",
-    ]);
-    expect(marketingHomeHeadline).toBe("Your agents. One shipping team.");
+  it("reuses the canonical headline in the redesigned homepage", () => {
+    expect(marketingHomeHeadlineLines).toBe(siteHeadlineLines);
+    expect(marketingHomeHeadline).toBe(siteHeadline);
     expect(marketingHomePromise).toBe(
       "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.",
     );

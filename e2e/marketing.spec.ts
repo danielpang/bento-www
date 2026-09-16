@@ -39,6 +39,11 @@ for (const width of [375, 768, 1024, 1519]) {
           expect(Math.abs(workflow!.y - heading!.y)).toBeLessThan(120);
           const h1Height = await page.locator("h1").evaluate(e => e.clientHeight / parseFloat(getComputedStyle(e).lineHeight));
           expect(h1Height).toBeLessThan(2.1);
+          const agentsBottom = await page.locator(".m-agents").evaluate(element => element.getBoundingClientRect().bottom);
+          const contextTop = await page.locator(".m-context").evaluate(element => element.getBoundingClientRect().top);
+          const viewportHeight = await page.evaluate(() => window.innerHeight);
+          expect(agentsBottom).toBeLessThanOrEqual(viewportHeight + 1);
+          expect(contextTop).toBeGreaterThanOrEqual(viewportHeight);
           await page.getByRole("button", { name: "Pause pipeline animation" }).click();
           await expect(page.getByRole("button", { name: "Play pipeline animation" })).toBeVisible();
         } else {
