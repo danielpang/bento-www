@@ -167,7 +167,7 @@ body:has(.marketing-page) {
 .m-announcement { display: flex; align-items: center; gap: 8px; width: fit-content; color: var(--brand); font-size: 12px; }
 .m-hero-heading { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 44px; align-items: center; padding: 52px 0 72px; }
 .marketing-page .hero-copy { max-width: none; min-width: 0; grid-column: auto; }
-.marketing-page .hero-copy h1 { max-width: none; font-size: clamp(38px, 3.95vw, 60px); line-height: 1.05; font-weight: 540; letter-spacing: -0.06em; margin: 0; }
+.marketing-page .hero-copy h1 { max-width: none; font-size: clamp(38px, 3.65vw, 56px); line-height: 1.05; font-weight: 540; letter-spacing: -0.06em; margin: 0; }
 .marketing-page .hero-copy h1 span { display: inline; color: var(--brand); }
 .marketing-page .hero-copy > p { max-width: 490px; margin: 25px 0 28px; font-size: 16px; line-height: 1.7; color: var(--text-muted); }
 .marketing-page .hero-actions { margin: 0; gap: 12px; }
@@ -189,6 +189,11 @@ body:has(.marketing-page) {
 .m-agents > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; }
 .m-agents .m-agent { display: inline-flex; align-items: center; gap: 9px; font-size: 14px; color: var(--agent); }
 .m-agents .agent-logo { width: 23px; height: 23px; }
+@media (min-width: 801px) {
+  .m-above-fold { display: flex; min-height: calc(100dvh - 76px); flex-direction: column; }
+  .m-hero { display: flex; flex: 1; flex-direction: column; }
+  .m-hero-heading { flex: 1; }
+}
 .m-section { padding-block: 104px; }
 .m-section-heading { max-width: 640px; }
 .m-context .m-section-heading { max-width: 960px; }

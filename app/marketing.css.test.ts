@@ -6,6 +6,15 @@ const styles = readFileSync(
   "utf8",
 );
 
+describe("marketing layout", () => {
+  it("keeps the desktop hero and agents above the fold without changing mobile flow", () => {
+    expect(styles).toMatch(
+      /@media \(min-width:\s*801px\)\s*\{\s*\.m-above-fold\s*\{[^}]*min-height:\s*calc\(100dvh - 76px\)/,
+    );
+    expect(styles).not.toMatch(/\.m-hero\s*\{[^}]*height:\s*100vh/);
+  });
+});
+
 describe("marketing color scheme", () => {
   it("keeps the charcoal palette for dark devices", () => {
     expect(styles).toMatch(

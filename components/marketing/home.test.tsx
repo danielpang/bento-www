@@ -2,6 +2,7 @@ import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import {
   cliInstallCommand,
+  marketingHomeHeadline,
   marketingHomePromise,
   marketingProblemBeats,
   marketingProblemHeading,
@@ -16,7 +17,7 @@ describe("redesigned homepage", () => {
 
     const hero = container.querySelector(".m-hero .hero-copy");
     expect(hero).not.toBeNull();
-    expect(hero!.querySelector("h1")).toHaveTextContent(/Your agents\.\s*One shipping team/);
+    expect(hero!.querySelector("h1")).toHaveTextContent(marketingHomeHeadline);
     expect(hero!.querySelector("p")).toHaveTextContent(marketingHomePromise);
     expect(container.querySelector(".m-hero .m-demo")).not.toBeNull();
     expect(container.querySelector(".m-hero .m-demo")).toHaveAttribute("id", "product");

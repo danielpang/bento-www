@@ -28,12 +28,9 @@ export const cliInstallCommand = `curl -fsSL https://${siteDomain}/install.sh | 
  */
 export const siteDisambiguation = `Not to be confused with Bento the email platform (bentonow) or getbento.sh: this is Bento the agent pipeline for coding agents, at ${siteDomain}.`;
 
-export const marketingHomeHeadlineLines = [
-  "Your agents.",
-  "One shipping team.",
-] as const;
+export const marketingHomeHeadlineLines = siteHeadlineLines;
 
-export const marketingHomeHeadline = `${marketingHomeHeadlineLines[0]} ${marketingHomeHeadlineLines[1]}`;
+export const marketingHomeHeadline = siteHeadline;
 
 export const marketingHomePromise =
   "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.";

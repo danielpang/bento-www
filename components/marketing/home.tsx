@@ -31,27 +31,29 @@ export function MarketingHome() {
   return <div className="marketing-page">
     <MarketingHeader />
     <main id="main-content">
-      <section className="m-hero site-shell">
-        <Link className="m-announcement" href="/changelog">See what’s new <ArrowRight size={14} aria-hidden="true" /></Link>
-        <div className="m-hero-heading">
-          <div className="hero-copy">
-            <h1>{marketingHomeHeadlineLines[0]}<br /><span>{marketingHomeHeadlineLines[1]}</span></h1>
-            <p>{marketingHomePromise}</p>
-            <div className="hero-actions">
-              <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
+      <div className="m-above-fold">
+        <section className="m-hero site-shell">
+          <Link className="m-announcement" href="/changelog">See what’s new <ArrowRight size={14} aria-hidden="true" /></Link>
+          <div className="m-hero-heading">
+            <div className="hero-copy">
+              <h1>{marketingHomeHeadlineLines[0]}{" "}<br /><span>{marketingHomeHeadlineLines[1]}</span></h1>
+              <p>{marketingHomePromise}</p>
+              <div className="hero-actions">
+                <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
+              </div>
+              <InstallCommand />
             </div>
-            <InstallCommand />
+            <div className="m-demo hero-visual" id="product">
+              <div className="m-demo-caption"><span><TerminalWindow size={16} aria-hidden="true" /> A feature, moving forward.</span><span>Interactive pipeline demo</span></div>
+              <PipelineDemo />
+            </div>
           </div>
-          <div className="m-demo hero-visual" id="product">
-            <div className="m-demo-caption"><span><TerminalWindow size={16} aria-hidden="true" /> A feature, moving forward.</span><span>Interactive pipeline demo</span></div>
-            <PipelineDemo />
-          </div>
-        </div>
-      </section>
-      <section className="site-shell m-agents" aria-label="Supported coding agents">
-        <p>{marketingAgentsLabel}</p>
-        <div>{agents.map(agent => <span className="m-agent" key={agent}><AgentLogo agent={agent} className="agent-logo" /><span>{agent.replace(" CLI", "")}</span></span>)}</div>
-      </section>
+        </section>
+        <section className="site-shell m-agents" aria-label="Supported coding agents">
+          <p>{marketingAgentsLabel}</p>
+          <div>{agents.map(agent => <span className="m-agent" key={agent}><AgentLogo agent={agent} className="agent-logo" /><span>{agent.replace(" CLI", "")}</span></span>)}</div>
+        </section>
+      </div>
       <section className="m-section site-shell m-context">
         <Reveal className="m-section-heading">
           <h2>{marketingProblemHeading}</h2>
