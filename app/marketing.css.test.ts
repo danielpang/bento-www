@@ -13,6 +13,12 @@ describe("marketing layout", () => {
     );
     expect(styles).not.toMatch(/\.m-hero\s*\{[^}]*height:\s*100vh/);
   });
+
+  it("center-aligns coding agents in the mobile two-column grid", () => {
+    expect(styles).toMatch(
+      /@media \(max-width:\s*520px\)[\s\S]*?\.m-agents > div\s*\{[^}]*justify-items:\s*center/,
+    );
+  });
 });
 
 describe("marketing color scheme", () => {
