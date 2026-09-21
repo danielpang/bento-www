@@ -18,7 +18,7 @@ describe("Mac download choices", () => {
 
   it("shows missing downloads without offering broken links", () => {
     render(<MacDownloads release={null} />);
-    expect(screen.getAllByText("Download not available yet")).toHaveLength(2);
+    expect(screen.getAllByText("Download unavailable")).toHaveLength(2);
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
     expect(screen.getByText(/Choose the version that matches your Mac/)).toBeInTheDocument();
   });
@@ -27,6 +27,6 @@ describe("Mac download choices", () => {
     render(<MacDownloads release={{ version: "0.2.0", downloads: { arm64: "https://github.com/arm.dmg" } }} />);
     expect(screen.getByRole("link", { name: "Download for Apple silicon" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "Download for Intel" })).not.toBeInTheDocument();
-    expect(screen.getByText("Download not available yet")).toBeInTheDocument();
+    expect(screen.getByText("Download unavailable")).toBeInTheDocument();
   });
 });

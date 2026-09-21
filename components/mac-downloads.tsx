@@ -1,6 +1,6 @@
 "use client";
 
-import { DownloadSimple } from "@phosphor-icons/react";
+import { AppleLogo } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { browserMacArchitecture } from "@/lib/mac-architecture";
 import type { MacArchitecture, MacRelease } from "@/lib/mac-releases";
@@ -31,11 +31,11 @@ export function MacDownloads({ release }: { release: MacRelease | null }) {
             {release?.downloads[arch] ? (
               // Plain anchors avoid prefetching a route that starts a download.
               <a className="cta-link cta-link-primary" href={`/download/mac/${arch}`}>
-                <DownloadSimple size={17} aria-hidden="true" />
+                <AppleLogo size={17} weight="fill" aria-hidden="true" />
                 Download for {label}
               </a>
             ) : (
-              <p className="mac-download-pending">Download not available yet</p>
+              <p className="mac-download-pending">Download unavailable</p>
             )}
           </article>
         ))}

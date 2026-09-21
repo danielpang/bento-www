@@ -36,7 +36,7 @@ export default async function DownloadPage({
           </p>
         ) : !release ? (
           <p className="mac-download-status" role="status">
-            The Mac app download is not available yet. You can use Bento in your browser while we prepare the first release.
+            Mac downloads are currently unavailable. Check the <a href={MAC_RELEASES_URL}>GitHub releases</a> for available downloads.
           </p>
         ) : query.download === "unavailable" ? (
           <p className="mac-download-status" role="status">That Mac download is not available. Choose an available version below.</p>
