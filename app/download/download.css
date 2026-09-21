@@ -1,6 +1,6 @@
 .marketing-page .mac-download-page { max-width: 900px; padding-block: 72px 96px; }
 .mac-download-heading h1 { margin: 0; font-size: clamp(40px, 5vw, 64px); font-weight: 520; letter-spacing: -0.055em; line-height: 1.1; }
-.mac-download-heading > p { max-width: 510px; margin: 22px 0 36px; color: var(--text-muted); font-size: 16px; line-height: 1.7; }
+.mac-download-heading > p { margin: 22px 0 36px; color: var(--text-muted); font-size: 16px; line-height: 1.7; }
 .mac-download-status { margin: 0 0 24px; border-left: 2px solid var(--brand); padding: 4px 0 4px 18px; color: var(--text-muted); font-size: 14px; line-height: 1.7; }
 .mac-download-page a:not(.cta-link) { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
 .mac-download-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }

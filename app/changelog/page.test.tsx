@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { changelogEntries } from "@/lib/changelog";
+import { changelogEntries, getChangelogEntry } from "@/lib/changelog";
 import { cliInstallCommand } from "@/lib/copy";
 import ChangelogPage, { metadata } from "./page";
 
@@ -12,6 +12,7 @@ describe("Changelog", () => {
       screen.getByRole("heading", { level: 1, name: "Changelog" }),
     ).toBeInTheDocument();
     for (const name of [
+      "Bento for Mac",
       "Bento TUI",
       "Google Antigravity CLI as a coding agent",
       "DeepSeek models and harness",
@@ -61,7 +62,8 @@ describe("Changelog", () => {
       );
     }
 
-    const tui = entries[0] as HTMLElement;
+    const tui = container.querySelector("#bento-terminal-ui") as HTMLElement;
+    const tuiEntry = getChangelogEntry("bento-terminal-ui")!;
     expect(within(tui).getByText(cliInstallCommand)).toBeInTheDocument();
     expect(within(tui).getByRole("button", { name: "Copy install command" })).toBeInTheDocument();
     expect(within(tui).getByRole("heading", { level: 3, name: "Install the CLI" })).toBeInTheDocument();
@@ -79,19 +81,19 @@ describe("Changelog", () => {
     const tuiMedia = tui.querySelector(".changelog-entry-media") as HTMLElement;
     expect(tuiMedia.querySelector("video")).toHaveAttribute(
       "aria-label",
-      changelogEntries[0].media!.alt,
+      tuiEntry.media!.alt,
     );
     expect(tuiMedia.querySelector("source")).toHaveAttribute(
       "src",
-      changelogEntries[0].media!.src,
+      tuiEntry.media!.src,
     );
     expect(tuiMedia.previousElementSibling).toHaveTextContent(
-      changelogEntries[0].paragraphs[0],
+      tuiEntry.paragraphs[0],
     );
     // Only the entry that ships a recording gets one.
     expect(container.querySelectorAll(".changelog-entry-media")).toHaveLength(1);
 
-    const antigravity = entries[1] as HTMLElement;
+    const antigravity = container.querySelector("#google-antigravity-cli") as HTMLElement;
     const antigravityWebsite = within(antigravity).getByRole("link", {
       name: "Antigravity website",
     });
@@ -111,7 +113,7 @@ describe("Changelog", () => {
     expect(antigravityGithub).toHaveAttribute("target", "_blank");
     expect(antigravityGithub).toHaveAttribute("rel", "noreferrer");
 
-    const deepseek = entries[2] as HTMLElement;
+    const deepseek = container.querySelector("#deepseek-models-and-harness") as HTMLElement;
     const deepseekWebsite = within(deepseek).getByRole("link", {
       name: "DeepSeek website",
     });
@@ -128,7 +130,7 @@ describe("Changelog", () => {
     expect(deepseekGithub).toHaveAttribute("target", "_blank");
     expect(deepseekGithub).toHaveAttribute("rel", "noreferrer");
 
-    const poolside = entries[3] as HTMLElement;
+    const poolside = container.querySelector("#poolside-coding-agent") as HTMLElement;
     const poolsideWebsite = within(poolside).getByRole("link", {
       name: "Poolside website",
     });

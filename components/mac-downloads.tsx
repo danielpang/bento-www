@@ -1,6 +1,6 @@
 "use client";
 
-import { AppleLogo } from "@phosphor-icons/react";
+import { AppleLogo } from "@/components/apple-logo";
 import { useEffect, useState } from "react";
 import { browserMacArchitecture } from "@/lib/mac-architecture";
 import type { MacArchitecture, MacRelease } from "@/lib/mac-releases";
@@ -31,7 +31,7 @@ export function MacDownloads({ release }: { release: MacRelease | null }) {
             {release?.downloads[arch] ? (
               // Plain anchors avoid prefetching a route that starts a download.
               <a className="cta-link cta-link-primary" href={`/download/mac/${arch}`}>
-                <AppleLogo size={17} weight="fill" aria-hidden="true" />
+                <AppleLogo />
                 Download for {label}
               </a>
             ) : (
