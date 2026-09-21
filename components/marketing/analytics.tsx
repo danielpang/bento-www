@@ -21,7 +21,10 @@ function loadPostHog(token: string): Promise<PostHog> {
       api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
       persistence: "localStorage+cookie",
       // Shared with app.usebento.ai, whose identify call merges this anonymous visitor into the account.
+      // Cookie-wins is required: defaults stay 'unset', so the SDK would otherwise prefer
+      // per-origin localStorage over the .usebento.ai identity cookie on app.usebento.ai.
       cross_subdomain_cookie: true,
+      cookieWinsOnConflict: true,
       opt_out_capturing_persistence_type: "cookie",
       autocapture: false,
       // Captured by hand below, so App Router navigations count as pageviews too.
