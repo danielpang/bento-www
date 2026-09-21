@@ -6,6 +6,7 @@ describe("docs catalog", () => {
     const docs = listDocs();
 
     expect(docs.map((doc) => doc.slug)).toEqual([
+      "why-agent-pipeline",
       "concepts",
       "pipeline",
       "agents",
@@ -25,6 +26,54 @@ describe("docs catalog", () => {
     expect(getDoc("clients")?.content).toContain("[TUI guide](/docs/tui)");
     expect(getDoc("architecture")).toBeNull();
     expect(getDoc("database-schema")).toBeNull();
+    expect(getDoc("handoff-artifacts")).toBeNull();
+  });
+
+  it("leads the why-pipeline guide with the question, framed for coding agents", () => {
+    const doc = getDoc("why-agent-pipeline")!;
+
+    expect(doc.meta.title).toBe("Why an agent pipeline");
+    expect(doc.meta.heading).toBe(
+      "Why do coding-agent sessions lose context, skip your process, and stay on one laptop?",
+    );
+    expect(doc.meta.description).toContain("pipeline");
+    expect(doc.meta.description).toMatch(/coding agent context/i);
+    expect(doc.meta.description).toMatch(/shared remote agents/i);
+    expect(doc.meta.metaDescription).toContain("agent pipeline");
+    expect(doc.meta.metaDescription).toMatch(/coding-agent sessions/i);
+    expect(doc.meta.metaDescription).toMatch(/remote/i);
+    expect(doc.meta.heading).not.toMatch(/[—–]/);
+    expect(doc.meta.metaDescription).not.toMatch(/[—–]/);
+    expect(listDocs().filter((entry) => entry.heading).map((entry) => entry.slug)).toEqual([
+      "why-agent-pipeline",
+    ]);
+  });
+
+  it("opens the why-pipeline guide with a direct answer of about 60 words", () => {
+    const { content, meta } = getDoc("why-agent-pipeline")!;
+    const [heading, answer] = content.split(/\n\n+/);
+
+    expect(heading).toBe(`# ${meta.heading}`);
+    const words = answer.trim().split(/\s+/).length;
+    expect(words).toBeGreaterThanOrEqual(50);
+    expect(words).toBeLessThanOrEqual(70);
+    expect(answer).toMatch(/^In Bento, the agent pipeline at \[usebento\.ai\]\(\/\)/);
+    expect(answer).toContain("one card");
+    expect(answer).toContain("coding-agent sessions");
+    expect(answer).toContain("remote sandbox");
+    expect(answer).not.toMatch(/[—–]/);
+  });
+
+  it("maps the three differentiator pains to concepts and the pipeline", () => {
+    const { content } = getDoc("why-agent-pipeline")!;
+
+    expect(content).toContain("(/docs/concepts)");
+    expect(content).toContain("(/docs/pipeline)");
+    expect(content).toContain("(/docs/concepts#cards-sandboxes-and-worktrees)");
+    expect(content).toContain("(/pricing)");
+    expect(content).toContain("(https://app.usebento.ai/)");
+    expect(content).not.toContain("/docs/handoff-artifacts");
+    expect(content).not.toMatch(/[—–]/);
   });
 
   it("gives every guide a short, unique, one-line blurb", () => {
@@ -62,15 +111,25 @@ describe("docs catalog", () => {
     expect(gates).not.toMatch(/[—–]/);
   });
 
-  it("marks up only the question the pipeline guide visibly asks and answers", () => {
+  it("marks up only the questions each guide visibly asks and answers", () => {
     const withQuestions = listDocs().filter((doc) => doc.questions);
-    expect(withQuestions.map((doc) => doc.slug)).toEqual(["pipeline"]);
+    expect(withQuestions.map((doc) => doc.slug)).toEqual([
+      "why-agent-pipeline",
+      "pipeline",
+    ]);
 
-    const { content, meta } = getDoc("pipeline")!;
-    const plain = content.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
-    for (const question of meta.questions!) {
-      expect(question.title).toMatch(/\?$/);
-      expect(plain).toContain(`### ${question.title}\n\n${question.body}\n`);
+    for (const doc of withQuestions) {
+      const { content, meta } = getDoc(doc.slug)!;
+      const plain = content.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+      expect(meta.questions).toHaveLength(doc.slug === "why-agent-pipeline" ? 3 : 1);
+      for (const question of meta.questions!) {
+        expect(question.title).toMatch(/\?$/);
+        expect(question.body).not.toMatch(/[—–]/);
+        expect(
+          plain.includes(`### ${question.title}\n\n${question.body}\n`) ||
+            plain.includes(`## ${question.title}\n\n${question.body}\n`),
+        ).toBe(true);
+      }
     }
   });
 });

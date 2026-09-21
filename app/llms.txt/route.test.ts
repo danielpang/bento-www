@@ -20,7 +20,7 @@ describe("GET /llms.txt", () => {
 
   it("links every key URL on the marketing origin", async () => {
     const text = await GET().text();
-    for (const path of ["", "/docs", "/docs/concepts", "/pricing", "/changelog", "/terms", "/license"]) {
+    for (const path of ["", "/docs", "/docs/concepts", "/docs/pipeline", "/docs/why-agent-pipeline", "/pricing", "/changelog", "/terms", "/license"]) {
       expect(text).toContain(`](http://localhost:3000${path})`);
     }
     for (const doc of listDocs()) {

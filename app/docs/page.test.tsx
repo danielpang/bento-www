@@ -32,6 +32,11 @@ describe("Documentation index", () => {
       url: "/docs",
     });
     expect(
+      within(container.querySelector(".docs-body") as HTMLElement).getByRole("link", {
+        name: "why an agent pipeline",
+      }),
+    ).toHaveAttribute("href", "/docs/why-agent-pipeline");
+    expect(
       screen.queryByRole("heading", {
         name: "Give every feature a clear next step.",
       }),
