@@ -61,6 +61,9 @@ export function SiteFooter({
             <CtaLink href="/docs" variant="quiet">
               Docs
             </CtaLink>
+            <CtaLink href="/download" variant="quiet">
+              Download for Mac
+            </CtaLink>
             <CtaLink href="/changelog" variant="quiet">
               Changelog
             </CtaLink>

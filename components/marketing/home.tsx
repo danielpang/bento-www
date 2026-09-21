@@ -40,6 +40,7 @@ export function MarketingHome() {
               <p>{marketingHomePromise}</p>
               <div className="hero-actions">
                 <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
+                <CtaLink href="/download" variant="secondary">Download for Mac</CtaLink>
               </div>
               <InstallCommand />
             </div>
