@@ -83,16 +83,13 @@ describe("Documentation page", () => {
     ).toBeInTheDocument();
     expect(container.querySelector(".docs-lead")).toBeNull();
     expect(body.firstElementChild?.tagName).toBe("P");
-    expect(body.firstElementChild).toHaveTextContent(/^In Bento, the agent pipeline at usebento\.ai/);
-    expect(within(body.firstElementChild as HTMLElement).getByRole("link", { name: "usebento.ai" })).toHaveAttribute(
-      "href",
-      "/",
-    );
+    expect(body.firstElementChild).toHaveTextContent(/^If you run coding agents all day/);
+    expect(body.firstElementChild).toHaveTextContent(/re-prompting every stage by hand/);
 
     const pains = [
-      "Why do coding-agent sessions lose context?",
-      "Why do engineers still prompt every step by hand?",
-      "Why do coding agents stay stuck on one laptop?",
+      "Context doesn't survive the next session",
+      "You shouldn't have to prompt every stage",
+      "Laptop-only agents don't travel",
     ];
     for (const title of pains) {
       const question = screen.getByRole("heading", { level: 2, name: title });
@@ -105,15 +102,19 @@ describe("Documentation page", () => {
     for (const link of within(body).getAllByRole("link", { name: "Pipelines" })) {
       expect(link).toHaveAttribute("href", "/docs/pipeline");
     }
-    expect(within(body).getByRole("link", { name: "agent pipeline" })).toHaveAttribute(
+    const pipelineLink = within(body)
+      .getAllByRole("link")
+      .find((link) => link.textContent === "pipeline");
+    expect(pipelineLink).toHaveAttribute("href", "/docs/pipeline");
+    expect(within(body).getByRole("link", { name: "shared board" })).toHaveAttribute(
       "href",
-      "/docs/pipeline",
+      "/docs/concepts",
     );
     expect(within(body).getByRole("link", { name: "remote sandbox" })).toHaveAttribute(
       "href",
       "/docs/concepts#cards-sandboxes-and-worktrees",
     );
-    expect(within(body).getByRole("link", { name: "compare plans on the pricing page" })).toHaveAttribute(
+    expect(within(body).getByRole("link", { name: "compare plans" })).toHaveAttribute(
       "href",
       "/pricing",
     );

@@ -44,25 +44,24 @@ const DOC_META: Record<
 > = {
   "why-agent-pipeline": {
     title: "Why an agent pipeline",
-    heading:
-      "Why do coding-agent sessions lose context, skip your process, and stay on one laptop?",
+    heading: "Why coding agents lose the thread (and your process)",
     description:
-      "Coding agent context, a real pipeline, and shared remote agents on one board.",
+      "Why coding agents lose the thread between chats, stages, and laptops.",
     metaDescription:
-      "Coding-agent sessions lose context, skip your process, and stay on one laptop. Bento keeps artifacts on one card, runs an agent pipeline, and shares remote agents on a team board.",
+      "Coding agents lose the thread between chats. Bento keeps the work on one card, runs your stages as a pipeline, and shares a remote sandbox with the team.",
     order: 0,
     questions: [
       {
-        title: "Why do coding-agent sessions lose context?",
-        body: "Every engineer runs several coding-agent sessions at once, and each session keeps its own chat. Close the window and the state goes with it. Bento puts the work on one card: one branch, and the stage write-ups committed under docs/bento/<stage>.md, so the next agent or a teammate starts from files, not a paste. See How it works.",
+        title: "Context doesn't survive the next session",
+        body: "Most people juggle several agent chats at once. Each one keeps its own history; none of them share state. Bento parks the work on a single card: branch, notes, and write-ups under docs/bento/, so the next agent (or a teammate) starts from files, not a paste from last night's chat. More in How it works.",
       },
       {
-        title: "Why do engineers still prompt every step by hand?",
-        body: "You already have a process: investigate, design, spec, implement, code review, QA. Prompting each step by hand means the agent only does what you remember to ask. The agent pipeline is that process as stages, each with an agent, a skill, and a gate. See Pipelines.",
+        title: "You shouldn't have to prompt every stage",
+        body: 'You already know the order of work. Typing "now write the spec," then "now implement," then "now review" is just running that process through a chat box. A pipeline turns those stages into the product: each step has an agent, a skill, and a gate when a human should decide.',
       },
       {
-        title: "Why do coding agents stay stuck on one laptop?",
-        body: "A laptop session is not remote and not shareable. Teammates cannot open it, and you cannot pick it up on another machine. Bento is a shared board: the card is visible to the team as it moves through the pipeline, and the agent runs in a remote sandbox you can resume from any device. The sandbox is how that session leaves the laptop, not a separate product.",
+        title: "Laptop-only agents don't travel",
+        body: "A session on your machine isn't remote and isn't shareable. Teammates can't open it; you can't resume it elsewhere. On Bento the card lives on a shared board, and the agent runs in a remote sandbox you can pick up from any device.",
       },
     ],
   },

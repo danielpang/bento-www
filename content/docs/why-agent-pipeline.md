@@ -1,19 +1,21 @@
-# Why do coding-agent sessions lose context, skip your process, and stay on one laptop?
+# Why coding agents lose the thread (and your process)
 
-In Bento, the agent pipeline at [usebento.ai](/), each feature is one card. Committed artifacts keep context across coding-agent sessions, and the card moves through the stages you already run instead of a prompt you type by hand. The board is shared; the agent runs in a remote sandbox teammates can pick up. Gates and the sandbox are how that holds, not a second product.
+If you run coding agents all day, you already know the pattern. Each chat is its own little world. Close the tab and the context is gone. You still have a real process: investigate, design, spec, build, review, QA. But you're re-prompting every stage by hand. And the agent is stuck on your laptop, so nobody else can pick up the thread.
 
-This page is the short route in. The mechanics live in [How it works](/docs/concepts) and [Pipelines](/docs/pipeline).
+Bento puts that work on one card. Artifacts stay with the card as it moves through the stages you already use. The board is shared; the agent runs in a remote sandbox your teammates can open. Human gates sit in that flow. They're how you keep judgment in the loop, not a separate product.
 
-## Why do coding-agent sessions lose context?
+For the mechanics, start with [How it works](/docs/concepts) and [Pipelines](/docs/pipeline).
 
-Every engineer runs several coding-agent sessions at once, and each session keeps its own chat. Close the window and the state goes with it. Bento puts the work on one card: one branch, and the stage write-ups committed under docs/bento/<stage>.md, so the next agent or a teammate starts from files, not a paste. See [How it works](/docs/concepts).
+## Context doesn't survive the next session
 
-## Why do engineers still prompt every step by hand?
+Most people juggle several agent chats at once. Each one keeps its own history; none of them share state. Bento parks the work on a single card: branch, notes, and write-ups under `docs/bento/`, so the next agent (or a teammate) starts from files, not a paste from last night's chat. More in [How it works](/docs/concepts).
 
-You already have a process: investigate, design, spec, implement, code review, QA. Prompting each step by hand means the agent only does what you remember to ask. The [agent pipeline](/docs/pipeline) is that process as stages, each with an agent, a skill, and a gate. See [Pipelines](/docs/pipeline).
+## You shouldn't have to prompt every stage
 
-## Why do coding agents stay stuck on one laptop?
+You already know the order of work. Typing "now write the spec," then "now implement," then "now review" is just running that process through a chat box. A [pipeline](/docs/pipeline) turns those stages into the product: each step has an agent, a skill, and a gate when a human should decide.
 
-A laptop session is not remote and not shareable. Teammates cannot open it, and you cannot pick it up on another machine. Bento is a [shared board](/docs/concepts): the card is visible to the team as it moves through the [pipeline](/docs/pipeline), and the agent runs in a [remote sandbox](/docs/concepts#cards-sandboxes-and-worktrees) you can resume from any device. The sandbox is how that session leaves the laptop, not a separate product.
+## Laptop-only agents don't travel
 
-An agent pipeline is part of every plan, including Free, which comes with 3 members and 5 agent hours a month. [Create an account](https://app.usebento.ai/) to set up a pipeline, or [compare plans on the pricing page](/pricing).
+A session on your machine isn't remote and isn't shareable. Teammates can't open it; you can't resume it elsewhere. On Bento the card lives on a [shared board](/docs/concepts), and the agent runs in a [remote sandbox](/docs/concepts#cards-sandboxes-and-worktrees) you can pick up from any device.
+
+Pipelines are on every plan, including Free (3 members, 5 agent hours a month). [Create an account](https://app.usebento.ai/) or [compare plans](/pricing).

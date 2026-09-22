@@ -29,19 +29,16 @@ describe("docs catalog", () => {
     expect(getDoc("handoff-artifacts")).toBeNull();
   });
 
-  it("leads the why-pipeline guide with the question, framed for coding agents", () => {
+  it("leads the why-pipeline guide with a plain title, not a keyword stack", () => {
     const doc = getDoc("why-agent-pipeline")!;
 
     expect(doc.meta.title).toBe("Why an agent pipeline");
-    expect(doc.meta.heading).toBe(
-      "Why do coding-agent sessions lose context, skip your process, and stay on one laptop?",
-    );
-    expect(doc.meta.description).toContain("pipeline");
-    expect(doc.meta.description).toMatch(/coding agent context/i);
-    expect(doc.meta.description).toMatch(/shared remote agents/i);
-    expect(doc.meta.metaDescription).toContain("agent pipeline");
-    expect(doc.meta.metaDescription).toMatch(/coding-agent sessions/i);
-    expect(doc.meta.metaDescription).toMatch(/remote/i);
+    expect(doc.meta.heading).toBe("Why coding agents lose the thread (and your process)");
+    expect(doc.meta.description).toMatch(/lose the thread/i);
+    expect(doc.meta.metaDescription).toMatch(/one card/i);
+    expect(doc.meta.metaDescription).toMatch(/pipeline/i);
+    expect(doc.meta.metaDescription).toMatch(/remote sandbox/i);
+    expect(doc.meta.heading).not.toMatch(/skip your process, and stay on one laptop/);
     expect(doc.meta.heading).not.toMatch(/[—–]/);
     expect(doc.meta.metaDescription).not.toMatch(/[—–]/);
     expect(listDocs().filter((entry) => entry.heading).map((entry) => entry.slug)).toEqual([
@@ -49,18 +46,17 @@ describe("docs catalog", () => {
     ]);
   });
 
-  it("opens the why-pipeline guide with a direct answer of about 60 words", () => {
+  it("opens the why-pipeline guide in the voice of the three pains", () => {
     const { content, meta } = getDoc("why-agent-pipeline")!;
-    const [heading, answer] = content.split(/\n\n+/);
+    const [heading, answer, follow] = content.split(/\n\n+/);
 
     expect(heading).toBe(`# ${meta.heading}`);
-    const words = answer.trim().split(/\s+/).length;
-    expect(words).toBeGreaterThanOrEqual(50);
-    expect(words).toBeLessThanOrEqual(70);
-    expect(answer).toMatch(/^In Bento, the agent pipeline at \[usebento\.ai\]\(\/\)/);
-    expect(answer).toContain("one card");
-    expect(answer).toContain("coding-agent sessions");
-    expect(answer).toContain("remote sandbox");
+    expect(answer).toMatch(/^If you run coding agents all day/);
+    expect(answer).toContain("re-prompting every stage by hand");
+    expect(follow).toContain("one card");
+    expect(follow).toContain("remote sandbox");
+    expect(follow).toContain("not a separate product");
+    expect(content).not.toMatch(/^In Bento, the agent pipeline at/m);
     expect(answer).not.toMatch(/[—–]/);
   });
 
@@ -120,10 +116,12 @@ describe("docs catalog", () => {
 
     for (const doc of withQuestions) {
       const { content, meta } = getDoc(doc.slug)!;
-      const plain = content.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+      const plain = content
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+        .replace(/`([^`]+)`/g, "$1");
       expect(meta.questions).toHaveLength(doc.slug === "why-agent-pipeline" ? 3 : 1);
       for (const question of meta.questions!) {
-        expect(question.title).toMatch(/\?$/);
+        if (doc.slug === "pipeline") expect(question.title).toMatch(/\?$/);
         expect(question.body).not.toMatch(/[—–]/);
         expect(
           plain.includes(`### ${question.title}\n\n${question.body}\n`) ||
