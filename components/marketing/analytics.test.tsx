@@ -1,13 +1,13 @@
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const mocks = vi.hoisted(() => ({ path: "/", search: "", capture: vi.fn(), init: vi.fn(), optedOut: false, distinctId: "visitor-1" }));
+const mocks = vi.hoisted(() => ({ path: "/", search: "", capture: vi.fn(), init: vi.fn(), reset: vi.fn(), optedOut: false, distinctId: "visitor-1" }));
 vi.mock("next/navigation", () => ({
   usePathname: () => mocks.path,
   useSearchParams: () => new URLSearchParams(mocks.search),
 }));
 vi.mock("posthog-js", () => ({ default: {
-  init: mocks.init, capture: mocks.capture,
+  init: mocks.init, capture: mocks.capture, reset: mocks.reset,
   get_distinct_id: () => mocks.distinctId,
   has_opted_out_capturing: () => mocks.optedOut,
 } }));
@@ -26,7 +26,7 @@ const events = () => mocks.capture.mock.calls.map(call => call[0]);
 beforeEach(() => {
   vi.stubEnv("NEXT_PUBLIC_POSTHOG_KEY", "phc_test");
   mocks.path = "/"; mocks.search = ""; mocks.optedOut = false; mocks.distinctId = "visitor-1";
-  mocks.capture.mockClear(); mocks.init.mockClear();
+  mocks.capture.mockClear(); mocks.init.mockClear(); mocks.reset.mockClear();
 });
 afterEach(() => { vi.unstubAllEnvs(); });
 
@@ -46,7 +46,9 @@ describe("web analytics", () => {
     expect(mocks.init).toHaveBeenCalledWith("phc_test", expect.objectContaining({
       capture_pageview: false,
       capture_pageleave: true,
+      persistence: "localStorage+cookie",
       cross_subdomain_cookie: true,
+      cookieWinsOnConflict: true,
       autocapture: false,
     }));
     expect(mocks.init.mock.calls[0][1]).not.toHaveProperty("bootstrap");
@@ -91,5 +93,6 @@ describe("web analytics", () => {
     fireEvent.click(screen.getByText("GitHub"));
     fireEvent.click(screen.getByText("Sign up"));
     expect(mocks.capture).toHaveBeenCalledWith("marketing signup clicked", { service: "bento-www", placement: "hero", path: "/" }, { transport: "sendBeacon" });
+    expect(mocks.reset).not.toHaveBeenCalled();
   });
 });
