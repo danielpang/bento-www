@@ -32,9 +32,9 @@ describe("docs catalog", () => {
   it("leads the why-pipeline guide with a plain title, not a keyword stack", () => {
     const doc = getDoc("why-agent-pipeline")!;
 
-    expect(doc.meta.title).toBe("Why an agent pipeline");
-    expect(doc.meta.heading).toBe("Why coding agents lose the thread (and your process)");
-    expect(doc.meta.description).toMatch(/lose the thread/i);
+    expect(doc.meta.title).toBe("Why an agent pipeline?");
+    expect(doc.meta.heading).toBe("Why coding agents lose your context (and your process)");
+    expect(doc.meta.description).toMatch(/lose your context/i);
     expect(doc.meta.metaDescription).toMatch(/one card/i);
     expect(doc.meta.metaDescription).toMatch(/pipeline/i);
     expect(doc.meta.metaDescription).toMatch(/remote sandbox/i);

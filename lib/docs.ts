@@ -43,12 +43,12 @@ const DOC_META: Record<
   Omit<DocMeta, "slug">
 > = {
   "why-agent-pipeline": {
-    title: "Why an agent pipeline",
-    heading: "Why coding agents lose the thread (and your process)",
+    title: "Why an agent pipeline?",
+    heading: "Why coding agents lose your context (and your process)",
     description:
-      "Why coding agents lose the thread between chats, stages, and laptops.",
+      "Why coding agents lose your context between chats, stages, and laptops.",
     metaDescription:
-      "Coding agents lose the thread between chats. Bento keeps the work on one card, runs your stages as a pipeline, and shares a remote sandbox with the team.",
+      "Coding agents lose your context between chats. Bento keeps the work on one card, runs your stages as a pipeline, and shares a remote sandbox with the team.",
     order: 0,
     questions: [
       {

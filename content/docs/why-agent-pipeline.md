@@ -1,4 +1,4 @@
-# Why coding agents lose the thread (and your process)
+# Why coding agents lose your context (and your process)
 
 If you run coding agents all day, you already know the pattern. Each chat is its own little world. Close the tab and the context is gone. You still have a real process: investigate, design, spec, build, review, QA. But you're re-prompting every stage by hand. And the agent is stuck on your laptop, so nobody else can pick up the thread.
 

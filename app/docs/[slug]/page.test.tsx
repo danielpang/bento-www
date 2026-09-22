@@ -124,7 +124,7 @@ describe("Documentation page", () => {
     );
 
     const nav = screen.getByRole("complementary", { name: "Documentation" });
-    expect(within(nav).getByRole("link", { name: "Why an agent pipeline" })).toHaveAttribute(
+    expect(within(nav).getByRole("link", { name: "Why an agent pipeline?" })).toHaveAttribute(
       "aria-current",
       "page",
     );
