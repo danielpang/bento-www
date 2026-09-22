@@ -16,7 +16,7 @@ export function MarketingHeader() {
       <a className="marketing-skip" href="#main-content">Skip to content</a>
       <SiteHeader {...siteConfig} hideCtaArrows navigation={navigation} />
       <details className="marketing-menu">
-        <summary aria-label="Navigation menu"><List size={22} /></summary>
+        <summary aria-label="Navigation menu"><List aria-hidden="true" size={22} /></summary>
         <nav aria-label="Mobile navigation">
           {navigation.map(({ label, href }) => (
             <Link key={href} href={href}>{label}</Link>
