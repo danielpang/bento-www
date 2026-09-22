@@ -16,9 +16,14 @@ export default function DocsIndexPage() {
   return (
     <DocsShell
       docs={docs}
-      lead="Bento is an agent pipeline: coding agents move each feature through your stages, behind human gates and inside their own sandboxes. Start with how cards move through stages, then dig into agents, pull requests, and setup."
+      lead="Bento is an agent pipeline: coding agents move each feature through your stages, behind human gates and inside their own sandboxes. Start with why an agent pipeline, then how cards move through stages, then agents, pull requests, and setup."
       title="Bento documentation"
     >
+      <p>
+        If coding-agent sessions lose context or skip the process you already
+        have, start with{" "}
+        <Link href="/docs/why-agent-pipeline">why an agent pipeline</Link>.
+      </p>
       <ul className="docs-index-list">
         {docs.map((doc) => (
           <li key={doc.slug}>

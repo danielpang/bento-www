@@ -73,6 +73,91 @@ describe("Documentation page", () => {
     }
   });
 
+  it("answers the why-pipeline question first, then the three pains", async () => {
+    const { container } = render(await DocPage(params("why-agent-pipeline")));
+    const body = container.querySelector(".docs-body") as HTMLElement;
+    const doc = getDoc("why-agent-pipeline")!;
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: doc.meta.heading }),
+    ).toBeInTheDocument();
+    expect(container.querySelector(".docs-lead")).toBeNull();
+    expect(body.firstElementChild?.tagName).toBe("P");
+    expect(body.firstElementChild).toHaveTextContent(/^If you run coding agents all day/);
+    expect(body.firstElementChild).toHaveTextContent(/re-prompting every stage by hand/);
+
+    const pains = [
+      "Context doesn't survive the next session",
+      "You shouldn't have to prompt every stage",
+      "Laptop-only agents don't travel",
+    ];
+    for (const title of pains) {
+      const question = screen.getByRole("heading", { level: 2, name: title });
+      expect(question.nextElementSibling?.tagName).toBe("P");
+    }
+
+    for (const link of within(body).getAllByRole("link", { name: "How it works" })) {
+      expect(link).toHaveAttribute("href", "/docs/concepts");
+    }
+    for (const link of within(body).getAllByRole("link", { name: "Pipelines" })) {
+      expect(link).toHaveAttribute("href", "/docs/pipeline");
+    }
+    const pipelineLink = within(body)
+      .getAllByRole("link")
+      .find((link) => link.textContent === "pipeline");
+    expect(pipelineLink).toHaveAttribute("href", "/docs/pipeline");
+    expect(within(body).getByRole("link", { name: "shared board" })).toHaveAttribute(
+      "href",
+      "/docs/concepts",
+    );
+    expect(within(body).getByRole("link", { name: "remote sandbox" })).toHaveAttribute(
+      "href",
+      "/docs/concepts#cards-sandboxes-and-worktrees",
+    );
+    expect(within(body).getByRole("link", { name: "compare plans" })).toHaveAttribute(
+      "href",
+      "/pricing",
+    );
+    expect(within(body).getByRole("link", { name: "Create an account" })).toHaveAttribute(
+      "href",
+      "https://app.usebento.ai/",
+    );
+
+    const nav = screen.getByRole("complementary", { name: "Documentation" });
+    expect(within(nav).getByRole("link", { name: "Why an agent pipeline?" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+    expect(container.textContent).not.toContain(siteDisambiguation);
+    expect(container.textContent).not.toMatch(/[—–]/);
+    expect(container.textContent).not.toContain("/docs/handoff-artifacts");
+  });
+
+  it("publishes the three visible pains as FAQPage structured data", async () => {
+    const { container } = render(await DocPage(params("why-agent-pipeline")));
+    const questions = getDoc("why-agent-pipeline")!.meta.questions!;
+
+    const script = container.querySelector('script[type="application/ld+json"]');
+    expect(script).not.toBeNull();
+    const data = JSON.parse(script!.textContent ?? "null");
+    expect(data["@type"]).toBe("FAQPage");
+    expect(data.mainEntity).toHaveLength(3);
+
+    for (const [index, entry] of data.mainEntity.entries()) {
+      const question = screen.getByRole("heading", { level: 2, name: entry.name });
+      expect(question.nextElementSibling).toHaveTextContent(entry.acceptedAnswer.text);
+      expect(entry).toEqual({
+        "@type": "Question",
+        name: questions[index]!.title,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: questions[index]!.body,
+        },
+      });
+    }
+    expect(screen.queryByRole("heading", { name: "Questions" })).toBeNull();
+  });
+
   it("opens How it works with the interactive pipeline diagram, above the guide text", async () => {
     const { container } = render(await DocPage(params("concepts")));
 
@@ -89,7 +174,7 @@ describe("Documentation page", () => {
   });
 
   it("keeps the other guides free of the diagram", async () => {
-    for (const slug of ["tui", "pipeline", "agents", "pull-requests", "web-app", "clients"]) {
+    for (const slug of ["tui", "pipeline", "agents", "pull-requests", "web-app", "clients", "why-agent-pipeline"]) {
       const { container, unmount } = render(await DocPage(params(slug)));
       expect(container.querySelector(".docs-figure")).toBeNull();
       unmount();
@@ -111,7 +196,7 @@ describe("Documentation page", () => {
   });
 
   it("puts a copy control on every fenced command in the guides", async () => {
-    for (const slug of ["concepts", "tui", "pipeline", "agents", "pull-requests", "web-app", "clients"]) {
+    for (const slug of ["concepts", "tui", "pipeline", "agents", "pull-requests", "web-app", "clients", "why-agent-pipeline"]) {
       const { container, unmount } = render(await DocPage(params(slug)));
       const body = container.querySelector(".docs-body") as HTMLElement;
       const blocks = body.querySelectorAll("pre");
@@ -148,6 +233,19 @@ describe("Documentation page", () => {
     expect(metadata.openGraph).toMatchObject({
       title: "Pipelines | Bento docs",
       url: "/docs/pipeline",
+    });
+  });
+
+  it("uses the question as the why-pipeline title and the long-tail description", async () => {
+    const doc = getDoc("why-agent-pipeline")!;
+    const metadata = await generateMetadata(params("why-agent-pipeline"));
+
+    expect(metadata.title).toBe(doc.meta.heading);
+    expect(metadata.description).toBe(doc.meta.metaDescription);
+    expect(metadata.alternates?.canonical).toBe("/docs/why-agent-pipeline");
+    expect(metadata.openGraph).toMatchObject({
+      title: `${doc.meta.heading} | Bento docs`,
+      url: "/docs/why-agent-pipeline",
     });
   });
 });
