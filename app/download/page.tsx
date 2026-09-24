@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { CtaLink } from "@/components/cta-link";
 import { MacDownloads } from "@/components/mac-downloads";
 import { MarketingHeader } from "@/components/marketing/header";
@@ -42,23 +43,30 @@ export default async function DownloadPage({
           <p className="mac-download-status" role="status">That Mac download is not available. Choose an available version below.</p>
         ) : null}
 
-        <MacDownloads release={release} />
-        {release && <p className="mac-download-version">Version {release.version} · DMG installer · <a href={MAC_RELEASES_URL}>Release notes</a></p>}
+        <div className="mac-download-card">
+          <div className="mac-download-release">
+            <p>{release ? `Version ${release.version}` : "Bento for macOS"}{" "}<span>DMG installer</span></p>
+            <a href={MAC_RELEASES_URL}>Release notes <ArrowUpRight size={14} aria-hidden="true" /></a>
+          </div>
+          <MacDownloads release={release} />
+        </div>
 
         <section className="mac-chip-help" aria-labelledby="mac-chip-heading">
-          <h2 id="mac-chip-heading">Which chip does my Mac have?</h2>
-          <p>Open the Apple menu in the top left of your screen, then choose <strong>About This Mac</strong>.</p>
+          <div>
+            <h2 id="mac-chip-heading">Which chip does my Mac have?</h2>
+            <p>Open the Apple menu, then choose <strong>About This Mac</strong>.</p>
+            <a href="https://support.apple.com/en-us/116943">Apple’s guide to identifying your Mac’s chip <ArrowUpRight size={14} aria-hidden="true" /></a>
+          </div>
           <dl>
             <div><dt>Chip: Apple</dt><dd>Choose Apple silicon.</dd></div>
             <div><dt>Processor: Intel</dt><dd>Choose Intel.</dd></div>
           </dl>
-          <a href="https://support.apple.com/en-us/116943">Apple’s guide to identifying your Mac’s chip</a>
         </section>
 
         <section className="mac-download-browser" aria-labelledby="mac-browser-heading">
           <div>
             <h2 id="mac-browser-heading">Bento is in your browser, too.</h2>
-            <p>On Windows, Linux, or another device? Open the web app to keep your pipeline moving.</p>
+            <p>Use Bento on Windows, Linux, or any device with a browser.</p>
           </div>
           <CtaLink href={siteConfig.signupUrl} variant="secondary">Open Bento in your browser</CtaLink>
         </section>

@@ -1,35 +1,49 @@
-.marketing-page .mac-download-page { max-width: 900px; padding-block: 72px 96px; }
+.marketing-page .mac-download-page { max-width: 900px; padding-block: 64px 72px; }
 .mac-download-heading h1 { margin: 0; font-size: clamp(40px, 5vw, 64px); font-weight: 520; letter-spacing: -0.055em; line-height: 1.1; }
-.mac-download-heading > p { margin: 22px 0 36px; color: var(--text-muted); font-size: 16px; line-height: 1.7; }
+.mac-download-heading > p { margin: 20px 0 36px; color: var(--text-muted); font-size: 16px; line-height: 1.7; }
 .mac-download-status { margin: 0 0 24px; border-left: 2px solid var(--brand); padding: 4px 0 4px 18px; color: var(--text-muted); font-size: 14px; line-height: 1.7; }
 .mac-download-page a:not(.cta-link) { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
-.mac-download-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.mac-download-page a:not(.cta-link):hover { color: var(--brand-hover); }
+.mac-download-card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.mac-download-release { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 30px; border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.5; }
+.mac-download-release p { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 0; font-weight: 560; }
+.mac-download-release p span { border-left: 1px solid var(--line-strong); padding-left: 12px; color: var(--text-muted); font-weight: 400; }
+.mac-download-release a, .mac-chip-help a { display: inline-flex; align-items: center; gap: 5px; }
+.mac-download-release a svg, .mac-chip-help a svg { flex-shrink: 0; }
+.mac-download-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .mac-download-option { min-width: 0; padding: 30px; }
 .mac-download-option + .mac-download-option { border-left: 1px solid var(--line); }
-.mac-download-option h2 { margin: 0; font-size: 23px; font-weight: 520; letter-spacing: -0.03em; }
-.mac-download-option > p { margin: 12px 0 28px; color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+.mac-download-option h2 { margin: 0; font-size: 25px; font-weight: 520; letter-spacing: -0.035em; }
+.mac-download-option > p { margin: 10px 0 26px; color: var(--text-muted); font-size: 14px; line-height: 1.6; }
 .mac-download-option .cta-link { width: 100%; }
+.mac-download-option .cta-link:active { transform: translateY(0); }
 .mac-download-option .mac-download-pending { margin: 0; display: flex; min-height: 45px; align-items: center; font-size: 13px; }
-.mac-download-hint, .mac-download-version { color: var(--text-muted); font-size: 12px; line-height: 1.7; }
-.mac-download-hint { min-height: 41px; margin: 16px 0 0; }
-.mac-download-version { margin: 0 0 12px; }
-.mac-chip-help { margin-top: 36px; padding-bottom: 40px; }
-.mac-chip-help h2, .mac-download-browser h2 { margin: 0; font-size: 21px; letter-spacing: -0.03em; font-weight: 520; }
-.mac-chip-help > p, .mac-download-browser p { max-width: 570px; margin: 14px 0 22px; color: var(--text-muted); font-size: 14px; line-height: 1.75; }
-.mac-chip-help dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 0 0 24px; }
-.mac-chip-help dt { margin-bottom: 5px; font-size: 14px; font-weight: 560; }
-.mac-chip-help dd { margin: 0; font-size: 14px; color: var(--text-muted); }
-.mac-chip-help > a { font-size: 13px; }
-.mac-download-browser { border-top: 1px solid var(--line); padding-top: 36px; }
-.mac-download-browser p { max-width: 520px; }
+.mac-download-hint { margin: 0; border-top: 1px solid var(--line); padding: 15px 30px; color: var(--text-muted); font-size: 12px; line-height: 1.7; }
+.mac-chip-help { display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 40px; padding-block: 32px; }
+.mac-chip-help h2, .mac-download-browser h2 { margin: 0; font-size: 18px; letter-spacing: -0.025em; font-weight: 540; }
+.mac-chip-help p, .mac-download-browser p { margin: 10px 0 0; color: var(--text-muted); font-size: 13px; line-height: 1.75; }
+.mac-chip-help a { margin-top: 12px; font-size: 12px; line-height: 1.7; }
+.mac-chip-help dl { margin: 0; font-size: 13px; line-height: 1.7; }
+.mac-chip-help dl > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 20px; padding-block: 14px; }
+.mac-chip-help dl > div + div { border-top: 1px solid var(--line); }
+.mac-chip-help dt { font-weight: 540; }
+.mac-chip-help dd { margin: 0; color: var(--text-muted); }
+.mac-download-browser { display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid var(--line); padding-top: 30px; }
+.mac-download-browser .cta-link { flex-shrink: 0; }
 @media (max-width: 800px) {
-  .marketing-page .mac-download-page { padding-block: 44px 64px; }
+  .marketing-page .mac-download-page { padding-block: 44px 56px; }
+  .mac-chip-help { gap: 24px; grid-template-columns: 1fr 1fr; }
+  .mac-download-browser { align-items: flex-start; flex-direction: column; gap: 18px; }
 }
 @media (max-width: 580px) {
+  .mac-download-heading > p { font-size: 15px; margin-block: 16px 28px; }
+  .mac-download-release { padding: 16px 20px; }
   .mac-download-options { grid-template-columns: 1fr; }
-  .mac-download-option { padding: 24px; }
+  .mac-download-option { padding: 24px 20px; }
   .mac-download-option + .mac-download-option { border-left: 0; border-top: 1px solid var(--line); }
-  .mac-chip-help dl { grid-template-columns: 1fr; gap: 20px; }
-  .mac-download-hint { min-height: 62px; }
+  .mac-download-hint { padding: 16px 20px; }
+  .mac-chip-help { grid-template-columns: 1fr; gap: 16px; padding-block: 28px; }
+  .mac-chip-help dl > div { padding-block: 10px; }
+  .mac-download-browser { padding-top: 28px; }
   .mac-download-browser .cta-link { width: 100%; }
 }

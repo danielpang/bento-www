@@ -152,7 +152,7 @@ test("the homepage ends with a responsive FAQ", async ({ page }) => {
       return color;
     });
     await expect(faq.locator(".marketing-faq-eyebrow")).toHaveCSS("color", brandColor);
-    await expect(items).toHaveCount(3);
+    await expect(items).toHaveCount(4);
     for (const item of await items.all()) {
       await expect(item).not.toHaveAttribute("open", "");
     }

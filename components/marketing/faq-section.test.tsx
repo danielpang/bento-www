@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { MarketingFaq } from "./faq-section";
 
 describe("marketing FAQ", () => {
-  it("answers the three product questions and links to setup and plans", () => {
+  it("answers the product questions and links to setup and plans", () => {
     render(<MarketingFaq />);
 
     const faq = screen.getByRole("region", { name: "Questions?" });

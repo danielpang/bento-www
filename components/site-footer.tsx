@@ -1,5 +1,4 @@
 import { ArrowUpRight, GithubLogo } from "@phosphor-icons/react/dist/ssr";
-import { AppleLogo } from "./apple-logo";
 import { BrandLockup } from "./brand-lockup";
 import { CtaLink } from "./cta-link";
 import { Reveal } from "./reveal";
@@ -63,8 +62,7 @@ export function SiteFooter({
               Docs
             </CtaLink>
             <CtaLink href="/download" variant="quiet">
-              <AppleLogo />
-              Download for Mac
+              Download
             </CtaLink>
             <CtaLink href="/changelog" variant="quiet">
               Changelog

@@ -18,7 +18,7 @@ describe("changelog catalog", () => {
       "linear-integration",
     ]);
     expect(changelogEntries.map((entry) => entry.date)).toEqual([
-      "2026-09-20",
+      "2026-09-24",
       "2026-09-11",
       "2026-09-05",
       "2026-08-26",
@@ -27,7 +27,7 @@ describe("changelog catalog", () => {
       "2026-08-14",
     ]);
     expect(changelogEntries.map((entry) => entry.displayDate)).toEqual([
-      "September 20, 2026",
+      "September 24, 2026",
       "September 11, 2026",
       "September 5, 2026",
       "August 26, 2026",

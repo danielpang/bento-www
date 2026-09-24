@@ -56,8 +56,8 @@ export interface ChangelogSection {
 export const changelogEntries: ChangelogEntry[] = [
   {
     slug: "bento-mac-app",
-    date: "2026-09-20",
-    displayDate: "September 20, 2026",
+    date: "2026-09-24",
+    displayDate: "September 24, 2026",
     title: "Bento for Mac",
     description:
       "Bento is now available as a Mac app for Apple silicon and Intel, with local Docker agents or a connection to your hosted server.",
@@ -69,7 +69,6 @@ export const changelogEntries: ChangelogEntry[] = [
         title: "Download the app",
         paragraphs: [
           "[Download Bento for Mac](/download) for Apple silicon or Intel. Open the DMG, drag Bento to Applications, and launch it from there. No separate Node.js installation is needed.",
-          "This first release is unsigned. If macOS blocks the first launch, follow [Apple’s guidance](https://support.apple.com/en-us/102445).",
         ],
       },
       {
@@ -102,7 +101,7 @@ export const changelogEntries: ChangelogEntry[] = [
           },
         ],
         paragraphs: [
-          "For setup and connection details, see the [Mac app guide](https://github.com/danielpang/bento/blob/v0.1.3/apps/desktop/README.md). To update this release, choose Bento > Check for Updates, download the newer DMG, and quit Bento before replacing the app in Applications.",
+          "For setup and connection details, see the [Mac app guide](https://github.com/danielpang/bento/blob/main/apps/desktop/README.md).",
         ],
       },
     ],
