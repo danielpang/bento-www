@@ -5,9 +5,10 @@ const faqItems = [
     question: "Is Bento open source?",
     answer: (
       <>
-        Yes. You’re free to run the <Link href="/docs/tui">Bento TUI</Link> and{" "}
-        <Link href="/docs/web-app">Web UI</Link> locally, or self-host Bento Server for
-        your team. If you’d rather use a managed service, <a href="https://usebento.ai">usebento.ai</a>{" "}
+        Yes. You’re free to run the <Link href="/docs/tui">Bento TUI</Link>,{" "}
+        <Link href="/download">Mac app</Link>, and <Link href="/docs/web-app">Web UI</Link>{" "}
+        locally, or self-host Bento Server for your team. If you’d rather use a managed
+        service, <a href="https://usebento.ai">usebento.ai</a>{" "}
         includes a free plan and <Link href="/pricing">paid plans</Link> for higher usage.
       </>
     ),
@@ -18,6 +19,17 @@ const faqItems = [
       <>
         Yes. Bring your own API keys from your favourite model providers. Bento does not
         offer model tokens with its free or paid plans.
+      </>
+    ),
+  },
+  {
+    question: "Which platforms does Bento support?",
+    answer: (
+      <>
+        Bento is available as a <Link href="/docs/tui">CLI/TUI</Link> for your
+        terminal, a <Link href="/docs/web-app">web application</Link> in your
+        browser, and a <Link href="/download">Mac application</Link> for Apple
+        silicon and Intel Macs.
       </>
     ),
   },

@@ -52,3 +52,12 @@ Simple Icons artwork is dedicated to the public domain under CC0 1.0.
 Linear is a mark of Linear Orbit, Inc. Slack is a mark of Slack Technologies,
 LLC. Their inclusion identifies supported integrations and does not imply
 sponsorship or endorsement.
+
+## Apple mark
+
+`components/apple-logo.tsx` uses the [Simple Icons Apple SVG](https://github.com/simple-icons/simple-icons/blob/6.0.0/icons/apple.svg),
+rendered as a decorative mark using `currentColor`. Simple Icons artwork is
+dedicated to the public domain under CC0 1.0.
+
+Apple is a mark of Apple Inc. Its inclusion identifies the Mac download and
+does not imply sponsorship or endorsement.

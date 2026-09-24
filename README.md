@@ -56,3 +56,29 @@ The developer-focused marketing homepage is served at `/`. Retired redesign
 preview and control URLs redirect to the homepage.
 
 Browser checks: `pnpm exec playwright install chromium`, then `pnpm test:e2e`.
+
+## Mac downloads
+
+The homepage CTA, navigation, and footer link to `/download`. The stable
+URLs `/download/mac/arm64` and `/download/mac/x64` redirect to uploaded DMGs
+on public `danielpang/bento` GitHub Releases. No GitHub token is required.
+
+The resolver skips drafts, prereleases, non-stable version tags, and CLI-only
+releases. It selects the first matching release in GitHub's release listing,
+following pagination when needed. Tags are `v{version}` or `{version}` and
+assets must be named `Bento-{version}-arm64.dmg` or
+`Bento-{version}-x64.dmg`. Missing architectures remain unavailable.
+Metadata is shared through Next's fetch cache for five minutes, with an
+eight-second timeout per request; download redirects are never cached.
+Before the first Mac release, visitors see an unavailable message. GitHub
+failures show retry and releases links. Neither case invents a download URL.
+
+Both chips stay selectable. When the browser supplies macOS, 64-bit, and
+architecture [User-Agent Client Hints](https://developer.chrome.com/docs/privacy-security/user-agent-client-hints),
+the page offers a suggestion without automatically choosing or downloading.
+Safari, missing hints, and other platforms retain the manual choice. Legacy
+`MacIntel` and `Intel Mac OS X` identifiers are never used to infer a chip.
+
+Run `pnpm exec playwright test e2e/download.spec.ts` to check the live flow.
+Release fixtures and failure cases are covered by `lib/mac-releases.test.ts`
+and `app/download/mac/[arch]/route.test.ts`.

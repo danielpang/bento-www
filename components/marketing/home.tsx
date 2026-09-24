@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, FileText, GitBranch, Laptop, TerminalWindow, UsersThree } from "@phosphor-icons/react/dist/ssr";
 import { AgentLogo, type AgentName } from "@/components/agent-logo";
+import { AppleLogo } from "@/components/apple-logo";
 import dynamic from "next/dynamic";
 import { CtaLink } from "@/components/cta-link";
 import { InstallCommand } from "@/components/install-command";
@@ -40,6 +41,7 @@ export function MarketingHome() {
               <p>{marketingHomePromise}</p>
               <div className="hero-actions">
                 <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
+                <CtaLink href="/download" variant="secondary"><AppleLogo />Download for Mac</CtaLink>
               </div>
               <InstallCommand />
             </div>

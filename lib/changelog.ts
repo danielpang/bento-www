@@ -55,6 +55,58 @@ export interface ChangelogSection {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    slug: "bento-mac-app",
+    date: "2026-09-24",
+    displayDate: "September 24, 2026",
+    title: "Bento for Mac",
+    description:
+      "Bento is now available as a Mac app for Apple silicon and Intel, with local Docker agents or a connection to your hosted server.",
+    paragraphs: [
+      "We’re excited to launch Bento for Mac! You can now keep your agent pipeline in a desktop app, connect it to a hosted server, or run agents in Docker on your own Mac.",
+    ],
+    sections: [
+      {
+        title: "Download the app",
+        paragraphs: [
+          "[Download Bento for Mac](/download) for Apple silicon or Intel. Open the DMG, drag Bento to Applications, and launch it from there. No separate Node.js installation is needed.",
+        ],
+      },
+      {
+        title: "Choose where agents run",
+        points: [
+          {
+            label: "Local",
+            body: "Choose On this Mac to keep your board, its history, and agent runs on your machine. You’ll need Docker Desktop or OrbStack for local agents.",
+          },
+          {
+            label: "Hosted",
+            body: "Choose Connect to a server, enter your Bento server URL, and sign in through your browser. Agents run on the server, so you won’t need Docker on your Mac.",
+          },
+        ],
+      },
+      {
+        title: "Set up your workflow",
+        points: [
+          {
+            label: "Repositories",
+            body: "Add your projects and tell Bento how they install dependencies and run tests. In local mode, use the native folder picker to choose a checkout.",
+          },
+          {
+            label: "Agents",
+            body: "Pick the harness and model you want, add its credentials, and give the agent a skill to follow.",
+          },
+          {
+            label: "Pipeline",
+            body: "Use the same board and pipeline controls as the web app. Start with manual review, then automate gates when you’re ready.",
+          },
+        ],
+        paragraphs: [
+          "For setup and connection details, see the [Mac app guide](https://github.com/danielpang/bento/blob/main/apps/desktop/README.md).",
+        ],
+      },
+    ],
+  },
+  {
     slug: "bento-terminal-ui",
     date: "2026-09-11",
     displayDate: "September 11, 2026",

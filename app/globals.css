@@ -1791,7 +1791,7 @@ main {
 
 .footer-inner > p {
   justify-self: center;
-  max-width: 42ch;
+  max-width: 100%;
   margin: 0;
   color: var(--text-faint);
   font-size: 11px;
