@@ -8,9 +8,9 @@ export const siteHeadlineLines = [
 export const siteHeadline = `${siteHeadlineLines[0]} ${siteHeadlineLines[1]}`;
 
 export const siteDescription =
-  "Build features by coordinating agents across your development pipeline, step in when your judgment is needed.";
+  "Multi-agent SDLC pipeline for coding agents: one card per feature, durable stage handoffs, and human gates so context survives PM through QA.";
 
-export const siteTitle = `${siteName} | ${siteHeadline}`;
+export const siteTitle = `${siteName} | Multi-agent SDLC pipeline for coding agents`;
 
 export const siteImageAlt = `${siteName}. ${siteHeadline}.`;
 
@@ -26,14 +26,14 @@ export const cliInstallCommand = `curl -fsSL https://${siteDomain}/install.sh | 
  * only: /llms.txt quotes it and the JSON-LD carries it as
  * disambiguatingDescription, but no page shows it to visitors.
  */
-export const siteDisambiguation = `Not to be confused with Bento the email platform (bentonow) or getbento.sh: this is Bento the agent pipeline for coding agents, at ${siteDomain}.`;
+export const siteDisambiguation = `Not to be confused with Bento the email platform (bentonow), getbento.sh (harness-as-code), or bentolabs.ai (production agent observability): this is Bento the multi-agent SDLC pipeline with human gates for coding agents, at ${siteDomain}.`;
 
 export const marketingHomeHeadlineLines = siteHeadlineLines;
 
 export const marketingHomeHeadline = siteHeadline;
 
 export const marketingHomePromise =
-  "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.";
+  "An agent pipeline that orchestrates coding agents from idea to pull request. One card, one branch, one sandbox: stage write-ups stay with the feature so the next agent reads files, not last night's chat.";
 
 export const marketingAgentsLabel = "Works with your favourite harnesses and models";
 
