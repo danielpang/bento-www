@@ -36,7 +36,7 @@ const DOCS_DIR = path.join(process.cwd(), "content/docs");
 
 /** The docs hub description, shared by its metadata and /llms.txt. */
 export const docsIndexDescription =
-  "Guides for Bento, the agent pipeline at usebento.ai: why an agent pipeline, then pipelines, agents, pull requests, the Web UI, and TUI.";
+  "Guides for the Bento agent pipeline at usebento.ai: SDLC pipeline, which Bento this is, security, stages, agents, PRs, Web UI, and TUI.";
 
 const DOC_META: Record<
   string,
@@ -65,17 +65,40 @@ const DOC_META: Record<
       },
     ],
   },
+  "which-bento": {
+    title: "Which Bento is this?",
+    heading: "Which Bento is usebento.ai?",
+    description:
+      "How usebento.ai differs from bentolabs.ai, getbento.sh, bentonow, and chat-only agents.",
+    metaDescription:
+      "usebento.ai is the multi-agent SDLC pipeline with human gates, not bentonow, getbento.sh, bentolabs.ai, or a single agent chat.",
+    order: 1,
+    questions: [
+      {
+        title: "Is this the same Bento as bentonow or getbento.sh?",
+        body: "No. bentonow is Bento the email and marketing platform. getbento.sh is a harness-as-code project for running coding agents. Neither is the agent pipeline on this site.",
+      },
+      {
+        title: "What is bentolabs.ai compared to usebento.ai?",
+        body: "bentolabs.ai is production agent infrastructure and observability for running agents in production. usebento.ai (this product) is a multi-agent SDLC pipeline: a shared board where each feature is one card, agents run in per-feature sandboxes, stages leave durable write-ups for the next agent, and human gates sit in the flow. It coordinates coding agents through PM, design, engineering, review, and QA without treating chat history as the system of record.",
+      },
+      {
+        title: "Why not run coding agents in chat without a pipeline?",
+        body: "Ad hoc agent chats work for a single task, but context usually dies when the session ends, stages are re-prompted by hand, and work stays on one laptop. Bento keeps one branch and one sandbox per card, commits stage artifacts under docs/bento/, and publishes finished work as pull requests. The first meaningful win is a stage that completes and leaves a handoff the next agent (or teammate) can read from the repo, not from a pasted transcript.",
+      },
+    ],
+  },
   concepts: {
     title: "How it works",
     description:
       "How a card moves through stages: one branch, one sandbox, context in committed files.",
-    order: 1,
+    order: 2,
   },
   pipeline: {
     title: "Pipelines",
     description:
       "Stages, human gates and their requirements, judge agents, and pipeline YAML.",
-    order: 2,
+    order: 3,
     questions: [
       {
         title: "How do human gates work in a multi-agent pipeline?",
@@ -87,31 +110,37 @@ const DOC_META: Record<
     title: "Coding agents",
     description:
       "Claude Code, Codex, Cursor, opencode, pi, Poolside, DeepSeek, Antigravity: keys and steering.",
-    order: 3,
+    order: 4,
   },
   "pull-requests": {
     title: "Pull requests",
     description:
       "Publishing agent work as GitHub pull requests, attribution, and GitHub connections.",
-    order: 4,
+    order: 5,
+  },
+  security: {
+    title: "Security",
+    description:
+      "Per-feature sandboxes, scoped GitHub tokens, encrypted credentials, self-host or hosted.",
+    order: 6,
   },
   "web-app": {
     title: "Web UI",
     description:
       "Run the Web UI from source or Docker, local and multi mode, sandbox drivers, log export.",
-    order: 5,
+    order: 7,
   },
   tui: {
     title: "TUI",
     description:
       "Install the TUI, choose where agents run, and configure projects, agents, and pipelines.",
-    order: 6,
+    order: 8,
   },
   clients: {
     title: "Other clients",
     description:
       "Compare the Web UI and terminal client, including features and agent placement.",
-    order: 7,
+    order: 9,
   },
 };
 
