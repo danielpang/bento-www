@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { cliInstallCommand } from "@/lib/copy";
+import { cliInstallCommand, cliInstallScriptSourceUrl } from "@/lib/copy";
 import { InstallCommand } from "./install-command";
 
 function mockClipboard(writeText: (text: string) => Promise<void>) {
@@ -18,6 +18,10 @@ describe("InstallCommand", () => {
 
     expect(cliInstallCommand).toBe("curl -fsSL https://usebento.ai/install.sh | sh");
     expect(screen.getByText(cliInstallCommand)).toBeInTheDocument();
+    const script = screen.getByRole("link", { name: "View install script" });
+    expect(script).toHaveAttribute("href", cliInstallScriptSourceUrl);
+    expect(script).toHaveAttribute("target", "_blank");
+    expect(script).toHaveAttribute("rel", "noreferrer");
   });
 
   it("accepts a contextual label", () => {

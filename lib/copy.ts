@@ -20,6 +20,13 @@ export const siteDomain = "usebento.ai";
 export const cliInstallCommand = `curl -fsSL https://${siteDomain}/install.sh | sh`;
 
 /**
+ * Raw source of the installer. The release asset downloads, so the view link
+ * opens this instead and the script renders as text.
+ */
+export const cliInstallScriptSourceUrl =
+  "https://raw.githubusercontent.com/danielpang/bento/main/scripts/install.sh";
+
+/**
  * Several unrelated products are called Bento, and searches for them land
  * here. This one sentence names the ones people mix up and says which Bento
  * this is, so an answer engine can tell within a line. It is for machines
