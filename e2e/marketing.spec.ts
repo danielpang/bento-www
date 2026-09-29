@@ -65,6 +65,9 @@ test("the homepage copies the CLI install command from under the signup CTA", as
     await page.goto("/");
     const install = page.locator(".hero-copy .install-command");
     await expect(install).toContainText("curl -fsSL https://usebento.ai/install.sh | sh");
+    const script = install.getByRole("link", { name: "View install script" });
+    await expect(script).toHaveAttribute("href", "https://usebento.ai/install.sh");
+    await expect(script).toHaveAttribute("target", "_blank");
     const cta = await page.locator(".hero-copy .hero-actions").boundingBox();
     const box = await install.boundingBox();
     expect(box!.y).toBeGreaterThanOrEqual(cta!.y + cta!.height);

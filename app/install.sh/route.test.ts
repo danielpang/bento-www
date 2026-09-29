@@ -15,10 +15,10 @@ vi.mock("next/server", async (importOriginal) => ({
 
 const fetchMock = vi.fn();
 
-function installRequest(method = "GET") {
+function installRequest(method = "GET", userAgent = "curl/8.7.1") {
   return new NextRequest("http://localhost:3000/install.sh", {
     method,
-    headers: { "user-agent": "curl/8.7.1", "x-forwarded-for": "203.0.113.9, 10.0.0.1" },
+    headers: { "user-agent": userAgent, "x-forwarded-for": "203.0.113.9, 10.0.0.1" },
   });
 }
 
@@ -36,17 +36,44 @@ describe("GET /install.sh", () => {
     vi.unstubAllEnvs();
   });
 
-  it("redirects to the installer on the latest release without caching", () => {
-    const response = GET(installRequest());
+  it("redirects to the installer on the latest release without caching", async () => {
+    const response = await GET(installRequest());
 
     expect(response.status).toBe(307);
     expect(response.headers.get("location")).toBe(INSTALL_SCRIPT_URL);
     expect(response.headers.get("cache-control")).toBe("no-store");
   });
 
+  it("shows the script as text when a browser opens it", async () => {
+    fetchMock.mockImplementation((url: string) => {
+      if (String(url).endsWith("/install.sh")) return new Response("#!/bin/sh\necho bento\n");
+      return new Response(null);
+    });
+
+    const response = await GET(installRequest("GET", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"));
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toBe("text/plain; charset=utf-8");
+    expect(response.headers.get("cache-control")).toBe("no-store");
+    expect(response.headers.get("x-content-type-options")).toBe("nosniff");
+    expect(await response.text()).toBe("#!/bin/sh\necho bento\n");
+  });
+
+  it("redirects a browser when the script cannot be shown", async () => {
+    fetchMock.mockImplementation((url: string) => {
+      if (String(url).endsWith("/install.sh")) return new Response("<html>missing</html>");
+      return new Response(null);
+    });
+
+    const response = await GET(installRequest("GET", "Mozilla/5.0"));
+
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toBe(INSTALL_SCRIPT_URL);
+  });
+
   it("records each request in PostHog as one anonymous installer per client", async () => {
-    GET(installRequest());
-    GET(installRequest());
+    await GET(installRequest());
+    await GET(installRequest());
     await Promise.all(scheduled);
 
     expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -71,16 +98,16 @@ describe("GET /install.sh", () => {
   it("still redirects when PostHog is unreachable", async () => {
     fetchMock.mockRejectedValue(new Error("offline"));
 
-    const response = GET(installRequest());
+    const response = await GET(installRequest());
 
     await expect(Promise.all(scheduled)).resolves.toEqual([undefined]);
     expect(response.status).toBe(307);
   });
 
   it("sends nothing for HEAD requests or without a PostHog key", async () => {
-    GET(installRequest("HEAD"));
+    await GET(installRequest("HEAD"));
     vi.stubEnv("NEXT_PUBLIC_POSTHOG_KEY", "");
-    GET(installRequest());
+    await GET(installRequest());
     await Promise.all(scheduled);
 
     expect(fetchMock).not.toHaveBeenCalled();

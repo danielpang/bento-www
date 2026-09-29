@@ -16,8 +16,14 @@ export const siteImageAlt = `${siteName}. ${siteHeadline}.`;
 
 export const siteDomain = "usebento.ai";
 
-/** next.config.ts redirects /install.sh to the installer on the latest CLI release. */
-export const cliInstallCommand = `curl -fsSL https://${siteDomain}/install.sh | sh`;
+/** The install command and the “view script” link both use this path. */
+export const cliInstallScriptPath = "/install.sh";
+
+/** Opened in a browser, this is the script. Piped from curl, it installs the CLI. */
+export const cliInstallScriptUrl = `https://${siteDomain}${cliInstallScriptPath}`;
+
+/** Terminals follow a redirect to the installer on the latest CLI release. */
+export const cliInstallCommand = `curl -fsSL ${cliInstallScriptUrl} | sh`;
 
 /**
  * Several unrelated products are called Bento, and searches for them land
