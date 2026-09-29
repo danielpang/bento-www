@@ -2,11 +2,11 @@
 
 import { Check, Copy } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
-import { cliInstallCommand, cliInstallScriptUrl } from "@/lib/copy";
+import { cliInstallCommand, cliInstallScriptSourceUrl } from "@/lib/copy";
 
 /**
  * The one line that installs the CLI, with a button that copies it and a
- * link that opens the script itself.
+ * link to the script on GitHub.
  *
  * The prompt glyph is drawn in CSS so selecting the text by hand never picks
  * it up. If the clipboard is unavailable (an insecure origin, or the browser
@@ -54,7 +54,7 @@ export function InstallCommand({ label = "Or install the CLI" }: InstallCommandP
           {copied ? <Check aria-hidden="true" size={16} weight="bold" /> : <Copy aria-hidden="true" size={16} />}
         </button>
       </div>
-      <a className="install-command-script" href={cliInstallScriptUrl} rel="noreferrer" target="_blank">
+      <a className="install-command-script" href={cliInstallScriptSourceUrl} rel="noreferrer" target="_blank">
         View install script
         <span aria-hidden="true"> ↗</span>
       </a>

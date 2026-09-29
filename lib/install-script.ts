@@ -4,9 +4,6 @@ import { createHash } from "node:crypto";
 export const INSTALL_SCRIPT_URL =
   "https://github.com/danielpang/bento/releases/latest/download/install.sh";
 
-/** A release installer is a few kilobytes. Anything larger is not the script. */
-const MAX_INSTALL_SCRIPT_BYTES = 256_000;
-
 export const INSTALL_SCRIPT_EVENT = "cli install script requested";
 
 /** Names the downloader, so installs from a terminal can be told apart from browser visits and bots. */
@@ -24,29 +21,6 @@ export function installClient(userAgent: string | null): string {
 function installerId(ip: string | null, userAgent: string | null): string {
   if (!ip) return crypto.randomUUID();
   return `install_${createHash("sha256").update(`${ip} ${userAgent ?? ""}`).digest("hex").slice(0, 32)}`;
-}
-
-/**
- * Loads the latest installer so a browser can show it. Terminals never use
- * this: they are redirected straight at the release, and a failed or
- * unexpected body falls back to that same redirect.
- */
-export async function loadInstallScript(): Promise<string> {
-  const response = await fetch(INSTALL_SCRIPT_URL, {
-    redirect: "follow",
-    cache: "no-store",
-    signal: AbortSignal.timeout(4000),
-  });
-  if (!response.ok) throw new Error(`install script responded ${response.status}`);
-  const advertised = Number(response.headers.get("content-length"));
-  if (Number.isFinite(advertised) && advertised > MAX_INSTALL_SCRIPT_BYTES) {
-    throw new Error("install script is too large to display");
-  }
-  const script = await response.text();
-  if (script.length > MAX_INSTALL_SCRIPT_BYTES || !script.startsWith("#!")) {
-    throw new Error("install script is not a shell script");
-  }
-  return script;
 }
 
 /**
