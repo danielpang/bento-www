@@ -7,10 +7,12 @@ describe("docs catalog", () => {
 
     expect(docs.map((doc) => doc.slug)).toEqual([
       "why-agent-pipeline",
+      "which-bento",
       "concepts",
       "pipeline",
       "agents",
       "pull-requests",
+      "security",
       "web-app",
       "tui",
       "clients",
@@ -43,6 +45,7 @@ describe("docs catalog", () => {
     expect(doc.meta.metaDescription).not.toMatch(/[—–]/);
     expect(listDocs().filter((entry) => entry.heading).map((entry) => entry.slug)).toEqual([
       "why-agent-pipeline",
+      "which-bento",
     ]);
   });
 
@@ -111,6 +114,7 @@ describe("docs catalog", () => {
     const withQuestions = listDocs().filter((doc) => doc.questions);
     expect(withQuestions.map((doc) => doc.slug)).toEqual([
       "why-agent-pipeline",
+      "which-bento",
       "pipeline",
     ]);
 
@@ -119,7 +123,9 @@ describe("docs catalog", () => {
       const plain = content
         .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
         .replace(/`([^`]+)`/g, "$1");
-      expect(meta.questions).toHaveLength(doc.slug === "why-agent-pipeline" ? 3 : 1);
+      const expectedCount =
+        doc.slug === "why-agent-pipeline" || doc.slug === "which-bento" ? 3 : 1;
+      expect(meta.questions).toHaveLength(expectedCount);
       for (const question of meta.questions!) {
         if (doc.slug === "pipeline") expect(question.title).toMatch(/\?$/);
         expect(question.body).not.toMatch(/[—–]/);

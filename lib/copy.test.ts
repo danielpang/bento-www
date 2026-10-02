@@ -27,16 +27,17 @@ describe("site copy", () => {
       "Automate your software development lifecycle",
     );
     expect(siteHeadline).not.toMatch(/whole build/i);
-    expect(siteTitle).toBe(`${siteName} | ${siteHeadline}`);
+    expect(siteTitle).toBe(`${siteName} | Multi-agent SDLC pipeline for coding agents`);
     expect(siteImageAlt).toBe(`${siteName}. ${siteHeadline}.`);
-    expect(siteDescription).toContain("coordinating agents");
+    expect(siteDescription).toMatch(/multi-agent SDLC/i);
+    expect(siteDescription).toMatch(/context/i);
   });
 
   it("reuses the canonical headline in the redesigned homepage", () => {
     expect(marketingHomeHeadlineLines).toBe(siteHeadlineLines);
     expect(marketingHomeHeadline).toBe(siteHeadline);
     expect(marketingHomePromise).toBe(
-      "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.",
+      "An agent pipeline that orchestrates coding agents from idea to pull request. One card, one branch, one sandbox: stage write-ups stay with the feature so the next agent reads files, not last night's chat.",
     );
     expect(marketingAgentsLabel).toBe(
       "Works with your favourite harnesses and models",
@@ -65,7 +66,8 @@ describe("site copy", () => {
     expect(siteDomain).toBe("usebento.ai");
     expect(siteDisambiguation).toContain("bentonow");
     expect(siteDisambiguation).toContain("getbento.sh");
-    expect(siteDisambiguation).toContain("agent pipeline");
+    expect(siteDisambiguation).toContain("bentolabs.ai");
+    expect(siteDisambiguation).toMatch(/human gates/i);
     expect(siteDisambiguation).toContain(siteDomain);
     // One sentence, so every surface can quote it whole.
     expect(siteDisambiguation.match(/[.!?](\s|$)/g)).toHaveLength(1);
