@@ -32,7 +32,7 @@ afterEach(() => { vi.unstubAllEnvs(); });
 
 async function renderPage(MarketingAnalytics: Analytics["MarketingAnalytics"]) {
   const view = render(
-    <><div><a href="https://app.usebento.ai/">Sign up</a><a href="https://github.com/danielpang/bento">GitHub</a></div><MarketingAnalytics signupUrl="https://app.usebento.ai/" /></>,
+    <><div><a href="https://app.usebento.ai/">Sign up</a><a href="https://github.com/danielpang/bento">GitHub</a><a href={`/download/mac/${"arm64"}`}>Download for Apple silicon</a><a href={`/download/mac/${"x64"}`}>Download for Intel</a></div><MarketingAnalytics signupUrl="https://app.usebento.ai/" /></>,
   );
   await waitFor(() => expect(mocks.init).toHaveBeenCalled());
   return view;
@@ -94,5 +94,17 @@ describe("web analytics", () => {
     fireEvent.click(screen.getByText("Sign up"));
     expect(mocks.capture).toHaveBeenCalledWith("marketing signup clicked", { service: "bento-www", placement: "hero", path: "/" }, { transport: "sendBeacon" });
     expect(mocks.reset).not.toHaveBeenCalled();
+  });
+
+  it("records which Mac download was chosen", async () => {
+    mocks.path = "/download";
+    const MarketingAnalytics = await load();
+    await renderPage(MarketingAnalytics);
+    await waitFor(() => expect(events()).toEqual(["$pageview"]));
+    fireEvent.click(screen.getByText("Download for Apple silicon"));
+    fireEvent.click(screen.getByText("Download for Intel"));
+    expect(mocks.capture).toHaveBeenCalledWith("mac download clicked", { service: "bento-www", arch: "arm64", chip: "Apple silicon", path: "/download" }, { transport: "sendBeacon" });
+    expect(mocks.capture).toHaveBeenCalledWith("mac download clicked", { service: "bento-www", arch: "x64", chip: "Intel", path: "/download" }, { transport: "sendBeacon" });
+    expect(events()).toEqual(["$pageview", "mac download clicked", "mac download clicked"]);
   });
 });
