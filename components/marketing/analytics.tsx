@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { PostHog } from "posthog-js";
-import { isSignupDestination } from "@/lib/marketing-analytics";
+import { isSignupDestination, macDownloadArchitecture } from "@/lib/marketing-analytics";
 
 /** Every event carries this so the shared PostHog project can tell the site from the console. */
 const SERVICE = "bento-www";
@@ -61,18 +61,29 @@ export function MarketingAnalytics({ signupUrl }: { signupUrl: string | null }) 
 
       const properties = { service: SERVICE };
 
-      function captureSignupClick(event: MouseEvent) {
+      function captureLinkClick(event: MouseEvent) {
         if (event.type === "auxclick" && event.button !== 1) return;
         const link = event.target instanceof Element ? event.target.closest("a") : null;
-        if (!link || !isSignupDestination(link.href, signupUrl)) return;
+        if (!link) return;
+        const arch = macDownloadArchitecture(link.href, window.location.origin);
+        if (arch) {
+          posthog.capture("mac download clicked", {
+            ...properties,
+            arch,
+            chip: arch === "arm64" ? "Apple silicon" : "Intel",
+            path: pathname,
+          }, { transport: "sendBeacon" });
+          return;
+        }
+        if (!isSignupDestination(link.href, signupUrl)) return;
         const placement = link.closest("header") ? "header" : link.closest("footer, .final-cta, .marketing-faq") ? "footer" : link.closest(".pricing-card") ? "pricing" : "hero";
         posthog.capture("marketing signup clicked", { ...properties, placement, path: pathname }, { transport: "sendBeacon" });
       }
-      document.addEventListener("click", captureSignupClick);
-      document.addEventListener("auxclick", captureSignupClick);
+      document.addEventListener("click", captureLinkClick);
+      document.addEventListener("auxclick", captureLinkClick);
       detach = () => {
-        document.removeEventListener("click", captureSignupClick);
-        document.removeEventListener("auxclick", captureSignupClick);
+        document.removeEventListener("click", captureLinkClick);
+        document.removeEventListener("auxclick", captureLinkClick);
       };
     });
 
