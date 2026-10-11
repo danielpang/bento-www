@@ -17,8 +17,7 @@ describe("Mac download choices", () => {
     expect(intel).toHaveAttribute("href", "/download/mac/x64");
     expect(apple).toHaveAttribute("data-location", "download_page");
     expect(intel).toHaveAttribute("data-location", "download_page");
-    expect(apple).toHaveAttribute("data-version", "0.2.0");
-    expect(intel).toHaveAttribute("data-version", "0.2.0");
+    expect(apple).not.toHaveAttribute("data-version");
     expect(await screen.findByText(/Your browser suggests Apple silicon/)).toBeInTheDocument();
   });
 

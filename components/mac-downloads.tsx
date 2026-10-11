@@ -33,7 +33,6 @@ export function MacDownloads({ release }: { release: MacRelease | null }) {
               <a
                 className="cta-link cta-link-primary"
                 data-location="download_page"
-                data-version={release.version}
                 href={`/download/mac/${arch}`}
               >
                 <AppleLogo />
