@@ -3,7 +3,13 @@
 import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { PostHog } from "posthog-js";
-import { isSignupDestination, macDownloadArchitecture } from "@/lib/marketing-analytics";
+import {
+  isSignupDestination,
+  macDownloadArchLabel,
+  macDownloadArchitecture,
+  macDownloadLocation,
+  macDownloadVersion,
+} from "@/lib/marketing-analytics";
 
 /** Every event carries this so the shared PostHog project can tell the site from the console. */
 const SERVICE = "bento-www";
@@ -67,12 +73,20 @@ export function MarketingAnalytics({ signupUrl }: { signupUrl: string | null }) 
         if (!link) return;
         const arch = macDownloadArchitecture(link.href, window.location.origin);
         if (arch) {
-          posthog.capture("mac download clicked", {
+          const version = macDownloadVersion(link.getAttribute("data-version"));
+          // sendBeacon plus send_instantly: the click navigates to a redirect
+          // that serves the DMG, so a batched request would be dropped.
+          posthog.capture("mac app download clicked", {
             ...properties,
-            arch,
-            chip: arch === "arm64" ? "Apple silicon" : "Intel",
-            path: pathname,
-          }, { transport: "sendBeacon" });
+            location: macDownloadLocation(link.getAttribute("data-location"), pathname, {
+              nav: Boolean(link.closest("header, .marketing-menu")),
+              hero: Boolean(link.closest(".hero-actions")),
+              footer: Boolean(link.closest("footer")),
+            }),
+            href: link.href,
+            arch: macDownloadArchLabel(arch),
+            ...(version ? { version } : {}),
+          }, { send_instantly: true, transport: "sendBeacon" });
           return;
         }
         if (!isSignupDestination(link.href, signupUrl)) return;

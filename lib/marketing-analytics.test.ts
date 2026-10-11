@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { isSignupDestination, macDownloadArchitecture } from "./marketing-analytics";
+import {
+  isSignupDestination,
+  macDownloadArchLabel,
+  macDownloadArchitecture,
+  macDownloadLocation,
+  macDownloadVersion,
+} from "./marketing-analytics";
 
 describe("marketing analytics", () => {
   it("counts only the configured signup destination, including campaign parameters", () => {
@@ -31,5 +37,24 @@ describe("marketing analytics", () => {
     expect(macDownloadArchitecture("/download/mac/universal", site)).toBeNull();
     expect(macDownloadArchitecture("/download", site)).toBeNull();
     expect(macDownloadArchitecture("https://evil.example/download/mac/arm64", site)).toBeNull();
+  });
+
+  it("names the Mac chip and keeps only a real release version", () => {
+    expect(macDownloadArchLabel("arm64")).toBe("apple silicon");
+    expect(macDownloadArchLabel("x64")).toBe("intel");
+    expect(macDownloadVersion("0.2.0")).toBe("0.2.0");
+    expect(macDownloadVersion("v0.2.0")).toBeUndefined();
+    expect(macDownloadVersion("")).toBeUndefined();
+    expect(macDownloadVersion(null)).toBeUndefined();
+  });
+
+  it("prefers a declared download location, then the section, then the download page", () => {
+    const elsewhere = { nav: false, hero: false, footer: false };
+    expect(macDownloadLocation(" download_page ", "/", elsewhere)).toBe("download_page");
+    expect(macDownloadLocation(null, "/", { ...elsewhere, nav: true })).toBe("nav");
+    expect(macDownloadLocation(null, "/", { ...elsewhere, hero: true })).toBe("homepage_hero");
+    expect(macDownloadLocation(null, "/", { ...elsewhere, footer: true })).toBe("footer");
+    expect(macDownloadLocation("  ", "/download", elsewhere)).toBe("download_page");
+    expect(macDownloadLocation(null, "/pricing", elsewhere)).toBe("unknown");
   });
 });

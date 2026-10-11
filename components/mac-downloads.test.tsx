@@ -11,8 +11,14 @@ describe("Mac download choices", () => {
   it("retains both explicit download links when the browser suggests one", async () => {
     vi.mocked(browserMacArchitecture).mockResolvedValue("arm64");
     render(<MacDownloads release={{ version: "0.2.0", downloads: { arm64: "https://github.com/arm.dmg", x64: "https://github.com/intel.dmg" } }} />);
-    expect(screen.getByRole("link", { name: "Download for Apple silicon" })).toHaveAttribute("href", "/download/mac/arm64");
-    expect(screen.getByRole("link", { name: "Download for Intel" })).toHaveAttribute("href", "/download/mac/x64");
+    const apple = screen.getByRole("link", { name: "Download for Apple silicon" });
+    const intel = screen.getByRole("link", { name: "Download for Intel" });
+    expect(apple).toHaveAttribute("href", "/download/mac/arm64");
+    expect(intel).toHaveAttribute("href", "/download/mac/x64");
+    expect(apple).toHaveAttribute("data-location", "download_page");
+    expect(intel).toHaveAttribute("data-location", "download_page");
+    expect(apple).toHaveAttribute("data-version", "0.2.0");
+    expect(intel).toHaveAttribute("data-version", "0.2.0");
     expect(await screen.findByText(/Your browser suggests Apple silicon/)).toBeInTheDocument();
   });
 
