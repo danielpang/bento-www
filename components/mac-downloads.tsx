@@ -30,7 +30,11 @@ export function MacDownloads({ release }: { release: MacRelease | null }) {
             <p>{description}</p>
             {release?.downloads[arch] ? (
               // Plain anchors avoid prefetching a route that starts a download.
-              <a className="cta-link cta-link-primary" href={`/download/mac/${arch}`}>
+              <a
+                className="cta-link cta-link-primary"
+                data-location="download_page"
+                href={`/download/mac/${arch}`}
+              >
                 <AppleLogo />
                 Download for {label}
               </a>
