@@ -45,6 +45,6 @@ describe("GET /llms.txt", () => {
     // The one-liner sits right under the summary, before any section.
     expect(lines.indexOf(siteDisambiguation)).toBeGreaterThan(0);
     expect(lines.indexOf(siteDisambiguation)).toBeLessThan(lines.indexOf("## Product"));
-    expect(text).toContain("](http://localhost:3000/docs): Guides for Bento, the agent pipeline at usebento.ai");
+    expect(text).toContain("](http://localhost:3000/docs): Guides for the Bento agent pipeline at usebento.ai");
   });
 });
