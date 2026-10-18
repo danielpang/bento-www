@@ -220,6 +220,13 @@ export const changelogEntries: ChangelogEntry[] = [
       "Create new Bento features by tagging @bento in Slack.",
       "First install the Slack app into your workspace and invite the Bento Slack bot into your channel. Tagging @bento then creates a new card, and Bento updates the thread on card updates.",
     ],
+    media: {
+      type: "video",
+      src: "/changelog/bento-slack-launch-16x9.mp4",
+      alt: "A demo of creating a Bento feature by tagging @bento in Slack and following its progress in the thread",
+      width: 1920,
+      height: 1080,
+    },
   },
   {
     slug: "linear-integration",
@@ -232,6 +239,13 @@ export const changelogEntries: ChangelogEntry[] = [
       "New tickets in Linear can automatically create a Bento feature, with the option to start the pipeline automatically.",
       "New features in Bento can also be created in Linear if you set up a default Linear team and project under project settings.",
     ],
+    media: {
+      type: "video",
+      src: "/changelog/bento-linear-launch-16x9.mp4",
+      alt: "A demo of turning a Linear issue into a Bento feature and starting the agent pipeline",
+      width: 1920,
+      height: 1080,
+    },
   },
 ];
 

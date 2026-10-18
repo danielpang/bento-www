@@ -54,7 +54,7 @@ describe("Changelog entry page", () => {
       ),
     ).toBeInTheDocument();
     // The body is the entry as it published on the changelog, unchanged.
-    expect(body.textContent).toBe(
+    expect(Array.from(body.querySelectorAll("p"), (paragraph) => paragraph.textContent).join("")).toBe(
       entry.paragraphs.join("").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"),
     );
 
@@ -94,8 +94,8 @@ describe("Changelog entry page", () => {
     );
   });
 
-  it("plays the TUI recording under the entry's opening paragraph", async () => {
-    const entry = getChangelogEntry("bento-terminal-ui")!;
+  it.each(["bento-terminal-ui", "slack-integration", "linear-integration"])("plays the %s recording under the entry's opening paragraph", async (slug) => {
+    const entry = getChangelogEntry(slug)!;
     const { container } = render(await ChangelogEntryPage(params(entry.slug)));
     const body = container.querySelector(".changelog-post-body") as HTMLElement;
 
