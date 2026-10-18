@@ -90,8 +90,8 @@ describe("Changelog", () => {
     expect(tuiMedia.previousElementSibling).toHaveTextContent(
       tuiEntry.paragraphs[0],
     );
-    // Only the entry that ships a recording gets one.
-    expect(container.querySelectorAll(".changelog-entry-media")).toHaveLength(1);
+    // The TUI, Slack, and Linear entries each ship a recording.
+    expect(container.querySelectorAll(".changelog-entry-media")).toHaveLength(3);
 
     const antigravity = container.querySelector("#google-antigravity-cli") as HTMLElement;
     const antigravityWebsite = within(antigravity).getByRole("link", {
