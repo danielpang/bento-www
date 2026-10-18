@@ -1,6 +1,6 @@
 # How Bento works
 
-A feature is a card that moves through pipeline stages. When a card enters a stage, that stage's agent runs in a sandbox with git worktrees of the project's repositories. Stages pass context through committed files under `docs/bento/<stage>.md`.
+A feature is a card that moves through pipeline stages. When a card enters a stage, that stage's agent runs in a sandbox with git worktrees of the project's repositories. Context survives stage changes because each step commits write-ups under `docs/bento/<stage>.md` on the card's branch, not because the chat session stays open.
 
 ## Cards, sandboxes and worktrees
 

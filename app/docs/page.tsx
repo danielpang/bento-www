@@ -16,7 +16,7 @@ export default function DocsIndexPage() {
   return (
     <DocsShell
       docs={docs}
-      lead="Bento is an agent pipeline: coding agents move each feature through your stages, behind human gates and inside their own sandboxes. Start with why an agent pipeline, then how cards move through stages, then agents, pull requests, and setup."
+      lead="Bento is a multi-agent SDLC pipeline: each feature is one card on a shared board, with human gates and a dedicated sandbox. Stage handoffs stay in the repo so PM through QA keeps context. Start with why an agent pipeline, then how cards move, then security, agents, pull requests, and setup."
       title="Bento documentation"
     >
       <p>

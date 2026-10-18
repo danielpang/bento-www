@@ -4,7 +4,9 @@ If you run coding agents all day, you already know the pattern. Each chat is its
 
 Bento puts that work on one card. Artifacts stay with the card as it moves through the stages you already use. The board is shared; the agent runs in a remote sandbox your teammates can open. Human gates sit in that flow. They're how you keep judgment in the loop, not a separate product.
 
-For the mechanics, start with [How it works](/docs/concepts) and [Pipelines](/docs/pipeline).
+Activation looks like the first stage that finishes and leaves a durable handoff on the card: committed write-ups and a branch the next agent or teammate can open without reconstructing the last chat.
+
+For the mechanics, start with [How it works](/docs/concepts) and [Pipelines](/docs/pipeline). If you landed here from a search for a different Bento, see [Which Bento is usebento.ai?](/docs/which-bento).
 
 ## Context doesn't survive the next session
 
