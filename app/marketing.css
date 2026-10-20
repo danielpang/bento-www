@@ -731,7 +731,9 @@ body:has(.marketing-page) {
   .m-announcement { font-size: 10px; }
   .marketing-page .hero-copy h1 { font-size: clamp(32px, 8.5vw, 44px); }
   .marketing-page .hero-copy > p { font-size: 14px; margin-block: 21px; }
-  .marketing-page .hero-actions { flex-direction: column; align-items: stretch; gap: 10px; }
+  .marketing-page .hero-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .marketing-page .hero-actions .cta-link { min-height: 44px; padding-inline: 8px; gap: 6px; font-size: 12.5px; white-space: nowrap; }
+  .marketing-page .hero-actions .cta-link svg { flex-shrink: 0; }
   .m-agents > div { display: grid; grid-template-columns: repeat(2, 1fr); justify-items: center; gap: 22px; padding-inline: 12px; }
   .m-stage-showcase { padding: 23px; }
   .m-security-card { min-height: 0; padding: 25px; }
