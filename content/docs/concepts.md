@@ -8,7 +8,7 @@ One card, one branch, one sandbox. The sandbox is created on the first agent run
 
 Hosted sandboxes outlive the server process. If the server restarts during a run, the sandbox continues and the server reattaches.
 
-Follow-up messages resume the CLI session when the tool exposes a session id (Claude Code, Codex, Cursor, opencode, pi, Antigravity). If the session is unavailable, Bento starts a new run with the stage prompt and a compacted transcript. See [Coding agents](/docs/agents#talking-to-a-working-agent) for per-tool behavior.
+Follow-up messages resume the CLI session when the tool exposes a session id (Claude Code, Codex, Cursor, opencode, pi, Antigravity). If the session is unavailable, Bento starts a new run with the stage prompt and a compacted transcript. Claude Code, Codex, opencode and pi also take messages while they work, and **Stop** interrupts their turn without ending the run. See [Coding agents](/docs/agents#talking-to-a-working-agent) for per-tool behavior.
 
 **Multi-repository projects.** Each repository gets a worktree under one feature workspace:
 
