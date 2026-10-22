@@ -1,24 +1,22 @@
 # TUI
 
-Run Bento's Kanban board in your terminal, with coding agents working in isolated sandboxes on your machine or on Bento's hosted server.
+Bento's board in your terminal, with agents in sandboxes on your machine or on the hosted server.
 
 ## Install the CLI
 
-You need Node.js 22.19 or newer, `curl`, and `tar`. Release builds support macOS and glibc Linux on x64 and ARM64. On Windows, run Bento inside [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install). Local agents also require Docker to be running.
-
-Install the latest release:
+Requires Node.js 22.19+, `curl` and `tar` on macOS or glibc Linux (x64, ARM64). On Windows, use [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install). Local agents need Docker running.
 
 ```sh
 curl -fsSL https://usebento.ai/install.sh | sh
 ```
 
-Follow the installer's instruction to add Bento to `PATH`, reopen your shell, and verify the installation:
+Add Bento to `PATH` as the installer says, reopen your shell, and check:
 
 ```sh
 bento --version
 ```
 
-Quit the TUI before updating. Updates keep your projects, settings, credentials, and local Docker data.
+Quit the TUI before updating. Updates keep your projects, settings, credentials and Docker data.
 
 ```sh
 bento update
@@ -26,8 +24,6 @@ bento
 ```
 
 ## Choose where agents run
-
-The board and the agents do not have to run in the same place.
 
 | Mode | Board and history | Agents | Docker on your machine |
 | --- | --- | --- | --- |
@@ -37,18 +33,18 @@ The board and the agents do not have to run in the same place.
 
 ### Local board and local agents
 
-Build the bundled sandbox image, then open setup. The installer prints its install directory. This example uses the home-directory location; replace it with `/usr/local/lib/bento/sandbox` if that is where Bento was installed.
+Build the sandbox image, then run setup. Use `/usr/local/lib/bento/sandbox` if the installer put Bento there.
 
 ```sh
 docker build -t bento-sandbox:dev "$HOME/.local/lib/bento/sandbox"
 bento setup
 ```
 
-Bento starts its API and PostgreSQL locally. Projects, settings, and worktrees live in `~/.bento`. Run `bento` to return to the board. Rebuild the sandbox image when an update prompts you to do so.
+Bento runs its API and PostgreSQL locally, with data in `~/.bento`. Rebuild the image when an update asks.
 
 ### Hosted board and server agents
 
-Sign in through the browser, then open the hosted board:
+Sign in, then open the hosted board:
 
 ```sh
 bento login --server https://app.usebento.ai
@@ -56,60 +52,50 @@ bento setup --server https://app.usebento.ai
 bento --server https://app.usebento.ai
 ```
 
-Configure repository access and agent credentials on the hosted server. Your computer does not need Docker. Set `BENTO_URL=https://app.usebento.ai` in your shell environment if you do not want to repeat `--server`.
+Repositories and credentials are configured on the server; no Docker needed. Set `BENTO_URL=https://app.usebento.ai` to skip `--server`.
 
 ### Hosted board and local agents
 
-Use the shared board and history at usebento.ai while agents work against checkouts on your machine:
+Shared board at usebento.ai, agents on your checkouts:
 
 ```sh
 bento --server https://app.usebento.ai --run-agents local
 ```
 
-The TUI runs agents while it is open. To process queued work without opening the board, start a runner:
+The TUI runs agents while open. To run queued work without it, start a runner:
 
 ```sh
 bento runner --server https://app.usebento.ai
 ```
 
-Work waits while your runner is offline. Because the hosted server cannot access local worktrees, automatic GitHub pull request publication requires server-side agents.
+Work waits while the runner is offline. Automatic pull requests need server agents, since the server cannot reach local worktrees.
 
 ## Set up a project
 
-Open Settings with `,`, or run `bento setup`. Forms use Tab to move between fields, Control+S to save, and Escape to cancel.
+Open Settings with `,` or `bento setup`. Tab moves between fields, Control+S saves, Escape cancels.
 
 ### Connect repositories
 
-Under **Repositories**, connect a Git checkout. The path must exist on the machine that runs the agents: your computer for local agents, or the hosted server for hosted agents.
+Under **Repositories**, connect a Git checkout on the machine that runs the agents. For each one, set:
 
-For each repository, configure:
-
-- **Install dependencies:** prepares the runtime, tools, and dependencies once per sandbox. Leave it blank to let the agent inspect the repository and prepare it.
-- **Build and test:** tells the agent how to validate its changes, such as `pnpm build` or `pnpm test`.
-
-Sandboxes include Git and agent CLIs, but no project language runtime. Put runtime and dependency installation in the first command, and validation in the second.
+- **Install dependencies:** runs once per sandbox. Sandboxes have Git and agent CLIs but no language runtime, so install it here. Leave blank to let the agent work it out.
+- **Build and test:** how the agent validates changes, such as `pnpm test`.
 
 ### Configure agents
 
-Under **Agents**, add an agent and choose three things:
+Under **Agents**, add an agent:
 
-1. **Harness:** the coding tool, such as Claude Code, Codex CLI, Cursor CLI, opencode, pi, Poolside, DeepSeek Harness, or Antigravity CLI.
-2. **Model:** the model that the harness runs.
-3. **Skill:** standing instructions included every time the agent starts. Describe the stage's expected outcome, write-up, artifacts, and code changes here.
+1. **Harness:** the coding tool, such as Claude Code, Codex or pi.
+2. **Model:** what the harness runs.
+3. **Skill:** standing instructions for every run: the stage's expected outcome, write-up and changes.
 
-Save a provider API key under **Model provider keys**. For local agents, **Local agent sign-ins** can instead share a supported CLI login from your machine. Only share local credentials with repositories you trust.
-
-See [Coding agents](/docs/agents) for harness-specific credentials, model formats, and mid-run messaging behavior.
+Save a key under **Model provider keys**, or for local agents share a CLI login under **Local agent sign-ins** (trusted repositories only). See [Coding agents](/docs/agents) for model formats and mid-run behavior.
 
 ### Build the pipeline
 
-Under **Pipeline**, arrange the stages that a card passes through. Each stage has an assigned agent, instructions, advancement requirements, and an optional automatic pull request setting.
+Under **Pipeline**, arrange the stages a card passes through. Each has an agent, requirements, and an optional pull request.
 
-Start with manual gates. A card waits after each agent finishes so you can review the output, steer the agent, approve the stage, or send it back. When the stage has reliable requirements, switch it to automatic advancement. All listed requirements must pass before the card moves forward.
-
-Typical stages include product investigation, design, requirements, implementation, code review, and quality engineering. Agents are reusable: editing an agent updates every stage that uses it.
-
-See [Pipelines](/docs/pipeline) for command requirements, judge agents, GitHub checks, automatic gates, and pipeline YAML.
+Start with manual gates: the card waits after each run so you can review, steer, approve or send it back. Switch a stage to automatic once its requirements are reliable. Editing an agent updates every stage that uses it. See [Pipelines](/docs/pipeline).
 
 ## Run the first card
 
@@ -119,7 +105,7 @@ See [Pipelines](/docs/pipeline) for command requirements, judge agents, GitHub c
 4. Review the output, artifacts, and diff. Return to the board and press `a` to approve.
 5. Continue through the pipeline until the card reaches **Completed**.
 
-A successful run does not approve a manual stage. Automatic stages advance only after every requirement passes.
+A successful run does not approve a manual stage.
 
 ## Common shortcuts
 
