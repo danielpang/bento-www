@@ -2,16 +2,25 @@
 
 Each stage runs one agent: harness, model, and skill. Tools differ in authentication, mid-run messaging, interrupts, questions, and cost reporting.
 
-| Tool | Model format | Credential | Mid-run messaging | Reports cost |
-| --- | --- | --- | --- | --- |
-| Claude Code | `claude-sonnet-5` | `ANTHROPIC_API_KEY` or subscription token | Queued as one more turn | Yes |
-| pi | `anthropic/claude-sonnet-5` | Provider key for selected model | Steers the running turn | Yes |
-| Codex CLI | `gpt-5-codex` | `OPENAI_API_KEY` | Steers the running turn | No |
-| Cursor CLI | `claude-sonnet-5`, `composer-2.5`, `grok-4.6` | `CURSOR_API_KEY` | Between runs (session resume) | No |
-| opencode | `anthropic/claude-sonnet-5` | Provider key for selected model | Joins the running turn | No |
-| Poolside (pool) | `poolside/laguna-s-2.1` | `POOLSIDE_API_KEY` | Between runs (new run, no session id) | No |
-| DeepSeek Harness (dsh, preview) | `deepseek-v4-pro` | `DEEPSEEK_API_KEY` | Between runs (new run, no session id) | No |
-| Antigravity CLI | `gemini-3.1-pro-high` | `GEMINI_API_KEY` | Between runs (conversation resume) | No |
+| Tool | Model format | Steer | Interrupt | Questions | Cost |
+| --- | --- | --- | --- | --- | --- |
+| Claude Code | `claude-sonnet-5` | Queued: runs as one more turn after the current one | Yes | Yes: one or several choices, or your own words | Yes |
+| pi | `anthropic/claude-sonnet-5` | Yes, after the current tool call | Yes | Yes: one or several choices, or your own words | Yes |
+| Codex CLI | `gpt-5-codex`, `openai/gpt-5-mini`, or `vercel/moonshotai/kimi-k3` | Yes, at the next model call | Yes | Yes: one choice, or your own words | Tokens only |
+| opencode | `anthropic/claude-sonnet-5` | Yes, at the next model call | Yes | No | Tokens only |
+| Cursor CLI | `claude-sonnet-5`, `composer-2.5`, `grok-4.6` | No: next run (session resume) | No | No | No |
+| Antigravity CLI | `gemini-3.1-pro-high` | No: next run (conversation resume) | No | No | No |
+| Muse Code | `muse-spark-1.3` | No: next run (session resume) | No | No | No |
+| fx | `moonshotai/kimi-k3` | No: next run (session resume) | No | No | No |
+| Poolside (pool) | `poolside/laguna-s-2.1` | No: next run (new session) | No | No | No |
+| DeepSeek Harness (dsh, preview) | `deepseek-v4-pro` | No: next run (new session) | No | No | No |
+
+- **Steer**: what happens to a message you send while the agent works. Yes means it reaches the turn already running. Queued means it waits in the same session for the current turn to end. "Next run" means it waits for the run to end and starts a new one, resuming the conversation where the tool can.
+- **Interrupt**: Stop ends only the current turn, and the agent waits for your next message in the same session. Where it is No, Stop ends the run.
+- **Questions**: the agent can ask you a question on the card and wait for your answer.
+- **Cost**: whether the tool reports a price for the run. "Tokens only" means it reports token counts and no price.
+- Interrupt and questions apply to a card's stage runs (see [Talking to a working agent](/docs/agents#talking-to-a-working-agent)). A Codex profile with `codex exec` flags, or an opencode profile with extra arguments, runs the one-shot command: no steering, interrupt or questions, messages wait for the next run, and opencode reports no tokens.
+- Credentials for each tool are set under **Agents** in the web console.
 
 Keys are stored encrypted (per organization in multi mode; local scope in local mode) via the Web UI or `bento setup`.
 
@@ -25,13 +34,6 @@ Export/import agents as YAML from **Agents**, **Settings, Config**, or `bento ag
 
 The card composer accepts messages while an agent works. Claude Code, Codex, opencode and pi run live sessions, so a message reaches the agent during its turn. Live messages, Stop and agent questions are available to every signed-in user, with nothing to turn on.
 
-| Feature | Claude Code | Codex | opencode | pi | Cursor | Others |
-| --- | --- | --- | --- | --- | --- | --- |
-| Message while working | Yes (queued as one more turn) | Yes (steers) | Yes (joins the turn) | Yes (steers) | No, starts a new run after | No |
-| Stop interrupts the turn | Yes | Yes | Yes | Yes | No, ends the run | No, ends the run |
-| Answer questions on the card | Yes | Yes | No | Yes | No | No |
-| Question types | Single, multiple, own words | Single, own words | | Single, multiple, own words | | |
-
 ### Messages sent mid-turn
 
 How each live agent handles a message sent while it works:
@@ -43,9 +45,9 @@ How each live agent handles a message sent while it works:
 
 A message to a live agent that is waiting between turns starts a new turn.
 
-Agents without live sessions (Cursor, Antigravity, dsh, pool and the other agents) take no input mid-run. A message waits until the run ends, then starts a new run that resumes the conversation where the tool supports it. Cursor and Antigravity resume their session. pool and dsh start fresh with the stage prompt and a compacted transcript.
+Agents without live sessions (Cursor, Antigravity, Muse Code, fx, pool and dsh) take no input mid-run. A message waits until the run ends, then starts a new run that resumes the conversation where the tool supports it. Cursor, Antigravity, Muse Code and fx resume their session. pool and dsh start fresh with the stage prompt and a compacted transcript.
 
-A Codex or opencode agent with extra command line arguments that only fit the one-shot command keeps the old mode: no live messages, no interrupt and no questions. Its messages wait for the run to end, and the next run resumes the session.
+A Codex profile with `codex exec` flags, or an opencode profile with extra arguments, runs the one-shot command: no live messages, no interrupt and no questions. Its messages wait for the run to end, and the next run resumes the session. In this mode opencode reports no tokens.
 
 If the session is unavailable (sandbox recreated or CLI session lost), Bento starts a new run with the same instructions and compacted transcript.
 
@@ -86,7 +88,7 @@ On a card's stage runs, Claude Code, Codex and pi can ask you questions. The age
 - **Codex:** single choice or your own words.
 - **pi:** single choice, multiple choice, or your own words, through an `ask_user` tool Bento installs for pi.
 
-opencode cannot ask questions (its server mode drops them), and neither can the agents without live sessions.
+opencode cannot ask questions (its live mode drops them), and neither can the agents without live sessions.
 
 Questions appear on a card above the composer, one at a time, as in the Claude Code mobile app:
 
@@ -134,7 +136,7 @@ Live session: messages steer the running turn, and **Stop** interrupts the turn.
 
 ### Codex CLI
 
-Bare model ids. `OPENAI_API_KEY` or OpenRouter via `OPENAI_BASE_URL`. Does not report cost.
+Bare model ids (`gpt-5-codex`) or provider prefixed ids (`openai/gpt-5-mini`, `vercel/moonshotai/kimi-k3`). `OPENAI_API_KEY` or OpenRouter via `OPENAI_BASE_URL`. Reports token counts, not a price.
 
 Live session: messages steer the running turn, **Stop** interrupts the turn, and the agent can ask single choice or free text questions on the card.
 
@@ -144,9 +146,9 @@ Bare model ids per Cursor plan. Single `CURSOR_API_KEY`. Unlisted model ids may 
 
 ### opencode
 
-`provider/id` format including `openrouter/`. Same provider keys as pi. Does not report cost.
+`provider/id` format including `openrouter/`. Same provider keys as pi. Reports token counts, not a price.
 
-Live session: messages join the running turn and are read at the next model call. **Stop** interrupts the turn, even while opencode is still starting up. opencode cannot ask questions on the card, because its server mode drops them.
+Live session: messages join the running turn and are read at the next model call. **Stop** interrupts the turn, even while opencode is still starting up. opencode cannot ask questions on the card, because its live mode drops them.
 
 ### Poolside (pool)
 

@@ -8,7 +8,7 @@ One card, one branch, one sandbox. The sandbox is created on the first agent run
 
 Hosted sandboxes outlive the server process. If the server restarts during a run, the sandbox continues and the server reattaches.
 
-Follow-up messages resume the CLI session when the tool exposes a session id (Claude Code, Codex, Cursor, opencode, pi, Antigravity). If the session is unavailable, Bento starts a new run with the stage prompt and a compacted transcript. Claude Code, Codex, opencode and pi also take messages while they work, and **Stop** interrupts their turn without ending the run. See [Coding agents](/docs/agents#talking-to-a-working-agent) for per-tool behavior.
+Follow-up messages resume the CLI session when the tool exposes a session id (Claude Code, Codex, Cursor, opencode, pi, Antigravity, Muse Code, fx). If the session is unavailable, Bento starts a new run with the stage prompt and a compacted transcript. Claude Code, Codex, opencode and pi also take messages while they work, and **Stop** interrupts their turn without ending the run. See [Coding agents](/docs/agents#talking-to-a-working-agent) for per-tool behavior.
 
 **Multi-repository projects.** Each repository gets a worktree under one feature workspace:
 
@@ -27,7 +27,7 @@ Local deployments use Docker containers (default) or an in-process driver with n
 
 ## Spend
 
-Spend is recorded per card and per project when the tool reports it. Bento does not bill or enforce limits. Only Claude Code and pi report cost. Totals include a count of unmeasured runs; unmeasured runs are not treated as zero cost.
+Spend is recorded per card and per project when the tool reports it. Bento does not bill or enforce limits. Only Claude Code and pi report cost. Codex and opencode report token counts without a price. Totals include a count of unmeasured runs; unmeasured runs are not treated as zero cost.
 
 ## Tenancy
 
