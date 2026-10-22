@@ -86,7 +86,7 @@ const DOC_META: Record<
   agents: {
     title: "Coding agents",
     description:
-      "Claude Code, Codex, Cursor, opencode, pi, Poolside, DeepSeek, Antigravity: keys and steering.",
+      "Claude Code, Codex, Cursor, opencode, pi, Poolside, DeepSeek, Antigravity.",
     order: 3,
   },
   "pull-requests": {

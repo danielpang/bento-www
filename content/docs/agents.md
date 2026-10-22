@@ -1,6 +1,6 @@
 # Supported coding agents
 
-Each stage runs one agent: harness, model, and skill. Tools differ in authentication, mid-run messaging, interrupts, questions, and cost reporting.
+Each stage runs one agent: a harness, a model and a skill.
 
 | Tool | Model format | Steer | Interrupt | Questions | Cost |
 | --- | --- | --- | --- | --- | --- |
@@ -22,154 +22,99 @@ Each stage runs one agent: harness, model, and skill. Tools differ in authentica
 - Interrupt and questions apply to a card's stage runs (see [Talking to a working agent](/docs/agents#talking-to-a-working-agent)). A Codex profile with `codex exec` flags, or an opencode profile with extra arguments, runs the one-shot command: no steering, interrupt or questions, messages wait for the next run, and opencode reports no tokens.
 - Credentials for each tool are set under **Agents** in the web console.
 
-Keys are stored encrypted (per organization in multi mode; local scope in local mode) via the Web UI or `bento setup`.
+Keys are stored encrypted, per organization in multi mode. Add them in the Web UI or with `bento setup`.
 
-OpenRouter routing for Claude Code or Codex: save the OpenRouter key and set `ANTHROPIC_BASE_URL` or `OPENAI_BASE_URL` to `https://openrouter.ai/api/v1`.
+**OpenRouter:** for Claude Code or Codex, save the OpenRouter key and set `ANTHROPIC_BASE_URL` or `OPENAI_BASE_URL` to `https://openrouter.ai/api/v1`.
 
-**DeepSeek:** use pi or opencode for streamed runs with `DEEPSEEK_API_KEY` or `openrouter/deepseek/...`. DeepSeek Harness (`dsh`) is preview-only (see below). Warm sandboxes reinstall pi below 0.70.1, opencode below 1.14.24, or dsh when `--version` does not match the pin.
+**DeepSeek:** use pi or opencode with `DEEPSEEK_API_KEY` or `openrouter/deepseek/...` for streamed runs. DeepSeek Harness (`dsh`) is a preview.
 
-Export/import agents as YAML from **Agents**, **Settings, Config**, or `bento agents export` / `import`. See [the agents file](/docs/pipeline#the-agents-file).
+Warm sandboxes reinstall pi below 0.70.1, opencode below 1.14.24, or dsh when its version does not match the pin.
+
+Export and import agents as YAML from **Agents**, **Settings, Config**, or `bento agents export` / `import`. See [the agents file](/docs/pipeline#the-agents-file).
 
 ## Talking to a working agent
 
-The card composer accepts messages while an agent works. Claude Code, Codex, opencode and pi run live sessions, so a message reaches the agent during its turn. Live messages, Stop and agent questions are available to every signed-in user, with nothing to turn on.
+### Messages
 
-### Messages sent mid-turn
+A message sent while a live agent works:
 
-How each live agent handles a message sent while it works:
+- **Claude Code:** queued, then runs as one more turn. Several messages become one turn.
+- **Codex:** cancels the model call in flight. The next call includes the message.
+- **opencode:** read at the next model call, in the same turn.
+- **pi:** delivered after the current tool call.
 
-- **Claude Code:** the message is queued, then runs as one more turn after the current turn ends. Several messages sent during one turn become a single extra turn.
-- **Codex:** the message steers the running turn. Codex stops the model call in flight, and the next call includes the message.
-- **opencode:** the message joins the same turn and is read at the next model call.
-- **pi:** the message steers the running turn.
+A message to a live agent between turns starts a new turn. Other agents get the message when the run ends: Cursor, Antigravity, Muse Code and fx resume the session, while pool and dsh start fresh with the stage prompt and a compacted transcript. Bento does the same when a session is lost.
 
-A message to a live agent that is waiting between turns starts a new turn.
+### Stop
 
-Agents without live sessions (Cursor, Antigravity, Muse Code, fx, pool and dsh) take no input mid-run. A message waits until the run ends, then starts a new run that resumes the conversation where the tool supports it. Cursor, Antigravity, Muse Code and fx resume their session. pool and dsh start fresh with the stage prompt and a compacted transcript.
+On Claude Code, Codex, opencode and pi, **Stop** ends the current turn, like Escape in a terminal. The agent waits for your next message in the same session. Stop works from the moment a run starts and is disabled while the agent waits.
 
-A Codex profile with `codex exec` flags, or an opencode profile with extra arguments, runs the one-shot command: no live messages, no interrupt and no questions. Its messages wait for the run to end, and the next run resumes the session. In this mode opencode reports no tokens.
-
-If the session is unavailable (sandbox recreated or CLI session lost), Bento starts a new run with the same instructions and compacted transcript.
-
-### Stopping a turn
-
-On a card's stage runs, **Stop** interrupts Claude Code, Codex, opencode and pi instead of ending the run. The composer has one Stop button:
-
-- **While the agent works,** Stop ends its current turn, like pressing Escape in a terminal. The agent does no more work and waits for your next message, which continues the same session.
-- **While the agent waits,** Stop is disabled: there is nothing to stop.
-
-Stop works from the moment a run starts, including while opencode is still starting up.
-
-The transcript marks the stopped turn as "turn stopped". This is a neutral marker, not a failure. It is followed by:
+The transcript shows "turn stopped" (not a failure), then:
 
 > If no follow up message is sent after 90s the agent run will end. Sending a follow up message will restart the stage.
 
-If you send nothing within the stage's idle window (90 seconds by default), the run closes as "stopped", not "failed", and the card stays in its stage. The transcript shows:
+If you send nothing within the stage's idle window (90 seconds by default), the run closes as stopped, not failed, and the card stays in its stage. Cost, tokens, artifacts, pushed commits and the sandbox are kept. The transcript shows:
 
 > Session paused. Your next message will resume it.
 
-A stopped run keeps its work:
+Stop ends the run on judge, conflict resolution and swarm runs, and on agents without interrupt. Right after a server deploy, a Codex or pi turn already in progress cannot be interrupted: Stop ends that run but keeps the session.
 
-- Work done before the stop is kept. Cost and tokens are recorded, artifacts are saved, and commits are pushed if the stage creates a pull request.
-- The sandbox is kept. Your next message continues the same session in a new run.
+### Questions
 
-Stop still ends the run on:
+Claude Code, Codex and pi can ask questions on the card (pi through an `ask_user` tool Bento installs). The agent waits for your answers.
 
-- judge runs, conflict resolution (rebase) runs and swarm runs;
-- agents that cannot be interrupted (Cursor and the other agents without live sessions). Pending messages remain queued on the card.
+Questions appear above the composer, one at a time. A single choice answer moves on by itself. Otherwise press **Next** or Enter. **Back**, or a question's chip, returns to an earlier answer. With several questions, a review step lists every answer before **Send**.
 
-Right after a server deploy, a Codex or pi turn that was already running cannot be interrupted. Stop ends that run instead and keeps the session, so your next message resumes it. Later turns can be interrupted as usual.
-
-### Questions from the agent
-
-On a card's stage runs, Claude Code, Codex and pi can ask you questions. The agent waits for your answers and continues with them.
-
-- **Claude Code:** single choice, multiple choice, or your own words.
-- **Codex:** single choice or your own words.
-- **pi:** single choice, multiple choice, or your own words, through an `ask_user` tool Bento installs for pi.
-
-opencode cannot ask questions (its live mode drops them), and neither can the agents without live sessions.
-
-Questions appear on a card above the composer, one at a time, as in the Claude Code mobile app:
-
-- Tapping an option of a single choice question moves to the next question by itself.
-- For multiple choice, or an answer typed in your own words, press **Next** or Enter to move on.
-- **Back**, or a question's chip at the top, returns to an earlier answer so you can change it. Your other answers are kept.
-- With several questions, the last step reviews every answer, each with **Change**, before you send.
-- A single question has no chips and no review step: pick an answer, then **Send**.
-
-A question disappears when the agent no longer waits for it: the agent withdraws it, you stop the turn, the turn ends, or the run ends.
-
-Runs nobody is watching (swarms, judges, conflict resolution) never offer questions. If an agent asks one anyway, Bento declines it, so the agent makes its own choice and says which.
+A question disappears once the agent stops waiting for it. Unattended runs (swarms, judges, conflict resolution) decline questions, so the agent decides and says what it chose.
 
 ## Claude Code on a subscription
 
-Local mode only. Not supported on hosted Bento at [usebento.ai](/).
+Local mode only. Not available on hosted Bento at [usebento.ai](/).
 
 ```bash
 claude setup-token
 ```
 
-Save the token in:
+Save the token under **Agents, Claude subscription**, in `bento setup`, or as `CLAUDE_CODE_OAUTH_TOKEN=` in `.env` (docker compose). The Web UI value overrides `.env`.
 
-- **Web UI:** Agents → Claude subscription
-- `bento setup`
-- `.env` as `CLAUDE_CODE_OAUTH_TOKEN=` (docker compose). The Web UI value overrides `.env`.
+With a token saved, `ANTHROPIC_API_KEY` is not sent. `ANTHROPIC_BASE_URL` forces API key use, since tokens only work at Anthropic's endpoint.
 
-When a subscription token is present, `ANTHROPIC_API_KEY` is not sent. Claude Code prefers API keys when both are available. `ANTHROPIC_BASE_URL` forces API key use (tokens are valid only at Anthropic's endpoint).
-
-Do not use macOS Keychain login for server deployments. Keychain tokens rotate frequently and are unavailable in containers. Use `setup-token`.
-
-On "OAuth access token has been revoked", regenerate with `claude setup-token` and update the stored token.
+Do not use macOS Keychain login on servers: its tokens rotate and are unavailable in containers. On "OAuth access token has been revoked", run `claude setup-token` again and save the new token.
 
 ## Per tool notes
 
 ### Claude Code
 
-Bare model ids (`claude-sonnet-5`, `claude-opus-5`). Reports cost. Live session: messages sent mid-turn run as one more turn, **Stop** interrupts the turn, and the agent can ask questions on the card.
+Bare model ids (`claude-sonnet-5`, `claude-opus-5`).
 
 ### pi
 
-Provider-agnostic (`provider/id` format). Keys: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `GEMINI_API_KEY`, `DEEPSEEK_API_KEY` as required by model. Reports cost.
-
-Live session: messages steer the running turn, and **Stop** interrupts the turn. pi asks questions on the card through an `ask_user` tool that Bento installs. A message to a pi agent that has finished its turn now starts a new turn. It used to start nothing until the run limit.
+`provider/id` model ids. Needs the key for the model's provider (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `GEMINI_API_KEY` or `DEEPSEEK_API_KEY`).
 
 ### Codex CLI
 
-Bare model ids (`gpt-5-codex`) or provider prefixed ids (`openai/gpt-5-mini`, `vercel/moonshotai/kimi-k3`). `OPENAI_API_KEY` or OpenRouter via `OPENAI_BASE_URL`. Reports token counts, not a price.
-
-Live session: messages steer the running turn, **Stop** interrupts the turn, and the agent can ask single choice or free text questions on the card.
+Bare ids (`gpt-5-codex`) or provider prefixed ids (`openai/gpt-5-mini`, `vercel/moonshotai/kimi-k3`). `OPENAI_API_KEY`, or OpenRouter via `OPENAI_BASE_URL`.
 
 ### Cursor CLI
 
-Bare model ids per Cursor plan. Single `CURSOR_API_KEY`. Unlisted model ids may be entered manually. Headless mode accepts no mid-run input: a message waits until the run ends, then the next run resumes the chat. **Stop** ends the run. Does not report cost.
+Model ids per your Cursor plan; unlisted ids can be typed in. `CURSOR_API_KEY`. Runs headless.
 
 ### opencode
 
-`provider/id` format including `openrouter/`. Same provider keys as pi. Reports token counts, not a price.
-
-Live session: messages join the running turn and are read at the next model call. **Stop** interrupts the turn, even while opencode is still starting up. opencode cannot ask questions on the card, because its live mode drops them.
+`provider/id` model ids, including `openrouter/`. Same keys as pi.
 
 ### Poolside (pool)
 
-Vendor-prefixed ids (`poolside/laguna-s-2.1`). `POOLSIDE_API_KEY`. Additional Laguna ids may be typed manually.
-
-`pool exec` has no `--model` flag. Bento sets `POOLSIDE_STANDALONE_MODEL` and the Poolside Platform base URL. Override with `POOLSIDE_STANDALONE_BASE_URL` locally.
-
-OpenRouter alternative: pi or opencode with `openrouter/poolside/laguna-s-2.1`. Does not report cost.
+`poolside/laguna-s-2.1` and other Laguna ids. `POOLSIDE_API_KEY`. Bento sets the model through `POOLSIDE_STANDALONE_MODEL`; override the endpoint locally with `POOLSIDE_STANDALONE_BASE_URL`. Alternative: pi or opencode with `openrouter/poolside/laguna-s-2.1`.
 
 ### DeepSeek Harness (dsh)
 
-Preview. Pinned `@deepseek-ai/dsh@0.1.1-rc.2`. Bare model id (e.g. `deepseek-v4-pro`). `DEEPSEEK_API_KEY`; optional `DEEPSEEK_BASE_URL`.
-
-Outputs final message only (no streamed tool/thinking events). No session id. Use **Changes** for file-level results.
+Preview, pinned to `@deepseek-ai/dsh@0.1.1-rc.2`. Bare ids (`deepseek-v4-pro`). `DEEPSEEK_API_KEY`, optional `DEEPSEEK_BASE_URL`. Prints only the final message, so use **Changes** to see file edits.
 
 ### Antigravity CLI
 
-Google's `agy`, run headlessly (`agy -p ... --output-format stream-json`). Bare Antigravity model slugs, which name the model tier and its reasoning effort together: `gemini-3.1-pro-high`, `gemini-3.6-flash-medium`. Unlisted slugs may be typed manually.
+Google's `agy`, run headless. Model slugs name the tier and reasoning effort (`gemini-3.1-pro-high`, `gemini-3.6-flash-medium`); unlisted slugs can be typed in.
 
-Authentication is `GEMINI_API_KEY`. Antigravity normally signs in with a Google account, which no sandbox can do, so Bento's sandboxes carry `{"modelProvider": "gemini"}` in `~/.gemini/antigravity-cli/settings.json` and the CLI runs against the key. Optional `GOOGLE_GEMINI_BASE_URL` points it at a Gemini compatible endpoint. Only Gemini models are served on this route: the Claude and GPT models Antigravity offers need a signed-in account, which local mode can supply by sharing this machine's `~/.gemini` (Agents, "Use this machine's logins"), with the same risk that sharing any login carries.
+Uses `GEMINI_API_KEY`, optionally with `GOOGLE_GEMINI_BASE_URL`, so only Gemini models are available. The Claude and GPT models need a signed in Google account, which local mode can share from this machine (**Agents**, "Use this machine's logins"). Sharing a login carries the usual risk.
 
-Runs resume by conversation id (`--conversation`), so a follow-up continues the same conversation. Headless mode accepts no mid-run input, and **Stop** ends the run. Does not report cost: Antigravity bills against a plan's quota rather than per run.
-
-MCP servers attach through `~/.gemini/config/mcp_config.json`, which Bento rewrites before every run.
+Antigravity bills against a plan's quota, not per run. MCP servers are written to `~/.gemini/config/mcp_config.json` before every run.
