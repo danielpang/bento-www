@@ -2,15 +2,8 @@ import type { Components } from "react-markdown";
 import type { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { slugify } from "@/lib/headings";
 import { CopyableCodeBlock } from "./copyable-code-block";
-
-function slugify(value: string): string {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-");
-}
 
 function textFromChildren(children: ReactNode): string {
   if (typeof children === "string" || typeof children === "number") {
