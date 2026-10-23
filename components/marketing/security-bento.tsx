@@ -117,8 +117,8 @@ export function SecurityBento() {
           </div>
           <h3>Credentials stay outside the sandbox.</h3>
           <p>
-            Model API keys stay with Bento: agents get a proxy token for the
-            run. Encrypted organization credentials and short-lived GitHub
+            Model API keys stay with Bento: agents get a proxy token for each
+            agent session. Encrypted organization credentials and short-lived GitHub
             tokens are supplied only when required.
           </p>
           <Link className="m-announcement m-security-link" href="/docs/security">
@@ -135,7 +135,7 @@ export function SecurityBento() {
             <div>
               <span>Model key</span>
               <strong>proxy token</strong>
-              <code>this run</code>
+              <code>agent session</code>
             </div>
             <div>
               <span>GitHub token</span>
