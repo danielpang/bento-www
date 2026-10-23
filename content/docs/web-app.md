@@ -112,6 +112,15 @@ The board loads without a sandbox. Agent runs require one.
 | `local-process`    | No isolation. Development and CI only                            |
 | `sprite`           | Hosted (Fly) deployments                                         |
 
+### Mac app
+
+The Mac app's start screen picks the **Agent sandbox type**:
+
+- **Docker sandbox** (default): each agent is isolated in a container.
+- **Local process**: the agent runs directly on your Mac, with your permissions. Development only.
+
+**Advanced settings, Model proxy** is on by default: model calls go through Bento, so a Docker sandbox contains a proxy token rather than your key (see [Security](/docs/security#model-keys-stay-with-bento)). It is greyed out with Local process, which has no sandbox. Changes take effect when local Bento next starts.
+
 What a sandbox can reach when a team blocks its network, and what a Docker deployment must allow, is in [Security](/docs/security#what-a-sandbox-can-reach).
 
 ## Subscription credential sharing

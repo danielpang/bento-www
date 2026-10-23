@@ -213,16 +213,30 @@ describe("Documentation page", () => {
     expect(container.textContent).not.toMatch(/[—–]/);
     expect(container.textContent).not.toMatch(/run token|bmg_/i);
     expect(body.textContent).toContain("On hosted Bento (app.usebento.ai)");
+    expect(body.textContent).toContain("BENTO_MODEL_PROXY=false");
+    expect(body.textContent).toContain("Advanced settings, Model proxy");
     expect(body.textContent).not.toMatch(/error tracking|subscription token/i);
     expect(body.textContent).not.toMatch(/sandbox (never )?holds/i);
+  });
+
+  it("documents the Mac app's agent sandbox type and model proxy settings", async () => {
+    const { container } = render(await DocPage(params("web-app")));
+    const body = container.querySelector(".docs-body") as HTMLElement;
+
+    expect(within(body).getByRole("heading", { level: 3, name: "Mac app" })).toBeInTheDocument();
+    expect(body.textContent).toContain("Agent sandbox type");
+    expect(body.textContent).toContain("Advanced settings, Model proxy");
+    expect(body.textContent).not.toMatch(/where agents run/i);
   });
 
   it("links the guides that discuss sandboxes and credentials to the security page", async () => {
     for (const slug of ["concepts", "agents", "pull-requests", "web-app"]) {
       const { container, unmount } = render(await DocPage(params(slug)));
       const body = container.querySelector(".docs-body") as HTMLElement;
-      const link = within(body).getByRole("link", { name: "Security" });
-      expect(link.getAttribute("href")).toMatch(/^\/docs\/security(#[a-z-]+)?$/);
+      const links = within(body).getAllByRole("link", { name: "Security" });
+      for (const link of links) {
+        expect(link.getAttribute("href")).toMatch(/^\/docs\/security(#[a-z-]+)?$/);
+      }
       unmount();
     }
   });

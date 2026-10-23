@@ -55,6 +55,39 @@ export interface ChangelogSection {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    slug: "model-keys-stay-out-of-agent-sandboxes",
+    date: "2026-10-23",
+    displayDate: "October 23, 2026",
+    title: "Model keys stay out of agent sandboxes",
+    description:
+      "Hosted Bento sends model calls through a model proxy, so an agent’s sandbox contains a proxy token for the run instead of your API key.",
+    paragraphs: [
+      "Your model API keys now stay out of agent sandboxes. Hosted Bento sends every model call through a model proxy, so the sandbox contains a proxy token, not your key. The token only works for that run, and only for model endpoints.",
+      "See [Security](/docs/security) for how the proxy works and which setups still give a key to the agent.",
+    ],
+    sections: [
+      {
+        title: "Allowed sites",
+        paragraphs: [
+          "Teams that block agent network access can now list Allowed sites in Settings, Team. When a team MCP server is enabled, its host is added for you.",
+        ],
+      },
+      {
+        title: "In the Mac app",
+        points: [
+          {
+            label: "Agent sandbox type",
+            body: "The start screen picks Docker sandbox, the default, which isolates each agent in a container, or Local process, which runs agents directly on your Mac and is for development only.",
+          },
+          {
+            label: "Model proxy",
+            body: "On by default with the Docker sandbox, so the container contains a proxy token rather than your key. Turn it off under Advanced settings, Model proxy.",
+          },
+        ],
+      },
+    ],
+  },
+  {
     slug: "bento-mac-app",
     date: "2026-09-24",
     displayDate: "September 24, 2026",
