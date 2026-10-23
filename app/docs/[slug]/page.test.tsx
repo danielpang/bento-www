@@ -197,7 +197,7 @@ describe("Documentation page", () => {
       expect(within(body).getByRole("heading", { level: 2, name: section })).toBeInTheDocument();
     }
     expect(
-      within(body).getByRole("img", { name: "The sandbox holds a proxy token; only Bento holds the key" }),
+      within(body).getByRole("img", { name: "The sandbox contains a proxy token; only Bento holds the key" }),
     ).toHaveAttribute("src", "/images/docs/model-proxy.svg");
 
     const table = within(body).getByRole("table");
@@ -212,6 +212,9 @@ describe("Documentation page", () => {
     expect(within(nav).getByRole("link", { name: "Security" })).toHaveAttribute("aria-current", "page");
     expect(container.textContent).not.toMatch(/[—–]/);
     expect(container.textContent).not.toMatch(/run token|bmg_/i);
+    expect(body.textContent).toContain("On hosted Bento (app.usebento.ai)");
+    expect(body.textContent).not.toMatch(/error tracking|subscription token/i);
+    expect(body.textContent).not.toMatch(/sandbox (never )?holds/i);
   });
 
   it("links the guides that discuss sandboxes and credentials to the security page", async () => {

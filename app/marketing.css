@@ -412,6 +412,7 @@ body:has(.marketing-page) {
 .m-approval-modes,
 .m-workspace-map,
 .m-credential-panel { margin: auto 0 0; }
+.m-security-card > .m-security-link { margin: 14px 0 20px; }
 .m-approval-modes {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

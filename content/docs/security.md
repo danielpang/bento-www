@@ -1,14 +1,14 @@
 # Security
 
-Agents read untrusted input (issues, READMEs, web pages, tool output), so Bento assumes any agent can be prompt injected. The sandbox is the boundary: an agent can run any command and read anything in its sandbox. What Bento controls is what the sandbox holds and what it can reach.
+Agents read untrusted input (issues, READMEs, web pages, tool output), so Bento assumes any agent can be prompt injected. The sandbox is the boundary: an agent can run any command and read anything in its sandbox. What Bento controls is what the sandbox contains and what it can reach.
 
 ## Model keys stay with Bento
 
-On a hosted (multi mode) server, a sandbox never holds the organization's model API keys. It holds a **proxy token** instead: a token minted for one run, under the same variable name as the key it replaces (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY` and so on). The tool's base URL variable points at Bento's model proxy, so the agent sends its model calls to Bento with the proxy token, and Bento sends them on to the provider with the real key.
+On hosted Bento (app.usebento.ai), a sandbox never contains the organization's model API keys. It contains a **proxy token** instead: a token minted for one run, under the same variable name as the key it replaces (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY` and so on). The tool's base URL variable points at Bento's model proxy, so the agent sends its model calls to Bento with the proxy token, and Bento sends them on to the provider with the real key.
 
-![The sandbox holds a proxy token; only Bento holds the key](/images/docs/model-proxy.svg)
+![The sandbox contains a proxy token; only Bento holds the key](/images/docs/model-proxy.svg)
 
-1. The worker mints the proxy token when the run starts. Bento stores only its hash, with the list of keys it may use.
+1. Bento mints a proxy token when the run starts, and keeps only its hash.
 2. The agent calls Bento's model proxy with the proxy token, in whichever header its tool sends a key in.
 3. The proxy checks the token, decrypts the organization's key, swaps it in, and streams the request and the provider's answer through unchanged.
 4. The proxy token stops working as soon as its run ends, however it ends.
@@ -22,21 +22,27 @@ A proxy token can do much less than a key:
 | Where it works | Anywhere | Only through Bento's proxy |
 | If an agent prints it | The key is gone | Useless once the run ends |
 
-A request for anything else in the provider's API (files, fine tuning, batches, account and admin endpoints) is refused, and recorded in error tracking so a tool that starts calling a new endpoint shows up.
+A request for anything else in the provider's API (files, fine tuning, batches, account and admin endpoints) is refused.
 
-The provider's address comes from Bento's provider table, or from a base URL the organization saved, never from the request. A saved base URL that is plain `http` or a private network address cannot go through the proxy, so that key reaches the sandbox as it would without the proxy, and the run's transcript says so.
+Model providers' addresses come from Bento's list, not from the sandbox, so an agent cannot point the proxy, or your key, anywhere else.
 
-Some credentials still reach the sandbox, because their tools have no base URL to point at Bento or the credential works only at the provider: a Claude subscription token, Cursor's credentials, fx's and Muse Code's keys, custom provider keys, and Ollama's. The [agents guide in the Bento repository](https://github.com/danielpang/bento/blob/main/docs/agents.md#model-provider-keys-never-enter-a-hosted-sandbox) lists which keys each tool sends through the proxy.
+A few setups still put a credential in the sandbox:
 
-Local mode has one trusted user: keys go to the agent directly, and shared subscription credentials are mounted read only, which the agent can still read.
+- harnesses with no base URL to point at Bento (Cursor, fx, Muse Code)
+- custom provider keys and Ollama
+- a saved base URL that is plain `http` or a private address
+
+The [agents guide in the Bento repository](https://github.com/danielpang/bento/blob/main/docs/agents.md#model-provider-keys-never-enter-a-hosted-sandbox) lists which keys each tool sends through the proxy.
+
+Bento in local mode (the Mac app, or `bento` on your own machine) gives keys to the agent directly: there is one trusted user. A team server you host yourself uses the model proxy, like app.usebento.ai.
 
 ## MCP credentials stay with Bento
 
-MCP servers do not go through the model proxy. They go through Bento's **MCP gateway**, which works the same way: the agent's MCP config points every server, Bento's own tools and the team's and members' servers alike, at the gateway, with the run's proxy token. The gateway checks the token, attaches the server's credential, and calls the server from Bento's side. The sandbox never holds an MCP credential, and a server disabled mid run is refused on its next call. See the [MCP guide in the Bento repository](https://github.com/danielpang/bento/blob/main/docs/mcp.md).
+MCP servers go through Bento's **MCP gateway**, the model proxy's counterpart for tools: the agent's MCP config points every server, Bento's own tools and the team's and members' servers alike, at the gateway, with the run's proxy token. The gateway checks the token, attaches the server's credential, and calls the server from Bento's side. The sandbox never stores an MCP credential, and a server disabled mid run is refused on its next call. See the [MCP guide in the Bento repository](https://github.com/danielpang/bento/blob/main/docs/mcp.md).
 
 ## Git access
 
-On a hosted server, git uses short lived GitHub App installation tokens, never the host's SSH keys or git config. See [GitHub connection](/docs/pull-requests#github-connection).
+On hosted Bento, git uses short lived GitHub App installation tokens, each scoped to one of the project's repositories, never the host's SSH keys or git config. See [GitHub connection](/docs/pull-requests#github-connection).
 
 ## What a sandbox can reach
 
@@ -60,5 +66,5 @@ A run is billed unless Bento or its sandbox failed it. If the proxy itself fails
 ## Good practice
 
 - Never expose the host Docker socket, host SSH keys, or host git config to a sandbox.
-- Prefer API keys over mounting subscription credential files, so the key can go through the proxy.
-- Keep a saved provider base URL on public `https`, for the same reason.
+- In local mode (hosted Bento offers no subscription logins), prefer API keys over mounting subscription credential files: a mounted file is a long lived credential the agent can read.
+- Keep a saved provider base URL on public `https`, so the key can go through the proxy.
