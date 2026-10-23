@@ -210,7 +210,10 @@ describe("Documentation page", () => {
       "/docs/pull-requests#github-connection",
     );
     const nav = screen.getByRole("complementary", { name: "Documentation" });
-    expect(within(nav).getByRole("link", { name: "Security" })).toHaveAttribute("aria-current", "page");
+    // The sidebar and the mobile dropdown both list the guides.
+    for (const link of within(nav).getAllByRole("link", { name: "Security" })) {
+      expect(link).toHaveAttribute("aria-current", "page");
+    }
     expect(container.textContent).not.toMatch(/[—–]/);
     expect(container.textContent).not.toMatch(/run token|bmg_/i);
     expect(body.textContent).toContain("On hosted Bento (app.usebento.ai)");
