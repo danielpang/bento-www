@@ -121,6 +121,15 @@ describe("redesigned homepage", () => {
         name: "Credentials stay outside the sandbox.",
       }),
     ).toBeInTheDocument();
+    const credentials = within(security as HTMLElement).getByRole("figure", {
+      name: "A trusted service swapping the model key for a proxy token and issuing scoped, short-lived access",
+    });
+    expect(within(credentials).getByText("Model key")).toBeInTheDocument();
+    expect(within(credentials).getByText("proxy token")).toBeInTheDocument();
+    expect(within(credentials).getByText("GitHub token")).toBeInTheDocument();
+    expect(
+      within(security as HTMLElement).getByRole("link", { name: "How credentials are handled" }),
+    ).toHaveAttribute("href", "/docs/security");
     expect(within(security as HTMLElement).getByText("Manual approval")).toBeInTheDocument();
     expect(within(security as HTMLElement).getByText("Auto approval")).toBeInTheDocument();
     expect(container.querySelector(".m-gate-layout")).toBeNull();

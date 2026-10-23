@@ -1,4 +1,6 @@
+import Link from "next/link";
 import {
+  ArrowRight,
   Check,
   GitBranch,
   Key,
@@ -115,17 +117,26 @@ export function SecurityBento() {
           </div>
           <h3>Credentials stay outside the sandbox.</h3>
           <p>
-            Encrypted organization credentials and short-lived GitHub tokens
-            are supplied only when required.
+            Model API keys stay encrypted in Bento: agents get a proxy token for each
+            agent session. Encrypted organization credentials and short-lived GitHub
+            tokens are supplied only when required.
           </p>
+          <Link className="m-announcement m-security-link" href="/docs/security">
+            How credentials are handled <ArrowRight size={14} aria-hidden="true" />
+          </Link>
           <figure
             className="m-credential-panel"
-            aria-label="A trusted credential service issuing scoped, short-lived access"
+            aria-label="A trusted service swapping the model key for a proxy token and issuing scoped, short-lived access"
           >
             <figcaption>
               <ShieldCheck aria-hidden="true" size={15} />
               trusted service
             </figcaption>
+            <div>
+              <span>Model key</span>
+              <strong>proxy token</strong>
+              <code>agent session</code>
+            </div>
             <div>
               <span>GitHub token</span>
               <strong>checkout/web</strong>

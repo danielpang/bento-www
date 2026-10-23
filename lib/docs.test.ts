@@ -10,6 +10,7 @@ describe("docs catalog", () => {
       "concepts",
       "pipeline",
       "agents",
+      "security",
       "pull-requests",
       "web-app",
       "tui",

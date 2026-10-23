@@ -18,7 +18,7 @@ You can keep the artifacts under **Settings, GitHub**. On shared servers, the se
 
 ## Push and attribution
 
-The server pushes the changes; agents do not receive push credentials. Publishing rejects protected branches (`main`, `master`).
+The server pushes the changes; agents do not receive push credentials. Publishing rejects protected branches (`main`, `master`). See [Security](/docs/security) for what else stays out of the sandbox.
 
 Commit author is configured under **Settings, GitHub**. Defaults to `Bento Agent <no-reply@usebento.ai>` if no values are set.
 

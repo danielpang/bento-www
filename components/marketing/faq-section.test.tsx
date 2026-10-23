@@ -16,6 +16,10 @@ describe("marketing FAQ", () => {
       "href",
       "/docs/tui",
     );
+    expect(within(faq).getByRole("link", { name: "Security" })).toHaveAttribute(
+      "href",
+      "/docs/security",
+    );
     expect(within(faq).getByRole("link", { name: "Web UI" })).toHaveAttribute(
       "href",
       "/docs/web-app",

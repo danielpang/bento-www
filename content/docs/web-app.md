@@ -112,6 +112,8 @@ The board loads without a sandbox. Agent runs require one.
 | `local-process`    | No isolation. Development and CI only                            |
 | `sprite`           | Hosted (Fly) deployments                                         |
 
+What a sandbox can reach when a team blocks its network, and what a Docker deployment must allow, is in [Security](/docs/security#what-a-sandbox-can-reach).
+
 ## Subscription credential sharing
 
 Local mode only. Ignored in multi mode.
