@@ -197,7 +197,7 @@ describe("Documentation page", () => {
       expect(within(body).getByRole("heading", { level: 2, name: section })).toBeInTheDocument();
     }
     expect(
-      within(body).getByRole("img", { name: "The sandbox contains a proxy token; only Bento holds the key" }),
+      within(body).getByRole("img", { name: "The sandbox contains a proxy token; only Bento stores the key" }),
     ).toHaveAttribute("src", "/images/docs/model-proxy.svg");
 
     const table = within(body).getByRole("table");
