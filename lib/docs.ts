@@ -36,7 +36,7 @@ const DOCS_DIR = path.join(process.cwd(), "content/docs");
 
 /** The docs hub description, shared by its metadata and /llms.txt. */
 export const docsIndexDescription =
-  "Guides for Bento, the agent pipeline at usebento.ai: why an agent pipeline, then pipelines, agents, pull requests, the Web UI, and TUI.";
+  "Guides for Bento, the agent pipeline at usebento.ai: why an agent pipeline, then pipelines, agents, security, pull requests, the Web UI, and TUI.";
 
 const DOC_META: Record<
   string,
@@ -89,29 +89,35 @@ const DOC_META: Record<
       "Claude Code, Codex, Cursor, opencode, pi, Poolside, DeepSeek, Antigravity.",
     order: 3,
   },
+  security: {
+    title: "Security",
+    description:
+      "How model keys and MCP credentials stay with Bento, and what a sandbox can reach.",
+    order: 4,
+  },
   "pull-requests": {
     title: "Pull requests",
     description:
       "Publishing agent work as GitHub pull requests, attribution, and GitHub connections.",
-    order: 4,
+    order: 5,
   },
   "web-app": {
     title: "Web UI",
     description:
       "Run the Web UI from source or Docker, local and multi mode, sandbox drivers, log export.",
-    order: 5,
+    order: 6,
   },
   tui: {
     title: "TUI",
     description:
       "Install the TUI, choose where agents run, and configure projects, agents, and pipelines.",
-    order: 6,
+    order: 7,
   },
   clients: {
     title: "Other clients",
     description:
       "Compare the Web UI and terminal client, including features and agent placement.",
-    order: 7,
+    order: 8,
   },
 };
 

@@ -66,7 +66,7 @@ describe("Documentation page", () => {
   });
 
   it("leaves the other guides without FAQ markup", async () => {
-    for (const slug of ["concepts", "tui", "agents", "pull-requests", "web-app", "clients"]) {
+    for (const slug of ["concepts", "tui", "agents", "security", "pull-requests", "web-app", "clients"]) {
       const { container, unmount } = render(await DocPage(params(slug)));
       expect(container.querySelector('script[type="application/ld+json"]')).toBeNull();
       unmount();
@@ -174,9 +174,52 @@ describe("Documentation page", () => {
   });
 
   it("keeps the other guides free of the diagram", async () => {
-    for (const slug of ["tui", "pipeline", "agents", "pull-requests", "web-app", "clients", "why-agent-pipeline"]) {
+    for (const slug of ["tui", "pipeline", "agents", "security", "pull-requests", "web-app", "clients", "why-agent-pipeline"]) {
       const { container, unmount } = render(await DocPage(params(slug)));
       expect(container.querySelector(".docs-figure")).toBeNull();
+      unmount();
+    }
+  });
+
+  it("explains the security model with the model proxy diagram and the key comparison", async () => {
+    const { container } = render(await DocPage(params("security")));
+    const body = container.querySelector(".docs-body") as HTMLElement;
+
+    expect(screen.getByRole("heading", { level: 1, name: "Security" })).toBeInTheDocument();
+    for (const section of [
+      "Model keys stay with Bento",
+      "MCP credentials stay with Bento",
+      "Git access",
+      "What a sandbox can reach",
+      "Billing when Bento fails",
+      "Good practice",
+    ]) {
+      expect(within(body).getByRole("heading", { level: 2, name: section })).toBeInTheDocument();
+    }
+    expect(
+      within(body).getByRole("img", { name: "The sandbox holds a proxy token; only Bento holds the key" }),
+    ).toHaveAttribute("src", "/images/docs/model-proxy.svg");
+
+    const table = within(body).getByRole("table");
+    expect(within(table).getByRole("columnheader", { name: "Proxy token" })).toBeInTheDocument();
+    expect(within(table).getByRole("cell", { name: "Only through Bento's proxy" })).toBeInTheDocument();
+
+    expect(within(body).getByRole("link", { name: "GitHub connection" })).toHaveAttribute(
+      "href",
+      "/docs/pull-requests#github-connection",
+    );
+    const nav = screen.getByRole("complementary", { name: "Documentation" });
+    expect(within(nav).getByRole("link", { name: "Security" })).toHaveAttribute("aria-current", "page");
+    expect(container.textContent).not.toMatch(/[—–]/);
+    expect(container.textContent).not.toMatch(/run token|bmg_/i);
+  });
+
+  it("links the guides that discuss sandboxes and credentials to the security page", async () => {
+    for (const slug of ["concepts", "agents", "pull-requests", "web-app"]) {
+      const { container, unmount } = render(await DocPage(params(slug)));
+      const body = container.querySelector(".docs-body") as HTMLElement;
+      const link = within(body).getByRole("link", { name: "Security" });
+      expect(link.getAttribute("href")).toMatch(/^\/docs\/security(#[a-z-]+)?$/);
       unmount();
     }
   });
