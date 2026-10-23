@@ -187,7 +187,7 @@ describe("Documentation page", () => {
 
     expect(screen.getByRole("heading", { level: 1, name: "Security" })).toBeInTheDocument();
     for (const section of [
-      "Model keys stay with Bento",
+      "Model keys stay encrypted in Bento",
       "MCP credentials stay with Bento",
       "Git access",
       "What a sandbox can reach",
@@ -197,7 +197,7 @@ describe("Documentation page", () => {
       expect(within(body).getByRole("heading", { level: 2, name: section })).toBeInTheDocument();
     }
     expect(
-      within(body).getByRole("img", { name: "The sandbox contains a proxy token; only Bento holds the key" }),
+      within(body).getByRole("img", { name: "The sandbox contains a proxy token; only Bento stores the key" }),
     ).toHaveAttribute("src", "/images/docs/model-proxy.svg");
 
     const table = within(body).getByRole("table");
