@@ -22,7 +22,7 @@ Each stage runs one agent: a harness, a model and a skill.
 - Interrupt and questions apply to a card's stage runs (see [Talking to a working agent](/docs/agents#talking-to-a-working-agent)). A Codex profile with `codex exec` flags, or an opencode profile with extra arguments, runs the one-shot command: no steering, interrupt or questions, messages wait for the next run, and opencode reports no tokens.
 - Credentials for each tool are set under **Agents** in the web console.
 
-Keys are stored encrypted, per organization in multi mode. Add them in the Web UI or with `bento setup`. In multi mode, a sandbox gets a proxy token in place of most keys, and the model proxy adds the key on Bento's side (see [Security](/docs/security#model-keys-stay-with-bento)).
+Keys are stored encrypted, per organization in multi mode. Add them in the Web UI or with `bento setup`. In multi mode, a sandbox gets a proxy token in place of most keys, and the model proxy adds the key on Bento's side (see [Security](/docs/security#model-keys-stay-encrypted-in-bento)).
 
 **OpenRouter:** for Claude Code or Codex, save the OpenRouter key and set `ANTHROPIC_BASE_URL` or `OPENAI_BASE_URL` to `https://openrouter.ai/api/v1`.
 

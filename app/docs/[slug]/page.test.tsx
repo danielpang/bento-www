@@ -187,7 +187,7 @@ describe("Documentation page", () => {
 
     expect(screen.getByRole("heading", { level: 1, name: "Security" })).toBeInTheDocument();
     for (const section of [
-      "Model keys stay with Bento",
+      "Model keys stay encrypted in Bento",
       "MCP credentials stay with Bento",
       "Git access",
       "What a sandbox can reach",

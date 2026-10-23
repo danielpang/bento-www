@@ -2,25 +2,25 @@
 
 Agents read untrusted input (issues, READMEs, web pages, tool output), so Bento assumes any agent can be prompt injected. The sandbox is the boundary: an agent can run any command and read anything in its sandbox. What Bento controls is what the sandbox contains and what it can reach.
 
-## Model keys stay with Bento
+## Model keys stay encrypted in Bento
 
-On hosted Bento (app.usebento.ai), a sandbox never contains the organization's model API keys. It contains a **proxy token** instead: a token minted for one run, under the same variable name as the key it replaces (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY` and so on). The tool's base URL variable points at Bento's model proxy, so the agent sends its model calls to Bento with the proxy token, and Bento sends them on to the provider with the real key.
+On hosted Bento (app.usebento.ai), a sandbox never contains the organization's model API keys. It contains a **proxy token** instead: a token minted for one agent session, under the same variable name as the key it replaces (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY` and so on). The tool's base URL variable points at Bento's model proxy, so the agent sends its model calls to Bento with the proxy token, and Bento sends them on to the provider with the real key.
 
 ![The sandbox contains a proxy token; only Bento stores the key](/images/docs/model-proxy.svg)
 
-1. Bento mints a proxy token when the run starts, and keeps only its hash.
+1. Bento mints a proxy token when the agent session starts, and keeps only its hash.
 2. The agent calls Bento's model proxy with the proxy token, in whichever header its tool sends a key in.
 3. The proxy checks the token, decrypts the organization's key, swaps it in, and streams the request and the provider's answer through unchanged.
-4. The proxy token stops working as soon as its run ends, however it ends.
+4. The proxy token stops working as soon as its agent session ends, however it ends.
 
 A proxy token can do much less than a key:
 
 | | Model API key | Proxy token |
 | --- | --- | --- |
-| Lifetime | Until someone rotates it | The run |
+| Lifetime | Until someone rotates it | The agent session |
 | Endpoints | The provider's whole API | Completions, token counting and model listings |
 | Where it works | Anywhere | Only through Bento's proxy |
-| If an agent prints it | The key is gone | Useless once the run ends |
+| If an agent prints it | The key is gone | Useless once the agent session ends |
 
 A request for anything else in the provider's API (files, fine tuning, batches, account and admin endpoints) is refused.
 
@@ -38,7 +38,7 @@ Bento in local mode (the Mac app, or `bento` on your own machine) gives keys to 
 
 ## MCP credentials stay with Bento
 
-MCP servers go through Bento's **MCP gateway**, the model proxy's counterpart for tools: the agent's MCP config points every server, Bento's own tools and the team's and members' servers alike, at the gateway, with the run's proxy token. The gateway checks the token, attaches the server's credential, and calls the server from Bento's side. The sandbox never stores an MCP credential, and a server disabled mid run is refused on its next call. See the [MCP guide in the Bento repository](https://github.com/danielpang/bento/blob/main/docs/mcp.md).
+MCP servers go through Bento's **MCP gateway**, the model proxy's counterpart for tools: the agent's MCP config points every server, Bento's own tools and the team's and members' servers alike, at the gateway, with the agent session's proxy token. The gateway checks the token, attaches the server's credential, and calls the server from Bento's side. The sandbox never stores an MCP credential, and a server disabled mid run is refused on its next call. See the [MCP guide in the Bento repository](https://github.com/danielpang/bento/blob/main/docs/mcp.md).
 
 ## Git access
 
