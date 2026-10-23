@@ -9,7 +9,7 @@ On a hosted (multi mode) server, a sandbox never holds the organization's model 
 ![The sandbox holds a proxy token; only Bento holds the key](/images/docs/model-proxy.svg)
 
 1. The worker mints the proxy token when the run starts. Bento stores only its hash, with the list of keys it may use.
-2. The agent calls `/api/model-proxy/<provider>` with the proxy token, in whichever header its tool sends a key in.
+2. The agent calls Bento's model proxy with the proxy token, in whichever header its tool sends a key in.
 3. The proxy checks the token, decrypts the organization's key, swaps it in, and streams the request and the provider's answer through unchanged.
 4. The proxy token stops working as soon as its run ends, however it ends.
 
@@ -32,7 +32,7 @@ Local mode has one trusted user: keys go to the agent directly, and shared subsc
 
 ## MCP credentials stay with Bento
 
-MCP servers do not go through the model proxy. They go through Bento's **MCP gateway** (`/api/mcp-gateway/<server>`), which works the same way: the agent's MCP config points every server, Bento's own tools and the team's and members' servers alike, at the gateway, with the run's proxy token. The gateway checks the token, attaches the server's credential, and calls the server from Bento's side. The sandbox never holds an MCP credential, and a server disabled mid run is refused on its next call. See the [MCP guide in the Bento repository](https://github.com/danielpang/bento/blob/main/docs/mcp.md).
+MCP servers do not go through the model proxy. They go through Bento's **MCP gateway**, which works the same way: the agent's MCP config points every server, Bento's own tools and the team's and members' servers alike, at the gateway, with the run's proxy token. The gateway checks the token, attaches the server's credential, and calls the server from Bento's side. The sandbox never holds an MCP credential, and a server disabled mid run is refused on its next call. See the [MCP guide in the Bento repository](https://github.com/danielpang/bento/blob/main/docs/mcp.md).
 
 ## Git access
 
@@ -51,7 +51,7 @@ An owner or admin can block it in **Settings, Team**. A blocked team's runs go t
 
 A blocked Modal run still attaches MCP servers, through the gateway.
 
-**Docker deployments.** With the block on, Docker sandboxes use a network the operator creates (`BENTO_SANDBOX_RESTRICTED_NETWORK`), and Bento does not manage its rules. That network must let sandboxes reach Bento's address (`BENTO_MCP_GATEWAY_URL`, or `BETTER_AUTH_URL`; a `localhost` address is reached as `host.docker.internal`), because model calls go through the proxy there. Without that route, every blocked run fails at its first model call. The Allowed sites list does not apply to Docker, and blocked Docker runs attach no MCP servers. Setup: [network lock on Docker](https://github.com/danielpang/bento/blob/main/docs/web-app.md#network-lock-on-docker).
+**Docker deployments.** With the block on, Docker sandboxes use a restricted network the operator creates, and Bento does not manage its rules. That network must let sandboxes reach Bento's own address, because model calls go through the proxy there. Without that route, every blocked run fails at its first model call. The Allowed sites list does not apply to Docker, and blocked Docker runs attach no MCP servers. Setup: [network lock on Docker](https://github.com/danielpang/bento/blob/main/docs/web-app.md#network-lock-on-docker).
 
 ## Billing when Bento fails
 
