@@ -6,6 +6,7 @@ import { DocsShell } from "@/components/docs-shell";
 import { JsonLd } from "@/components/json-ld";
 import { MarkdownContent } from "@/components/markdown-content";
 import { getDoc, getDocSlugs, listDocs } from "@/lib/docs";
+import { extractHeadings } from "@/lib/headings";
 import { pageMetadata } from "@/lib/metadata";
 import { faqPageJsonLd } from "@/lib/structured-data";
 
@@ -64,6 +65,7 @@ export default async function DocPage({ params }: DocPageProps) {
         figure={docFigures[slug]?.()}
         lead={doc.meta.heading ? undefined : doc.meta.description}
         title={doc.meta.heading ?? doc.meta.title}
+        toc={extractHeadings(doc.content)}
       >
         <MarkdownContent content={doc.content} />
       </DocsShell>

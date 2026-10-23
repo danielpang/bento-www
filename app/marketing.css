@@ -648,6 +648,25 @@ body:has(.marketing-page) {
 .marketing-page .docs-nav a { border: 1px solid transparent; border-radius: 4px; font-size: 13px; font-weight: 500; }
 .marketing-page .docs-nav a:hover { background: var(--nav-hover); color: var(--text); }
 .marketing-page .docs-nav a.is-active { border-color: var(--skill-line); background: var(--skill-active); color: var(--brand); }
+.marketing-page .docs-nav-panel { max-height: calc(100dvh - 104px - 24px); }
+.marketing-page .docs-nav .docs-toc a { border-width: 0 0 0 1px; border-radius: 0; font-size: 12.5px; font-weight: 450; }
+.marketing-page .docs-nav .docs-toc ul a { font-size: 12px; }
+.marketing-page .docs-nav .docs-toc a:hover { background: none; color: var(--text); }
+.marketing-page .docs-nav .docs-toc a.is-current { border-color: var(--brand); color: var(--brand); }
+.marketing-page .docs-nav-menu { border: 1px solid var(--line-strong); border-radius: 8px; background: var(--nav-hover); }
+.marketing-page .docs-nav-menu summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 10px 14px; border-radius: 7px; cursor: pointer; list-style: none; }
+.marketing-page .docs-nav-menu summary::-webkit-details-marker { display: none; }
+.marketing-page .docs-nav-menu summary:focus-visible { outline-offset: 2px; }
+.marketing-page .docs-nav-menu-text { display: grid; gap: 3px; min-width: 0; }
+.marketing-page .docs-nav-menu .docs-nav-label { display: block; margin: 0; font-size: 10px; text-transform: uppercase; }
+.marketing-page .docs-nav-menu-current { overflow: hidden; color: var(--text); font-size: 14px; font-weight: 520; text-overflow: ellipsis; white-space: nowrap; }
+.marketing-page .docs-nav-menu-caret { flex: none; color: var(--text-muted); transition: transform 160ms ease; }
+.marketing-page .docs-nav-menu[open] .docs-nav-menu-caret { transform: rotate(180deg); }
+.marketing-page .docs-nav-menu[open] summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.marketing-page .docs-nav-menu > .docs-guides { padding: 8px; border-top: 1px solid var(--line); }
+.marketing-page .docs-nav-menu a { padding-block: 10px; font-size: 14px; }
+.marketing-page .docs-nav-menu .docs-toc a { padding-block: 8px; font-size: 13.5px; }
+.marketing-page .docs-nav-menu .docs-toc ul a { font-size: 13px; }
 /* Figures may span the full column; prose keeps a readable measure. */
 .marketing-page .docs-content { max-width: none; }
 .marketing-page .docs-body { max-width: 760px; }
