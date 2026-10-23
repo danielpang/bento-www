@@ -18,7 +18,7 @@ const faqItems = [
     answer: (
       <>
         Yes. Bring your own API keys from your favourite model providers. Bento does not
-        offer model tokens with its free or paid plans. Your keys stay with Bento:
+        offer model tokens with its free or paid plans. Your keys stay encrypted in Bento:
         agents get a short-lived proxy token instead, see{" "}
         <Link href="/docs/security">Security</Link>.
       </>
