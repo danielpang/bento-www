@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-const HeroStoryContext = createContext<{ active: number; selected: boolean; select: (index: number) => void; replay: () => void }>({ active: 0, selected: false, select: () => {}, replay: () => {} });
+const HeroStoryContext = createContext<{ active: number; selected: boolean; select: (index: number) => void }>({ active: 0, selected: false, select: () => {} });
 export const useHeroStory = () => useContext(HeroStoryContext);
 
 export function HeroStory({ children }: { children: ReactNode }) {
@@ -25,7 +25,7 @@ export function HeroStory({ children }: { children: ReactNode }) {
       document.removeEventListener("visibilitychange", sync);
     };
   }, [selected]);
-  return <HeroStoryContext.Provider value={{ active, selected, select: index => { setActive(index); setSelected(true); }, replay: () => { setActive(0); setSelected(false); } }}>
+  return <HeroStoryContext.Provider value={{ active, selected, select: index => { setActive(index); setSelected(true); } }}>
     <div className="m-hero-heading">{children}</div>
   </HeroStoryContext.Provider>;
 }
