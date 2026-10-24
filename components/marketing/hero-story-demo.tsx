@@ -27,6 +27,9 @@ export function HeroStoryDemo() {
       >
       <div className="feature-world">
         {active === 0 && <div className="feature-pipeline">
+          <svg className="pipeline-connectors" viewBox="-260 -100 520 200" fill="none" aria-hidden="true">
+            <path d="M-102 0 H-78 M-84 -4 L-78 0 L-84 4 M78 0 H102 M96 -4 L102 0 L96 4" />
+          </svg>
           {["Plan", "Build", "PR"].map((stage, index) => <div className={`pipeline-stop pipeline-stop-${index}`} key={stage}><span>{stage}</span></div>)}
         </div>}
         {features.map((feature, index) => (active === 2 || index === 1) && <div className={`feature-cluster feature-cluster-${index}`} key={feature}>
@@ -36,6 +39,11 @@ export function HeroStoryDemo() {
           {active === 2 && <div className="feature-scan"><ShieldCheck size={26} /></div>}
         </div>)}
         {active === 1 && <div className="feature-artifacts">
+          <svg className="artifact-connectors" viewBox="-250 -200 500 400" fill="none" aria-hidden="true">
+            <path d="M-24 -38 C5 -38 0 -105 36 -105 M30 -109 L36 -105 L30 -101" />
+            <path d="M-24 0 H53 M47 -4 L53 0 L47 4" />
+            <path d="M-24 38 C15 38 20 105 70 105 M64 101 L70 105 L64 109" />
+          </svg>
           {["plan.md", "decisions.md", "review.md"].map((file, index) => <div className={`feature-artifact feature-artifact-${index}`} key={file}><FileText size={22} /><strong>{file}</strong><div className="feature-card-lines"><i /><i /></div></div>)}
         </div>}
       </div>
