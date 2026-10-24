@@ -2480,6 +2480,20 @@ main {
   top: 96px;
 }
 
+/* The sidebar scrolls on its own when a long guide's sections outgrow it. */
+.docs-nav-panel {
+  max-height: calc(100dvh - 96px - 24px);
+  margin: -4px;
+  padding: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.docs-nav-menu {
+  display: none;
+}
+
 .docs-nav-label {
   margin: 0 0 14px;
   color: var(--text-faint);
@@ -2495,6 +2509,50 @@ main {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.docs-nav .docs-toc {
+  gap: 0;
+  margin: 6px 0 10px 10px;
+  border-left: 1px solid var(--line);
+}
+
+.docs-nav .docs-toc ul {
+  gap: 0;
+  padding-left: 12px;
+}
+
+.docs-nav .docs-toc a {
+  margin-left: -1px;
+  padding: 5px 10px;
+  border-left: 1px solid transparent;
+  border-radius: 0;
+  font-size: 12.5px;
+  font-weight: 450;
+  line-height: 1.45;
+}
+
+.docs-nav .docs-toc ul a {
+  font-size: 12px;
+}
+
+.docs-nav .docs-toc a:hover {
+  background: none;
+  color: var(--text);
+}
+
+.docs-nav .docs-toc a.is-current {
+  border-left-color: var(--brand);
+  color: var(--text);
+}
+
+.docs-nav a:focus-visible {
+  outline-offset: -2px;
+}
+
+.docs-body h2,
+.docs-body h3 {
+  scroll-margin-top: 104px;
 }
 
 .docs-nav a {
@@ -3308,10 +3366,13 @@ main {
     position: static;
   }
 
-  .docs-nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
+  /* One dropdown at the top of the guide replaces the sidebar. */
+  .docs-nav-panel {
+    display: none;
+  }
+
+  .docs-nav-menu {
+    display: block;
   }
 
   .hero-grid,

@@ -1,7 +1,8 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { siteDisambiguation } from "@/lib/copy";
-import { getDoc } from "@/lib/docs";
+import { getDoc, listDocs } from "@/lib/docs";
+import { extractHeadings } from "@/lib/headings";
 import DocPage, { generateMetadata } from "./page";
 
 const params = (slug: string) => ({ params: Promise.resolve({ slug }) });
@@ -124,10 +125,10 @@ describe("Documentation page", () => {
     );
 
     const nav = screen.getByRole("complementary", { name: "Documentation" });
-    expect(within(nav).getByRole("link", { name: "Why an agent pipeline?" })).toHaveAttribute(
-      "aria-current",
-      "page",
-    );
+    // The desktop sidebar and the mobile dropdown each mark the current guide.
+    const current = within(nav).getAllByRole("link", { name: "Why an agent pipeline?" });
+    expect(current).toHaveLength(2);
+    for (const link of current) expect(link).toHaveAttribute("aria-current", "page");
     expect(container.textContent).not.toContain(siteDisambiguation);
     expect(container.textContent).not.toMatch(/[—–]/);
     expect(container.textContent).not.toContain("/docs/handoff-artifacts");
@@ -209,7 +210,10 @@ describe("Documentation page", () => {
       "/docs/pull-requests#github-connection",
     );
     const nav = screen.getByRole("complementary", { name: "Documentation" });
-    expect(within(nav).getByRole("link", { name: "Security" })).toHaveAttribute("aria-current", "page");
+    // The sidebar and the mobile dropdown both list the guides.
+    for (const link of within(nav).getAllByRole("link", { name: "Security" })) {
+      expect(link).toHaveAttribute("aria-current", "page");
+    }
     expect(container.textContent).not.toMatch(/[—–]/);
     expect(container.textContent).not.toMatch(/run token|bmg_/i);
     expect(body.textContent).toContain("On hosted Bento (app.usebento.ai)");
@@ -282,6 +286,88 @@ describe("Documentation page", () => {
     ).toHaveAttribute("href", "/pricing");
     expect(screen.getByRole("link", { name: "Skip to content" })).toHaveAttribute("href", "#main-content");
     expect(screen.getByRole("main")).toHaveAttribute("id", "main-content");
+  });
+
+  it("gives every guide heading the id its table of contents links to", async () => {
+    for (const { slug } of listDocs()) {
+      const { container, unmount } = render(await DocPage(params(slug)));
+      const body = container.querySelector(".docs-body") as HTMLElement;
+      const rendered = [...body.querySelectorAll("h2, h3")].map((heading) => heading.id);
+      const toc = extractHeadings(getDoc(slug)!.content).flatMap((item) => [
+        item,
+        ...item.children,
+      ]);
+
+      expect(rendered.every(Boolean), slug).toBe(true);
+      expect(new Set(rendered).size, slug).toBe(rendered.length);
+      expect(toc.map((item) => item.id), slug).toEqual(rendered);
+      unmount();
+    }
+  });
+
+  it("lists the current guide's sections under it in the sidebar and the mobile menu", async () => {
+    const { container } = render(await DocPage(params("tui")));
+    const nav = screen.getByRole("complementary", { name: "Documentation" });
+    const sidebar = container.querySelector(".docs-nav-panel") as HTMLElement;
+    const menu = container.querySelector("details.docs-nav-menu") as HTMLDetailsElement;
+
+    expect(nav).toContainElement(sidebar);
+    expect(nav).toContainElement(menu);
+    expect(menu.open).toBe(false);
+    expect(within(menu.querySelector("summary") as HTMLElement).getByText("TUI")).toBeInTheDocument();
+    expect(within(menu.querySelector("summary") as HTMLElement).getByText("Guides")).toBeInTheDocument();
+
+    for (const scope of [sidebar, menu]) {
+      const guide = within(scope).getByRole("link", { name: "TUI" });
+      expect(guide).toHaveAttribute("aria-current", "page");
+      expect(guide).toHaveClass("is-active");
+
+      const sections = within(scope).getByRole("list", { name: "TUI sections" });
+      expect(guide.parentElement).toContainElement(sections);
+      const top = [...sections.children].map((item) => item.querySelector("a")!);
+      expect(top.map((link) => link.textContent)).toEqual([
+        "Install the CLI",
+        "Choose where agents run",
+        "Set up a project",
+        "Run the first card",
+        "Common shortcuts",
+      ]);
+      expect(top[1]).toHaveAttribute("href", "#choose-where-agents-run");
+      const nested = within(top[1]!.parentElement as HTMLElement).getByRole("link", {
+        name: "Hosted board and server agents",
+      });
+      expect(nested).toHaveAttribute("href", "#hosted-board-and-server-agents");
+      expect(nested.closest("ul")).not.toBe(sections);
+      expect(screen.getByRole("heading", { level: 3, name: "Hosted board and server agents" })).toHaveAttribute(
+        "id",
+        "hosted-board-and-server-agents",
+      );
+
+      // Only the current guide expands.
+      const other = within(scope).getByRole("link", { name: "Pipelines" });
+      expect(other).not.toHaveAttribute("aria-current");
+      expect(other.parentElement!.querySelector("ul")).toBeNull();
+    }
+
+    const sidebarLinks = [...sidebar.querySelectorAll("a")].map((a) => a.getAttribute("href"));
+    const menuLinks = [...menu.querySelectorAll("a")].map((a) => a.getAttribute("href"));
+    expect(menuLinks).toEqual(sidebarLinks);
+    expect(sidebarLinks).toContain("/docs/pull-requests");
+  });
+
+  it("keeps existing cross-guide anchors pointing at real headings", async () => {
+    for (const [slug, id] of [
+      ["pull-requests", "github-connection"],
+      ["concepts", "cards-sandboxes-and-worktrees"],
+      ["agents", "talking-to-a-working-agent"],
+      ["pipeline", "the-agents-file"],
+      ["pipeline", "repository-commands"],
+    ] as const) {
+      const { container, unmount } = render(await DocPage(params(slug)));
+      expect(container.querySelector(`.docs-body #${id}`), `${slug}#${id}`).not.toBeNull();
+      expect(container.querySelector(`.docs-toc a[href="#${id}"]`), `${slug}#${id}`).not.toBeNull();
+      unmount();
+    }
   });
 
   it("describes the page for search and social cards", async () => {

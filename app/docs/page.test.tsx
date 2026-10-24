@@ -43,6 +43,24 @@ describe("Documentation index", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("offers the guides in the sidebar and the mobile menu, with Overview current", () => {
+    const { container } = render(<DocsIndexPage />);
+    const sidebar = container.querySelector(".docs-nav-panel") as HTMLElement;
+    const menu = container.querySelector("details.docs-nav-menu") as HTMLDetailsElement;
+
+    expect(menu.open).toBe(false);
+    expect(menu.querySelector("summary")).toHaveTextContent(/Guides\s*Overview/);
+    for (const scope of [sidebar, menu]) {
+      expect(within(scope).getByRole("link", { name: "Overview" })).toHaveAttribute("aria-current", "page");
+      const links = within(scope).getAllByRole("link");
+      expect(links.map((link) => link.getAttribute("href"))).toEqual([
+        "/docs",
+        ...listDocs().map((doc) => `/docs/${doc.slug}`),
+      ]);
+      expect(scope.querySelector(".docs-toc")).toBeNull();
+    }
+  });
+
   it("shares the marketing theme with the redesigned homepage", () => {
     const { container } = render(<DocsIndexPage />);
 
