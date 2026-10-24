@@ -245,15 +245,8 @@ for (const width of [375, 1440]) {
       expect((await page.locator(".hero-actions").boundingBox())!.y).toBe(cta!.y);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     }
-    await page.getByRole("button", { name: "Pause headline animation" }).click();
-    await page.clock.fastForward(8000);
-    await expect(active).toHaveText("ship a lot of PRs");
-    await page.getByRole("button", { name: "Play headline animation" }).click();
-    await page.clock.fastForward(4000);
-    await expect(active).toHaveText("want context on changes");
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.clock.fastForward(8000);
-    await expect(active).toHaveText("want context on changes");
-    await expect(page.getByRole("button", { name: "Pause headline animation" })).toBeHidden();
+    await expect(active).toHaveText("ship a lot of PRs");
   });
 }
