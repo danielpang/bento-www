@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, FileText, GitBranch, Laptop, TerminalWindow, UsersThree } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, FileText, GitBranch, Laptop, UsersThree } from "@phosphor-icons/react/dist/ssr";
 import { AgentLogo, type AgentName } from "@/components/agent-logo";
 import { AppleLogo } from "@/components/apple-logo";
 import dynamic from "next/dynamic";
@@ -12,6 +12,8 @@ import { MarketingHeader } from "./header";
 import { FeatureArtifacts } from "./feature-artifacts";
 import { MarketingFaq } from "./faq-section";
 import { RemoteShareScene, TeamBoardScene } from "./lifecycle-scenes";
+import { HeroStory } from "./hero-story";
+import { HeroStoryDemo } from "./hero-story-demo";
 import { HeroHeadline } from "./hero-headline";
 import { SecurityBento } from "./security-bento";
 import {
@@ -25,7 +27,6 @@ import { siteConfig } from "@/lib/site";
 // The animated demos carry the motion library. They are server-rendered as
 // usual but hydrate from their own chunks, so the page's initial script graph
 // is the framework plus a few small islands.
-const PipelineDemo = dynamic(() => import("@/components/pipeline-demo").then(m => m.PipelineDemo));
 const SkillExamples = dynamic(() => import("./skill-examples").then(m => m.SkillExamples));
 const agents: AgentName[] = ["Claude Code", "Codex CLI", "Cursor CLI", "Antigravity", "DeepSeek", "OpenCode", "Pi", "Poolside"];
 export function MarketingHome() {
@@ -35,7 +36,7 @@ export function MarketingHome() {
       <div className="m-above-fold">
         <section className="m-hero site-shell">
           <Link className="m-announcement" href="/changelog">See what’s new <ArrowRight size={14} aria-hidden="true" /></Link>
-          <div className="m-hero-heading">
+          <HeroStory>
             <div className="hero-copy">
               <HeroHeadline />
               <p>{marketingHomePromise}</p>
@@ -45,11 +46,8 @@ export function MarketingHome() {
               </div>
               <InstallCommand />
             </div>
-            <div className="m-demo hero-visual" id="product">
-              <div className="m-demo-caption"><span><TerminalWindow size={16} aria-hidden="true" /> A feature, moving forward.</span><span>Interactive pipeline demo</span></div>
-              <PipelineDemo />
-            </div>
-          </div>
+            <HeroStoryDemo />
+          </HeroStory>
         </section>
         <section className="site-shell m-agents" aria-label="Supported coding agents">
           <p>{marketingAgentsLabel}</p>

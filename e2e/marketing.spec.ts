@@ -44,8 +44,7 @@ for (const width of [375, 768, 1024, 1519]) {
           const viewportHeight = await page.evaluate(() => window.innerHeight);
           expect(agentsBottom).toBeLessThanOrEqual(viewportHeight + 1);
           expect(contextTop).toBeGreaterThanOrEqual(viewportHeight);
-          await page.getByRole("button", { name: "Pause pipeline animation" }).click();
-          await expect(page.getByRole("button", { name: "Play pipeline animation" })).toBeVisible();
+          await expect(page.getByRole("button", { name: /Ship more/ })).toBeVisible();
         } else {
           await page.getByLabel("Navigation menu").click();
           await expect(page.getByRole("navigation", { name: "Mobile navigation" })).toBeVisible();
@@ -236,12 +235,15 @@ for (const width of [375, 1440]) {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await page.clock.install();
     await page.goto("/");
+    await page.getByRole("button", { name: /Keep context/ }).click();
+    await page.getByRole("button", { name: "Replay story" }).click();
     const active = page.locator('.hero-ending[data-active="true"]');
     await expect(active).toHaveText("ship a lot of PRs");
     const cta = await page.locator(".hero-actions").boundingBox();
     for (const phrase of ["want context on changes", "have a high bar for quality", "ship a lot of PRs"]) {
-      await page.clock.fastForward(4000);
+      await page.clock.fastForward(6000);
       await expect(active).toHaveText(phrase);
+      await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", phrase.startsWith("want") ? "Keep context" : phrase.startsWith("have") ? "Raise quality" : "Ship more");
       expect((await page.locator(".hero-actions").boundingBox())!.y).toBe(cta!.y);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     }
@@ -250,3 +252,47 @@ for (const width of [375, 1440]) {
     await expect(active).toHaveText("ship a lot of PRs");
   });
 }
+
+test("hero story can be explored, approved, and replayed", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.install();
+  await page.goto("/");
+  await page.getByRole("button", { name: /Keep context/ }).click();
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want context on changes");
+  await page.getByRole("button", { name: "Decision", exact: true }).click();
+  await expect(page.locator(".story-artifact")).toContainText("One checkout. One idempotency key.");
+  await page.clock.fastForward(18000);
+  await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", "Keep context");
+  await page.getByRole("button", { name: /Raise quality/ }).click();
+  await page.getByRole("button", { name: "Approve example" }).click();
+  await expect(page.locator(".story-approval").getByRole("status")).toHaveText("Approved. Ready to merge.");
+  await expect(page.getByRole("button", { name: "Approved", exact: true })).toBeDisabled();
+  await page.getByRole("button", { name: "Replay story" }).click();
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("ship a lot of PRs");
+  await page.clock.fastForward(6000);
+  await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", "Keep context");
+  await page.getByRole("button", { name: /Raise quality/ }).click();
+  await expect(page.getByRole("button", { name: "Approve example" })).toBeEnabled();
+});
+
+test("reduced motion keeps the story still and supports keyboard exploration", async ({ page }) => {
+  await page.clock.install();
+  await page.goto("/");
+  await page.clock.fastForward(18000);
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("ship a lot of PRs");
+  const context = page.getByRole("button", { name: /Keep context/ });
+  await context.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want context on changes");
+  await expect(page.getByRole("button", { name: "Approve example" })).toBeHidden();
+});
+
+test("hero starts the synchronized story without interaction", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", error => errors.push(error.message));
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", "Keep context", { timeout: 12000 });
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want context on changes");
+  expect(errors).toEqual([]);
+});
