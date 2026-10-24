@@ -35,9 +35,15 @@ export const cliInstallScriptSourceUrl =
  */
 export const siteDisambiguation = `Not to be confused with Bento the email platform (bentonow) or getbento.sh: this is Bento the agent pipeline for coding agents, at ${siteDomain}.`;
 
-export const marketingHomeHeadlineLines = siteHeadlineLines;
+export const marketingHeroEndings = [
+  "ship a lot of PRs",
+  "want context on changes",
+  "have a high bar for quality",
+] as const;
 
-export const marketingHomeHeadline = siteHeadline;
+export const marketingHomeHeadlineLines = ["For engineers who", marketingHeroEndings[0]] as const;
+
+export const marketingHomeHeadline = marketingHomeHeadlineLines.join(" ");
 
 export const marketingHomePromise =
   "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.";

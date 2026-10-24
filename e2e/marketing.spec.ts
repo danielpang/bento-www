@@ -38,7 +38,7 @@ for (const width of [375, 768, 1024, 1519]) {
           expect(workflow!.x).toBeGreaterThan(heading!.x + heading!.width);
           expect(Math.abs(workflow!.y - heading!.y)).toBeLessThan(120);
           const h1Height = await page.locator("h1").evaluate(e => e.clientHeight / parseFloat(getComputedStyle(e).lineHeight));
-          expect(h1Height).toBeLessThan(2.1);
+          expect(h1Height).toBeLessThan(3.3);
           const agentsBottom = await page.locator(".m-agents").evaluate(element => element.getBoundingClientRect().bottom);
           const contextTop = await page.locator(".m-context").evaluate(element => element.getBoundingClientRect().top);
           const viewportHeight = await page.evaluate(() => window.innerHeight);
@@ -229,3 +229,31 @@ test("docs diagram keeps a stable height as the card enters occupied stages", as
     expect(Math.abs(next!.height - start!.height)).toBeLessThan(1);
   }
 });
+
+for (const width of [375, 1440]) {
+  test(`hero cycles without moving the CTAs at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.clock.install();
+    await page.goto("/");
+    const active = page.locator('.hero-ending[data-active="true"]');
+    await expect(active).toHaveText("ship a lot of PRs");
+    const cta = await page.locator(".hero-actions").boundingBox();
+    for (const phrase of ["want context on changes", "have a high bar for quality", "ship a lot of PRs"]) {
+      await page.clock.fastForward(4000);
+      await expect(active).toHaveText(phrase);
+      expect((await page.locator(".hero-actions").boundingBox())!.y).toBe(cta!.y);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    }
+    await page.getByRole("button", { name: "Pause headline animation" }).click();
+    await page.clock.fastForward(8000);
+    await expect(active).toHaveText("ship a lot of PRs");
+    await page.getByRole("button", { name: "Play headline animation" }).click();
+    await page.clock.fastForward(4000);
+    await expect(active).toHaveText("want context on changes");
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.clock.fastForward(8000);
+    await expect(active).toHaveText("want context on changes");
+    await expect(page.getByRole("button", { name: "Pause headline animation" })).toBeHidden();
+  });
+}

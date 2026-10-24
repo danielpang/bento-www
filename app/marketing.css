@@ -168,7 +168,15 @@ body:has(.marketing-page) {
 .m-hero-heading { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 44px; align-items: center; padding: 52px 0 72px; }
 .marketing-page .hero-copy { max-width: none; min-width: 0; grid-column: auto; }
 .marketing-page .hero-copy h1 { max-width: none; font-size: clamp(38px, 3.65vw, 56px); line-height: 1.05; font-weight: 540; letter-spacing: -0.06em; margin: 0; }
-.marketing-page .hero-copy h1 span { display: inline; color: var(--brand); }
+/* Overlapping grid cells reserve the tallest phrase at every viewport width. */
+.marketing-page .hero-copy h1 .hero-endings { display: grid; color: var(--brand); margin-top: 0.12em; }
+.hero-ending { grid-area: 1 / 1; opacity: 0; visibility: hidden; transform: translateY(0.16em); transition: opacity 320ms ease, transform 320ms ease, visibility 320ms; }
+.hero-ending[data-active="true"] { opacity: 1; visibility: visible; transform: translateY(0); }
+.hero-headline { position: relative; padding-bottom: 24px; }
+.hero-playback { position: absolute; bottom: -12px; left: -8px; display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent; color: var(--text-muted); cursor: pointer; }
+.hero-playback:hover { color: var(--brand); background: var(--surface); }
+.hero-playback:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .hero-playback { display: none; } }
 .marketing-page .hero-copy > p { max-width: 490px; margin: 25px 0 28px; font-size: 16px; line-height: 1.7; color: var(--text-muted); }
 .marketing-page .hero-actions { margin: 0; gap: 12px; }
 .marketing-page .hero-visual { width: 100%; grid-column: auto; }

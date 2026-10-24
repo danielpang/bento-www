@@ -12,10 +12,10 @@ import { MarketingHeader } from "./header";
 import { FeatureArtifacts } from "./feature-artifacts";
 import { MarketingFaq } from "./faq-section";
 import { RemoteShareScene, TeamBoardScene } from "./lifecycle-scenes";
+import { HeroHeadline } from "./hero-headline";
 import { SecurityBento } from "./security-bento";
 import {
   marketingAgentsLabel,
-  marketingHomeHeadlineLines,
   marketingHomePromise,
   marketingProblemBeats,
   marketingProblemHeading,
@@ -37,7 +37,7 @@ export function MarketingHome() {
           <Link className="m-announcement" href="/changelog">See what’s new <ArrowRight size={14} aria-hidden="true" /></Link>
           <div className="m-hero-heading">
             <div className="hero-copy">
-              <h1>{marketingHomeHeadlineLines[0]}{" "}<br /><span>{marketingHomeHeadlineLines[1]}</span></h1>
+              <HeroHeadline />
               <p>{marketingHomePromise}</p>
               <div className="hero-actions">
                 <CtaLink href={siteConfig.signupUrl}>Start building for free</CtaLink>
