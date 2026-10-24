@@ -253,26 +253,20 @@ for (const width of [375, 1440]) {
   });
 }
 
-test("hero story can be explored, approved, and replayed", async ({ page }) => {
+test("hero story can be selected and replayed", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.clock.install();
   await page.goto("/");
-  await page.getByRole("button", { name: /Keep context/ }).click();
+  await page.getByRole("button", { name: "Keep context", exact: true }).click();
   await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want context on changes");
-  await page.getByRole("button", { name: "Decision", exact: true }).click();
-  await expect(page.locator(".story-artifact")).toContainText("One checkout. One idempotency key.");
   await page.clock.fastForward(18000);
-  await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", "Keep context");
-  await page.getByRole("button", { name: /Raise quality/ }).click();
-  await page.getByRole("button", { name: "Approve example" }).click();
-  await expect(page.locator(".story-approval").getByRole("status")).toHaveText("Approved. Ready to merge.");
-  await expect(page.getByRole("button", { name: "Approved", exact: true })).toBeDisabled();
+  await expect(page.locator(".hero-story-demo")).toHaveAttribute("data-chapter", "1");
+  await page.getByRole("button", { name: "Raise quality", exact: true }).click();
+  await expect(page.locator(".hero-story-demo")).toHaveAttribute("data-chapter", "2");
   await page.getByRole("button", { name: "Replay story" }).click();
   await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("ship a lot of PRs");
   await page.clock.fastForward(6000);
-  await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", "Keep context");
-  await page.getByRole("button", { name: /Raise quality/ }).click();
-  await expect(page.getByRole("button", { name: "Approve example" })).toBeEnabled();
+  await expect(page.locator(".hero-story-demo")).toHaveAttribute("data-chapter", "1");
 });
 
 test("reduced motion keeps the story still and supports keyboard exploration", async ({ page }) => {
@@ -284,7 +278,7 @@ test("reduced motion keeps the story still and supports keyboard exploration", a
   await context.focus();
   await page.keyboard.press("Enter");
   await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want context on changes");
-  await expect(page.getByRole("button", { name: "Approve example" })).toBeHidden();
+  await expect(page.locator(".hero-story-demo")).toHaveAttribute("data-chapter", "1");
 });
 
 test("hero starts the synchronized story without interaction", async ({ page }) => {
