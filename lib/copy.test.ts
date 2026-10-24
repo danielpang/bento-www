@@ -36,7 +36,7 @@ describe("site copy", () => {
     expect(marketingHomeHeadlineLines).toEqual(["For engineers who", "ship a lot of PRs"]);
     expect(marketingHomeHeadline).toBe("For engineers who ship a lot of PRs");
     expect(marketingHomePromise).toBe(
-      "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.",
+      "An agent graph that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.",
     );
     expect(marketingAgentsLabel).toBe(
       "Works with your favourite harnesses and models",

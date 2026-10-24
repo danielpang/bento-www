@@ -46,7 +46,7 @@ export const marketingHomeHeadlineLines = ["For engineers who", marketingHeroEnd
 export const marketingHomeHeadline = marketingHomeHeadlineLines.join(" ");
 
 export const marketingHomePromise =
-  "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.";
+  "An agent graph that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.";
 
 export const marketingAgentsLabel = "Works with your favourite harnesses and models";
 
