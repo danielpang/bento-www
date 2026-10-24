@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
 
-test("one planner and six workers fit desktop and mobile", async ({ page }) => {
+test("a three-level feature tree fit desktop and mobile", async ({ page }) => {
   for (const width of [320, 375, 768, 1440]) {
     await page.setViewportSize({width, height: 1000});
     await page.goto("/swarms");
-    await expect(page.getByRole("img", {name: /planner agent spawns six worker agents/})).toBeVisible();
-    await expect(page.locator(".swarm-core")).toHaveText("Planner");
+    await expect(page.getByRole("img", {name: /A feature tree: Checkout branches/})).toBeVisible();
+    await expect(page.locator(".swarm-core")).toHaveText("Checkout");
     await expect(page.locator(".swarm-agent")).toHaveCount(6);
     await expect(page.locator(".swarm-controls")).toHaveCount(0);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -20,24 +20,35 @@ test("one planner and six workers fit desktop and mobile", async ({ page }) => {
   }
 });
 
-test("workers spawn out of the planner while headlines rotate independently", async ({ page }) => {
+test("features expand from their parents one level at a time", async ({ page }) => {
   await page.emulateMedia({reducedMotion: "no-preference"});
   await page.goto("/swarms");
-  const worker = page.locator(".swarm-agent").first();
-  const sample = async (time: number) => worker.evaluate((element, currentTime) => {
-    const animation = element.getAnimations().find(item => (item as CSSAnimation).animationName === "swarm-spawn")!;
-    animation.pause();
-    animation.currentTime = currentTime;
-    return {opacity: getComputedStyle(element).opacity, transform: getComputedStyle(element).transform};
-  }, time);
-  const initial = await sample(0);
-  const spawned = await sample(3000);
-  expect(initial.opacity).toBe("0");
-  expect(spawned.opacity).toBe("1");
-  expect(spawned.transform).not.toBe(initial.transform);
+  const sample = async (time: number) => {
+    await page.locator(".swarm-world").evaluate((element, currentTime) => {
+      element.getAnimations({subtree: true}).forEach(animation => {
+        animation.pause();
+        animation.currentTime = currentTime;
+      });
+    }, time);
+  };
+  await sample(0);
+  await expect(page.locator('[data-node="cart"]')).toHaveCSS("opacity", "0");
+  await sample(2600);
+  await expect(page.locator('[data-node="cart"]')).toHaveCSS("opacity", "1");
+  await expect(page.locator('[data-node="items"]')).toHaveCSS("opacity", "0");
+  await sample(5000);
+  for (const node of await page.locator(".swarm-agent").all()) {
+    await expect(node).toHaveCSS("opacity", "1");
+  }
+  const edges = await page.locator(".swarm-branch").evaluateAll(elements =>
+    elements.map(element => [element.getAttribute("data-parent"), element.getAttribute("data-child")]));
+  expect(edges).toEqual([
+    ["checkout", "cart"], ["checkout", "payments"],
+    ["cart", "items"], ["cart", "totals"],
+    ["payments", "cards"], ["payments", "wallets"],
+  ]);
   await expect(page.getByRole("heading", {level: 1})).toHaveAccessibleName("One-shot the migration.", {timeout: 12000});
-  await expect(page.locator(".swarm-core")).toHaveText("Planner");
-  await expect(page.locator(".swarm-agent")).toHaveCount(6);
+  await expect(page.locator(".swarm-core")).toHaveText("Checkout");
 });
 
 test("reduced motion shows the complete static swarm", async ({ page }) => {
