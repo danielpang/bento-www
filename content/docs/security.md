@@ -34,7 +34,11 @@ A few setups still put a credential in the sandbox:
 
 The [agents guide in the Bento repository](https://github.com/danielpang/bento/blob/main/docs/agents.md#model-provider-keys-never-enter-a-hosted-sandbox) lists which keys each tool sends through the proxy.
 
-Bento in local mode (the Mac app, or `bento` on your own machine) gives keys to the agent directly: there is one trusted user. A team server you host yourself uses the model proxy, like app.usebento.ai.
+Bento in local mode (the Mac app, or `bento` on your own machine) uses the model proxy too, by default, with the Docker sandbox: the agent gets a proxy token, and Bento on your machine adds your key, from its environment or from keys saved with `bento setup`. Turn it off in the Mac app under **Advanced settings, Model proxy**, or with `BENTO_MODEL_PROXY=false` for the terminal and the web UI. Either change takes effect when Bento next starts. A team server you host yourself always uses the model proxy, like app.usebento.ai.
+
+- With **Local process** there is no sandbox and no proxy: the agent runs as you and gets your keys.
+- If the sandbox cannot reach Bento, that agent session keeps its keys, and its transcript says so.
+- A saved base URL that names your own machine (`localhost`, `host.docker.internal`) means something else inside the container, so that key reaches the sandbox with it.
 
 ## MCP credentials stay with Bento
 
@@ -66,5 +70,5 @@ A run is billed unless Bento or its sandbox failed it. If the proxy itself fails
 ## Good practice
 
 - Never expose the host Docker socket, host SSH keys, or host git config to a sandbox.
-- In local mode (hosted Bento offers no subscription logins), prefer API keys over mounting subscription credential files: a mounted file is a long lived credential the agent can read.
+- In local mode (hosted Bento offers no subscription logins), prefer API keys over mounting subscription credential files, so the key can go through the proxy.
 - Keep a saved provider base URL on public `https`, so the key can go through the proxy.

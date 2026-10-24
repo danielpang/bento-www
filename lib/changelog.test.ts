@@ -9,6 +9,7 @@ import {
 describe("changelog catalog", () => {
   it("lists dated product updates newest first, without versions", () => {
     expect(changelogEntries.map((entry) => entry.slug)).toEqual([
+      "model-keys-stay-out-of-agent-sandboxes",
       "bento-mac-app",
       "bento-terminal-ui",
       "google-antigravity-cli",
@@ -18,6 +19,7 @@ describe("changelog catalog", () => {
       "linear-integration",
     ]);
     expect(changelogEntries.map((entry) => entry.date)).toEqual([
+      "2026-10-23",
       "2026-09-24",
       "2026-09-11",
       "2026-09-05",
@@ -27,6 +29,7 @@ describe("changelog catalog", () => {
       "2026-08-14",
     ]);
     expect(changelogEntries.map((entry) => entry.displayDate)).toEqual([
+      "October 23, 2026",
       "September 24, 2026",
       "September 11, 2026",
       "September 5, 2026",
@@ -36,6 +39,7 @@ describe("changelog catalog", () => {
       "August 14, 2026",
     ]);
     expect(changelogEntries.map((entry) => entry.title)).toEqual([
+      "Model keys stay out of agent sandboxes",
       "Bento for Mac",
       "Bento TUI",
       "Google Antigravity CLI as a coding agent",
@@ -76,6 +80,7 @@ describe("changelog catalog", () => {
 
   it("looks up entries by slug and by the date they first published under", () => {
     expect(getChangelogSlugs()).toEqual([
+      "model-keys-stay-out-of-agent-sandboxes",
       "bento-mac-app",
       "bento-terminal-ui",
       "google-antigravity-cli",
@@ -97,6 +102,9 @@ describe("changelog catalog", () => {
       "Poolside as a coding agent",
     );
     expect(getChangelogEntry("slack-integration")?.title).toBe("Slack integration");
+    expect(getChangelogEntry("model-keys-stay-out-of-agent-sandboxes")?.paragraphs.join(" ")).toContain(
+      "[Security](/docs/security)",
+    );
     expect(getChangelogEntry("2026-08-19")).toBeNull();
     expect(getChangelogEntryByDate("2026-08-19")?.slug).toBe("slack-integration");
     expect(getChangelogEntryByDate("08-19-26")).toBeNull();
