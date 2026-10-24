@@ -835,7 +835,7 @@ body:has(.marketing-page) {
 .feature-scan { position: absolute; inset: -9px; border: 1px solid #ff9858; border-radius: 17px; display: flex; justify-content: space-between; align-items: flex-start; padding: 13px; color: #ffb786; background: linear-gradient(135deg, #ff98581a, #ff985808); box-shadow: 0 0 30px #ff985822, inset 0 0 30px #ff985811; transform: translateZ(60px); opacity: 0; transition: opacity 600ms; }
 .feature-lock { display: none; color: #ffb786; }
 .feature-scene[data-chapter="2"] .feature-scan { opacity: 1; }
-.feature-scene[data-chapter="2"] .feature-slab { border-color: #ff9858; }
+.feature-scene[data-chapter="2"] .feature-slab { border-color: var(--slab-edge); }
 .feature-scene[data-chapter="2"] .feature-card-top i { display: none; }
 .feature-scene[data-chapter="2"] .feature-lock { display: block; }
 @media (prefers-reduced-motion: no-preference) {
