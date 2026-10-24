@@ -58,7 +58,7 @@ export const changelogEntries: ChangelogEntry[] = [
     slug: "model-keys-stay-out-of-agent-sandboxes",
     date: "2026-10-23",
     displayDate: "October 23, 2026",
-    title: "Model keys stay out of agent sandboxes",
+    title: "Model proxy for LLM providers",
     description:
       "Hosted Bento sends model calls through a model proxy, so an agent’s sandbox contains a proxy token for the run instead of your API key.",
     paragraphs: [

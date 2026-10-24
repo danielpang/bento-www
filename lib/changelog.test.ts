@@ -39,7 +39,7 @@ describe("changelog catalog", () => {
       "August 14, 2026",
     ]);
     expect(changelogEntries.map((entry) => entry.title)).toEqual([
-      "Model keys stay out of agent sandboxes",
+      "Model proxy for LLM providers",
       "Bento for Mac",
       "Bento TUI",
       "Google Antigravity CLI as a coding agent",
