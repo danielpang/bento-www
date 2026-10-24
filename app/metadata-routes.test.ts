@@ -22,6 +22,7 @@ describe("metadata routes", () => {
     expect(urls).toContain("http://localhost:3000/docs");
     expect(urls).toContain("http://localhost:3000/changelog");
     expect(urls).toContain("http://localhost:3000/pricing");
+    expect(urls).toContain("http://localhost:3000/swarms");
     expect(urls).toContain("http://localhost:3000/terms");
     expect(urls).toContain("http://localhost:3000/license");
     expect(urls).not.toContain("http://localhost:3000/accessibility");
