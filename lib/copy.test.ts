@@ -32,11 +32,11 @@ describe("site copy", () => {
     expect(siteDescription).toContain("coordinating agents");
   });
 
-  it("reuses the canonical headline in the redesigned homepage", () => {
-    expect(marketingHomeHeadlineLines).toBe(siteHeadlineLines);
-    expect(marketingHomeHeadline).toBe(siteHeadline);
+  it("uses the initial rotating headline in homepage metadata", () => {
+    expect(marketingHomeHeadlineLines).toEqual(["For engineers who", "ship a lot of PRs"]);
+    expect(marketingHomeHeadline).toBe("For engineers who ship a lot of PRs");
     expect(marketingHomePromise).toBe(
-      "An agent pipeline that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.",
+      "An agent graph that orchestrates coding agents from idea to pull request. Track all your open features while keeping the context.",
     );
     expect(marketingAgentsLabel).toBe(
       "Works with your favourite harnesses and models",
