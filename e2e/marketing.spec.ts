@@ -335,3 +335,25 @@ test("3D scenes move a feature, spawn artifacts, and secure every card", async (
   for (const lock of await locks.all()) await expect(lock).toHaveCSS("opacity", "1");
   for (const plane of await page.locator(".feature-scan").all()) await expect(plane).toHaveCSS("animation-name", "none");
 });
+
+test("scene dots keep transitions isolated during rapid navigation", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  const dots = page.getByRole("group", { name: "Explore Bento benefits" });
+  await expect(dots.getByRole("button")).toHaveCount(3);
+  await expect(dots).toHaveText("");
+  await dots.getByRole("button", { name: "Keep context", exact: true }).click();
+  await dots.getByRole("button", { name: "Secure agents", exact: true }).click();
+  await dots.getByRole("button", { name: "Keep context", exact: true }).click();
+  await expect(page.locator(".feature-scene")).toHaveCount(1);
+  await expect(page.locator(".feature-scene")).toHaveAttribute("data-chapter", "1");
+  await expect(page.locator(".feature-cluster")).toHaveCount(1);
+  await expect(page.locator(".feature-pipeline")).toHaveCount(0);
+  await expect(dots.getByRole("button", { name: "Keep context", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await dots.getByRole("button", { name: "Ship more", exact: true }).focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".feature-scene")).toHaveCount(1);
+  await expect(page.locator(".feature-scene")).toHaveAttribute("data-chapter", "0");
+  await expect(page.locator('.story-dots button[aria-pressed="true"] .story-dot-progress')).toHaveCSS("animation-name", "none");
+});
