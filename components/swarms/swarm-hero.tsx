@@ -85,6 +85,6 @@ export function SwarmHero() {
         </div>)}
       </div>
     </div>
-    <div className="swarm-actions"><CtaLink href={siteConfig.signupUrl}>Start a swarm <ArrowRight size={15} aria-hidden="true" /></CtaLink><Link href="/docs"><GitBranch size={14} aria-hidden="true" /> Explore Bento</Link></div>
+    <div className="swarm-actions"><CtaLink href={siteConfig.signupUrl}>Start a swarm <ArrowRight size={15} aria-hidden="true" /></CtaLink><Link href="/docs"><GitBranch size={14} aria-hidden="true" /> Explore</Link></div>
   </div>;
 }
