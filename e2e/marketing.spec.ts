@@ -240,10 +240,10 @@ for (const width of [375, 1440]) {
     const active = page.locator('.hero-ending[data-active="true"]');
     await expect(active).toHaveText("ship a lot of PRs");
     const cta = await page.locator(".hero-actions").boundingBox();
-    for (const phrase of ["want context on changes", "have a high bar for quality", "ship a lot of PRs"]) {
+    for (const phrase of ["want context on changes", "want secure agents", "ship a lot of PRs"]) {
       await page.clock.fastForward(6000);
       await expect(active).toHaveText(phrase);
-      await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", phrase.startsWith("want") ? "Keep context" : phrase.startsWith("have") ? "Raise quality" : "Ship more");
+      await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", phrase.includes("context") ? "Keep context" : phrase.includes("secure") ? "Secure agents" : "Ship more");
       expect((await page.locator(".hero-actions").boundingBox())!.y).toBe(cta!.y);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     }
@@ -261,7 +261,7 @@ test("hero story can be selected and replayed", async ({ page }) => {
   await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want context on changes");
   await page.clock.fastForward(18000);
   await expect(page.locator(".hero-story-demo")).toHaveAttribute("data-chapter", "1");
-  await page.getByRole("button", { name: "Raise quality", exact: true }).click();
+  await page.getByRole("button", { name: "Secure agents", exact: true }).click();
   await expect(page.locator(".hero-story-demo")).toHaveAttribute("data-chapter", "2");
   await page.getByRole("button", { name: "Replay story" }).click();
   await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("ship a lot of PRs");
@@ -289,4 +289,45 @@ test("hero starts the synchronized story without interaction", async ({ page }) 
   await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", "Keep context", { timeout: 12000 });
   await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want context on changes");
   expect(errors).toEqual([]);
+});
+
+test("3D scenes move a feature, spawn artifacts, and secure every card", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Ship more", exact: true }).click();
+  const movingCard = page.locator(".feature-cluster-1");
+  const xAt = async (time: number) => movingCard.evaluate((element, time) => {
+    const animation = element.getAnimations().find(animation => (animation as CSSAnimation).animationName === "feature-ship")!;
+    animation.pause();
+    animation.currentTime = time;
+    return new DOMMatrix(getComputedStyle(element).transform).m41;
+  }, time);
+  expect(await xAt(4800)).toBeGreaterThan(await xAt(300));
+
+  await page.getByRole("button", { name: "Keep context", exact: true }).click();
+  const artifacts = page.locator(".feature-artifact");
+  await expect(artifacts).toHaveCount(3);
+  const destinations = await artifacts.evaluateAll(elements => elements.map(element => {
+    const animation = element.getAnimations().find(animation => (animation as CSSAnimation).animationName === "artifact-spawn")!;
+    animation.pause();
+    animation.currentTime = 3000;
+    const style = getComputedStyle(element);
+    return { x: new DOMMatrix(style.transform).m41, opacity: style.opacity };
+  }));
+  expect(destinations.every(position => position.x > 0 && position.opacity === "1")).toBe(true);
+
+  await page.getByRole("button", { name: "Secure agents", exact: true }).click();
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want secure agents");
+  const locks = page.locator(".feature-lock");
+  await expect(locks).toHaveCount(3);
+  const locked = await locks.evaluateAll(elements => elements.map(element => {
+    const animation = element.getAnimations().find(animation => (animation as CSSAnimation).animationName === "feature-locked")!;
+    animation.pause();
+    animation.currentTime = 5000;
+    return getComputedStyle(element).opacity;
+  }));
+  expect(locked).toEqual(["1", "1", "1"]);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const lock of await locks.all()) await expect(lock).toHaveCSS("opacity", "1");
+  for (const plane of await page.locator(".feature-scan").all()) await expect(plane).toHaveCSS("animation-name", "none");
 });
