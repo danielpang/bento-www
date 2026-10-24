@@ -44,8 +44,7 @@ for (const width of [375, 768, 1024, 1519]) {
           const viewportHeight = await page.evaluate(() => window.innerHeight);
           expect(agentsBottom).toBeLessThanOrEqual(viewportHeight + 1);
           expect(contextTop).toBeGreaterThanOrEqual(viewportHeight);
-          await page.getByRole("button", { name: "Pause pipeline animation" }).click();
-          await expect(page.getByRole("button", { name: "Play pipeline animation" })).toBeVisible();
+          await expect(page.getByRole("button", { name: /Ship more/ })).toBeVisible();
         } else {
           await page.getByLabel("Navigation menu").click();
           await expect(page.getByRole("navigation", { name: "Mobile navigation" })).toBeVisible();
@@ -234,19 +233,127 @@ for (const width of [375, 1440]) {
   test(`hero cycles without moving the CTAs at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.emulateMedia({ reducedMotion: "no-preference" });
-    await page.clock.install();
+    test.setTimeout(45000);
     await page.goto("/");
     const active = page.locator('.hero-ending[data-active="true"]');
     await expect(active).toHaveText("ship a lot of PRs");
+    await page.evaluate(() => document.fonts.ready);
     const cta = await page.locator(".hero-actions").boundingBox();
-    for (const phrase of ["want context on changes", "have a high bar for quality", "ship a lot of PRs"]) {
-      await page.clock.fastForward(4000);
-      await expect(active).toHaveText(phrase);
+    for (const phrase of ["want context on changes", "want secure agents", "ship a lot of PRs"]) {
+      await expect(active).toHaveText(phrase, { timeout: 10000 });
+      await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", phrase.includes("context") ? "Keep context" : phrase.includes("secure") ? "Secure agents" : "Ship more");
       expect((await page.locator(".hero-actions").boundingBox())!.y).toBe(cta!.y);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     }
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.clock.fastForward(8000);
+    await page.waitForTimeout(6500);
     await expect(active).toHaveText("ship a lot of PRs");
   });
 }
+
+test("hero scenes can be selected and held", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.install();
+  await page.goto("/");
+  await page.getByRole("button", { name: "Keep context", exact: true }).click();
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want context on changes");
+  await page.clock.fastForward(18000);
+  await expect(page.locator(".hero-story-demo")).toHaveAttribute("data-chapter", "1");
+  await page.getByRole("button", { name: "Secure agents", exact: true }).click();
+  await expect(page.locator(".hero-story-demo")).toHaveAttribute("data-chapter", "2");
+  await page.getByRole("button", { name: "Ship more", exact: true }).click();
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("ship a lot of PRs");
+  await page.clock.fastForward(18000);
+  await expect(page.locator(".hero-story-demo")).toHaveAttribute("data-chapter", "0");
+  await expect(page.getByRole("button", { name: "Replay story" })).toHaveCount(0);
+  await expect(page.getByText("Interactive example", { exact: true })).toHaveCount(0);
+});
+
+test("reduced motion keeps the story still and supports keyboard exploration", async ({ page }) => {
+  await page.clock.install();
+  await page.goto("/");
+  await page.clock.fastForward(18000);
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("ship a lot of PRs");
+  const context = page.getByRole("button", { name: /Keep context/ });
+  await context.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want context on changes");
+  await expect(page.locator(".hero-story-demo")).toHaveAttribute("data-chapter", "1");
+});
+
+test("hero starts the synchronized story without interaction", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", error => errors.push(error.message));
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await expect(page.locator('.story-scene[data-active="true"]')).toHaveAttribute("aria-label", "Keep context", { timeout: 12000 });
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want context on changes");
+  expect(errors).toEqual([]);
+});
+
+test("3D scenes move a feature, spawn artifacts, and secure every card", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Ship more", exact: true }).click();
+  const movingCard = page.locator(".feature-cluster-1");
+  const xAt = async (time: number) => movingCard.evaluate((element, time) => {
+    const animation = element.getAnimations().find(animation => (animation as CSSAnimation).animationName === "feature-ship")!;
+    animation.pause();
+    animation.currentTime = time;
+    return new DOMMatrix(getComputedStyle(element).transform).m41;
+  }, time);
+  expect(await xAt(4800)).toBeGreaterThan(await xAt(300));
+
+  await page.getByRole("button", { name: "Keep context", exact: true }).click();
+  await expect(page.locator(".feature-cluster")).toHaveCount(1);
+  await expect(page.locator(".feature-cluster .feature-slab")).toHaveCount(1);
+  await expect(page.locator(".feature-pipeline")).toHaveCount(0);
+  await expect(movingCard).toHaveCSS("animation-name", "none");
+  const artifacts = page.locator(".feature-artifact");
+  await expect(artifacts).toHaveCount(3);
+  const destinations = await artifacts.evaluateAll(elements => elements.map(element => {
+    const animation = element.getAnimations().find(animation => (animation as CSSAnimation).animationName === "artifact-spawn")!;
+    animation.pause();
+    animation.currentTime = 3000;
+    const style = getComputedStyle(element);
+    return { x: new DOMMatrix(style.transform).m41, opacity: style.opacity };
+  }));
+  expect(destinations.every(position => position.x > 0 && position.opacity === "1")).toBe(true);
+
+  await page.getByRole("button", { name: "Secure agents", exact: true }).click();
+  await expect(page.locator('.hero-ending[data-active="true"]')).toHaveText("want secure agents");
+  const locks = page.locator(".feature-lock");
+  await expect(locks).toHaveCount(3);
+  const locked = await locks.evaluateAll(elements => elements.map(element => {
+    const animation = element.getAnimations().find(animation => (animation as CSSAnimation).animationName === "feature-locked")!;
+    animation.pause();
+    animation.currentTime = 5000;
+    return getComputedStyle(element).opacity;
+  }));
+  expect(locked).toEqual(["1", "1", "1"]);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const lock of await locks.all()) await expect(lock).toHaveCSS("opacity", "1");
+  for (const plane of await page.locator(".feature-scan").all()) await expect(plane).toHaveCSS("animation-name", "none");
+});
+
+test("scene dots keep transitions isolated during rapid navigation", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  const dots = page.getByRole("group", { name: "Explore Bento benefits" });
+  await expect(dots.getByRole("button")).toHaveCount(3);
+  await expect(dots).toHaveText("");
+  await dots.getByRole("button", { name: "Keep context", exact: true }).click();
+  await dots.getByRole("button", { name: "Secure agents", exact: true }).click();
+  await dots.getByRole("button", { name: "Keep context", exact: true }).click();
+  await expect(page.locator(".feature-scene")).toHaveCount(1);
+  await expect(page.locator(".feature-scene")).toHaveAttribute("data-chapter", "1");
+  await expect(page.locator(".feature-cluster")).toHaveCount(1);
+  await expect(page.locator(".feature-pipeline")).toHaveCount(0);
+  await expect(dots.getByRole("button", { name: "Keep context", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await dots.getByRole("button", { name: "Ship more", exact: true }).focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".feature-scene")).toHaveCount(1);
+  await expect(page.locator(".feature-scene")).toHaveAttribute("data-chapter", "0");
+  await expect(page.locator('.story-dots button[aria-pressed="true"] .story-dot-progress')).toHaveCSS("animation-name", "none");
+});

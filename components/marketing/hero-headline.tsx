@@ -1,28 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useHeroStory } from "./hero-story";
 import { marketingHeroEndings, marketingHomeHeadline, marketingHomeHeadlineLines } from "@/lib/copy";
 
 export function HeroHeadline() {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let timer: ReturnType<typeof setInterval> | undefined;
-    const sync = () => {
-      clearInterval(timer);
-      if (preference.matches || document.hidden) return;
-      timer = setInterval(() => setActive(index => (index + 1) % marketingHeroEndings.length), 4000);
-    };
-    sync();
-    preference.addEventListener("change", sync);
-    document.addEventListener("visibilitychange", sync);
-    return () => {
-      clearInterval(timer);
-      preference.removeEventListener("change", sync);
-      document.removeEventListener("visibilitychange", sync);
-    };
-  }, []);
+  const { active } = useHeroStory();
 
   return (
     <div className="hero-headline">

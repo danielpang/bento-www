@@ -38,7 +38,7 @@ export const siteDisambiguation = `Not to be confused with Bento the email platf
 export const marketingHeroEndings = [
   "ship a lot of PRs",
   "want context on changes",
-  "have a high bar for quality",
+  "want secure agents",
 ] as const;
 
 export const marketingHomeHeadlineLines = ["For engineers who", marketingHeroEndings[0]] as const;
