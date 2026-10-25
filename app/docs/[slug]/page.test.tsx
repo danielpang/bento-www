@@ -189,6 +189,7 @@ describe("Documentation page", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Security" })).toBeInTheDocument();
     for (const section of [
       "Model keys stay encrypted in Bento",
+      "Personal and shared API keys",
       "MCP credentials stay with Bento",
       "Git access",
       "What a sandbox can reach",
@@ -216,7 +217,7 @@ describe("Documentation page", () => {
     }
     expect(container.textContent).not.toMatch(/[—–]/);
     expect(container.textContent).not.toMatch(/run token|bmg_/i);
-    expect(body.textContent).toContain("On hosted Bento (app.usebento.ai)");
+    expect(body.textContent).toContain("For supported providers on hosted Bento (app.usebento.ai)");
     expect(body.textContent).toContain("BENTO_MODEL_PROXY=false");
     expect(body.textContent).toContain("Advanced settings, Model proxy");
     expect(body.textContent).not.toMatch(/error tracking|subscription token/i);
