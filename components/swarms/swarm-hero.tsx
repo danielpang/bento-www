@@ -25,6 +25,12 @@ const features = [
 // Keep the feature cards alive as they settle into a larger 4 × 4 swarm.
 const featureCells = [0, 1, 2, 4, 6, 8];
 const extraCells = [3, 7, 9, 10, 11, 12, 13, 14, 15];
+const outerCells = Array.from({ length: 64 }, (_, cell) => ({
+  cell,
+  column: cell % 8,
+  row: Math.floor(cell / 8),
+})).filter(({ column, row }) => column < 2 || column > 5 || row < 2 || row > 5);
+
 function gridPosition(cell: number) {
   return { "--grid-x": `${(cell % 4 - 1.5) * 130}px`, "--grid-y": `${(Math.floor(cell / 4) - 1.5) * 130}px` };
 }
@@ -69,10 +75,11 @@ export function SwarmHero() {
       </h1>
       <p>One goal. A swarm of agents.</p>
     </div>
-    <div className="swarm-stage" role="img" aria-label="A feature tree: Checkout branches into Cart and Payments. Cart branches into Items and Totals; Payments branches into Cards and Wallets. Agents expand the tree one level at a time, then the feature cards assemble into a four-by-four grid of sixteen blocks working as a swarm.">
+    <div className="swarm-stage" role="img" aria-label="A feature tree: Checkout branches into Cart and Payments. Cart branches into Items and Totals; Payments branches into Cards and Wallets. Agents expand the tree one level at a time, then the feature cards assemble into a four-by-four grid of sixteen blocks working as a swarm. The view then zooms out to reveal sixty-four agents in an eight-by-eight grid.">
       <div className="swarm-halo" aria-hidden="true" />
       <div className="swarm-grid" aria-hidden="true" />
       <div className="swarm-world" aria-hidden="true">
+        <div className="swarm-camera">
         <svg className="swarm-connections" viewBox="-430 -300 860 600" fill="none">
           {features.map((feature, index) => {
             const path = connection(feature.origin, feature.position, feature.depth === 1, false);
@@ -99,6 +106,16 @@ export function SwarmHero() {
             <Check className="swarm-agent-check" size={14} />
           </div>
         </div>)}
+        {outerCells.map(({ cell, column, row }) => <div className="swarm-extra swarm-outer" data-ring={column === 0 || column === 7 || row === 0 || row === 7 ? 2 : 1} key={cell} style={{ "--grid-x": `${(column - 3.5) * 130}px`, "--grid-y": `${(row - 3.5) * 130}px`, "--order": cell } as CSSProperties}>
+          <div className="swarm-agent-shadow" />
+          <div className="swarm-agent-face">
+            <div className="swarm-agent-top"><Code size={16} /><span>{String(cell + 1).padStart(2, "0")}</span></div>
+            <div className="swarm-extra-lines"><i /><i /></div>
+            <div className="swarm-agent-activity"><i /><i /><i /><i /><i /></div>
+            <Check className="swarm-agent-check" size={14} />
+          </div>
+        </div>)}
+        </div>
       </div>
     </div>
     <div className="swarm-actions"><CtaLink href={siteConfig.signupUrl}>Start a swarm <ArrowRight size={15} aria-hidden="true" /></CtaLink><Link href="/docs"><GitBranch size={14} aria-hidden="true" /> Explore</Link></div>

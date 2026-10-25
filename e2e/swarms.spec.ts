@@ -60,7 +60,7 @@ test("reduced motion shows the complete static swarm", async ({ page }) => {
   await expect(page.getByRole("heading", {level: 1})).toHaveAccessibleName("Build ambiguous features.");
 });
 
-test("the tree becomes a sixteen-block swarm grid, then restarts", async ({ page }) => {
+test("the tree becomes a swarm grid, zooms out to sixty-four agents, then restarts", async ({ page }) => {
   await page.emulateMedia({reducedMotion: "no-preference"});
   for (const width of [320, 375, 768, 1440]) {
     await page.setViewportSize({width, height: 1000});
@@ -75,7 +75,7 @@ test("the tree becomes a sixteen-block swarm grid, then restarts", async ({ page
     await expect(page.locator(".swarm-extra").first()).toHaveCSS("opacity", "0");
     const treePosition = await page.locator('[data-node="cart"]').boundingBox();
     await sample(12000);
-    const nodes = page.locator(".swarm-agent, .swarm-core, .swarm-extra");
+    const nodes = page.locator(".swarm-agent, .swarm-core, .swarm-extra:not(.swarm-outer)");
     await expect(nodes).toHaveCount(16);
     const stage = await page.locator(".swarm-stage").boundingBox();
     for (const node of await nodes.all()) {
@@ -90,7 +90,24 @@ test("the tree becomes a sixteen-block swarm grid, then restarts", async ({ page
     for (const edge of await page.locator(".swarm-branch").all()) {
       await expect(edge).toHaveCSS("opacity", "0");
     }
-    await sample(16000);
+    const beforeZoom = await page.locator(".swarm-core").boundingBox();
+    await sample(18000);
+    const expanded = page.locator(".swarm-agent, .swarm-core, .swarm-extra");
+    await expect(expanded).toHaveCount(64);
+    const boxes = await expanded.evaluateAll(nodes => nodes.map(node => {
+      const box = node.getBoundingClientRect();
+      return { x: box.x, y: box.y, width: box.width, height: box.height, opacity: getComputedStyle(node).opacity };
+    }));
+    for (const box of boxes) {
+      expect(box.opacity).toBe("1");
+      expect(box.x).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width).toBeLessThanOrEqual(width);
+      expect(box.y).toBeGreaterThanOrEqual(stage!.y);
+      expect(box.y + box.height).toBeLessThanOrEqual(stage!.y + stage!.height);
+    }
+    const afterZoom = await page.locator(".swarm-core").boundingBox();
+    expect(afterZoom!.width).toBeLessThan(beforeZoom!.width * .6);
+    await sample(22000);
     await expect(page.locator(".swarm-extra").first()).toHaveCSS("opacity", "0");
     await expect(page.locator(".swarm-core")).toHaveCSS("opacity", "1");
   }

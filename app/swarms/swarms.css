@@ -12,6 +12,7 @@
 .swarm-halo { position: absolute; inset: 4% 10% 1%; background: radial-gradient(ellipse, color-mix(in srgb, var(--brand) 13%, transparent), transparent 65%); }
 .swarm-grid { position: absolute; left: 50%; top: 50%; width: 760px; height: 400px; transform: translate(-50%, -50%) rotateX(57deg) rotateZ(-12deg); background-image: linear-gradient(color-mix(in srgb, var(--brand) 9%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--brand) 9%, transparent) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse, black 10%, transparent 70%); }
 .swarm-world { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; transform: scale(.84) rotateX(43deg) rotateZ(-12deg); }
+.swarm-camera { position: absolute; width: 0; height: 0; transform-style: preserve-3d; }
 .swarm-connections { position: absolute; left: -430px; top: -300px; width: 860px; height: 600px; transform: translateZ(0); overflow: visible; }
 .swarm-edge-track { stroke: var(--brand); stroke-width: 1.2; opacity: .24; }
 .swarm-edge-signal { stroke: var(--brand); stroke-width: 2.5; stroke-dasharray: 8 92; stroke-linecap: round; opacity: .9; }
@@ -44,42 +45,60 @@
 .swarm-extra-lines i { width: 42px; height: 3px; border-radius: 2px; background: #ededee30; }
 .swarm-extra-lines i:last-child { width: 28px; }
 @media (prefers-reduced-motion: no-preference) {
-  .swarm-agent { animation: swarm-spawn 16s cubic-bezier(.22,1,.36,1) infinite both; }
-  .swarm-branch { animation: swarm-branch-reveal 16s ease infinite both; }
-  .swarm-edge-track { stroke-dasharray: 100; animation: swarm-draw 16s ease infinite both; }
+  .swarm-agent { animation: swarm-spawn 22s cubic-bezier(.22,1,.36,1) infinite both; }
+  .swarm-branch { animation: swarm-branch-reveal 22s ease infinite both; }
+  .swarm-edge-track { stroke-dasharray: 100; animation: swarm-draw 22s ease infinite both; }
   .swarm-edge-signal { animation: swarm-signal 2.8s linear infinite; }
-  .swarm-core { animation: swarm-core-grid 16s cubic-bezier(.22,1,.36,1) infinite both; }
-  .swarm-extra { visibility: visible; animation: swarm-grid-fill 16s cubic-bezier(.22,1,.36,1) infinite both; }
+  .swarm-core { animation: swarm-core-grid 22s cubic-bezier(.22,1,.36,1) infinite both; }
+  .swarm-extra { visibility: visible; animation: swarm-grid-fill 22s cubic-bezier(.22,1,.36,1) infinite both; }
   @keyframes swarm-spawn {
-    0%, 4.5% { opacity: 0; transform: translate3d(var(--from-x), var(--from-y), 0) scale(.3); }
-    14.6%, 48% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
-    64%, 90% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    0%, 3.273% { opacity: 0; transform: translate3d(var(--from-x), var(--from-y), 0) scale(.3); }
+    10.618%, 34.909% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
+    46.545%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
     98%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
   }
   .swarm-agent[data-depth="2"] { animation-name: swarm-leaf-spawn; }
   .swarm-branch[data-depth="2"] { animation-name: swarm-leaf-reveal; }
   .swarm-branch[data-depth="2"] .swarm-edge-track { animation-name: swarm-leaf-draw; }
   @keyframes swarm-leaf-spawn {
-    0%, 16.9% { opacity: 0; transform: translate3d(var(--from-x), var(--from-y), 0) scale(.3); }
-    29.3%, 48% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
-    64%, 90% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    0%, 12.291% { opacity: 0; transform: translate3d(var(--from-x), var(--from-y), 0) scale(.3); }
+    21.309%, 34.909% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
+    46.545%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
     98%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
   }
   @keyframes swarm-core-grid {
-    0%, 48%, 100% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
-    64%, 90% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.765); }
+    0%, 34.909%, 100% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
+    46.545%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.765); }
     98% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.7); }
     99% { opacity: 0; transform: translate3d(var(--x), var(--y), 22px) scale(.9); }
   }
   @keyframes swarm-grid-fill {
-    0%, 52%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 0) scale(.3); }
-    66%, 90% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    0%, 37.818%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 0) scale(.3); }
+    48%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
     98% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
   }
-  @keyframes swarm-leaf-reveal { 0%, 19%, 50%, 100% { opacity: 0; } 29.3%, 44% { opacity: 1; } }
-  @keyframes swarm-leaf-draw { 0%, 19% { stroke-dashoffset: 100; } 30.4%, 100% { stroke-dashoffset: 0; } }
-  @keyframes swarm-branch-reveal { 0%, 6.8%, 50%, 100% { opacity: 0; } 14.6%, 44% { opacity: 1; } }
-  @keyframes swarm-draw { 0%, 6.8% { stroke-dashoffset: 100; } 16.9%, 100% { stroke-dashoffset: 0; } }
+  @keyframes swarm-leaf-reveal { 0%, 13.818%, 36.364%, 100% { opacity: 0; } 21.309%, 32% { opacity: 1; } }
+  @keyframes swarm-leaf-draw { 0%, 13.818% { stroke-dashoffset: 100; } 22.109%, 100% { stroke-dashoffset: 0; } }
+  @keyframes swarm-branch-reveal { 0%, 4.945%, 36.364%, 100% { opacity: 0; } 10.618%, 32% { opacity: 1; } }
+  @keyframes swarm-draw { 0%, 4.945% { stroke-dashoffset: 100; } 12.291%, 100% { stroke-dashoffset: 0; } }
+  .swarm-camera { animation: swarm-zoom-out 22s cubic-bezier(.4,0,.2,1) infinite both; }
+  .swarm-outer { animation-name: swarm-outer-reveal; }
+  .swarm-outer[data-ring="2"] { animation-name: swarm-outer-ring-reveal; }
+  @keyframes swarm-zoom-out {
+    0%, 56%, 100% { transform: scale(1); }
+    74%, 98% { transform: scale(.49); }
+    99% { transform: scale(1); }
+  }
+  @keyframes swarm-outer-reveal {
+    0%, 58%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 0) scale(.5); }
+    70%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    98% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
+  }
+  @keyframes swarm-outer-ring-reveal {
+    0%, 64%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 0) scale(.5); }
+    76%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    98% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
+  }
   .swarm-agent-face { animation: swarm-float 3.6s ease-in-out infinite alternate; animation-delay: calc(var(--order) * -.45s); }
   .swarm-agent-activity { animation: swarm-activity 1.8s ease-in-out infinite alternate; animation-delay: calc(var(--order) * -.3s); }
   @keyframes swarm-signal { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
