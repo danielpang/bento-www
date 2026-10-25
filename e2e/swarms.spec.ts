@@ -59,3 +59,39 @@ test("reduced motion shows the complete static swarm", async ({ page }) => {
   }
   await expect(page.getByRole("heading", {level: 1})).toHaveAccessibleName("Build ambiguous features.");
 });
+
+test("the tree becomes a sixteen-block swarm grid, then restarts", async ({ page }) => {
+  await page.emulateMedia({reducedMotion: "no-preference"});
+  for (const width of [320, 375, 768, 1440]) {
+    await page.setViewportSize({width, height: 1000});
+    await page.goto("/swarms");
+    const sample = async (time: number) => page.locator(".swarm-world").evaluate((world, time) => {
+      world.getAnimations({subtree: true}).forEach(animation => {
+        animation.pause();
+        animation.currentTime = time;
+      });
+    }, time);
+    await sample(5000);
+    await expect(page.locator(".swarm-extra").first()).toHaveCSS("opacity", "0");
+    const treePosition = await page.locator('[data-node="cart"]').boundingBox();
+    await sample(12000);
+    const nodes = page.locator(".swarm-agent, .swarm-core, .swarm-extra");
+    await expect(nodes).toHaveCount(16);
+    const stage = await page.locator(".swarm-stage").boundingBox();
+    for (const node of await nodes.all()) {
+      await expect(node).toHaveCSS("opacity", "1");
+      const box = await node.boundingBox();
+      expect(box!.x).toBeGreaterThanOrEqual(0);
+      expect(box!.x + box!.width).toBeLessThanOrEqual(width);
+      expect(box!.y).toBeGreaterThanOrEqual(stage!.y);
+      expect(box!.y + box!.height).toBeLessThanOrEqual(stage!.y + stage!.height);
+    }
+    expect(await page.locator('[data-node="cart"]').boundingBox()).not.toEqual(treePosition);
+    for (const edge of await page.locator(".swarm-branch").all()) {
+      await expect(edge).toHaveCSS("opacity", "0");
+    }
+    await sample(16000);
+    await expect(page.locator(".swarm-extra").first()).toHaveCSS("opacity", "0");
+    await expect(page.locator(".swarm-core")).toHaveCSS("opacity", "1");
+  }
+});

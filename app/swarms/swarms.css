@@ -15,7 +15,7 @@
 .swarm-connections { position: absolute; left: -430px; top: -300px; width: 860px; height: 600px; transform: translateZ(0); overflow: visible; }
 .swarm-edge-track { stroke: var(--brand); stroke-width: 1.2; opacity: .24; }
 .swarm-edge-signal { stroke: var(--brand); stroke-width: 2.5; stroke-dasharray: 8 92; stroke-linecap: round; opacity: .9; }
-.swarm-core, .swarm-agent { position: absolute; transform: translate3d(var(--x), var(--y), 22px); transform-style: preserve-3d; transition: transform 1200ms cubic-bezier(.22,1,.36,1); }
+.swarm-core, .swarm-agent, .swarm-extra { position: absolute; transform: translate3d(var(--x), var(--y), 22px); transform-style: preserve-3d; transition: transform 1200ms cubic-bezier(.22,1,.36,1); }
 .swarm-core { width: 136px; height: 136px; left: -68px; top: -68px; }
 .swarm-core-floor, .swarm-core-face { position: absolute; inset: 0; border-radius: 17px; }
 .swarm-core-floor { border: 1px solid #ff985855; background: #ff98580b; transform: translateZ(-22px); box-shadow: 0 0 55px #ff98581a; }
@@ -25,7 +25,7 @@
 .swarm-core-bars { display: flex; gap: 4px; margin-top: 9px; }
 .swarm-core-bars i { width: 18px; height: 3px; border-radius: 2px; background: #35160735; }
 .swarm-core-bars i:nth-child(2) { width: 30px; }
-.swarm-agent { width: 104px; height: 104px; left: -52px; top: -52px; }
+.swarm-agent, .swarm-extra { width: 104px; height: 104px; left: -52px; top: -52px; }
 .swarm-agent-shadow { position: absolute; inset: 0; transform: translateZ(-12px); border: 1px solid #38383e; background: #18191c; border-radius: 12px; }
 .swarm-agent-face { position: absolute; inset: 0; padding: 14px; border: 1px solid #47474e; border-radius: 12px; background: linear-gradient(135deg, #313237, #1c1d21); color: #ededee; box-shadow: -1px 2px 0 #131416, -3px 4px 0 #131416, -5px 6px 0 #131416, -8px 12px 20px #0003; transform: translateZ(0); }
 .swarm-agent-top { display: flex; justify-content: space-between; align-items: center; color: #ffad73; }
@@ -39,30 +39,47 @@
 .swarm-actions { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; margin-top: 48px; position: relative; z-index: 2; }
 .swarm-actions > a { display: inline-flex; align-items: center; gap: 8px; }
 .swarm-actions > a:last-child { color: var(--text-muted); font-size: 12px; }
+.swarm-extra { visibility: hidden; opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px); }
+.swarm-extra-lines { display: grid; gap: 5px; margin-top: 14px; }
+.swarm-extra-lines i { width: 42px; height: 3px; border-radius: 2px; background: #ededee30; }
+.swarm-extra-lines i:last-child { width: 28px; }
 @media (prefers-reduced-motion: no-preference) {
-  .swarm-agent { animation: swarm-spawn 9s cubic-bezier(.22,1,.36,1) infinite both; }
-  .swarm-branch { animation: swarm-branch-reveal 9s ease infinite both; }
-  .swarm-edge-track { stroke-dasharray: 100; animation: swarm-draw 9s ease infinite both; }
+  .swarm-agent { animation: swarm-spawn 16s cubic-bezier(.22,1,.36,1) infinite both; }
+  .swarm-branch { animation: swarm-branch-reveal 16s ease infinite both; }
+  .swarm-edge-track { stroke-dasharray: 100; animation: swarm-draw 16s ease infinite both; }
   .swarm-edge-signal { animation: swarm-signal 2.8s linear infinite; }
-  .swarm-core-mark { animation: swarm-plan 9s ease infinite; }
+  .swarm-core { animation: swarm-core-grid 16s cubic-bezier(.22,1,.36,1) infinite both; }
+  .swarm-extra { visibility: visible; animation: swarm-grid-fill 16s cubic-bezier(.22,1,.36,1) infinite both; }
   @keyframes swarm-spawn {
-    0%, 8% { opacity: 0; transform: translate3d(var(--from-x), var(--from-y), 0) scale(.3); }
-    26%, 82% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
-    94%, 100% { opacity: 0; transform: translate3d(var(--x), var(--y), 22px) scale(.92); }
+    0%, 4.5% { opacity: 0; transform: translate3d(var(--from-x), var(--from-y), 0) scale(.3); }
+    14.6%, 48% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
+    64%, 90% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    98%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
   }
   .swarm-agent[data-depth="2"] { animation-name: swarm-leaf-spawn; }
   .swarm-branch[data-depth="2"] { animation-name: swarm-leaf-reveal; }
   .swarm-branch[data-depth="2"] .swarm-edge-track { animation-name: swarm-leaf-draw; }
   @keyframes swarm-leaf-spawn {
-    0%, 30% { opacity: 0; transform: translate3d(var(--from-x), var(--from-y), 0) scale(.3); }
-    52%, 82% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
-    94%, 100% { opacity: 0; transform: translate3d(var(--x), var(--y), 22px) scale(.92); }
+    0%, 16.9% { opacity: 0; transform: translate3d(var(--from-x), var(--from-y), 0) scale(.3); }
+    29.3%, 48% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
+    64%, 90% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    98%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
   }
-  @keyframes swarm-leaf-reveal { 0%, 34%, 94%, 100% { opacity: 0; } 52%, 82% { opacity: 1; } }
-  @keyframes swarm-leaf-draw { 0%, 34% { stroke-dashoffset: 100; } 54%, 100% { stroke-dashoffset: 0; } }
-  @keyframes swarm-branch-reveal { 0%, 12%, 94%, 100% { opacity: 0; } 26%, 82% { opacity: 1; } }
-  @keyframes swarm-draw { 0%, 12% { stroke-dashoffset: 100; } 30%, 100% { stroke-dashoffset: 0; } }
-  @keyframes swarm-plan { 0%, 8% { opacity: .4; } 18%, 82% { opacity: 1; } 100% { opacity: .4; } }
+  @keyframes swarm-core-grid {
+    0%, 48%, 100% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
+    64%, 90% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.765); }
+    98% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.7); }
+    99% { opacity: 0; transform: translate3d(var(--x), var(--y), 22px) scale(.9); }
+  }
+  @keyframes swarm-grid-fill {
+    0%, 52%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 0) scale(.3); }
+    66%, 90% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    98% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
+  }
+  @keyframes swarm-leaf-reveal { 0%, 19%, 50%, 100% { opacity: 0; } 29.3%, 44% { opacity: 1; } }
+  @keyframes swarm-leaf-draw { 0%, 19% { stroke-dashoffset: 100; } 30.4%, 100% { stroke-dashoffset: 0; } }
+  @keyframes swarm-branch-reveal { 0%, 6.8%, 50%, 100% { opacity: 0; } 14.6%, 44% { opacity: 1; } }
+  @keyframes swarm-draw { 0%, 6.8% { stroke-dashoffset: 100; } 16.9%, 100% { stroke-dashoffset: 0; } }
   .swarm-agent-face { animation: swarm-float 3.6s ease-in-out infinite alternate; animation-delay: calc(var(--order) * -.45s); }
   .swarm-agent-activity { animation: swarm-activity 1.8s ease-in-out infinite alternate; animation-delay: calc(var(--order) * -.3s); }
   @keyframes swarm-signal { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
