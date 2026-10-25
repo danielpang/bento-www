@@ -63,6 +63,46 @@ describe("Bento landing page", () => {
     ).toBe(true);
   });
 
+  it("gives every image an alt text and every graphic an accessible name", () => {
+    const { container } = render(<Home />);
+
+    // Raster images need alt text. An empty alt is only right for a
+    // purely decorative picture, and the landing page has none.
+    const images = Array.from(container.querySelectorAll("img"));
+    for (const image of images) {
+      expect(image.getAttribute("alt")?.trim(), image.outerHTML).toBeTruthy();
+    }
+
+    // Inline SVGs are either decorative (hidden from assistive
+    // technology, with the meaning carried by adjacent text) or named.
+    const graphics = Array.from(container.querySelectorAll("svg"));
+    expect(graphics.length).toBeGreaterThan(0);
+    for (const graphic of graphics) {
+      const decorative = graphic.getAttribute("aria-hidden") === "true";
+      const named =
+        Boolean(graphic.getAttribute("aria-label")) ||
+        Boolean(graphic.getAttribute("aria-labelledby")) ||
+        Boolean(graphic.querySelector("title"));
+      expect(decorative || named, graphic.outerHTML).toBe(true);
+    }
+
+    // Diagrams built from markup announce what they depict.
+    const figures = Array.from(container.querySelectorAll("figure"));
+    expect(figures.length).toBeGreaterThan(0);
+    for (const figure of figures) {
+      const named =
+        Boolean(figure.getAttribute("aria-label")) ||
+        Boolean(figure.getAttribute("aria-labelledby")) ||
+        Boolean(figure.querySelector("figcaption")?.textContent?.trim());
+      expect(named, figure.outerHTML.slice(0, 200)).toBe(true);
+    }
+
+    // Videos carry their description as an accessible name.
+    for (const video of Array.from(container.querySelectorAll("video"))) {
+      expect(video.getAttribute("aria-label")?.trim(), video.outerHTML).toBeTruthy();
+    }
+  });
+
   it("renders the initial hero without waiting for animation", () => {
     const { container } = render(<Home />);
 
