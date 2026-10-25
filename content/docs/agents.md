@@ -23,7 +23,19 @@ Each stage runs one agent: a harness, a model and a skill.
 - Interrupt and questions apply to a card's stage runs (see [Talking to a working agent](/docs/agents#talking-to-a-working-agent)). A Codex profile with `codex exec` flags, or an opencode profile with extra arguments, runs the one-shot command: no steering, interrupt or questions, messages wait for the next run, and opencode reports no tokens.
 - Credentials for each tool are set under **Agents** in the web console.
 
-Keys are stored encrypted, per organization in multi mode. Add them in the Web UI or with `bento setup`. In multi mode, and in local mode with the Docker sandbox, a sandbox gets a proxy token in place of most keys, and the model proxy adds the key on Bento's side (see [Security](/docs/security#model-keys-stay-encrypted-in-bento)).
+Keys are encrypted and **personal by default**, including keys saved through the web console or `bento setup`. Existing shared keys keep their scope. See [Personal and shared API keys](#personal-and-shared-api-keys).
+
+## Personal and shared API keys
+
+Open **Agents → Model provider keys**, select the provider, paste the key, and save. New keys and endpoint settings belong to you. You can also save your own key for a custom provider under **Agents → Custom provider keys** after an owner or admin defines the provider.
+
+Owners and admins can turn on **Shared organization key** before saving. With the toggle off, the field is labeled **Personal API key**. Enabling the toggle shares that credential with the current team. The toggle selects where the next save goes; it does not move an existing key. To change an existing key's scope, save it in the desired scope and remove the old copy. Members can always manage their own keys, but cannot manage shared keys or anyone else's personal keys. Only share credentials licensed for team use; a subscription key intended for one person must remain personal.
+
+Your explicitly started stage runs and stage follow-ups use your personal keys before shared keys. A personal key uses only your own endpoint override for that provider, never an organization endpoint. Save a custom base URL in the same scope as its key. An active personal-key run cannot be steered by teammates. Background stages, judges, conflict resolution, swarms, and remote runners keep their existing shared or machine credential paths; they never borrow the project owner's personal key. GitHub's integration token remains shared.
+
+Deleting a personal key stops subsequent proxied requests using it. Recreating the key does not revive an old run or switch that run to a shared key; start a new run. Replacing the value of an existing personal key rotates it for subsequent proxy requests. Keys for providers that cannot use the model proxy still reach the agent using their existing integration, so removing those keys from Bento cannot revoke a value already handed to a running agent.
+
+Supported providers use Bento's model proxy to keep keys out of sandboxes. See [Security](/docs/security#model-keys-stay-encrypted-in-bento).
 
 **OpenRouter:** for Claude Code or Codex, save the OpenRouter key and set `ANTHROPIC_BASE_URL` or `OPENAI_BASE_URL` to `https://openrouter.ai/api/v1`.
 

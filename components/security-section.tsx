@@ -17,7 +17,7 @@ const boundaries = [
     title: "Scoped publishing",
   },
   {
-    copy: "Organization credentials are encrypted at rest and resolved only for the owning run.",
+    copy: "Personal API keys and shared organization keys are encrypted at rest and resolved only for authorized runs.",
     icon: LockKey,
     title: "Encrypted credentials",
   },
