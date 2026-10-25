@@ -38,5 +38,5 @@ Multi mode: projects belong to an organization. All members of that organization
 Three isolation layers:
 
 - Route checks re-read membership on every request.
-- Row-level security confines queries to the caller's organization.
+- Row-level security confines organization data to the caller's organization and personal API keys to the caller's user.
 - Insert triggers derive `organization_id` from the parent row.
