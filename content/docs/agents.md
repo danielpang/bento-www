@@ -2,19 +2,20 @@
 
 Each stage runs one agent: a harness, a model and a skill.
 
-| Tool | Model format | Steer | Interrupt | Questions | Cost |
-| --- | --- | --- | --- | --- | --- |
-| Claude Code | `claude-sonnet-5` | Queued: runs as one more turn after the current one | Yes | Yes: one or several choices, or your own words | Yes |
-| pi | `anthropic/claude-sonnet-5` | Yes, after the current tool call | Yes | Yes: one or several choices, or your own words | Yes |
-| Codex CLI | `gpt-5-codex`, `openai/gpt-5-mini`, or `vercel/moonshotai/kimi-k3` | Yes, at the next model call | Yes | Yes: one choice, or your own words | Tokens only |
-| opencode | `anthropic/claude-sonnet-5` | Yes, at the next model call | Yes | No | Tokens only |
-| Cursor CLI | `claude-sonnet-5`, `composer-2.5`, `grok-4.6` | No: next run (session resume) | No | No | No |
-| Antigravity CLI | `gemini-3.1-pro-high` | No: next run (conversation resume) | No | No | No |
-| Muse Code | `muse-spark-1.3` | No: next run (session resume) | No | No | No |
-| fx | `moonshotai/kimi-k3` | No: next run (session resume) | No | No | No |
-| Poolside (pool) | `poolside/laguna-s-2.1` | No: next run (new session) | No | No | No |
-| DeepSeek Harness (dsh, preview) | `deepseek-v4-pro` | No: next run (new session) | No | No | No |
+| Tool | Model format | Personal subscription | Steer | Interrupt | Questions | Cost |
+| --- | --- | --- | --- | --- | --- | --- |
+| Claude Code | `claude-sonnet-5` | Claude | Queued: runs as one more turn after the current one | Yes | Yes: one or several choices, or your own words | Yes |
+| pi | `anthropic/claude-sonnet-5` | Claude or ChatGPT | Yes, after the current tool call | Yes | Yes: one or several choices, or your own words | Yes |
+| Codex CLI | `gpt-5-codex`, `openai/gpt-5-mini`, or `vercel/moonshotai/kimi-k3` | ChatGPT | Yes, at the next model call | Yes | Yes: one choice, or your own words | Tokens only |
+| opencode | `anthropic/claude-sonnet-5` | No | Yes, at the next model call | Yes | No | Tokens only |
+| Cursor CLI | `claude-sonnet-5`, `composer-2.5`, `grok-4.6` | No | No: next run (session resume) | No | No | No |
+| Antigravity CLI | `gemini-3.1-pro-high` | No | No: next run (conversation resume) | No | No | No |
+| Muse Code | `muse-spark-1.3` | No | No: next run (session resume) | No | No | No |
+| fx | `moonshotai/kimi-k3` | No | No: next run (session resume) | No | No | No |
+| Poolside (pool) | `poolside/laguna-s-2.1` | No | No: next run (new session) | No | No | No |
+| DeepSeek Harness (dsh, preview) | `deepseek-v4-pro` | No | No: next run (new session) | No | No | No |
 
+- **Personal subscription**: account connections through **Agents → Your personal subscriptions** in local and hosted Bento. Applies to matching models on stage runs you start; see [setup and limits](#personal-account-connections). Other local login-sharing options are described in the per-tool notes.
 - **Steer**: what happens to a message you send while the agent works. Yes means it reaches the turn already running. Queued means it waits in the same session for the current turn to end. "Next run" means it waits for the run to end and starts a new one, resuming the conversation where the tool can.
 - **Interrupt**: Stop ends only the current turn, and the agent waits for your next message in the same session. Where it is No, Stop ends the run.
 - **Questions**: the agent can ask you a question on the card and wait for your answer.
@@ -67,9 +68,53 @@ Questions appear above the composer, one at a time. A single choice answer moves
 
 A question disappears once the agent stops waiting for it. Unattended runs (swarms, judges, conflict resolution) decline questions, so the agent decides and says what it chose.
 
+## Personal account connections
+
+Connect your own Claude or ChatGPT subscription under **Agents → Your personal subscriptions**. Setup is the same in local and hosted Bento. On hosted Bento, sign in with your own Bento user account before connecting. Each person connects separately; companies and teams must not share subscription logins.
+
+| Connection | Coding agents | Matching models |
+| --- | --- | --- |
+| Claude | Claude Code, pi | Bare Claude model IDs in Claude Code; `anthropic/` models in pi |
+| ChatGPT | Codex, pi | Bare OpenAI model IDs in Codex; `openai/` or `openai-codex/` models in pi that are available through Codex |
+
+### Connect Claude
+
+1. Open **Agents → Your personal subscriptions** and click **Connect Claude**.
+2. Open the **Claude sign in** link, sign in to your own Claude account, and authorize the connection.
+3. Copy the complete authorization code, including the `#` and the text after it (`code#state`).
+4. Paste it into **Paste the complete authorization code** in Bento and click **Finish connection**.
+5. Wait for Claude to show **Connected to your account**.
+
+This one connection supports both Claude Code and pi with Anthropic models.
+
+### Connect ChatGPT
+
+1. Open **Agents → Your personal subscriptions** and click **Connect ChatGPT**.
+2. Open the **ChatGPT sign in** link and sign in to your own ChatGPT account.
+3. Enter the device code shown in Bento and approve the connection. If the provider refuses device-code login, enable it in your account's security settings and start again.
+4. Keep Bento open while it checks for approval. When complete, ChatGPT shows **Connected to your account**; there is no authorization code to paste back into Bento.
+
+This one connection supports both Codex and pi with models available through Codex.
+
+### Start a run
+
+Choose a matching agent and model, then explicitly start a card's stage run or send a follow-up message. A connected subscription takes priority for matching models, so you do not need a separate provider API key for those runs. In Codex, a provider-prefixed model such as `openai/gpt-5-mini` selects OpenRouter, not your ChatGPT subscription.
+
+Custom provider endpoints keep using their API keys. Background stages, judges, conflict resolution, swarms, and remote runners keep their existing credentials. They do not borrow your subscription or the project owner's login.
+
+Your connection belongs to you, even inside a team. Other members, including owners and admins, cannot list, change, or use it. They cannot steer, answer questions on, or change your card while your personal subscription run is active. Follow-ups from different people are handled in separate runs.
+
+### Reconnect or disconnect
+
+Return to **Agents → Your personal subscriptions** and click **Reconnect** if Bento asks you to sign in again. For an expired device code, start a new connection. For an invalid Claude authorization code, paste the complete `code#state` from the current login attempt. **Cancel connection** cancels a pending login.
+
+Click **Disconnect** to stop using a connection. Its next model request is refused; start a new run to use your configured API credentials. A running subscription task never silently switches to paid API credentials. Reconnecting creates a new connection, so start a new run after reconnecting rather than trying to revive an old task. Automatic retries retain the original user and connection.
+
+Bento encrypts your provider tokens and refreshes them on the server. Agents receive only a temporary Bento run token through the model proxy. Provider subscription limits and Bento hosting charges still apply; a reported subscription model cost is a notional list price, not an API charge.
+
 ## Claude Code on a subscription
 
-Local mode only. Not available on hosted Bento at [usebento.ai](/).
+Use [Personal account connections](#personal-account-connections) for browser login in local or hosted Bento. The older `setup-token` option below is local mode only. Hosted organizations cannot save a shared Claude subscription token.
 
 ```bash
 claude setup-token
@@ -89,11 +134,11 @@ Bare model ids (`claude-sonnet-5`, `claude-opus-5`).
 
 ### pi
 
-`provider/id` model ids. Needs the key for the model's provider (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `GEMINI_API_KEY` or `DEEPSEEK_API_KEY`).
+`provider/id` model ids. Use a [personal Claude or ChatGPT connection](#personal-account-connections) for eligible runs, or the key for the model's provider (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `GEMINI_API_KEY` or `DEEPSEEK_API_KEY`).
 
 ### Codex CLI
 
-Bare ids (`gpt-5-codex`) or provider prefixed ids (`openai/gpt-5-mini`, `vercel/moonshotai/kimi-k3`). `OPENAI_API_KEY`, or OpenRouter via `OPENAI_BASE_URL`.
+Bare ids (`gpt-5-codex`) or provider prefixed ids (`openai/gpt-5-mini`, `vercel/moonshotai/kimi-k3`). Bare IDs can use your [personal ChatGPT connection](#personal-account-connections) for eligible runs, or `OPENAI_API_KEY`. Provider-prefixed OpenRouter and Vercel models use their respective API keys.
 
 ### Cursor CLI
 
