@@ -56,7 +56,7 @@ export function SwarmHero() {
   const headline = headlines[active];
   return <div className="swarm-experience">
     <div className="swarm-heading">
-      <div className="swarm-eyebrow"><span /> BENTO SWARMS</div>
+      <div className="swarm-eyebrow"><span className="swarm-eyebrow-dot" /> BENTO SWARMS <span className="marketing-preview">Preview</span></div>
       <h1 aria-label={headline.title}>
         {headlines.map((item, index) => <span className="swarm-title" data-active={active === index} key={item.title} aria-hidden="true"><span>{item.lines[0]}</span><span>{item.lines[1]}</span></span>)}
       </h1>

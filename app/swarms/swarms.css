@@ -2,7 +2,7 @@
 .swarm-experience { position: relative; padding: 48px 24px 40px; overflow: hidden; }
 .swarm-heading { position: relative; z-index: 2; text-align: center; }
 .swarm-eyebrow { display: flex; align-items: center; justify-content: center; gap: 9px; margin-bottom: 23px; font: 10px var(--font-jetbrains-mono), monospace; color: var(--brand); letter-spacing: .22em; }
-.swarm-eyebrow > span { width: 6px; height: 6px; border-radius: 2px; background: var(--brand); box-shadow: 0 0 18px color-mix(in srgb, var(--brand) 40%, transparent); }
+.swarm-eyebrow-dot { width: 6px; height: 6px; border-radius: 2px; background: var(--brand); box-shadow: 0 0 18px color-mix(in srgb, var(--brand) 40%, transparent); }
 .swarm-heading h1 { display: grid; margin: 0; font-size: clamp(48px, 6.4vw, 88px); font-weight: 650; line-height: .99; letter-spacing: -.065em; perspective: 900px; }
 .swarm-title { grid-area: 1 / 1; display: grid; opacity: 0; visibility: hidden; transform: translateY(18px) rotateX(-14deg); transform-origin: center bottom; transition: opacity 650ms ease, transform 850ms cubic-bezier(.22,1,.36,1), visibility 650ms; }
 .swarm-title[data-active="true"] { opacity: 1; visibility: visible; transform: none; }

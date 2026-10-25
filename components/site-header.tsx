@@ -7,7 +7,7 @@ interface SiteHeaderProps {
   githubUrl: string | null;
   signupUrl: string | null;
   hideCtaArrows?: boolean;
-  navigation?: readonly { href: string; label: string }[];
+  navigation?: readonly { href: string; label: string; preview?: boolean }[];
 }
 
 const defaultNavigation = [
@@ -32,6 +32,7 @@ export function SiteHeader({
           {navigation.map((item) => (
             <Link href={item.href} key={item.href}>
               {item.label}
+              {item.preview && <span className="marketing-preview">Preview</span>}
             </Link>
           ))}
         </nav>
