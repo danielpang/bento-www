@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
 
+test("join waitlist CTA carries the swarm intent into the app", async ({ page }) => {
+  await page.goto("/swarms");
+  await expect(page.getByRole("link", {name: "Join waitlist"})).toHaveAttribute("href", "https://app.usebento.ai/?waitlist=swarms");
+});
+
 test("a three-level feature tree fit desktop and mobile", async ({ page }) => {
   for (const width of [320, 375, 768, 1440]) {
     await page.setViewportSize({width, height: 1000});

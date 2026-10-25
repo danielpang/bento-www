@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useState, type CSSProperties } from "react";
 import { ArrowRight, Check, Code, GitBranch, Stack } from "@phosphor-icons/react";
 import { CtaLink } from "@/components/cta-link";
-import { siteConfig } from "@/lib/site";
 
 const headlines = [
   { title: "Build ambiguous features.", lines: ["Build ambiguous", "features."] },
@@ -118,6 +117,6 @@ export function SwarmHero() {
         </div>
       </div>
     </div>
-    <div className="swarm-actions"><CtaLink href={siteConfig.signupUrl}>Start a swarm <ArrowRight size={15} aria-hidden="true" /></CtaLink><Link href="/docs"><GitBranch size={14} aria-hidden="true" /> Explore</Link></div>
+    <div className="swarm-actions"><CtaLink href="https://app.usebento.ai/?waitlist=swarms">Join waitlist <ArrowRight size={15} aria-hidden="true" /></CtaLink><Link href="/docs"><GitBranch size={14} aria-hidden="true" /> Explore</Link></div>
   </div>;
 }
