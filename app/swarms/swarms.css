@@ -1,0 +1,127 @@
+.swarms-page { min-height: 100dvh; }
+.swarm-experience { position: relative; padding: 48px 24px 40px; overflow: hidden; }
+.swarm-heading { position: relative; z-index: 2; text-align: center; }
+.swarm-eyebrow { display: flex; align-items: center; justify-content: center; gap: 9px; margin-bottom: 23px; font: 10px var(--font-jetbrains-mono), monospace; color: var(--brand); letter-spacing: .22em; }
+.swarm-eyebrow-dot { width: 6px; height: 6px; border-radius: 2px; background: var(--brand); box-shadow: 0 0 18px color-mix(in srgb, var(--brand) 40%, transparent); }
+.swarm-heading h1 { display: grid; margin: 0; font-size: clamp(48px, 6.4vw, 88px); font-weight: 650; line-height: .99; letter-spacing: -.065em; perspective: 900px; }
+.swarm-title { grid-area: 1 / 1; display: grid; opacity: 0; visibility: hidden; transform: translateY(18px) rotateX(-14deg); transform-origin: center bottom; transition: opacity 650ms ease, transform 850ms cubic-bezier(.22,1,.36,1), visibility 650ms; }
+.swarm-title[data-active="true"] { opacity: 1; visibility: visible; transform: none; }
+.swarm-title > span:last-child { color: var(--brand); }
+.swarm-heading > p { margin: 22px 0 0; color: var(--text-muted); font-size: 14px; letter-spacing: -.01em; }
+.swarm-stage { position: relative; width: min(100%, 1060px); height: 420px; margin: -12px auto 0; perspective: 1300px; isolation: isolate; }
+.swarm-halo { position: absolute; inset: 4% 10% 1%; background: radial-gradient(ellipse, color-mix(in srgb, var(--brand) 13%, transparent), transparent 65%); }
+.swarm-grid { position: absolute; left: 50%; top: 50%; width: 760px; height: 400px; transform: translate(-50%, -50%) rotateX(57deg) rotateZ(-12deg); background-image: linear-gradient(color-mix(in srgb, var(--brand) 9%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--brand) 9%, transparent) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse, black 10%, transparent 70%); }
+.swarm-world { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; transform: scale(.84) rotateX(43deg) rotateZ(-12deg); }
+.swarm-camera { position: absolute; width: 0; height: 0; transform-style: preserve-3d; }
+.swarm-connections { position: absolute; left: -430px; top: -300px; width: 860px; height: 600px; transform: translateZ(0); overflow: visible; }
+.swarm-edge-track { stroke: var(--brand); stroke-width: 1.2; opacity: .24; }
+.swarm-edge-signal { stroke: var(--brand); stroke-width: 2.5; stroke-dasharray: 8 92; stroke-linecap: round; opacity: .9; }
+.swarm-core, .swarm-agent, .swarm-extra { position: absolute; transform: translate3d(var(--x), var(--y), 22px); transform-style: preserve-3d; transition: transform 1200ms cubic-bezier(.22,1,.36,1); }
+.swarm-core { width: 136px; height: 136px; left: -68px; top: -68px; }
+.swarm-core-floor, .swarm-core-face { position: absolute; inset: 0; border-radius: 17px; }
+.swarm-core-floor { border: 1px solid #ff985855; background: #ff98580b; transform: translateZ(-22px); box-shadow: 0 0 55px #ff98581a; }
+.swarm-core-face { padding: 20px; background: linear-gradient(135deg, #ffad73, #e87834); color: #241208; border: 1px solid #ffc59d; box-shadow: -1px 2px 0 #9c4b20, -3px 4px 0 #9c4b20, -5px 6px 0 #9c4b20, -9px 14px 22px #0004; }
+.swarm-core-mark { margin-bottom: 14px; }
+.swarm-core-face strong { font-size: 16px; font-weight: 650; letter-spacing: -.035em; }
+.swarm-core-bars { display: flex; gap: 4px; margin-top: 9px; }
+.swarm-core-bars i { width: 18px; height: 3px; border-radius: 2px; background: #35160735; }
+.swarm-core-bars i:nth-child(2) { width: 30px; }
+.swarm-agent, .swarm-extra { width: 104px; height: 104px; left: -52px; top: -52px; }
+.swarm-agent-shadow { position: absolute; inset: 0; transform: translateZ(-12px); border: 1px solid #38383e; background: #18191c; border-radius: 12px; }
+.swarm-agent-face { position: absolute; inset: 0; padding: 14px; border: 1px solid #47474e; border-radius: 12px; background: linear-gradient(135deg, #313237, #1c1d21); color: #ededee; box-shadow: -1px 2px 0 #131416, -3px 4px 0 #131416, -5px 6px 0 #131416, -8px 12px 20px #0003; transform: translateZ(0); }
+.swarm-agent-top { display: flex; justify-content: space-between; align-items: center; color: #ffad73; }
+.swarm-agent-top > span { color: #8a8a93; font: 8px var(--font-jetbrains-mono), monospace; }
+.swarm-agent-face strong { display: block; margin-top: 12px; font-size: 13px; font-weight: 550; letter-spacing: -.02em; }
+.swarm-agent-activity { display: flex; gap: 3px; align-items: center; height: 12px; margin-top: 8px; }
+.swarm-agent-activity i { width: 3px; height: 4px; border-radius: 1px; background: #ff9858; }
+.swarm-agent-activity i:nth-child(2n) { height: 9px; opacity: .6; }
+.swarm-agent-activity i:nth-child(3) { height: 12px; }
+.swarm-agent-check { position: absolute; bottom: 14px; right: 13px; color: #ffad73; }
+.swarm-actions { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; margin-top: 48px; position: relative; z-index: 2; }
+.swarm-actions > a { display: inline-flex; align-items: center; gap: 8px; }
+.swarm-actions > a:last-child { color: var(--text-muted); font-size: 12px; }
+.swarm-extra { visibility: hidden; opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px); }
+.swarm-extra-lines { display: grid; gap: 5px; margin-top: 14px; }
+.swarm-extra-lines i { width: 42px; height: 3px; border-radius: 2px; background: #ededee30; }
+.swarm-extra-lines i:last-child { width: 28px; }
+@media (prefers-reduced-motion: no-preference) {
+  .swarm-agent { animation: swarm-spawn 22s cubic-bezier(.22,1,.36,1) infinite both; }
+  .swarm-branch { animation: swarm-branch-reveal 22s ease infinite both; }
+  .swarm-edge-track { stroke-dasharray: 100; animation: swarm-draw 22s ease infinite both; }
+  .swarm-edge-signal { animation: swarm-signal 2.8s linear infinite; }
+  .swarm-core { animation: swarm-core-grid 22s cubic-bezier(.22,1,.36,1) infinite both; }
+  .swarm-extra { visibility: visible; animation: swarm-grid-fill 22s cubic-bezier(.22,1,.36,1) infinite both; }
+  @keyframes swarm-spawn {
+    0%, 3.273% { opacity: 0; transform: translate3d(var(--from-x), var(--from-y), 0) scale(.3); }
+    10.618%, 34.909% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
+    46.545%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    98%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
+  }
+  .swarm-agent[data-depth="2"] { animation-name: swarm-leaf-spawn; }
+  .swarm-branch[data-depth="2"] { animation-name: swarm-leaf-reveal; }
+  .swarm-branch[data-depth="2"] .swarm-edge-track { animation-name: swarm-leaf-draw; }
+  @keyframes swarm-leaf-spawn {
+    0%, 12.291% { opacity: 0; transform: translate3d(var(--from-x), var(--from-y), 0) scale(.3); }
+    21.309%, 34.909% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
+    46.545%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    98%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
+  }
+  @keyframes swarm-core-grid {
+    0%, 34.909%, 100% { opacity: 1; transform: translate3d(var(--x), var(--y), 22px) scale(1); }
+    46.545%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.765); }
+    98% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.7); }
+    99% { opacity: 0; transform: translate3d(var(--x), var(--y), 22px) scale(.9); }
+  }
+  @keyframes swarm-grid-fill {
+    0%, 37.818%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 0) scale(.3); }
+    48%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    98% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
+  }
+  @keyframes swarm-leaf-reveal { 0%, 13.818%, 36.364%, 100% { opacity: 0; } 21.309%, 32% { opacity: 1; } }
+  @keyframes swarm-leaf-draw { 0%, 13.818% { stroke-dashoffset: 100; } 22.109%, 100% { stroke-dashoffset: 0; } }
+  @keyframes swarm-branch-reveal { 0%, 4.945%, 36.364%, 100% { opacity: 0; } 10.618%, 32% { opacity: 1; } }
+  @keyframes swarm-draw { 0%, 4.945% { stroke-dashoffset: 100; } 12.291%, 100% { stroke-dashoffset: 0; } }
+  .swarm-camera { animation: swarm-zoom-out 22s cubic-bezier(.4,0,.2,1) infinite both; }
+  .swarm-outer { animation-name: swarm-outer-reveal; }
+  .swarm-outer[data-ring="2"] { animation-name: swarm-outer-ring-reveal; }
+  @keyframes swarm-zoom-out {
+    0%, 56%, 100% { transform: scale(1); }
+    74%, 98% { transform: scale(.49); }
+    99% { transform: scale(1); }
+  }
+  @keyframes swarm-outer-reveal {
+    0%, 58%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 0) scale(.5); }
+    70%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    98% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
+  }
+  @keyframes swarm-outer-ring-reveal {
+    0%, 64%, 100% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 0) scale(.5); }
+    76%, 91% { opacity: 1; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(1); }
+    98% { opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px) scale(.92); }
+  }
+  .swarm-agent-face { animation: swarm-float 3.6s ease-in-out infinite alternate; animation-delay: calc(var(--order) * -.45s); }
+  .swarm-agent-activity { animation: swarm-activity 1.8s ease-in-out infinite alternate; animation-delay: calc(var(--order) * -.3s); }
+  @keyframes swarm-signal { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+  @keyframes swarm-float { from { transform: translateZ(0); } to { transform: translateZ(13px); } }
+  @keyframes swarm-activity { from { opacity: .35; } to { opacity: 1; } }
+}
+@media (max-width: 800px) {
+  .swarm-experience { padding-top: 40px; }
+  .swarm-stage { height: 350px; }
+  .swarm-world { transform: scale(.67) rotateX(43deg) rotateZ(-12deg); }
+}
+@media (max-width: 520px) {
+  .swarm-experience { padding: 40px 16px 32px; }
+  .swarm-heading h1 { font-size: clamp(38px, 10.6vw, 54px); }
+  .swarm-eyebrow { margin-bottom: 22px; font-size: 9px; }
+  .swarm-heading > p { font-size: 12px; margin-top: 20px; }
+  .swarm-stage { height: 290px; width: calc(100% + 32px); margin-left: -16px; margin-top: 0; }
+  .swarm-world { transform: scale(.44) rotateX(43deg) rotateZ(-12deg); }
+  .swarm-grid { width: 500px; height: 300px; }
+  .swarm-actions { margin-top: 36px; }
+  .swarm-actions > a:last-child { font-size: 11px; }
+}
+@media (max-width: 360px) {
+  .swarm-world { transform: scale(.37) rotateX(43deg) rotateZ(-12deg); }
+  .swarm-heading h1 { font-size: 34px; }
+}

@@ -156,6 +156,8 @@ body:has(.marketing-page) {
 .marketing-page .brand-lockup { font-size: 22px; gap: 11px; }
 .marketing-page .brand-glyph { width: 29px; height: 29px; }
 .marketing-page .header-actions .cta-link { min-height: 34px; }
+.marketing-preview { display: inline-flex; align-items: center; padding: 2px 6px; border: 1px solid color-mix(in srgb, var(--brand) 30%, transparent); border-radius: 4px; background: color-mix(in srgb, var(--brand) 8%, transparent); color: var(--brand); font: 500 9px/1.4 var(--font-jetbrains-mono), monospace; letter-spacing: .02em; white-space: nowrap; }
+.marketing-page .primary-navigation a:has(.marketing-preview) { display: inline-flex; align-items: center; gap: 6px; }
 .marketing-menu { display: none; z-index: 25; }
 .marketing-skip { position: fixed; left: 20px; top: -100px; padding: 12px 18px; background: var(--brand); color: var(--on-brand); z-index: 100; }
 .marketing-skip:focus { top: 12px; }

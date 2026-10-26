@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/site";
 
 const navigation = [
+  { label: "Swarms", href: "/swarms", preview: true },
   { label: "Integrations", href: "/#integrations" },
   { label: "Docs", href: "/docs" },
   { label: "Download", href: "/download" },
@@ -19,8 +20,8 @@ export function MarketingHeader() {
       <details className="marketing-menu">
         <summary aria-label="Navigation menu"><List size={22} /></summary>
         <nav aria-label="Mobile navigation">
-          {navigation.map(({ label, href }) => (
-            <Link key={href} href={href}>{label}</Link>
+          {navigation.map(({ label, href, preview }) => (
+            <Link key={href} href={href}>{label}{preview && <span className="marketing-preview">Preview</span>}</Link>
           ))}
         </nav>
       </details>

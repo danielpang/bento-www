@@ -44,6 +44,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
       url: absoluteUrl("/download"),
     },
+    {
+      changeFrequency: "monthly",
+      priority: 0.8,
+      url: absoluteUrl("/swarms"),
+    },
     ...docs,
     ...releases,
     {
