@@ -13,7 +13,6 @@ export function HeroStoryDemo() {
   return <div className="m-demo hero-visual hero-story-demo" id="product" data-chapter={active}>
 
     <div className="feature-stage">
-      <div className="feature-orbit" aria-hidden="true" />
       <AnimatePresence initial={false}>
       <motion.div
         className="feature-scene"

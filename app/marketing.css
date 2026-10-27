@@ -787,11 +787,9 @@ body:has(.marketing-page) {
 /* A shared 3D sculpture transforms with the headline. */
 @media (min-width: 801px) { .m-hero-heading:has(.hero-story-demo) { padding-block: 24px; } }
 .marketing-page .hero-story-demo { --slab: #1f2024; --slab-edge: #37383e; --slab-ink: #ededee; border: 0; background: transparent; box-shadow: none; overflow: visible; font-size: 12px; }
-.feature-stage { position: relative; height: 365px; perspective: 1100px; isolation: isolate; overflow: hidden; }
+.feature-stage { position: relative; height: 365px; perspective: 1300px; isolation: isolate; overflow: hidden; }
 .feature-stage::before { content: ""; position: absolute; inset: 12% 6%; background: radial-gradient(ellipse, color-mix(in srgb, var(--brand) 14%, transparent), transparent 65%); }
-.feature-orbit { position: absolute; width: 420px; height: 240px; left: 50%; top: 38px; border: 1px solid color-mix(in srgb, var(--brand) 14%, transparent); border-radius: 50%; transform: translateX(-50%) rotate(-17deg); }
-.feature-orbit::after { content: ""; position: absolute; inset: 30px -30px; border: inherit; border-radius: 50%; }
-.feature-world { position: absolute; left: 50%; top: 47%; width: 0; height: 0; transform-style: preserve-3d; transform: scale(.9) rotateX(46deg) rotateZ(-28deg); }
+.feature-world { position: absolute; left: 50%; top: 47%; width: 0; height: 0; transform-style: preserve-3d; transform: scale(.9) rotateX(43deg) rotateZ(-12deg); }
 .feature-cluster { position: absolute; width: 160px; height: 160px; left: -80px; top: -80px; transform-style: preserve-3d; transition: transform 1000ms cubic-bezier(.22,1,.36,1), opacity 650ms; }
 .feature-cluster-0 { transform: translate3d(-167px, -32px, 12px); }
 .feature-cluster-1 { transform: translate3d(0, 16px, 36px); }
@@ -867,7 +865,7 @@ body:has(.marketing-page) {
   @keyframes feature-locked { 0%, 40% { opacity: 0; } 55%, 100% { opacity: 1; } }
 }
 /* Scene geometry stays isolated while outgoing and incoming scenes overlap. */
-.feature-scene { position: absolute; inset: 0 0 50px; perspective: 1100px; pointer-events: none; }
+.feature-scene { position: absolute; inset: 0 0 50px; perspective: 1300px; pointer-events: none; }
 .story-dots { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; z-index: 2; }
 .story-dots button { display: grid; place-items: center; width: 36px; height: 36px; padding: 5px; border: 0; border-radius: 50%; background: transparent; color: var(--text-faint); cursor: pointer; }
 .story-dots button:hover, .story-dots button[aria-pressed="true"] { color: var(--brand); }
@@ -883,8 +881,8 @@ body:has(.marketing-page) {
 }
 .hero-story-demo button:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 @media (max-width: 1100px) and (min-width: 801px), (max-width: 520px) {
-  .feature-world { transform: scale(.73) rotateX(46deg) rotateZ(-28deg); }
-  .feature-scene[data-chapter="0"] .feature-world { transform: scale(.6) rotateX(46deg) rotateZ(-28deg); }
+  .feature-world { transform: scale(.73) rotateX(43deg) rotateZ(-12deg); }
+  .feature-scene[data-chapter="0"] .feature-world { transform: scale(.6) rotateX(43deg) rotateZ(-12deg); }
   .feature-stage { height: 320px; }
 }
 
@@ -896,4 +894,18 @@ body:has(.marketing-page) {
   .artifact-connectors path:nth-child(2) { animation-delay: .35s; }
   .artifact-connectors path:nth-child(3) { animation-delay: .7s; }
   @keyframes artifact-connect { from { stroke-dashoffset: 180; opacity: 0; } to { stroke-dashoffset: 0; opacity: 1; } }
+}
+
+/* Keep the wider Swarms-style angle inside the hero on small screens. */
+@media (max-width: 620px) {
+  .feature-scene[data-chapter="2"] .feature-world { transform: scale(.7) rotateX(43deg) rotateZ(-12deg); }
+}
+@media (max-width: 520px) {
+  .feature-world { transform: scale(.62) rotateX(43deg) rotateZ(-12deg); }
+  .feature-scene[data-chapter="2"] .feature-world { transform: scale(.5) rotateX(43deg) rotateZ(-12deg); }
+}
+@media (max-width: 360px) {
+  .feature-world { transform: scale(.52) rotateX(43deg) rotateZ(-12deg); }
+  .feature-scene[data-chapter="0"] .feature-world { transform: scale(.5) rotateX(43deg) rotateZ(-12deg); }
+  .feature-scene[data-chapter="2"] .feature-world { transform: scale(.42) rotateX(43deg) rotateZ(-12deg); }
 }
