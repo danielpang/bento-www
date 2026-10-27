@@ -48,6 +48,7 @@ export function llmsTxt(config: typeof siteConfig = siteConfig): string {
   const product = [
     link("/", "Homepage", siteDescription),
     link("/docs", "Documentation", docsIndexDescription),
+    link("/swarms", "Swarms", "One goal, a swarm of agents: coordinated work across ambiguous features, migrations, and parallel initiatives. Open to everyone in local Bento; hosted swarms need a Pro plan or above and the waitlist."),
     link("/pricing", "Pricing", "Start free, then pick a monthly plan as your pipeline grows. Seats for people on the team, pooled agent hours."),
     link("/changelog", "Changelog", "Product updates for Bento, including coding agents, models, and integrations."),
   ];
@@ -67,7 +68,7 @@ export function llmsTxt(config: typeof siteConfig = siteConfig): string {
     "",
     "Bento is a kanban board and orchestrator for coding agents. A feature moves through a pipeline of stages; each stage pairs a coding agent with a model and a skill that describes the outcome you expect, and each feature gets its own sandboxed environment. Stage write-ups are committed alongside the code, so the next agent starts with what the last one learned. Every stage begins with a manual gate for a person to review, approve, or steer, and a gate can be made automatic once its requirements can decide. Cards can be started from Linear or Slack, and finished work is published as a pull request on GitHub.",
     "",
-    "Supported coding agents: Claude Code, Codex CLI, Cursor CLI, Antigravity, DeepSeek, OpenCode, Pi, and Poolside. Model API keys stay with your team on every plan. Bento can be self-hosted with Docker, or used as a shared board with code and agents running on your own machine.",
+    "Supported coding agents: Claude Code, Codex CLI, Cursor CLI, Antigravity, DeepSeek, OpenCode, Pi, Poolside, Muse Code, and fx. Model API keys are yours by default, or shared by a team owner or admin, and for supported providers they never enter the agent sandbox, on every plan. Bento can be self-hosted with Docker, or used as a shared board with code and agents running on your own machine.",
     "",
     "## Product",
     "",

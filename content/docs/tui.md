@@ -89,7 +89,7 @@ Under **Agents**, add an agent:
 2. **Model:** what the harness runs.
 3. **Skill:** standing instructions for every run: the stage's expected outcome, write-up and changes.
 
-Save a key under **Model provider keys**, or for local agents share a CLI login under **Local agent sign-ins** (trusted repositories only). See [Coding agents](/docs/agents) for model formats and mid-run behavior.
+Save a key under **Model provider keys** (keys you save are yours; an owner or admin shares a key with the team from the Web UI), or for local agents share a CLI login under **Local agent sign-ins** (trusted repositories only). See [Coding agents](/docs/agents) for model formats and mid-run behavior.
 
 ### Build the pipeline
 
@@ -117,8 +117,11 @@ A successful run does not approve a manual stage.
 | `s`, `x`, `c` | Start, stop, or message an agent |
 | `a`, `R`, `r` | Approve, reject, or recheck requirements |
 | `b` | Send back or reopen a card |
+| `f` | Mark the card done |
+| `m` | Resolve merge conflicts |
+| `D` | Delete the card |
 | `d`, `h` | Open the diff or card history |
-| `v`, `u` | Open sessions or spend |
+| `v` or `e`, `u` | Open sessions or spend |
 | `/` | Find a card |
 | `p`, `,` | Switch projects or open Settings |
 | `:`, Control+P, `?` | Open commands or help |

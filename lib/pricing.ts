@@ -89,6 +89,7 @@ export const pricingPlans: PricingPlan[] = [
       "Billed per seat",
       "Unlimited cards on the board",
       "25 agent hours a month for the team",
+      "Swarms, with access from the waitlist",
       `Then ${money(0.9)} an agent hour`,
     ],
   },

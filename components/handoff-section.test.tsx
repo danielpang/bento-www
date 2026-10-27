@@ -31,8 +31,15 @@ describe("HandoffSection", () => {
       "OpenCode",
       "Pi",
       "Poolside",
+      "Muse Code",
+      "fx",
     ]) {
       expect(agents.getByText(label)).toBeInTheDocument();
+    }
+
+    // Muse Code and fx have no mark yet, so they are listed by name only.
+    for (const label of ["Muse Code", "fx"]) {
+      expect(agents.getByText(label).closest("code")?.querySelector("svg")).toBeNull();
     }
 
     const logos = agentList.querySelectorAll("svg.agent-logo");

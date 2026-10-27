@@ -40,6 +40,7 @@
 .swarm-actions { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; margin-top: 48px; position: relative; z-index: 2; }
 .swarm-actions > a { display: inline-flex; align-items: center; gap: 8px; }
 .swarm-actions > a:last-child { color: var(--text-muted); font-size: 12px; }
+.swarm-access { position: relative; z-index: 2; max-width: 34rem; margin: 20px auto 0; padding: 0 16px; color: var(--text-muted); font-size: 12px; line-height: 1.5; text-align: center; }
 .swarm-extra { visibility: hidden; opacity: 0; transform: translate3d(var(--grid-x), var(--grid-y), 22px); }
 .swarm-extra-lines { display: grid; gap: 5px; margin-top: 14px; }
 .swarm-extra-lines i { width: 42px; height: 3px; border-radius: 2px; background: #ededee30; }

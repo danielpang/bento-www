@@ -23,11 +23,11 @@ With one repository, the agent starts in that checkout. With several, it starts 
 
 Git, the coding agent CLIs, and no language runtime. Repository toolchains are installed via setup commands. See [repository commands](/docs/pipeline#repository-commands).
 
-Local deployments use Docker containers (default) or an in-process driver with no isolation. Hosted deployments use Fly Sprites. All drivers share one interface. What a sandbox contains, and what it can reach, is covered in [Security](/docs/security).
+Local deployments use Docker containers (default) or an in-process driver with no isolation. Hosted deployments use a Fly Sprite, falling back to a Modal sandbox when a sprite cannot be made. Teams with the network lock on run on Modal. All drivers share one interface. What a sandbox contains, and what it can reach, is covered in [Security](/docs/security).
 
 ## Spend
 
-Spend is recorded per card and project when the tool reports it (see [Coding agents](/docs/agents)). Bento does not bill or enforce limits. Totals count unmeasured runs separately rather than as zero.
+Spend is recorded per card and project when the tool reports it (see [Coding agents](/docs/agents)). Separately, hosted Bento bills agent hours against the team's plan and pauses work at the plan's limit; a run that Bento or its sandbox failed is not billed. Totals count unmeasured runs separately rather than as zero.
 
 ## Tenancy
 

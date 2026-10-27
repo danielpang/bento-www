@@ -9,6 +9,7 @@ import {
 describe("changelog catalog", () => {
   it("lists dated product updates newest first, without versions", () => {
     expect(changelogEntries.map((entry) => entry.slug)).toEqual([
+      "swarms-for-everyone",
       "model-keys-stay-out-of-agent-sandboxes",
       "bento-mac-app",
       "bento-terminal-ui",
@@ -19,6 +20,7 @@ describe("changelog catalog", () => {
       "linear-integration",
     ]);
     expect(changelogEntries.map((entry) => entry.date)).toEqual([
+      "2026-10-25",
       "2026-10-23",
       "2026-09-24",
       "2026-09-11",
@@ -29,6 +31,7 @@ describe("changelog catalog", () => {
       "2026-08-14",
     ]);
     expect(changelogEntries.map((entry) => entry.displayDate)).toEqual([
+      "October 25, 2026",
       "October 23, 2026",
       "September 24, 2026",
       "September 11, 2026",
@@ -39,6 +42,7 @@ describe("changelog catalog", () => {
       "August 14, 2026",
     ]);
     expect(changelogEntries.map((entry) => entry.title)).toEqual([
+      "Swarms for everyone",
       "Model proxy for LLM providers",
       "Bento for Mac",
       "Bento TUI",
@@ -80,6 +84,7 @@ describe("changelog catalog", () => {
 
   it("looks up entries by slug and by the date they first published under", () => {
     expect(getChangelogSlugs()).toEqual([
+      "swarms-for-everyone",
       "model-keys-stay-out-of-agent-sandboxes",
       "bento-mac-app",
       "bento-terminal-ui",

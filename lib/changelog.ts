@@ -55,6 +55,43 @@ export interface ChangelogSection {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    slug: "swarms-for-everyone",
+    date: "2026-10-25",
+    displayDate: "October 25, 2026",
+    title: "Swarms for everyone",
+    description:
+      "The Swarms tab is shown to everyone. Local Bento runs swarms in your own Docker, and hosted swarms open to Pro plans and above from a waitlist.",
+    paragraphs: [
+      "Swarms are no longer a beta feature. Every board now shows the Swarms tab, where one goal becomes a plan and a swarm of agents works through it.",
+      "See [Swarms](/docs/swarms) for how a swarm plans, runs, and lands its work.",
+    ],
+    sections: [
+      {
+        title: "Who can run swarms",
+        points: [
+          {
+            label: "Local Bento",
+            body: "Swarms are always on. They run in your own Docker, on your machine.",
+          },
+          {
+            label: "Hosted Bento",
+            body: "Swarms need a Pro plan or above. On a subscribed team, press Join waitlist on the Swarms tab and we’ll email you when your access is ready.",
+          },
+          {
+            label: "GitHub",
+            body: "A hosted swarm needs a GitHub connection and a GitHub remote on every repository, so its branches are saved to GitHub as soon as there is work on them.",
+          },
+        ],
+      },
+      {
+        title: "You choose the pull requests",
+        paragraphs: [
+          "Nothing opens a pull request automatically when a swarm finishes. From the swarm’s header, choose one combined pull request of the swarm’s branch, or stacked pull requests, one per task that merged, each against the task before it. You can publish at any time once something is committed.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "model-keys-stay-out-of-agent-sandboxes",
     date: "2026-10-23",
     displayDate: "October 23, 2026",
@@ -93,9 +130,9 @@ export const changelogEntries: ChangelogEntry[] = [
     displayDate: "September 24, 2026",
     title: "Bento for Mac",
     description:
-      "Bento is now available as a Mac app for Apple silicon and Intel, with local Docker agents or a connection to your hosted server.",
+      "Bento is now available as a Mac app for Apple silicon and Intel, with local Docker agents or a sign in to hosted Bento.",
     paragraphs: [
-      "We’re excited to launch Bento for Mac! You can now keep your agent pipeline in a desktop app, connect it to a hosted server, or run agents in Docker on your own Mac.",
+      "We’re excited to launch Bento for Mac! You can now keep your agent pipeline in a desktop app, sign in to hosted Bento, or run agents in Docker on your own Mac.",
     ],
     sections: [
       {
@@ -109,11 +146,11 @@ export const changelogEntries: ChangelogEntry[] = [
         points: [
           {
             label: "Local",
-            body: "Choose On this Mac to keep your board, its history, and agent runs on your machine. You’ll need Docker Desktop or OrbStack for local agents.",
+            body: "Choose Run locally to keep your board, its history, and agent runs on your machine. You’ll need Docker Desktop or OrbStack for local agents.",
           },
           {
             label: "Hosted",
-            body: "Choose Connect to a server, enter your Bento server URL, and sign in through your browser. Agents run on the server, so you won’t need Docker on your Mac.",
+            body: "Choose Sign in or sign up to use hosted Bento at app.usebento.ai, then finish signing in through your browser. There is no server address to enter. Agents run on hosted Bento, so you won’t need Docker on your Mac.",
           },
         ],
       },

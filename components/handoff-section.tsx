@@ -17,6 +17,9 @@ const agentTools = [
   "Poolside",
 ] as const satisfies readonly AgentName[];
 
+// Supported too, but shown by name only: we have no mark for either yet.
+const textOnlyAgentTools = ["Muse Code", "fx"] as const;
+
 export function HandoffSection() {
   return (
     <section className="section handoff-section" id="agents">
@@ -41,6 +44,11 @@ export function HandoffSection() {
               {agentTools.map((tool) => (
                 <code key={tool}>
                   <AgentLogo agent={tool} className="agent-logo" />
+                  <span>{tool}</span>
+                </code>
+              ))}
+              {textOnlyAgentTools.map((tool) => (
+                <code key={tool}>
                   <span>{tool}</span>
                 </code>
               ))}
