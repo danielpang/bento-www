@@ -32,7 +32,7 @@ bento pipeline export team-pipeline.yaml
 | Add, edit and remove agents | Yes | Yes |
 | Assign an agent to a stage | Yes | Yes |
 | Add, remove and rename stages | Yes | Yes |
-| Reorder stages | Drag, or arrow keys | No |
+| Reorder stages | Drag, or arrow keys | Move stage earlier / later |
 | Switch a stage between manual and automatic | Yes | Yes |
 | Edit stage requirements, judge agent included | Yes | Yes |
 | Turn a stage's pull request on or off | Yes | Yes |
@@ -40,7 +40,8 @@ bento pipeline export team-pipeline.yaml
 | Move a card between stages | Drag it between lanes | `a` and `b` keys, one step |
 | Start, stop, and continue an agent | Yes | Yes |
 | Save and remove provider API keys | Yes | Yes |
-| Manage the team and its credentials | Yes | No |
+| Invite and remove members, network access | Yes | Yes |
+| Share a model key with the team | Yes | No |
 
 Team management and stored credentials require multi mode. Local mode has one user and no organization.
 

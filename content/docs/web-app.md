@@ -97,7 +97,6 @@ BENTO_MODE=multi
 BENTO_SECRET_KEY=...      # openssl rand -hex 32
 BETTER_AUTH_SECRET=...    # openssl rand -hex 32
 BETTER_AUTH_URL=http://your-bento-url..
-SPRITES_TOKEN="<fly sprites token>"
 ```
 
 Server startup fails in multi mode without `BENTO_SECRET_KEY`.
@@ -110,7 +109,13 @@ The board loads without a sandbox. Agent runs require one.
 | ------------------ | ---------------------------------------------------------------- |
 | `docker` (default) | Isolated containers. Build: `docker compose build sandbox-image` |
 | `local-process`    | No isolation. Development and CI only                            |
-| `sprite`           | Hosted (Fly) deployments                                         |
+| `sprite`           | Hosted (Fly) deployments. Needs `SPRITES_TOKEN`                  |
+
+With `sprite` as the driver and `MODAL_TOKEN_ID` and `MODAL_TOKEN_SECRET` also set, new sandboxes try a Fly Sprite first and fall back to a Modal sandbox when the sprite cannot be made. A team with the network lock on runs on Modal, because a sprite cannot restrict egress. A `docker` or `local-process` deployment keeps its driver even when it holds those tokens.
+
+### Web and worker processes
+
+One process serves the console and drives agent runs by default (`BENTO_ROLE=all`). To split them, run the same image twice: `BENTO_ROLE=web` serves HTTP and drives no runs, `BENTO_ROLE=worker` drives runs and serves no console. Set the slot count (`BENTO_MAX_CONCURRENT_RUNS`) on the worker; a web process that sets it is refused at boot. When `DATABASE_URL` is a transaction mode pooler, set `BENTO_DIRECT_DATABASE_URL` to a direct connection for the event bus and the migration lock.
 
 ### Mac app
 
@@ -119,7 +124,7 @@ The Mac app's start screen picks the **Agent sandbox type**:
 - **Docker sandbox** (default): each agent is isolated in a container.
 - **Local process**: the agent runs directly on your Mac, with your permissions. Development only.
 
-**Advanced settings, Model proxy** is on by default: model calls go through Bento, so a Docker sandbox contains a proxy token rather than your key (see [Security](/docs/security#model-keys-stay-encrypted-in-bento)). It is greyed out with Local process, which has no sandbox. Changes take effect when local Bento next starts.
+**Advanced settings, Model proxy** is on by default: model calls go through Bento, so a Docker sandbox contains a proxy token rather than your key (see [Security](/docs/security#model-keys-stay-encrypted-in-bento)). It is greyed out with Local process, which has no sandbox. Change one while local Bento runs and Start becomes **Restart to save these settings**, which restarts it.
 
 What a sandbox can reach when a team blocks its network, and what a Docker deployment must allow, is in [Security](/docs/security#what-a-sandbox-can-reach).
 
@@ -131,7 +136,7 @@ When enabled, Bento mounts local tool config directories read-only into the sand
 
 `local-process` inherits the host environment regardless of this setting.
 
-Docker-hosted servers cannot access host Keychain or `~/.claude`. Use `claude setup-token` → **Agents** or `CLAUDE_CODE_OAUTH_TOKEN` in `.env`.
+Docker-hosted servers cannot access host Keychain or `~/.claude`. Connect your subscription under **Agents, Your personal subscriptions** (local and hosted), or use `claude setup-token` → **Agents** or `CLAUDE_CODE_OAUTH_TOKEN` in `.env`.
 
 ## Docker compose constraints
 
@@ -217,7 +222,7 @@ Updates via SSE: `/api/board/:id/events`.
 
 ## Implementation notes
 
-**Done lane:** status-driven, not a stored stage. **Mark done** and drag-to-Done skip remaining stages. **Reopen** restores prior stage.
+**Completed lane:** status-driven, not a stored stage. **Mark completed** and drag-to-Completed skip remaining stages. **Reopen** restores prior stage.
 
 **Search:** filtered in `Board.tsx` via `matchesQuery` (`apps/web/src/search.test.ts`). Punctuation-normalized matching.
 

@@ -12,6 +12,7 @@ describe("docs catalog", () => {
       "agents",
       "security",
       "pull-requests",
+      "swarms",
       "web-app",
       "tui",
       "clients",

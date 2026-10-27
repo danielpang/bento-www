@@ -35,7 +35,7 @@ A few setups still put a credential in the sandbox:
 
 The [agents guide in the Bento repository](https://github.com/danielpang/bento/blob/main/docs/agents.md#model-provider-keys-stay-out-of-agent-sandboxes) lists which keys each tool sends through the proxy.
 
-Bento in local mode (the Mac app, or `bento` on your own machine) uses the model proxy too, by default, with the Docker sandbox: the agent gets a proxy token, and Bento on your machine adds your key, from its environment or from keys saved with `bento setup`. Turn it off in the Mac app under **Advanced settings, Model proxy**, or with `BENTO_MODEL_PROXY=false` for the terminal and the web UI. Either change takes effect when Bento next starts. A team server you host yourself always uses the model proxy, like app.usebento.ai.
+Bento in local mode (the Mac app, or `bento` on your own machine) uses the model proxy too, by default, with the Docker sandbox: the agent gets a proxy token, and Bento on your machine adds your key, from its environment or from keys saved with `bento setup`. Turn it off in the Mac app under **Advanced settings, Model proxy**, or with `BENTO_MODEL_PROXY=false` for the terminal and the web UI. Either change takes effect when Bento next starts; in the Mac app, changing it while Bento runs turns Start into **Restart to save these settings**, which restarts it at once. A team server you host yourself always uses the model proxy, like app.usebento.ai.
 
 - With **Local process** there is no sandbox and no proxy: the agent runs as you and gets your keys.
 - If the sandbox cannot reach Bento, that agent session keeps its keys, and its transcript says so.

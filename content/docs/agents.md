@@ -35,7 +35,7 @@ Export and import agents as YAML from **Agents**, **Settings, Config**, or `bent
 
 ## Personal and shared API keys
 
-Open **Agents, Model provider keys**, select the provider, paste the key, and save. New keys and endpoint settings belong to you. You can also save your own key for a custom provider under **Agents, Custom provider keys** after an owner or admin defines the provider.
+Open **Agents, Model provider keys**, select the provider, paste the key, and save. New keys and endpoint settings belong to you. With beta features on, you can also save your own key for a custom provider under **Agents, Custom provider keys** after an owner or admin defines the provider.
 
 Owners and admins can turn on **Shared organization key** before saving. With the toggle off, the field is labeled **Personal API key**. Turning the toggle on shares that key with the current team. The toggle chooses where the next save goes; it does not move an existing key. To change an existing key's scope, save it in the scope you want and remove the old copy. Members can always manage their own keys, but not shared keys or anyone else's personal keys. Only share keys licensed for team use; a subscription key meant for one person must stay personal.
 

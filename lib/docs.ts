@@ -101,23 +101,29 @@ const DOC_META: Record<
       "Publishing agent work as GitHub pull requests, attribution, and GitHub connections.",
     order: 5,
   },
+  swarms: {
+    title: "Swarms",
+    description:
+      "A planner and many workers on one goal: access, following a swarm, and publishing its pull requests.",
+    order: 6,
+  },
   "web-app": {
     title: "Web UI",
     description:
       "Run the Web UI from source or Docker, local and multi mode, sandbox drivers, log export.",
-    order: 6,
+    order: 7,
   },
   tui: {
     title: "TUI",
     description:
       "Install the TUI, choose where agents run, and configure projects, agents, and pipelines.",
-    order: 7,
+    order: 8,
   },
   clients: {
     title: "Other clients",
     description:
       "Compare the Web UI and terminal client, including features and agent placement.",
-    order: 8,
+    order: 9,
   },
 };
 
