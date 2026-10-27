@@ -23,15 +23,25 @@ Each stage runs one agent: a harness, a model and a skill.
 - Interrupt and questions apply to a card's stage runs (see [Talking to a working agent](/docs/agents#talking-to-a-working-agent)). A Codex profile with `codex exec` flags, or an opencode profile with extra arguments, runs the one-shot command: no steering, interrupt or questions, messages wait for the next run, and opencode reports no tokens.
 - Credentials for each tool are set under **Agents** in the web console.
 
-Keys are stored encrypted, per organization in multi mode. Add them in the Web UI or with `bento setup`. In multi mode, and in local mode with the Docker sandbox, a sandbox gets a proxy token in place of most keys, and the model proxy adds the key on Bento's side (see [Security](/docs/security#model-keys-stay-encrypted-in-bento)).
+Keys are stored encrypted and are **personal by default**, whether you add them in the Web UI or with `bento setup`. Existing shared keys keep their scope. See [Personal and shared API keys](#personal-and-shared-api-keys). In multi mode, and in local mode with the Docker sandbox, a sandbox gets a proxy token in place of most keys, and the model proxy adds the key on Bento's side (see [Security](/docs/security#model-keys-stay-encrypted-in-bento)).
 
-**OpenRouter:** for Claude Code or Codex, save the OpenRouter key and set `ANTHROPIC_BASE_URL` or `OPENAI_BASE_URL` to `https://openrouter.ai/api/v1`.
+**OpenRouter:** pick an OpenRouter model on Codex, pi, or opencode and save `OPENROUTER_API_KEY`. Claude Code still needs the OpenRouter key saved as `ANTHROPIC_API_KEY` and `ANTHROPIC_BASE_URL` set to `https://openrouter.ai/api/v1`.
 
 **DeepSeek:** use pi or opencode with `DEEPSEEK_API_KEY` or `openrouter/deepseek/...` for streamed runs. DeepSeek Harness (`dsh`) is a preview.
 
 Warm sandboxes reinstall pi below 0.70.1, opencode below 1.14.24, or dsh when its version does not match the pin.
 
 Export and import agents as YAML from **Agents**, **Settings, Config**, or `bento agents export` / `import`. See [the agents file](/docs/pipeline#the-agents-file).
+
+## Personal and shared API keys
+
+Open **Agents, Model provider keys**, select the provider, paste the key, and save. New keys and endpoint settings belong to you. You can also save your own key for a custom provider under **Agents, Custom provider keys** after an owner or admin defines the provider.
+
+Owners and admins can turn on **Shared organization key** before saving. With the toggle off, the field is labeled **Personal API key**. Turning the toggle on shares that key with the current team. The toggle chooses where the next save goes; it does not move an existing key. To change an existing key's scope, save it in the scope you want and remove the old copy. Members can always manage their own keys, but not shared keys or anyone else's personal keys. Only share keys licensed for team use; a subscription key meant for one person must stay personal.
+
+Stage runs and stage follow ups you start use your personal keys before shared keys. A personal key uses only your own base URL for that provider, never the team's, so save a custom base URL in the same scope as its key. Teammates cannot steer a run that uses your personal key. Background stages, judges, conflict resolution, swarms, and remote runners keep using shared or machine keys; they never borrow the project owner's personal key. The GitHub connection stays shared.
+
+Deleting a personal key stops later proxied requests that use it. Saving the key again does not revive an old run or switch it to a shared key; start a new run. Replacing an existing key's value rotates it for later proxied requests. Keys for providers that cannot use the model proxy still reach the agent directly, so removing one from Bento cannot take back a value already handed to a running agent.
 
 ## Talking to a working agent
 

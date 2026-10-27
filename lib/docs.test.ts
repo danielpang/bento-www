@@ -97,7 +97,9 @@ describe("docs catalog", () => {
     expect(words).toBeGreaterThanOrEqual(50);
     expect(words).toBeLessThanOrEqual(70);
     expect(answer).toMatch(/^In Bento, the agent pipeline at \[usebento\.ai\]\(\/\)/);
-    expect(answer).toContain("manual approval on all six stages");
+    expect(answer).toContain(
+      "start with three stages (engineering requirements, implementation, code review), each with manual approval",
+    );
     expect(answer).toContain("sends it back");
     // The answer sits directly above the existing criteria table.
     expect(next).toBe("All criteria on a stage must pass:");

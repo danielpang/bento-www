@@ -79,7 +79,7 @@ const DOC_META: Record<
     questions: [
       {
         title: "How do human gates work in a multi-agent pipeline?",
-        body: "In Bento, the agent pipeline at usebento.ai, every stage begins with a gate, and new projects default to manual approval on all six stages. A person reviews the stage's output, then approves the card, sends it back, or steers the agent. Switch a stage to automatic once its requirements can decide: the card advances when every listed criterion passes, and holds when one fails.",
+        body: "In Bento, the agent pipeline at usebento.ai, every stage begins with a gate, and new projects start with three stages (engineering requirements, implementation, code review), each with manual approval. A person reviews the stage's output, then approves the card, sends it back, or steers the agent. Switch a stage to automatic once its requirements can decide: the card advances when every listed criterion passes, and holds when one fails.",
       },
     ],
   },

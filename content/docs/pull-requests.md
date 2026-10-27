@@ -4,7 +4,7 @@ Agents commit in the sandbox. GitHub publication is a separate server-side step.
 
 ## Opening a pull request
 
-To have an agent's changes published as a pull request, enable **Create a pull request** on a stage. After a successful run, the server pushes the feature branch and opens or updates one pull request per repository with commits. All stages on a card share one branch.
+**Create a pull request** is on for every stage unless you turn it off, including the stages a new project starts with and any stage you add. After a successful run, the server pushes the feature branch and opens or updates one pull request per repository with commits. All stages on a card share one branch. A stage that only wrote its own notes, such as engineering requirements, has nothing for a reviewer yet, so the pull request opens when a stage commits code.
 
 **Create PR** in the card drawer publishes the current commits without waiting for the stage to complete.
 

@@ -117,6 +117,7 @@ export function SwarmHero() {
         </div>
       </div>
     </div>
-    <div className="swarm-actions"><CtaLink href="https://app.usebento.ai/?waitlist=swarms">Join waitlist <ArrowRight size={15} aria-hidden="true" /></CtaLink><Link href="/docs"><GitBranch size={14} aria-hidden="true" /> Explore</Link></div>
+    <div className="swarm-actions"><CtaLink href="https://app.usebento.ai/?waitlist=swarms">Join waitlist <ArrowRight size={15} aria-hidden="true" /></CtaLink><Link href="/docs/swarms"><GitBranch size={14} aria-hidden="true" /> Explore</Link></div>
+    <p className="swarm-access">Swarms are open to everyone in local Bento, running in your own Docker. On hosted Bento, swarms need a Pro plan or above, and access opens from the waitlist.</p>
   </div>;
 }

@@ -4,14 +4,14 @@ A pipeline is an ordered set of stages. Each stage has an agent and requirements
 
 ## Stages
 
-Per stage: name, agent, advance mode, requirements, pull request flag.
+Per stage: name, agent, advance mode, requirements, pull request flag (on unless turned off).
 
 | Mode | Advance condition |
 | --- | --- |
 | Manual | A user approves or rejects |
 | Automatic | All requirements pass. With none listed, advance when the agent finishes successfully |
 
-New projects default to manual approval on all six stages.
+New projects start with three stages (engineering requirements, implementation, code review), each with manual approval and each opening a pull request after a successful run. The Product Manager, Product Designer, and QA Engineer agents are still created; add a stage and assign one to bring it back.
 
 A stage with an assigned agent starts when a card arrives. Sending a card back stops the agent and waits for user input.
 
@@ -25,7 +25,7 @@ A stage with an assigned agent starts when a card arrives. Sending a card back s
 
 ### How do human gates work in a multi-agent pipeline?
 
-In Bento, the agent pipeline at [usebento.ai](/), every stage begins with a gate, and new projects default to manual approval on all six stages. A person reviews the stage's output, then approves the card, sends it back, or steers the agent. Switch a stage to automatic once its requirements can decide: the card advances when every listed criterion passes, and holds when one fails.
+In Bento, the agent pipeline at [usebento.ai](/), every stage begins with a gate, and new projects start with three stages (engineering requirements, implementation, code review), each with manual approval. A person reviews the stage's output, then approves the card, sends it back, or steers the agent. Switch a stage to automatic once its requirements can decide: the card advances when every listed criterion passes, and holds when one fails.
 
 All criteria on a stage must pass:
 
@@ -87,7 +87,7 @@ repositories:
     test: npm test
 ```
 
-Import matches stages by slug and agents by name. Re-import updates in place and preserves card positions.
+Import matches stages by slug and agents by name. Re-import updates in place and preserves card positions. A stage with no `createPr` in the file keeps its current setting, and a new one gets the default (on).
 
 Stages omitted from the file are removed only when empty. Otherwise import fails and names the blocking stage. Repository commands apply to matching checkout names; unmatched names are reported.
 
